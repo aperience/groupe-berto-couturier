@@ -30,6 +30,7 @@ use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableSiteIcon;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableUpdates;
 use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\Blocks\BlockLoader;
+use Theme\Features\Blocks\RestrictHeadingLevels;
 
 /**
  * Regroupe les features du back-office : réglages admin, éditeur Gutenberg,
@@ -54,6 +55,7 @@ final class AdminServiceProvider implements ServiceProviderInterface {
             new DisableLockAppearanceTools(),
             new DisableLoginLanguageDropdown(),
             new DisableNativeBlockSupports(),
+            new RestrictHeadingLevels( $context ),
             new DisableSiteIcon(),
             new DisableUpdates(),
             new AdminColorScheme(

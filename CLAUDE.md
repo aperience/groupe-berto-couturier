@@ -161,7 +161,7 @@ Si une seule feature est concernée, garder la méthode privée dans la feature.
 | `SetupServiceProvider` | Initialisation du thème, chargé en premier | `Setup/` — `ThemeSupport`, `Menus`, `TwigDump` |
 | `SecurityServiceProvider` | Durcissement : surface d'attaque et informations publiées | `Security/` — `DisableApplicationPasswords`, `DisableUserEnumeration`, `DisableXmlRpc`, `HideLoginErrors`, `SecurityHeaders` |
 | `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat |
-| `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue du login, icône du site, mises à jour, commentaires, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
+| `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue du login, icône du site, mises à jour, commentaires, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
 | `SeoServiceProvider` | Référencement | `Seo/` — `DocumentTitle`, `MetaDescription`, `SitemapExclusion`, `SeoPanel` (panneau de l'éditeur), `OpenGraph` |
 
 Le dossier de la feature suit sa **nature** (`Security/`, `Blocks/`, `PostTypes/`…), le provider suit son
@@ -473,6 +473,13 @@ Fichiers par bloc :
 
 **Conventions :**
 - Préfixe de tous les blocs custom : `couturier/` (valeur de `ThemeContext::$block_namespace`)
+- **Niveaux de titre : H2 et H3 uniquement, sur tout le site** (feature `Blocks\RestrictHeadingLevels`,
+  argument `levels:`). Elle réécrit le défaut de l'attribut `levelOptions` de tout bloc à niveau
+  (`core/heading`, `core/post-title`…) — depuis WordPress 7, le core en déduit les variations H1…H6
+  proposées — et injecte dans l'éditeur un garde-fou (`resources/js/editor/restrict-heading-levels.js`)
+  qui ramène au plus proche tout autre niveau créé par raccourci Markdown, collage ou éditeur de code.
+  Un bloc custom qui imbrique un `core/heading` verrouillé (`templateLock: 'all'`) perd le sélecteur de
+  variations de la barre d'outils : il pose son propre `HeadingLevelDropdown` (cf. `blocks/titre/index.js`)
 - Blocs conteneur / enfant : le parent déclare `allowedBlocks`, l'enfant déclare `parent`
 - Fournir un `example` dans `block.json` pour la prévisualisation de l'inserter
 - Les blocs core autorisés sont whitelistés par la feature `Admin\DisableBlocks` (core minimal + `couturier/*`)
