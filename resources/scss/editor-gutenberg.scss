@@ -27,6 +27,9 @@
 // `baseURL` de la feuille.
 @use "fonts";
 
+// Blocs Gutenberg — les mêmes partials que ceux importés par `app.scss` (cf. plus bas) :
+// @use "block/mon-bloc";
+
 // ─── Styles du contenu ────────────────────────────────────────────────────────
 //
 // `body` cible ici la zone d'édition (préfixée `.editor-styles-wrapper`), pas le
@@ -46,8 +49,8 @@ body {
 // ─── Blocs Gutenberg ──────────────────────────────────────────────────────────
 //
 // Les mêmes partials que ceux importés par `app.scss`, pour que chaque bloc
-// s'affiche dans l'éditeur comme sur le front :
-// @use "block/mon-bloc";
+// s'affiche dans l'éditeur comme sur le front. Ils sont déclarés **en tête de
+// fichier**, avec les autres `@use` : Sass refuse un `@use` placé après une règle.
 //
 // ⚠️ Bootstrap n'est pas importé ici (cf. point 2 ci-dessus) : un partial de bloc
 // qui s'appuie sur ses variables ou ses mixins ne compilera pas. Faire dépendre

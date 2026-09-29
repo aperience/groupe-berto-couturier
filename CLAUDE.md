@@ -445,6 +445,10 @@ Chaque module s'auto-protège si son élément DOM n'existe pas sur la page.
 
 ## Blocs Gutenberg (`blocks/`)
 
+> **Règles de conception des blocs** (mots comptés, titres visibles dans le panneau Structure,
+> attributs plutôt que blocs imbriqués) : voir `blocks/CLAUDE.md`, à lire avant de créer ou modifier
+> un bloc.
+
 Sources : `blocks/{nom}/` → compilés par `@wordpress/scripts` dans `dist/blocks/{nom}/`.
 `BlockLoader` enregistre automatiquement tout `dist/blocks/*/block.json` — aucun `register_block_type()` manuel.
 
@@ -456,8 +460,10 @@ Fichiers par bloc :
 
 **Ajouter un bloc :**
 1. Créer `blocks/{nom}/` avec `block.json`, `index.js`, `render.php`
-2. Créer les styles dans `resources/scss/block/_{nom}.scss` et les importer **dans `app.scss` et
-   dans `editor-gutenberg.scss`**
+2. Créer les styles dans `resources/scss/block/_{nom}.scss` et les importer **dans `app.scss`**
+   (`@import 'block/{nom}';`, section « Blocs Gutenberg ») **et dans `editor-gutenberg.scss`**
+   (`@use "block/{nom}";`, **en tête de fichier** avec les autres `@use` : Sass refuse un `@use`
+   placé après une règle)
 3. `npm run build:blocks`
 
 > **Styles de blocs :** ils vivent dans `resources/scss/block/_*.scss`, plutôt que dans un
@@ -473,13 +479,19 @@ Fichiers par bloc :
 
 **Conventions :**
 - Préfixe de tous les blocs custom : `couturier/` (valeur de `ThemeContext::$block_namespace`)
+- Un titre porté par un bloc custom doit être un `core/heading` **imbriqué** (InnerBlocks), jamais un
+  attribut : l'onglet Structure de l'éditeur ne retient que les `core/heading`, et le compteur de mots
+  ne lit que le HTML enregistré dans le contenu. Un texte secondaire (sur-titre, accroche) peut en
+  revanche être un attribut, à condition d'être écrit dans le HTML par `save()` et relu depuis lui
+  (`"source": "html"`) — sinon, rangé dans le commentaire `<!-- wp:… -->`, il échappe au compteur.
+  Détails et exemple : `blocks/CLAUDE.md`
 - **Niveaux de titre : H2 et H3 uniquement, sur tout le site** (feature `Blocks\RestrictHeadingLevels`,
   argument `levels:`). Elle réécrit le défaut de l'attribut `levelOptions` de tout bloc à niveau
   (`core/heading`, `core/post-title`…) — depuis WordPress 7, le core en déduit les variations H1…H6
   proposées — et injecte dans l'éditeur un garde-fou (`resources/js/editor/restrict-heading-levels.js`)
   qui ramène au plus proche tout autre niveau créé par raccourci Markdown, collage ou éditeur de code.
   Un bloc custom qui imbrique un `core/heading` verrouillé (`templateLock: 'all'`) perd le sélecteur de
-  variations de la barre d'outils : il pose son propre `HeadingLevelDropdown` (cf. `blocks/titre/index.js`)
+  variations de la barre d'outils : il pose son propre `HeadingLevelDropdown` (cf. `blocks/CLAUDE.md`)
 - Blocs conteneur / enfant : le parent déclare `allowedBlocks`, l'enfant déclare `parent`
 - Fournir un `example` dans `block.json` pour la prévisualisation de l'inserter
 - Les blocs core autorisés sont whitelistés par la feature `Admin\DisableBlocks` (core minimal + `couturier/*`)
