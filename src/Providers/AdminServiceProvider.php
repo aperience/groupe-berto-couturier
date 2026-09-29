@@ -29,6 +29,7 @@ use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableSiteIcon;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableUpdates;
 use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\Blocks\BlockLoader;
+use Theme\Features\Media\ConvertUploadsToWebp;
 
 /**
  * Regroupe les features du back-office : réglages admin, éditeur Gutenberg,
@@ -76,6 +77,7 @@ final class AdminServiceProvider implements ServiceProviderInterface {
             new LoginBranding( $context ),
             new ShowHidePageTitle( $context ),
             new SvgSupport(),
+            new ConvertUploadsToWebp(),
         ];
     }
 }

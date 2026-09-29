@@ -1,8 +1,12 @@
 # CLAUDE.md — Thème Couturier
 
-Documentation d'architecture du thème WordPress `couturier`. Ce fichier est versionné avec le thème :
-il suit les branches et le déploiement, contrairement aux réglages propres au poste de développement
-(URLs locales, base de données), qui restent dans le `CLAUDE.md` à la racine WordPress.
+Documentation d'architecture du thème WordPress `couturier`. Ce fichier couvre le thème (code, build,
+conventions) ; l'environnement Docker (services, ports, base de données, WP-CLI) est documenté dans le
+`CLAUDE.md` à la racine du dépôt (`04 - Code`). Les deux sont versionnés dans le même dépôt.
+
+Le thème est né du squelette `wp-theme-skeleton` (v1.7.3), adapté à l'environnement Docker : dev
+server Vite en HTTP dans le conteneur `node` (pas de mkcert), `bin/wp` en `--allow-root`, et
+`BlockLoader` écrit dans le thème (annoncé par le squelette, absent du squelette comme du socle).
 
 Namespaces PHP : `Theme\` pour le code du projet (`src/`), `Deefuse\ThemeCore\` pour le socle,
 installé en dépendance Composer. Text-domain du thème : `couturier`.
@@ -11,7 +15,15 @@ installé en dépendance Composer. Text-domain du thème : `couturier`.
 
 ## Commandes
 
-Depuis `wp-content/themes/couturier/` :
+Dans l'environnement Docker, les commandes `npm` tournent dans le conteneur `node` (dont le répertoire
+de travail est le thème) et `composer` dans le conteneur `cli` (agent SSH transmis pour le socle privé) :
+
+```bash
+docker compose exec node npm run <script>
+docker compose exec -w /var/www/html/wp-content/themes/couturier cli composer install
+```
+
+Scripts disponibles :
 
 ```bash
 npm run dev           # Dev server Vite (HMR) + watch des blocs
@@ -46,7 +58,7 @@ retrouver la ligne SCSS d'origine dans l'inspecteur. Il ne reste qu'à recharger
 
 | Namespace | Emplacement | Rôle |
 |-----------|-------------|------|
-| `Deefuse\ThemeCore\` | `vendor/deefuse/wp-theme-core/` | Le socle réutilisable : noyau, contrats, 27 features génériques |
+| `Deefuse\ThemeCore\` | `vendor/deefuse/wp-theme-core/` | Le socle réutilisable : noyau, contrats, 37 features génériques |
 | `Theme\` | `src/` | Ce qui appartient au projet : les providers, puis les CPT et blocs métier |
 
 PSR-4 du thème : `{"Theme\\": "src/"}` — le socle apporte le sien.
@@ -146,11 +158,11 @@ Si une seule feature est concernée, garder la méthode privée dans la feature.
 
 | Provider | Rôle | Dossiers `Features/` associés |
 |----------|------|-----------------------------------|
-| `SetupServiceProvider` | Initialisation du thème, chargé en premier | `Setup/` — `ThemeSupport`, `Menus`, extensions Twig |
-| `FrontServiceProvider` | Front-end public | `Front/` — assets, nettoyage du `<head>`, désactivation emojis / dashicons / jQuery Migrate / heartbeat / styles Gutenberg core, préchargements |
-| `SecurityServiceProvider` | Durcissement : surface d'attaque et informations publiées | `Security/` — `DisableUserEnumeration`, puis `DisableXmlRpc`, `HideLoginErrors`, `SecureRestApi` |
-| `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` — blocs autorisés, admin bar, dashboard, logo de login, jeu de couleurs, styles du canvas de l'éditeur, interrupteur d'affichage du titre, support SVG, désactivation customizer / commentaires / updates…<br>`Blocks/` — `BlockLoader` (auto-découverte) + patchs sur les blocs core<br>`PostTypes/` — déclaration des CPT et de leurs metas |
-| `SeoServiceProvider` | Référencement | `Seo/` — `MetaDescription`, `OpenGraph`, schémas JSON-LD, sitemap, analytics |
+| `SetupServiceProvider` | Initialisation du thème, chargé en premier | `Setup/` — `ThemeSupport`, `Menus`, `TwigDump` |
+| `SecurityServiceProvider` | Durcissement : surface d'attaque et informations publiées | `Security/` — `DisableApplicationPasswords`, `DisableUserEnumeration`, `DisableXmlRpc`, `HideLoginErrors`, `SecurityHeaders` |
+| `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat |
+| `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue du login, icône du site, mises à jour, commentaires, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`)<br>`Media/` (thème) — `ConvertUploadsToWebp` (JPEG / PNG convertis en WebP à l'upload)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
+| `SeoServiceProvider` | Référencement | `Seo/` — `DocumentTitle`, `MetaDescription`, `SitemapExclusion`, `SeoPanel` (panneau de l'éditeur), `OpenGraph` |
 
 Le dossier de la feature suit sa **nature** (`Security/`, `Blocks/`, `PostTypes/`…), le provider suit son
 **domaine de responsabilité**. C'est pourquoi plusieurs dossiers peuvent alimenter un même provider.
@@ -295,12 +307,14 @@ WP-CLI est une dépendance de dev Composer (`wp-cli/i18n-command`) : version ver
 `composer.lock`, aucune dépendance au `wp` global du poste. Le wrapper `bin/wp` lui fournit un PHP ≥ 8.5
 (via `WP_CLI_PHP`), sans quoi le platform check généré par Composer fait échouer la commande — le `php`
 du PATH est souvent plus ancien. Il cherche dans l'ordre `$PHP_BIN`, le `php` du PATH, puis MAMP.
+Il passe `--allow-root` : dans l'environnement Docker, il tourne dans le conteneur `node`, en root.
 
 ### Traduire une nouvelle langue (Poedit)
 
 Les traducteurs travaillent sous **Poedit**, qui compile le `.mo` à l'enregistrement (option activée
-par défaut) : ils voient leur travail sur le site sans lancer une commande. Le `.mo` restant gitignoré,
-c'est le build qui le reconstitue au déploiement — la case cochée ou non ne change rien.
+par défaut). Ce `.mo`, gitignoré, ne sert qu'à l'aperçu local : WordPress charge en priorité le
+`.l10n.php`, régénéré par `npm run build` — c'est donc un build qui rend une traduction visible sur le
+site, en local comme au déploiement. La case cochée ou non ne change rien.
 
 Trois règles à leur transmettre :
 
@@ -325,8 +339,8 @@ Rendu via **Timber 2.x**. Configuration dans `Kernel::init_timber()`, alimentée
 (`autoescape => 'html'` via le filtre `timber/twig/environment/options`, cf. `Kernel::set_twig_options()`).
 
 - `base.twig` — layout master, blocks Twig : `header`, `content`, `footer`
-- `page.twig`, `single.twig`, `index.twig`, `home.twig`, `404.twig` — étendent `base.twig`
-- `partials/` — header, footer, navigation, pagination, favicon, schema…
+- `page.twig`, `single.twig`, `index.twig`, `404.twig` — étendent `base.twig`
+- `partials/` — header, footer, navigation, favicon
 - `macros/ui.twig` — macros réutilisables (boutons, etc.)
 
 **Wrappers PHP** à la racine du thème (`page.php`, `single.php`, `index.php`, `404.php`…) : ils se contentent
@@ -339,7 +353,9 @@ $context['post'] = Timber\Timber::get_post();
 Timber\Timber::render( 'page.twig', $context );
 ```
 
-Toute donnée supplémentaire globale est ajoutée via le filtre `timber/context` dans `Kernel`.
+Toute donnée globale supplémentaire est ajoutée au contexte par une **feature**, sur le filtre
+`timber/context` (c'est ce que font `Setup\Menus` et `Front\Favicons`) — jamais dans `Kernel`, ni dans
+`functions.php`.
 
 ### Échappement : sûr par défaut, exception explicite
 
@@ -361,7 +377,7 @@ c'est voulu, l'erreur est bruyante plutôt que silencieuse.
 
 ## Assets — Build Vite
 
-Sources dans `resources/`, sorties dans `dist/` (noms de fichiers **stables, sans hash**) :
+Sources dans `resources/`, sorties dans `dist/` (noms de fichiers **hachés**, résolus par le manifest) :
 
 | Source | Sortie (noms hachés) |
 |--------|----------------------|
@@ -391,7 +407,7 @@ Sources dans `resources/`, sorties dans `dist/` (noms de fichiers **stables, san
   SCSS du core (`wp-admin/css/colors/_admin.scss`), atteintes par l'alias `~wp-admin` de
   `vite.config.js` — **seul point du build qui dépend du core**, donc à builder depuis une
   installation WordPress complète. La même feature retire du
-  sélecteur les jeux de couleurs du core listés dans sa constante `SCHEMES_TO_REMOVE` — sur
+  sélecteur les jeux de couleurs du core listés dans son argument `schemes_to_remove:` — sur
   `admin_init`, jamais sur `admin_head`, qui s'exécute une fois la feuille déjà imprimée
   (cf. le docblock de `remove_core_schemes()`, qui détaille l'incohérence que cela produirait).
 - `editor-gutenberg.scss` : son **chemin** — et non son URL — est déclaré via `add_editor_style()`
@@ -463,13 +479,41 @@ Fichiers par bloc :
 
 ---
 
+## Médias : conversion WebP à l'upload
+
+`Theme\Features\Media\ConvertUploadsToWebp` (déclarée dans `AdminServiceProvider`) convertit chaque
+JPEG / PNG déposé en WebP sur le filtre `wp_handle_upload`, **avant** la génération des miniatures :
+fichier principal, version `-scaled` et toutes les tailles sortent en WebP, l'original est supprimé.
+Couvre les deux chemins d'upload : médiathèque (`upload`) et éditeur de blocs / REST (`sideload`).
+
+- **Qualité** : JPEG → WebP à 90 (argument `quality:`). Les miniatures gardent la qualité par défaut
+  du core. GIF non converti.
+- **PNG adaptatif** : encodé sans perte (Imagick, repli GD) *et* à 90 ; la version avec perte n'est
+  gardée que si elle allège d'au moins 50 % (argument `png_lossy_min_saving:`, `1.0` = toujours sans
+  perte). En pratique : photo enregistrée en PNG → avec perte (−94 % mesuré), capture / logo / aplat
+  → sans perte, pixel pour pixel (−70 %), transparence conservée.
+- **Orientation EXIF** appliquée aux pixels avant conversion (le WebP perd l'EXIF) ; les autres
+  métadonnées IPTC / EXIF (légende, crédit…) sont perdues.
+- **Traitement côté navigateur désactivé** (`wp_client_side_media_processing_enabled` → `false`) :
+  depuis WP 7.1, l'éditeur redimensionne les images dans le navigateur en HTTPS ou sur `localhost`,
+  ce qui court-circuiterait la conversion.
+- Une conversion impossible ne bloque jamais l'upload : l'original est alors conservé.
+- Les images importées **avant** l'activation restent en JPEG / PNG. `wp media regenerate` ne sait
+  pas les régénérer en local : le conteneur `cli` n'a ni Imagick ni GD, et le conteneur `php` n'a pas
+  WP-CLI.
+
+---
+
 ## Design System
 
 > **À définir.** Aucune guideline de design n'est disponible à ce stade.
 >
 > Tant que la charte n'est pas fournie : ne pas inventer de palette, de typographie ni d'échelle
-> d'espacement « définitives ». Utiliser les valeurs par défaut de Bootstrap, centraliser tout choix
-> provisoire dans `resources/scss/_variables.scss`, et signaler explicitement ce qui est provisoire.
+> d'espacement « définitives ». Les couleurs actuelles sont celles de Bootstrap, posées comme
+> placeholders dans `resources/scss/_brand.scss` (doublées dans `AdminServiceProvider` →
+> `AdminColorScheme`, et pour `theme-color` dans `FrontServiceProvider` → `Favicons` et
+> `bin/favicons.config.mjs`) ; les overrides Bootstrap vont dans `_variables.scss`. Signaler
+> explicitement tout choix provisoire.
 >
 > Cette section sera complétée avec : polices, palette de couleurs, breakpoints, échelle typographique,
 > espacements et règles de layout.
@@ -478,57 +522,16 @@ Fichiers par bloc :
 
 ## Git
 
-Le dépôt Git est initialisé **dans le thème** (`wp-content/themes/couturier/`), pas à la racine WordPress.
+Le dépôt Git est à la **racine du projet** (`04 - Code`, remote `git@github.com:achappard/couturier-wp.git`) :
+il versionne l'environnement Docker et le thème, et ignore le reste de `wordpress/` (cf. `CLAUDE.md`
+racine). Branches : `master` (livré), `dev` (intégration), `feature/{nom}` créées depuis `dev`.
 
 Messages de commit : `<emoji> <type>. <message>` — ex. `✨ feat. ajout du bloc hero`
 Types : `feat.`, `fix.`, `refactor.`, `docs.`, `chore.`, `style.`, `test.`
 Toujours proposer le message avant de committer, et ne jamais committer sans validation explicite.
 
-`.gitignore` du thème : `vendor/`, `node_modules/`, `dist/`, `.idea/`, `.DS_Store`, `*.log`, `.env`.
+`.gitignore` du thème : `vendor/`, `node_modules/`, `dist/`, les fichiers de traduction compilés
+(`languages/*.mo`, `*.l10n.php`, `*.json`), fichiers d'IDE / OS, logs et `.env`.
 
 **`composer.lock` et `package-lock.json` sont versionnés** : ce sont eux qui garantissent que le
 déploiement installe exactement les versions testées en local. Ne pas les ajouter au `.gitignore`.
-
----
-
-## Commandes Claude (`.claude/commands/`)
-
-Les commandes slash propres au projet vivent **dans le thème**, en `wp-content/themes/couturier/.claude/commands/`,
-pour être versionnées avec le code qu'elles pilotent et suivre les branches.
-
-Claude Code ne découvre les commandes que dans le `.claude/commands/` du répertoire de lancement (et de
-ses parents), jamais dans ses sous-répertoires. Comme la session démarre depuis `04 - Code`, la racine
-WordPress expose un **lien symbolique** vers le dossier du thème :
-
-```
-04 - Code/.claude/
-├── commands -> ../wp-content/themes/couturier/.claude/commands   ← lien, versionné côté thème
-├── scripts/status-bar.py                                        ← local, non versionné
-└── settings.json                                                ← local, non versionné
-```
-
-> **Ne pas recréer un vrai dossier `.claude/commands/` à la racine WordPress** : il masquerait le lien
-> et les commandes sortiraient du dépôt. Même découpage que les deux `CLAUDE.md` — ce qui relève du
-> thème est versionné, ce qui relève du poste de dev reste à la racine.
-
-**Ajouter une commande :** créer `.claude/commands/{nom}.md` dans le thème → invocable en `/{nom}`.
-Un sous-dossier devient un préfixe : `.claude/commands/theme/build.md` → `/theme:build`.
-
-Chaque commande commence par un frontmatter YAML :
-
-```markdown
----
-description: Phrase courte affichée dans l'autocomplétion
-argument-hint: [nom-de-la-feature]
-allowed-tools: Bash(git checkout:*), Bash(git pull:*)
----
-
-Le prompt envoyé au modèle, où $ARGUMENTS est remplacé par ce que l'utilisateur a tapé.
-```
-
-- `description` — sans elle, c'est la première ligne du fichier qui sert de libellé
-- `argument-hint` — rappel visuel de l'argument attendu
-- `allowed-tools` — pré-autorise ces appels **pour la durée de la commande seulement**, évitant une
-  confirmation à chaque étape ; garder les motifs étroits (`Bash(git checkout:*)`, pas `Bash(*)`)
-
-Commandes existantes : `/feature-start [nom]` — crée `feature/{nom}` depuis `dev` à jour.
