@@ -8,11 +8,11 @@
     "packages": [
         {
             "name": "deefuse/wp-theme-core",
-            "version": "v1.9.0",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:achappard/wp-theme-core.git",
-                "reference": "fed3b7b86e62127d49c3cf89c1a0eb307bd038aa"
+                "reference": "656a07bf42616ed53d2a2aabfc17e050a21e897b"
             },
             "require": {
                 "php": ">=8.5",
@@ -38,7 +38,7 @@
                 }
             ],
             "description": "Socle réutilisable des thèmes WordPress Deefuse : noyau Timber, contrats de features et features génériques.",
-            "time": "2026-09-25T13:40:12+00:00"
+            "time": "2026-09-29T16:47:46+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",

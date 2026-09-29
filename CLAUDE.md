@@ -161,7 +161,7 @@ Si une seule feature est concernée, garder la méthode privée dans la feature.
 | `SetupServiceProvider` | Initialisation du thème, chargé en premier | `Setup/` — `ThemeSupport`, `Menus`, `TwigDump` |
 | `SecurityServiceProvider` | Durcissement : surface d'attaque et informations publiées | `Security/` — `DisableApplicationPasswords`, `DisableUserEnumeration`, `DisableXmlRpc`, `HideLoginErrors`, `SecurityHeaders` |
 | `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat |
-| `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue du login, icône du site, mises à jour, commentaires, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`)<br>`Media/` (thème) — `ConvertUploadsToWebp` (JPEG / PNG convertis en WebP à l'upload)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
+| `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue du login, icône du site, mises à jour, commentaires, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
 | `SeoServiceProvider` | Référencement | `Seo/` — `DocumentTitle`, `MetaDescription`, `SitemapExclusion`, `SeoPanel` (panneau de l'éditeur), `OpenGraph` |
 
 Le dossier de la feature suit sa **nature** (`Security/`, `Blocks/`, `PostTypes/`…), le provider suit son
@@ -481,7 +481,7 @@ Fichiers par bloc :
 
 ## Médias : conversion WebP à l'upload
 
-`Theme\Features\Media\ConvertUploadsToWebp` (déclarée dans `AdminServiceProvider`) convertit chaque
+`Admin\ConvertUploadsToWebp` du socle (≥ 1.10.0, déclarée dans `AdminServiceProvider`) convertit chaque
 JPEG / PNG déposé en WebP sur le filtre `wp_handle_upload`, **avant** la génération des miniatures :
 fichier principal, version `-scaled` et toutes les tailles sortent en WebP, l'original est supprimé.
 Couvre les deux chemins d'upload : médiathèque (`upload`) et éditeur de blocs / REST (`sideload`).

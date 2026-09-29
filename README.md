@@ -46,7 +46,7 @@ couturier/
 ├── page.php, single.php…  # wrappers : construisent le contexte et rendent le Twig
 ├── src/
 │   ├── Providers/         # Setup → Security → Front → Admin → Seo
-│   └── Features/          # features propres au projet (Blocks/BlockLoader, Media/ConvertUploadsToWebp…)
+│   └── Features/          # features propres au projet (Blocks/BlockLoader…)
 ├── vendor/deefuse/wp-theme-core/   # le socle : Kernel, contrats, features génériques, Support/
 ├── resources/
 │   ├── views/             # templates Twig (base, partials/, macros/)

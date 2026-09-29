@@ -13,6 +13,7 @@ use Deefuse\ThemeCore\Contracts\FeatureInterface;
 use Deefuse\ThemeCore\Contracts\ServiceProviderInterface;
 use Deefuse\ThemeCore\Features\Admin\AdminColorScheme;
 use Deefuse\ThemeCore\Features\Admin\AdminFooter;
+use Deefuse\ThemeCore\Features\Admin\ConvertUploadsToWebp;
 use Deefuse\ThemeCore\Features\Admin\EditorStyles;
 use Deefuse\ThemeCore\Features\Admin\LoginBranding;
 use Deefuse\ThemeCore\Features\Admin\ShowHidePageTitle;
@@ -29,7 +30,6 @@ use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableSiteIcon;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableUpdates;
 use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\Blocks\BlockLoader;
-use Theme\Features\Media\ConvertUploadsToWebp;
 
 /**
  * Regroupe les features du back-office : réglages admin, éditeur Gutenberg,
