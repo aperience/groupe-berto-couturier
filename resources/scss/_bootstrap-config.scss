@@ -1,0 +1,14 @@
+// ─── Bootstrap : configuration, sans sortie CSS ───────────────────────────────
+//
+// Fonctions, variables, maps et mixins de Bootstrap. Ce fichier ne produit
+// aucune règle : il rend les variables et mixins de Bootstrap disponibles aux
+// feuilles qui l'importent, front (`app.scss`) comme éditeur
+// (`editor-gutenberg.scss`). Toujours importé après `_variables.scss`, dont les
+// overrides doivent précéder les `!default` de Bootstrap.
+
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/variables";
+@import "~bootstrap/scss/variables-dark";
+@import "~bootstrap/scss/maps";
+@import "~bootstrap/scss/mixins";
+@import "~bootstrap/scss/utilities";

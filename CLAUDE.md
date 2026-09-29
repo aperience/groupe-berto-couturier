@@ -412,25 +412,52 @@ Sources dans `resources/`, sorties dans `dist/` (noms de fichiers **hachés**, r
   (cf. le docblock de `remove_core_schemes()`, qui détaille l'incohérence que cela produirait).
 - `editor-gutenberg.scss` : son **chemin** — et non son URL — est déclaré via `add_editor_style()`
   (feature `Admin\EditorStyles`), qui pose aussi `add_theme_support( 'editor-styles' )`, sans lequel
-  le core ignorerait la feuille. Le core lit le fichier sur disque et **inline son contenu** dans la
-  page de l'éditeur, en préfixant les sélecteurs par `.editor-styles-wrapper` : un `body { … }` y
-  cible la zone d'édition. Deux conséquences pour l'écriture de la feuille — ne pas y importer
+  le core ignorerait la feuille. Le core lit le fichier sur disque et **inline son contenu** dans le
+  canvas de l'éditeur — une iframe, dont le `<body>` porte la classe `editor-styles-wrapper` : un
+  `body { … }` y cible la zone d'édition. La feuille y est injectée telle quelle ; sans iframe
+  (bloc tiers en apiVersion < 3), le core la préfixerait par `.editor-styles-wrapper`. Deux conséquences pour l'écriture de la feuille — ne pas y importer
   Bootstrap en entier, dont le poids serait inliné à chaque ouverture de l'éditeur, et ne pas
   chercher à y styler l'interface de l'éditeur, hors de portée du préfixe.
+- **Même rendu du contenu au front et dans l'éditeur** : `app.scss` et `editor-gutenberg.scss`
+  importent tous deux `_content.scss`, source unique des styles du contenu éditorial (socle
+  typographique Bootstrap `root` / `reboot` / `type`, styles de blocs). Ses règles, préfixées dans le
+  canvas, l'emportent sur les styles par défaut de l'éditeur (police `serif`, marges de 28 px des
+  blocs, liens et gras de l'admin), de spécificité nulle ou faible. Vérifié par mesure des styles
+  calculés (titres, paragraphe, gras, lien, liste) : valeurs identiques des deux côtés.
+- **Même largeur** : WordPress limite chaque bloc du canvas à 840 px, centré, avec 8 px de marge
+  (styles classiques de l'éditeur). `editor-gutenberg.scss` neutralise cette mise en page pour
+  reprendre celle du front — `main.container-fluid` : toute la largeur, gouttière Bootstrap
+  (`$container-padding-x * .5` de chaque côté). **Si le layout du front change** (conteneur à largeur
+  maximale, colonne de lecture…), mettre à jour ces règles en même temps.
 - En production, Vite supprime `console.log` / `console.debug` / `console.warn`.
 
 ### Organisation SCSS
 
 ```
 resources/scss/
-├── app.scss            ← point d'entrée, importe tout le reste
-├── _variables.scss     ← variables du thème, AVANT l'import Bootstrap
-├── _mybootstrap.scss   ← import ciblé de Bootstrap (~bootstrap)
+├── app.scss               ← entrée front : fonts, variables, bootstrap-config, mixins, content,
+│                             bootstrap-layout, partials
+├── editor-gutenberg.scss  ← entrée éditeur : fonts, variables, bootstrap-config, mixins, content
+├── admin-colors.scss      ← jeu de couleurs de l'admin
+├── login.scss             ← page de connexion
+├── _content.scss          ← **contenu éditorial, partagé front / éditeur** : Bootstrap root, reboot,
+│                             type (+ images, tables au besoin), styles du thème, partials de blocs
+├── _bootstrap-config.scss ← Bootstrap sans sortie CSS : fonctions, variables, maps, mixins
+├── _bootstrap-layout.scss ← Bootstrap front uniquement : conteneurs, grille, composants, utilitaires
+├── _variables.scss        ← overrides Bootstrap, AVANT `bootstrap-config`
+├── _brand.scss            ← palette de marque
 ├── _mixins.scss
-├── _fonts.scss         ← @font-face
-├── partials/           ← header, footer, layout, transitions…
-└── block/              ← un fichier _{nom-du-bloc}.scss par bloc Gutenberg
+├── _fonts.scss            ← @font-face
+├── partials/              ← layout du site (header, footer, navigation…) — front uniquement
+└── block/                 ← un fichier _{nom-du-bloc}.scss par bloc Gutenberg
 ```
+
+**Où écrire un style ?** S'il touche au contenu saisi dans l'éditeur (typographie, titres, listes,
+liens, blocs) → `_content.scss` ou un partial importé par lui, pour qu'il vaille des deux côtés. S'il
+ne concerne que le site autour du contenu → `partials/`, importé par `app.scss` seul. Un module
+Bootstrap qui met en forme du contenu (`images`, `tables`) se décommente dans `_content.scss`, les
+autres dans `_bootstrap-layout.scss`. Les deux entrées utilisent `@import` (Bootstrap 5.3 n'est pas
+compatible `@use`).
 
 Base CSS : **Bootstrap 5.3** (alias `~bootstrap` vers `node_modules/bootstrap`).
 Ne pas dupliquer ce que Bootstrap fournit déjà (grille, utilitaires, breakpoints).
@@ -460,22 +487,21 @@ Fichiers par bloc :
 
 **Ajouter un bloc :**
 1. Créer `blocks/{nom}/` avec `block.json`, `index.js`, `render.php`
-2. Créer les styles dans `resources/scss/block/_{nom}.scss` et les importer **dans `app.scss`**
-   (`@import 'block/{nom}';`, section « Blocs Gutenberg ») **et dans `editor-gutenberg.scss`**
-   (`@use "block/{nom}";`, **en tête de fichier** avec les autres `@use` : Sass refuse un `@use`
-   placé après une règle)
+2. Créer les styles dans `resources/scss/block/_{nom}.scss` et les importer **une seule fois**, dans
+   `_content.scss` (`@import 'block/{nom}';`, section « Blocs Gutenberg ») : ils valent alors pour le
+   front et pour l'éditeur
 3. `npm run build:blocks`
 
 > **Styles de blocs :** ils vivent dans `resources/scss/block/_*.scss`, plutôt que dans un
-> `style.scss` par bloc. Chaque partial est importé **deux fois** : par `app.scss` pour le frontend
-> (via `Front\Assets`) et par `editor-gutenberg.scss` pour le canvas de l'éditeur (via
-> `Admin\EditorStyles`). Un bloc dont le partial n'est importé que dans `app.scss` s'affichera donc
-> correctement sur le site mais brut dans l'éditeur. N'ajouter un `"style"` dans `block.json` qu'en
-> cas de besoin spécifique.
+> `style.scss` par bloc, et sont importés par `_content.scss`, lui-même chargé par `app.scss` (front,
+> via `Front\Assets`) et par `editor-gutenberg.scss` (canvas, via `Admin\EditorStyles`) : un seul
+> import, même rendu des deux côtés. N'ajouter un `"style"` dans `block.json` qu'en cas de besoin
+> spécifique.
 >
-> `editor-gutenberg.scss` n'importe volontairement pas Bootstrap : un partial de bloc qui s'appuie
-> sur ses variables ou ses mixins ne compilerait pas côté éditeur. Faire dépendre les styles de blocs
-> de `_brand.scss` et `_mixins.scss`, ou importer explicitement le peu de Bootstrap nécessaire.
+> Les variables, fonctions et mixins de Bootstrap (`_bootstrap-config.scss`) sont disponibles dans
+> les partials de blocs, côté front comme côté éditeur. Seuls les composants et utilitaires de
+> Bootstrap (`_bootstrap-layout.scss`) sont absents de l'éditeur : un bloc ne doit pas compter sur
+> une classe utilitaire (`.d-flex`, `.mb-3`…) pour son rendu dans le canvas.
 
 **Conventions :**
 - Préfixe de tous les blocs custom : `couturier/` (valeur de `ThemeContext::$block_namespace`)

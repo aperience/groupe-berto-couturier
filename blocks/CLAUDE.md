@@ -196,8 +196,9 @@ printf( '<hgroup %s>%s</hgroup>', get_block_wrapper_attributes(), $content );
 
 ## Styles
 
-- Partial `resources/scss/block/_{nom}.scss`, importé dans `app.scss` **et** en tête de
-  `editor-gutenberg.scss` (`@use`, avant toute règle).
+- Partial `resources/scss/block/_{nom}.scss`, importé **une seule fois** dans `_content.scss`, partagé
+  par le front et l'éditeur : le bloc a le même rendu des deux côtés. Les variables et mixins de
+  Bootstrap y sont disponibles ; pas les classes utilitaires (absentes de l'éditeur).
 - **Cibler les attributs texte par leur classe** (`.wp-block-couturier-titre__surtitre`), identique dans
   l'éditeur (RichText) et dans le HTML enregistré.
 

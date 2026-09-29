@@ -1,24 +1,28 @@
+// ─── Feuille du front ─────────────────────────────────────────────────────────
+//
+// Le contenu éditorial est mis en forme par `_content.scss`, partagé avec le
+// canvas de l'éditeur (`editor-gutenberg.scss`) : c'est ce qui garantit un rendu
+// identique des deux côtés. N'écrire ici que ce qui est propre au site autour du
+// contenu (layout, header, footer, navigation).
+
 // ─── 1. Fonts ─────────────────────────────────────────────────────────────────
 @import 'fonts';
 
-// ─── 2. Overrides Bootstrap (doit précéder les imports Bootstrap) ─────────────
+// ─── 2. Overrides Bootstrap (doit précéder la configuration Bootstrap) ────────
 @import 'variables';
 
-// ─── 3. Bootstrap ─────────────────────────────────────────────────────────────
-@import 'mybootstrap';
+// ─── 3. Configuration Bootstrap (variables, mixins — sans sortie CSS) ─────────
+@import 'bootstrap-config';
 
-// ─── 4. Mixins ────────────────────────────────────────────────────────────────
+// ─── 4. Mixins du thème ───────────────────────────────────────────────────────
 @import 'mixins';
 
-// ─── 5. Styles du thème ───────────────────────────────────────────────────────
-body {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+// ─── 5. Contenu éditorial (partagé avec l'éditeur) ────────────────────────────
+@import 'content';
 
+// ─── 6. Bootstrap : mise en page et composants (front uniquement) ─────────────
+@import 'bootstrap-layout';
+
+// ─── 7. Mise en page du site ──────────────────────────────────────────────────
 // Ajouter les partials ici au fur et à mesure :
 @import 'partials/layout';
-
-// ─── 6. Blocs Gutenberg ───────────────────────────────────────────────────────
-// Un fichier par bloc dans scss/block/, importé ici :
-// @import 'block/mon-bloc';

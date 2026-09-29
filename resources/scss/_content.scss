@@ -1,0 +1,38 @@
+// ─── Styles du contenu éditorial ──────────────────────────────────────────────
+//
+// **Source unique du rendu du contenu**, importée par `app.scss` (front) ET par
+// `editor-gutenberg.scss` (canvas de l'éditeur) : ce qui est écrit ici s'affiche
+// à l'identique des deux côtés. Tout style qui touche au contenu saisi dans
+// l'éditeur (typographie, titres, paragraphes, listes, liens, blocs) va ici —
+// jamais directement dans `app.scss`, qui ne le transmettrait pas à l'éditeur.
+//
+// À l'inverse, la mise en page du site (header, footer, navigation, grille,
+// conteneurs) n'a rien à faire ici : ce fichier est inliné dans chaque page de
+// l'éditeur, et le canvas n'en a pas l'usage.
+//
+// Dans l'éditeur, `body` et `:root` désignent la zone d'édition (le `<body>` de
+// l'iframe du canvas, cf. `editor-gutenberg.scss`) : écrire les règles comme pour
+// le front, sans rien de propre à l'éditeur.
+//
+// Prérequis, importés avant ce fichier : `variables`, `bootstrap-config`, `mixins`.
+
+// ─── 1. Bootstrap : socle typographique ───────────────────────────────────────
+// Variables CSS (`--bs-*`), reboot (marges, police, couleur du texte et des
+// liens) et typographie (titres, `.lead`, listes). Décommenter ici — et non dans
+// `_bootstrap-layout.scss` — un module qui met en forme du contenu éditorial.
+@import "~bootstrap/scss/root";
+@import "~bootstrap/scss/reboot";
+@import "~bootstrap/scss/type";
+//@import "~bootstrap/scss/images";
+//@import "~bootstrap/scss/tables";
+
+// ─── 2. Styles du thème ───────────────────────────────────────────────────────
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+// ─── 3. Blocs Gutenberg ───────────────────────────────────────────────────────
+// Un partial par bloc dans `block/`, importé ici une seule fois : il vaut pour le
+// front et pour l'éditeur (cf. `blocks/CLAUDE.md`).
+// @import 'block/mon-bloc';
