@@ -1,0 +1,55 @@
+// ─── Styles du canvas de l'éditeur de blocs ───────────────────────────────────
+//
+// Feuille appliquée à la zone d'édition de Gutenberg, pour que le contenu s'y
+// affiche comme sur le front. Déclarée au core par `add_editor_style()` (cf. la
+// feature `Features\Admin\EditorStyles` du socle) et compilée comme une entrée
+// Vite à part entière : elle n'est jamais importée par `app.scss`.
+//
+// Trois particularités à garder en tête en écrivant ici :
+//
+// 1. Les sélecteurs sont **préfixés par `.editor-styles-wrapper`** par le core.
+//    Un `body { … }` cible donc la zone d'édition, et non le document de
+//    l'éditeur : l'interface (panneaux, inspecteur, barre d'outils) est hors de
+//    portée de cette feuille.
+// 2. Le CSS est **inliné dans la page de l'éditeur**, et non chargé par un
+//    `<link>` : tout ce qui est importé ici alourdit chaque ouverture de
+//    l'éditeur. On y met les styles du *contenu* — typographie, blocs — jamais
+//    Bootstrap en entier, ni le header, le footer ou la navigation.
+// 3. Elle est **toujours servie depuis `dist/assets/`**, même en `npm run dev` :
+//    c'est WordPress qui lit le fichier sur disque, pas le navigateur. Il n'y a
+//    donc pas de HMR dans le canvas — relancer `npm run build` après modification.
+
+@use "brand" as *;
+@use "mixins" as *;
+
+// Le canvas est un document à part (iframe) : il lui faut ses propres @font-face.
+// Vite réécrit les url() vers `dist/assets/fonts/`, que le core résout via le
+// `baseURL` de la feuille.
+@use "fonts";
+
+// ─── Styles du contenu ────────────────────────────────────────────────────────
+//
+// `body` cible ici la zone d'édition (préfixée `.editor-styles-wrapper`), pas le
+// document de l'éditeur. La règle reprend celle d'`app.scss`, pour que le texte
+// soit rendu de la même façon des deux côtés.
+//
+// Elle a une seconde raison d'être : une feuille qui ne produit **aucune règle**
+// ne fait émettre aucun `.css` par Vite — le manifest pointerait alors vers un
+// module JavaScript, et `Admin\EditorStyles` refuserait de déclarer la feuille.
+// Garder au moins une règle réelle ici.
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+// ─── Blocs Gutenberg ──────────────────────────────────────────────────────────
+//
+// Les mêmes partials que ceux importés par `app.scss`, pour que chaque bloc
+// s'affiche dans l'éditeur comme sur le front :
+// @use "block/mon-bloc";
+//
+// ⚠️ Bootstrap n'est pas importé ici (cf. point 2 ci-dessus) : un partial de bloc
+// qui s'appuie sur ses variables ou ses mixins ne compilera pas. Faire dépendre
+// les styles de blocs de `_brand.scss` et `_mixins.scss` uniquement, ou importer
+// explicitement le peu de Bootstrap dont ils ont besoin.

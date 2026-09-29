@@ -1,0 +1,13 @@
+{% extends "base.twig" %}
+{% import "macros/ui.twig" as ui %}
+
+{% block content %}
+    <article class="{{ post.class }}">
+        <div class="container">
+            <h1>{{ post.title }}</h1>
+            <div class="entry-content">
+                {{ post.content|raw }}
+            </div>
+        </div>
+    </article>
+{% endblock %}

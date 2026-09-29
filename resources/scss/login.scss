@@ -1,0 +1,108 @@
+// Page de connexion WordPress (wp-login.php).
+//
+// La feuille est enfilée sur `login_enqueue_scripts`, qui se déclenche sur *toutes*
+// les actions de wp-login.php (connexion, mot de passe oublié, réinitialisation,
+// inscription) : ces règles s'appliquent donc aussi au formulaire « mot de passe
+// oublié » sans traitement supplémentaire.
+//
+// La couleur de marque vient de `_variables.scss` (`$brand_base-color`), comme le
+// jeu de couleurs de l'admin — une seule source, partagée entre les deux entrées.
+
+@use "sass:color";
+@use "brand" as *;
+
+// ─── Logo ─────────────────────────────────────────────────────────────────────
+//
+// Le logo est référencé ici, et non en PHP : c'est ce qui le fait entrer dans le
+// graphe Vite. Il est donc servi par le dev server en développement, et émis dans
+// dist/assets/ avec un nom haché au build — l'URL est réécrite automatiquement.
+
+#login h1 a {
+    background-image: url('../images/login-logo.svg');
+    background-size: contain;
+    width: 270px;
+    height: 64px;
+}
+
+// ─── Contrôles du formulaire à la couleur de marque ───────────────────────────
+
+// Bouton principal : « Se connecter », mais aussi « Obtenir un nouveau mot de
+// passe » et « Réinitialiser le mot de passe ». Fond très sombre, texte blanc
+// (contraste largement suffisant) ; retours d'état par éclaircissement, la teinte
+// de base étant trop foncée pour qu'un assombrissement se voie.
+.wp-core-ui .button-primary {
+    background: $brand_base-color;
+    border-color: $brand_base-color;
+    color: #fff;
+    text-shadow: none;
+    box-shadow: none;
+
+    &:hover,
+    &:focus {
+        background: color.adjust($brand_base-color, $lightness: 8%);
+        border-color: color.adjust($brand_base-color, $lightness: 8%);
+        color: #fff;
+    }
+
+    &:focus {
+        box-shadow: 0 0 0 1px #fff, 0 0 0 3px $brand_base-color;
+    }
+
+    &:active {
+        background: color.adjust($brand_base-color, $lightness: -4%) !important;
+        border-color: color.adjust($brand_base-color, $lightness: -4%);
+    }
+}
+
+// Icône « afficher le mot de passe en clair » (œil). Présente sur la page de
+// connexion et sur celle de réinitialisation.
+.wp-pwd button.wp-hide-pw {
+    .dashicons {
+        color: $brand_base-color;
+    }
+
+    &:focus {
+        border-color: $brand_base-color;
+        box-shadow: 0 0 0 1px $brand_base-color;
+    }
+}
+
+// Case « Se souvenir de moi ». WordPress dessine sa propre case (appearance:none)
+// et affiche la coche via un pseudo-élément : on colore la case cochée et l'état
+// de focus. `accent-color` couvre les navigateurs qui rendent la case nativement.
+.wp-core-ui {
+    input[type="checkbox"] {
+        accent-color: $brand_base-color;
+
+        &:checked {
+            background: $brand_base-color;
+            border-color: $brand_base-color;
+
+            &::before {
+                color: #fff;
+            }
+        }
+
+        &:focus {
+            border-color: $brand_base-color;
+            box-shadow: 0 0 0 1px $brand_base-color;
+        }
+    }
+}
+
+// Notices d'information (« Consultez votre e-mail… » après une demande de
+// réinitialisation, entre autres) : bordure gauche à la couleur de marque plutôt
+// que le bleu du core. Vaut pour la page de connexion et « mot de passe oublié ».
+#login .notice-info {
+    border-left-color: $brand_base-color;
+}
+
+// Lien mis en avant de la même teinte (« Mot de passe oublié ? », « ← Aller sur
+// le site »). Le core les affiche en gris ; on ne surcharge que le survol/focus
+// pour rester discret.
+#login #nav a:hover,
+#login #nav a:focus,
+#login #backtoblog a:hover,
+#login #backtoblog a:focus {
+    color: $brand_base-color;
+}

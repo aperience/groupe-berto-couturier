@@ -1,0 +1,7 @@
+<nav aria-label="{{ menu.title }}">
+    <ul class="list-unstyled d-flex gap-3 mb-0">
+        {% for item in menu.items %}
+            <li><a href="{{ item.link }}">{{ item.title }}</a></li>
+        {% endfor %}
+    </ul>
+</nav>

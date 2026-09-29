@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html {{ site.language_attributes|raw }}>
+<head>
+    <meta charset="{{ site.charset }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'partials/favicon.twig' %}
+    {{ function('wp_head') }}
+</head>
+<body class="{{ body_class }}">
+    {{ function('wp_body_open') }}
+
+    {% block header %}
+        {% include 'partials/header.twig' %}
+    {% endblock %}
+
+    <main id="main" class="container-fluid">
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    {% block footer %}
+        {% include 'partials/footer.twig' %}
+    {% endblock footer %}
+
+    {{ function('wp_footer') }}
+</body>
+</html>

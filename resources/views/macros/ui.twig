@@ -1,0 +1,22 @@
+{% macro button(label, options = {}) %}
+    {% set variant = options.variant|default('btn-outline-dark') %}
+    {% set class = options.class|default('') %}
+    {% set type = options.type|default('button') %}
+    {% set href = options.href|default(null) %}
+    {% set attrs = options.attrs|default({}) %}
+
+    {% set attr_string = '' %}
+    {% for key, value in attrs %}
+        {% set attr_string = attr_string ~ ' ' ~ key ~ '="' ~ value|e('html_attr') ~ '"' %}
+    {% endfor %}
+
+    {% if href %}
+        <a href="{{ href }}" class="btn {{ variant }} {{ class }}"{{ attr_string|raw }}>
+            <span>{{ label }}</span>
+        </a>
+    {% else %}
+        <button type="{{ type }}" class="btn {{ variant }} {{ class }}"{{ attr_string|raw }}>
+            {{ label }}
+        </button>
+    {% endif %}
+{% endmacro %}

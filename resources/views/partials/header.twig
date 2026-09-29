@@ -1,0 +1,11 @@
+<header id="masthead">
+    <div class="container-fluid d-flex justify-content-between align-items-center">
+        <div class="site-branding">
+            <a id="site-title" href="{{ site.url }}">{{ site.name }}</a>
+        </div>
+
+        {% if primary_menu %}
+            {% include 'partials/navigation.twig' with { menu: primary_menu } %}
+        {% endif %}
+    </div>
+</header>

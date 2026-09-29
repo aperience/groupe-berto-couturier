@@ -1,0 +1,23 @@
+// ─── Overrides des variables Bootstrap ────────────────────────────────────────
+// Doit être importé AVANT Bootstrap (Bootstrap utilise !default sur ses variables).
+// Référence : node_modules/bootstrap/scss/_variables.scss
+//
+// Aucune charte graphique n'est définie à ce stade : les valeurs par défaut de
+// Bootstrap s'appliquent. Centraliser ici tout choix provisoire.
+
+// Colors
+// $primary:   #000000;
+// $secondary: #000000;
+
+// Typography
+// $font-family-sans-serif: 'MaPolice', sans-serif;
+
+// ─── Variables custom du thème ────────────────────────────────────────────────
+//$body-bg: red;
+
+// ─── Palette de marque du client ──────────────────────────────────────────────
+//
+// Définie dans `_brand.scss`, réexportée ici pour que les feuilles qui importent
+// `variables` y aient accès sans connaître le découpage.
+
+@forward "brand";

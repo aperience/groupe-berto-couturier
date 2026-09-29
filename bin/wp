@@ -1,0 +1,34 @@
+#!/bin/sh
+#
+# Lance le WP-CLI installé par Composer (vendor/bin/wp) avec un PHP >= 8.5.
+#
+# Le `php` du PATH est souvent plus ancien que la version requise par le thème :
+# le platform check généré par Composer fait alors échouer le chargement de
+# vendor/autoload.php, et donc la commande. Ce wrapper résout un binaire adapté
+# et le transmet à WP-CLI via WP_CLI_PHP.
+#
+# Ordre de recherche : $PHP_BIN, le php du PATH s'il convient, puis MAMP.
+# Usage : bin/wp i18n make-pot .
+
+theme_dir=$( cd "${0%/*}/.." && pwd )
+
+is_php_85() {
+    [ -n "$1" ] && [ -x "$1" ] || return 1
+    version_id=$( "$1" -r 'echo PHP_VERSION_ID;' 2>/dev/null ) || return 1
+    [ -n "$version_id" ] || return 1
+    [ "$version_id" -ge 80500 ] 2>/dev/null
+}
+
+for candidate in "$PHP_BIN" "$( command -v php )" /Applications/MAMP/bin/php/php8.*/bin/php; do
+    if is_php_85 "$candidate"; then
+        WP_CLI_PHP="$candidate"
+        export WP_CLI_PHP
+        # --allow-root : le conteneur Docker "node" de l'environnement de dev tourne
+        # en root. Sans incidence hors conteneur/root.
+        exec "$theme_dir/vendor/bin/wp" --allow-root "$@"
+    fi
+done
+
+echo "bin/wp : aucun PHP >= 8.5 trouvé (le thème requiert PHP 8.5)." >&2
+echo "         Renseigner PHP_BIN=/chemin/vers/php pour lever l'ambiguïté." >&2
+exit 1

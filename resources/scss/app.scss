@@ -1,0 +1,24 @@
+// ─── 1. Fonts ─────────────────────────────────────────────────────────────────
+@import 'fonts';
+
+// ─── 2. Overrides Bootstrap (doit précéder les imports Bootstrap) ─────────────
+@import 'variables';
+
+// ─── 3. Bootstrap ─────────────────────────────────────────────────────────────
+@import 'mybootstrap';
+
+// ─── 4. Mixins ────────────────────────────────────────────────────────────────
+@import 'mixins';
+
+// ─── 5. Styles du thème ───────────────────────────────────────────────────────
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Ajouter les partials ici au fur et à mesure :
+@import 'partials/layout';
+
+// ─── 6. Blocs Gutenberg ───────────────────────────────────────────────────────
+// Un fichier par bloc dans scss/block/, importé ici :
+// @import 'block/mon-bloc';

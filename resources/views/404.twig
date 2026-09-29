@@ -1,0 +1,14 @@
+{% extends "base.twig" %}
+{% import "macros/ui.twig" as ui %}
+
+{% block content %}
+    <article class="error-404">
+        <div class="container">
+            <h1>{{ labels.title }}</h1>
+            {{ ui.button(labels.back_home, {
+                href: site.url,
+                variant: 'btn-dark',
+            }) }}
+        </div>
+    </article>
+{% endblock %}

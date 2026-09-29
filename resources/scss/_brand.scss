@@ -1,0 +1,34 @@
+// ─── Palette de marque du client ──────────────────────────────────────────────
+//
+// **Le premier fichier à remplir à l'étape charte.** Les valeurs ci-dessous sont
+// celles de Bootstrap : neutres, lisibles, et volontairement génériques — un
+// back-office resté dans ces tons signale que la charte n'a pas encore été posée.
+//
+// Préfixe `brand_` pour ne pas se confondre avec les variables de Bootstrap.
+// Utilisé par `_variables.scss`, `admin-colors.scss` et `login.scss`.
+//
+// ⚠️ Ces couleurs sont **dupliquées côté PHP** dans `AdminServiceProvider`
+// (arguments `palette:` et `icon_colors:` d'`AdminColorScheme`) : l'aperçu du
+// sélecteur de profil et les icônes de menu injectées en JS par le core ne peuvent
+// pas être alimentés depuis Sass. Modifier les deux fichiers ensemble.
+// Une divergence ne casse rien — elle donne simplement des pastilles de sélecteur
+// qui ne correspondent pas aux couleurs réellement appliquées.
+
+// Couleur principale — menu et barre d'admin, page de connexion.
+$brand_base-color: #212529;
+
+// Élément courant, liens, boutons primaires de l'admin.
+$brand_highlight-color: #0d6efd;
+
+// Pastilles de compteurs (mises à jour en attente, commentaires).
+$brand_notification-color: #dc3545;
+
+// Icônes du menu au repos : volontairement plus sourdes que le texte, pour que
+// l'élément courant se distingue.
+$brand_icon-color: #adb5bd;
+
+// Sous-menus. La valeur par défaut du core assombrit `$brand_base-color` ; sur une
+// couleur déjà sombre cela écrase le contraste, on l'éclaircit donc à la place.
+$brand_submenu-background: #343a40;
+$brand_submenu-text: #adb5bd;
+$brand_submenu-focus-text: #6ea8fe;

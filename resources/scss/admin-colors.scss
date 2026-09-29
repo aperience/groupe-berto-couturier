@@ -1,0 +1,95 @@
+// ─── Jeu de couleurs de l'administration ──────────────────────────────────────
+//
+// Feuille chargée par WordPress lui-même, et non par le thème : son URL est
+// déclarée dans `wp_admin_css_color()` (cf. `Features\Admin\AdminColorScheme`),
+// et le core la sert à la place de son propre `colors.css`. Elle est donc
+// compilée comme une entrée Vite à part entière — jamais importée par `app.scss`
+// ni par `editor-gutenberg.scss`.
+//
+// Aucune règle n'est écrite ici : elles proviennent des sources SCSS du core
+// (`wp-admin/css/colors/_admin.scss`), qui exposent une API de configuration
+// prévue pour les schemes personnalisés — c'est exactement ainsi que sont
+// définis les schemes livrés par WordPress (`wp-admin/css/colors/blue/colors.scss`).
+// On ne déclare donc que la palette : le core en dérive les ~700 règles du
+// back-office, et les fait évoluer avec les versions de WordPress.
+//
+// L'alias `~wp-admin` est défini dans `vite.config.js` ; c'est le seul point du
+// thème qui dépend du core WordPress, le build doit donc tourner dans une
+// installation complète (ce qui est le cas en local comme au déploiement).
+
+@use "sass:color";
+@use "sass:math";
+@use "brand" as *;
+
+// Toutes les couleurs proviennent de `_brand.scss` (importé ci-dessus) : aucune
+// valeur en dur ici, pour rester alignées avec la page de connexion et le PHP.
+
+@use "~wp-admin/css/colors/admin" with (
+    $scheme-name: "couturier",
+
+    $base-color:         $brand_base-color,
+    $highlight-color:    $brand_highlight-color,
+    $notification-color: $brand_notification-color,
+
+    // Icônes du menu au repos : gris bleuté plutôt que blanc, pour distinguer
+    // l'élément courant. Reprises à l'identique dans icon_colors['base'] côté PHP.
+    $icon-color: $brand_icon-color,
+
+    // Boutons primaires et cases à cocher alignés sur la couleur d'accent.
+    $button-color: $brand_highlight-color,
+    $form-checked: $brand_highlight-color,
+
+    // Liens de l'admin : même accent, assombri au survol (contraste ≥ 4.5:1
+    // sur fond blanc dans les deux états).
+    $link:       $brand_highlight-color,
+    $link-focus: color.adjust($brand_highlight-color, $lightness: -8%),
+
+    // Sous-menus : la valeur par défaut assombrit `$base-color`, déjà très
+    // sombre, ce qui écraserait le contraste. On l'éclaircit à la place.
+    $menu-submenu-background: $brand_submenu-background,
+    $menu-submenu-text:       $brand_submenu-text,
+    $menu-submenu-focus-text: $brand_submenu-focus-text,
+
+    // Fond des icônes du tableau de bord (par défaut : `$base-color`).
+    $dashboard-icon-background: $brand_base-color
+);
+
+// ─── Variables CSS de l'éditeur ───────────────────────────────────────────────
+//
+// `--wp-admin-theme-color` pilote les anneaux de focus, les cases cochées et les
+// boutons de @wordpress/components. WordPress la définit une seule fois, en dur,
+// dans `wp-includes/css/dist/block-library/common.css` (`:root { … #007cba }`) :
+// elle ne suit pas le jeu de couleurs, et les règles du core qui la consomment
+// resteraient donc bleues. On la redéfinit sur `body` — la valeur héritée depuis
+// `body` l'emporte sur celle de `:root` quel que soit l'ordre de chargement des
+// feuilles, ce qu'un second `:root` ne garantirait pas.
+//
+// Les suffixes `-10` / `-20` reprennent le calcul de @wordpress/base-styles :
+// -5 % et -10 % de luminosité, malgré leur nom.
+
+// Sass 1.8x calcule en espace colorimétrique flottant : sans arrondi, les
+// couleurs dérivées sortent en `rgb(5.94%, 37.29%, …)`. On repasse en canaux
+// entiers, seuls exploitables pour les triplets `--…--rgb`.
+@function solid($color) {
+    @return rgb(
+        math.round(color.channel($color, "red", $space: rgb)),
+        math.round(color.channel($color, "green", $space: rgb)),
+        math.round(color.channel($color, "blue", $space: rgb))
+    );
+}
+
+@function rgb-triplet($color) {
+    @return "#{math.round(color.channel($color, 'red', $space: rgb))}, #{math.round(color.channel($color, 'green', $space: rgb))}, #{math.round(color.channel($color, 'blue', $space: rgb))}";
+}
+
+$theme-darker-10: solid(color.adjust($brand_highlight-color, $lightness: -5%));
+$theme-darker-20: solid(color.adjust($brand_highlight-color, $lightness: -10%));
+
+body {
+    --wp-admin-theme-color: #{$brand_highlight-color};
+    --wp-admin-theme-color--rgb: #{rgb-triplet($brand_highlight-color)};
+    --wp-admin-theme-color-darker-10: #{$theme-darker-10};
+    --wp-admin-theme-color-darker-10--rgb: #{rgb-triplet($theme-darker-10)};
+    --wp-admin-theme-color-darker-20: #{$theme-darker-20};
+    --wp-admin-theme-color-darker-20--rgb: #{rgb-triplet($theme-darker-20)};
+}

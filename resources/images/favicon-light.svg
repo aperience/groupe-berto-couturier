@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+	<!--
+		Placeholder générique — à remplacer à l'étape charte par la source
+		favicon du projet (cf. SKELETON.md). Le motif (cercle plein) respecte
+		la marge de sécurité ~40% requise par les icônes PWA "maskable" :
+		toute future source doit garder ses éléments significatifs dans un
+		cercle centré occupant environ 60% de la largeur totale.
+	-->
+	<circle cx="50" cy="50" r="30" fill="#6c757d" />
+</svg>

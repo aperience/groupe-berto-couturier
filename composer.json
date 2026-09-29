@@ -1,0 +1,32 @@
+{
+    "name": "deefuse/couturier",
+    "description": "Thème WordPress sur mesure (blocs Gutenberg) pour Groupe Berto",
+    "type": "wordpress-theme",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git@github.com:achappard/wp-theme-core.git"
+        }
+    ],
+    "license": "GPL-2.0-or-later",
+    "authors": [
+        {
+            "name": "Deefuse",
+            "email": "aurelien.chappard@deefuse.fr"
+        }
+    ],
+    "require": {
+        "php": ">=8.5",
+        "deefuse/wp-theme-core": "^1.2",
+        "timber/timber": "^2.3"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^7.0",
+        "wp-cli/i18n-command": "^2.7"
+    },
+    "autoload": {
+        "psr-4": {
+            "Theme\\": "src/"
+        }
+    }
+}

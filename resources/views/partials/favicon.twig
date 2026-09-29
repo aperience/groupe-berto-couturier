@@ -1,0 +1,14 @@
+{% if favicons %}
+    <link rel="icon" href="{{ favicons.svg_light }}" type="image/svg+xml" media="(prefers-color-scheme: light)">
+    {% if favicons.has_dark %}
+        <link rel="icon" href="{{ favicons.svg_dark }}" type="image/svg+xml" media="(prefers-color-scheme: dark)">
+    {% endif %}
+
+    <link rel="icon" href="{{ favicons.ico }}" sizes="32x32">
+    <link rel="icon" href="{{ favicons.png_96 }}" type="image/png" sizes="96x96">
+    <link rel="apple-touch-icon" href="{{ favicons.apple_touch_icon }}">
+    <link rel="manifest" href="{{ favicons.manifest_url }}">
+
+    <meta name="theme-color" content="{{ favicons.theme_color_light }}" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="{{ favicons.theme_color_dark }}" media="(prefers-color-scheme: dark)">
+{% endif %}
