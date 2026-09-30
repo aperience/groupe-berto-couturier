@@ -1,0 +1,20 @@
+# Accès web au thème (Apache, préprod / prod) — sans effet sous nginx (Docker local).
+#
+# Le navigateur ne charge que dist/ (assets Vite, blocs compilés, favicons, image OG) et
+# screenshot.png (Apparence → Thèmes). Tout le reste — gabarits, src/, vendor/, resources/views,
+# languages/, composer.* — n'est lu que par PHP, sur le disque : répondre 403 évite d'exposer les
+# versions des dépendances, le code source et des PHP tiers appelables directement.
+#
+# Pas de .htaccess dans dist/ : le dossier est vidé à chaque build. Les motifs sont relatifs au
+# dossier du thème, donc indépendants du chemin d'installation de WordPress.
+# Nécessite AllowOverride All (Options + FileInfo) et mod_rewrite, déjà requis par les permaliens.
+
+Options -Indexes
+
+RewriteEngine On
+
+# Dans dist/, ni PHP (render.php, index.asset.php des blocs) ni JSON (block.json, manifeste Vite).
+RewriteRule ^dist/.*\.(php|json)$ - [F,L]
+
+RewriteRule ^(dist/|screenshot\.png$) - [L]
+RewriteRule ^ - [F,L]
