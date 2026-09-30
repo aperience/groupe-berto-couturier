@@ -9,6 +9,9 @@
 <body class="{{ body_class }}">
     {{ function('wp_body_open') }}
 
+    {# Lien d'évitement : premier élément focusable de la page (WCAG 2.4.1). #}
+    <a class="skip-link visually-hidden-focusable" href="#main">{{ __('Aller au contenu', 'couturier') }}</a>
+
     {% block header %}
         {% include 'partials/header.twig' %}
     {% endblock %}

@@ -1,0 +1,33 @@
+// ─── Lien d'évitement (« Aller au contenu ») ──────────────────────────────────
+//
+// Rendu par `base.twig`, premier élément focusable de la page. Masqué tant qu'il
+// n'a pas le focus (helper Bootstrap `.visually-hidden-focusable`), puis affiché
+// par-dessus la page, en haut à gauche, sans décaler le contenu.
+//
+// Accessibilité (WCAG 2.2 AA) :
+// - contraste texte / fond ≥ 4,5:1 (1.4.3) : blanc sur `$body-color` (#212529),
+//   environ 15:1 ;
+// - indicateur de focus visible et contrasté (2.4.7, 1.4.11) : contour blanc décalé,
+//   cerné de `$body-color` ;
+// - zone cliquable bien au-delà de 24 × 24 px (2.5.8).
+//
+// Pas de décalage pour la barre d'administration : elle n'est jamais affichée sur le
+// front (feature `DisableAdminBar`). La réactiver imposerait de décaler ce lien, que
+// la barre, fixe en haut de page, masquerait (2.4.11).
+
+.skip-link {
+    position: absolute;
+    top: $spacer * .5;
+    left: $spacer * .5;
+    z-index: $zindex-fixed + 1;
+    padding: $spacer * .5 $spacer;
+    color: $white;
+    background-color: $body-color;
+    text-decoration: underline;
+
+    &:focus {
+        outline: 2px solid $white;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 4px $body-color;
+    }
+}

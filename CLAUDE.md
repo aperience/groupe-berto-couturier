@@ -37,7 +37,8 @@ custom dans l'éditeur.
 
 - **Structure** : un seul `<h1>` par page, hiérarchie de titres sans saut ; repères uniques
   `<header>`, `<nav>` (nommé par `aria-label` s'il y en a plusieurs), `<main>`, `<footer>` ; lien
-  d'évitement vers `#main` en premier élément focusable (2.4.1). Les blocs n'offrent que H2 / H3
+  d'évitement vers `#main` en premier élément focusable (2.4.1) — en place : en tête de
+  `base.twig`, style `partials/_skip-link.scss`. Les blocs n'offrent que H2 / H3
   (`RestrictHeadingLevels`) : le `<h1>` de chaque page est produit par le gabarit Twig.
 - **Langue** : `lang` sur `<html>` (via `language_attributes`), `lang` sur tout passage dans une
   autre langue (3.1.1, 3.1.2).
