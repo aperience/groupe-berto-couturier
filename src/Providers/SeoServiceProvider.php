@@ -18,6 +18,10 @@ use Deefuse\ThemeCore\Features\Seo\SeoPanel;
 use Deefuse\ThemeCore\Features\Seo\SitemapExclusion;
 use Deefuse\ThemeCore\ThemeContext;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Regroupe les features SEO : balises meta, Open Graph,
  * données structurées Schema.org, sitemap, analytics.

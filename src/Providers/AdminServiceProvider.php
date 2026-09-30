@@ -32,6 +32,10 @@ use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\Blocks\BlockLoader;
 use Theme\Features\Blocks\RestrictHeadingLevels;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Regroupe les features du back-office : réglages admin, éditeur Gutenberg,
  * enregistrement des blocs et des CPT, désactivation des fonctionnalités inutiles.

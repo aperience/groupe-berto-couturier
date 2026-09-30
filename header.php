@@ -5,3 +5,7 @@
  *
  * @package Couturier
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}

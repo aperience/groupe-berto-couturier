@@ -16,6 +16,10 @@ use Deefuse\ThemeCore\Features\Setup\ThemeSupport;
 use Deefuse\ThemeCore\Features\Setup\TwigDump;
 use Deefuse\ThemeCore\ThemeContext;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Regroupe les features d'initialisation du thème
  * (supports de thème, menus, extensions Twig).

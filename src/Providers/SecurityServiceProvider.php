@@ -18,6 +18,10 @@ use Deefuse\ThemeCore\Features\Security\HideLoginErrors;
 use Deefuse\ThemeCore\Features\Security\SecurityHeaders;
 use Deefuse\ThemeCore\ThemeContext;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Regroupe le durcissement : réduction de la surface d'attaque et des informations
  * publiées sur l'installation — énumération des comptes, XML-RPC, erreurs de connexion,

@@ -11,6 +11,10 @@ namespace Theme\Features\Blocks;
 
 use Deefuse\ThemeCore\Contracts\FeatureInterface;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Enregistre chaque bloc compilé par `@wordpress/scripts` dans `dist/blocks/{nom}/` :
  * tout `block.json` trouvé est passé à `register_block_type()`, aucun enregistrement

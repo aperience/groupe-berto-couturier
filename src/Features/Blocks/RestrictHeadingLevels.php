@@ -12,6 +12,10 @@ namespace Theme\Features\Blocks;
 use Deefuse\ThemeCore\Contracts\FeatureInterface;
 use Deefuse\ThemeCore\ThemeContext;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Limite les niveaux de titre proposés dans l'éditeur (H2 et H3 par défaut), pour
  * `core/heading` comme pour tout bloc qui expose un choix de niveau.

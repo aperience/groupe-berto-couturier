@@ -20,6 +20,10 @@ use Deefuse\ThemeCore\Features\Front\DisableFunctionalities\DisableHeartbeat;
 use Deefuse\ThemeCore\Features\Front\Favicons;
 use Deefuse\ThemeCore\ThemeContext;
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 /**
  * Regroupe les features front-end : assets, nettoyage du <head>,
  * optimisations et désactivations côté public.

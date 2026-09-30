@@ -5,6 +5,10 @@
  * @package Couturier
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+    exit;
+}
+
 $context          = Timber\Timber::context();
 $context['posts'] = Timber\Timber::get_posts();
 
