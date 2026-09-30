@@ -71,9 +71,9 @@ final class AdminServiceProvider implements ServiceProviderInterface {
                 ],
             ),
             new AdminFooter(
-                agency_name: 'Deefuse',
-                agency_url: 'https://www.deefuse.fr',
-                agency_desc: 'Agence digitale',
+                agency_name: 'Aperience',
+                agency_url: 'https://www.aperience.com',
+                agency_desc: '',
             ),
             new EditorStyles(),
             new LoginBranding( $context ),
