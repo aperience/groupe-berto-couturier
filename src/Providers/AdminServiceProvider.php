@@ -28,6 +28,7 @@ use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableLoginLanguage
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableNativeBlockSupports;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisablePostByEmail;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableSiteIcon;
+use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableUpdateServices;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableUpdates;
 use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\Admin\NestedPagesLinks;
@@ -75,6 +76,7 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new DisablePostByEmail(),
             new RestrictHeadingLevels($context),
             new DisableSiteIcon(),
+            new DisableUpdateServices(),
             new DisableUpdates(allow_minor_core: true),
             new AdminColorScheme(
                 scheme: $context->slug,
