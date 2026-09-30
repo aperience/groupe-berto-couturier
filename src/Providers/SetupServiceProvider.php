@@ -39,7 +39,9 @@ final class SetupServiceProvider implements ServiceProviderInterface {
      */
     public static function features( ThemeContext $context ): array {
         return [
-            new ThemeSupport(),
+            new ThemeSupport(
+                extra_supports: [ 'responsive-embeds' ],
+            ),
             new Menus(
                 locations: static fn(): array => [
                     'primary' => __( 'Menu principal', 'couturier' ),

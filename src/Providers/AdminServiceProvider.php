@@ -32,7 +32,7 @@ use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\Blocks\BlockLoader;
 use Theme\Features\Blocks\RestrictHeadingLevels;
 
-if ( ! defined( 'ABSPATH' ) ) {
+if (!defined('ABSPATH')) {
     exit;
 }
 
@@ -40,7 +40,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Regroupe les features du back-office : réglages admin, éditeur Gutenberg,
  * enregistrement des blocs et des CPT, désactivation des fonctionnalités inutiles.
  */
-final class AdminServiceProvider implements ServiceProviderInterface {
+final class AdminServiceProvider implements ServiceProviderInterface
+{
 
     /**
      * Features d'administration
@@ -48,26 +49,36 @@ final class AdminServiceProvider implements ServiceProviderInterface {
      * @param ThemeContext $context Identité du thème.
      * @return FeatureInterface[]
      */
-    public static function features( ThemeContext $context ): array {
+    public static function features(ThemeContext $context): array
+    {
         return [
             new DisableAdminBar(),
             new BlockLoader(),
-            new DisableBlocks( $context->block_namespace ),
+            new DisableBlocks(
+                block_namespace: $context->block_namespace,
+                allowed_blocks: [
+                    'core/paragraph',
+                    'core/heading',
+                    'core/list',
+                    'core/list-item',
+                    'core/embed',
+                ]
+            ),
             new DisableComment(),
             new DisableConnectors(),
             new DisableDefaultDashboardWidgets(),
             new DisableLockAppearanceTools(),
             new DisableLoginLanguageDropdown(),
             new DisableNativeBlockSupports(),
-            new RestrictHeadingLevels( $context ),
+            new RestrictHeadingLevels($context),
             new DisableSiteIcon(),
-            new DisableUpdates( allow_minor_core: true ),
+            new DisableUpdates(allow_minor_core: true),
             new AdminColorScheme(
                 scheme: $context->slug,
                 label: 'Couturier',
                 // Doublent les variables de resources/scss/_brand.scss : Sass ne peut pas
                 // les exposer à PHP. Les deux fichiers se modifient ensemble, à l'étape charte.
-                palette: [ '#212529', '#343a40', '#0d6efd', '#dc3545' ],
+                palette: ['#212529', '#343a40', '#0d6efd', '#dc3545'],
                 icon_colors: [
                     'base'    => '#adb5bd',
                     'focus'   => '#fff',
@@ -80,8 +91,8 @@ final class AdminServiceProvider implements ServiceProviderInterface {
                 agency_desc: '',
             ),
             new EditorStyles(),
-            new LoginBranding( $context ),
-            new ShowHidePageTitle( $context ),
+            new LoginBranding($context),
+            new ShowHidePageTitle($context),
             new SvgSupport(),
             new ConvertUploadsToWebp(),
         ];
