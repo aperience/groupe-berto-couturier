@@ -22,7 +22,8 @@
     },
     "require-dev": {
         "symfony/var-dumper": "^7.0",
-        "wp-cli/i18n-command": "^2.7"
+        "wp-cli/i18n-command": "^2.7",
+        "timber/wp-i18n-twig": "^1.1"
     },
     "autoload": {
         "psr-4": {

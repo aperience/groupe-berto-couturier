@@ -255,8 +255,8 @@ publie d'elle-même : elle est dans `Security`.
 
 ## Internationalisation
 
-**Tous les textes en dur** dans le PHP et les blocs passent par les fonctions i18n. Les templates
-Twig, eux, ne contiennent aucun appel i18n : ils reçoivent des chaînes déjà traduites (cf. plus bas).
+**Tous les textes en dur** dans le PHP, les templates Twig et les blocs passent par les fonctions
+i18n (cf. « Traduire dans les templates Twig » plus bas).
 
 ### Deux text-domains, un par périmètre
 
@@ -294,25 +294,26 @@ Les traductions du socle sont livrées avec le package : elles ne se régénère
 - PHP : `__( 'Texte', 'couturier' )`
 - JS (éditeur Gutenberg) : `import { __ } from '@wordpress/i18n'` + `"textdomain": "couturier"` dans `block.json`
 
-### Règle Twig : pas de `__()` dans les templates
+### Traduire dans les templates Twig
 
-`wp i18n make-pot` **ne lit pas les fichiers `.twig`**. Un `{{ __('Texte', 'couturier') }}` s'afficherait
-correctement mais n'atteindrait jamais le `.pot` : le template aurait l'air traduisible sans l'être.
-
-Les chaînes sont donc résolues dans le wrapper PHP et passées au contexte, regroupées sous `labels` :
-
-```php
-// 404.php
-$context['labels'] = [
-    'title'     => __( 'Erreur 404 — Page introuvable', 'couturier' ),
-    'back_home' => __( 'Retour à la page d\'accueil', 'couturier' ),
-];
-```
+Les textes d'un template s'écrivent **directement dans le `.twig`**, avec le text-domain en littéral :
 
 ```twig
-{# 404.twig #}
-<h1>{{ labels.title }}</h1>
+<a class="skip-link visually-hidden-focusable" href="#main">{{ __('Aller au contenu', 'couturier') }}</a>
+<h1>{{ __('Erreur 404 — Page introuvable', 'couturier') }}</h1>
 ```
+
+Timber expose les fonctions i18n de WordPress dans Twig (`__`, `_x`, `_n`, `_nx`, `esc_html__`…) ;
+`wp i18n make-pot` ne lit pas les `.twig` seul, mais la dépendance de dev **`timber/wp-i18n-twig`**
+lui apprend à le faire : la chaîne arrive dans le `.pot` avec sa référence
+(`#: resources/views/base.twig:13`). Vérifier après ajout d'une chaîne que `npm run i18n:pot` la
+reprend bien.
+
+- **Pas de `labels` préparés en PHP** pour un simple texte d'interface : l'écrire dans le template.
+  Le contexte ne transporte que des données (post, menus, réglages). Les wrappers PHP
+  (`404.php`, `index.php`…) se limitent à construire ce contexte et à rendre le template.
+- Une apostrophe dans le texte : guillemets doubles côté Twig
+  (`{{ __("Retour à la page d'accueil", 'couturier') }}`), extraits eux aussi.
 
 ### Chaîne de traduction
 

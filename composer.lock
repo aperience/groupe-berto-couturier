@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e444c58ce2d79ee534e33f40f06fab89",
+    "content-hash": "81aed2fe24e2490d096717b98f0b6ab1",
     "packages": [
         {
             "name": "deefuse/wp-theme-core",
@@ -896,6 +896,66 @@
                 }
             ],
             "time": "2026-08-30T20:10:52+00:00"
+        },
+        {
+            "name": "timber/wp-i18n-twig",
+            "version": "v1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/timber/wp-i18n-twig.git",
+                "reference": "d5d8d0405aaa09e5007951cb7ee2f1fe9095e1e3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/timber/wp-i18n-twig/zipball/d5d8d0405aaa09e5007951cb7ee2f1fe9095e1e3",
+                "reference": "d5d8d0405aaa09e5007951cb7ee2f1fe9095e1e3",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=8.1",
+                "twig/twig": "^3.0",
+                "wp-cli/i18n-command": "^2.5"
+            },
+            "require-dev": {
+                "slevomat/coding-standard": "^8.14",
+                "wp-cli/wp-cli-tests": "^5"
+            },
+            "type": "wp-cli-package",
+            "autoload": {
+                "files": [
+                    "i18n-twig-command.php"
+                ],
+                "psr-4": {
+                    "Timber\\WpI18nTwig\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nicolas Lemoine",
+                    "email": "nico@n5s.dev",
+                    "homepage": "https://n5s.dev/"
+                }
+            ],
+            "description": "WordPress translations extraction for Twig files with WP-CLI",
+            "support": {
+                "issues": "https://github.com/timber/wp-i18n-twig/issues",
+                "source": "https://github.com/timber/wp-i18n-twig/tree/v1.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/timber",
+                    "type": "github"
+                },
+                {
+                    "url": "https://opencollective.com/timber",
+                    "type": "open_collective"
+                }
+            ],
+            "time": "2026-09-22T19:21:04+00:00"
         },
         {
             "name": "wp-cli/i18n-command",

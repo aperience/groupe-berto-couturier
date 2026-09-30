@@ -68,8 +68,8 @@ couturier/
   manifest directement.
 - **Échappement Twig activé** : `{{ post.title }}` est échappé d'office, `|raw` est une décision
   explicite réservée au HTML volontaire.
-- **Pas de `__()` dans les templates Twig** : `wp i18n make-pot` ne lit pas les `.twig`. Les chaînes
-  sont traduites dans le wrapper PHP et passées au contexte sous `labels`.
+- **Textes traduits directement dans les templates Twig** : `{{ __('Texte', 'couturier') }}`,
+  extraits par `npm run i18n:pot` grâce à la dépendance de dev `timber/wp-i18n-twig`.
 
 ## Documentation
 

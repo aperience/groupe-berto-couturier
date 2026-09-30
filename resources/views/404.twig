@@ -4,8 +4,8 @@
 {% block content %}
     <article class="error-404">
         <div class="container">
-            <h1>{{ labels.title }}</h1>
-            {{ ui.button(labels.back_home, {
+            <h1>{{ __('Erreur 404 — Page introuvable', 'couturier') }}</h1>
+            {{ ui.button(__("Retour à la page d'accueil", 'couturier'), {
                 href: site.url,
                 variant: 'btn-dark',
             }) }}
