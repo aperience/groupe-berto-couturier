@@ -9,7 +9,7 @@
     "favicons:generate": "node bin/generate-favicons.mjs",
     "og-image:generate": "node bin/generate-og-image.mjs",
     "i18n:pot": "bin/wp i18n make-pot . languages/couturier.pot --exclude=dist --file-comment=\"Copyright (C) $(date +%Y) Deefuse. This file is distributed under the GNU General Public License v2 or later.\" --headers='{\"Report-Msgid-Bugs-To\":\"aurelien.chappard@deefuse.fr\"}'",
-    "i18n:compile": "node bin/i18n-js-map.mjs && bin/wp i18n make-php languages && bin/wp i18n make-json languages --use-map=dist/i18n-js-map.json",
+    "i18n:compile": "bin/wp i18n make-php languages",
     "build:blocks": "wp-scripts build --webpack-src-dir=blocks --output-path=dist/blocks",
     "dev:blocks": "wp-scripts start --webpack-src-dir=blocks --output-path=dist/blocks",
     "dev:vite": "vite",

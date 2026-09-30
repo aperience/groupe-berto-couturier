@@ -97,7 +97,7 @@ npm run build:blocks  # Rebuild blocs Gutenberg uniquement
 npm run dev:blocks    # Watch blocs uniquement
 npm run watch:editor  # Rebuild de dist/assets/ à chaque sauvegarde (feuilles lues par WordPress)
 npm run i18n:pot      # Régénère languages/couturier.pot (chaînes du projet)
-npm run i18n:compile  # Recompile .mo / .l10n.php / JSON depuis les .po (inclus dans `build`)
+npm run i18n:compile  # Recompile les .l10n.php depuis les .po (inclus dans `build`)
 composer install      # Dépendances PHP (Timber, WP-CLI i18n en dev)
 ```
 
@@ -293,7 +293,10 @@ Les traductions du socle sont livrées avec le package : elles ne se régénère
   `load_theme_textdomain()` ferait doublon. Le chemin étant interne au thème, les fichiers sont nommés
   d'après la seule locale : `languages/fr_FR.mo` (et **non** `couturier-fr_FR.mo`)
 - PHP : `__( 'Texte', 'couturier' )`
-- JS (éditeur Gutenberg) : `import { __ } from '@wordpress/i18n'` + `"textdomain": "couturier"` dans `block.json`
+- JS (éditeur Gutenberg) : `import { __ } from '@wordpress/i18n'` + `"textdomain": "couturier"` dans `block.json`.
+  **Les chaînes JS ne sont pas traduites** (choix du projet) : aucun catalogue JSON n'est produit ni
+  chargé, `__()` renvoie la source — l'interface des blocs dans l'éditeur reste donc en français.
+  Garder néanmoins `__()`, pour pouvoir brancher `make-json` plus tard sans retoucher les blocs
 
 ### Traduire dans les templates Twig
 
@@ -318,7 +321,7 @@ reprend bien.
 
 ### Chaîne de traduction
 
-Cinq formats, dont deux seulement sont écrits à la main et versionnés :
+Quatre formats, dont deux seulement sont écrits à la main et versionnés :
 
 | Fichier | Rôle | Produit par | Versionné |
 |---------|------|-------------|-----------|
@@ -326,7 +329,6 @@ Cinq formats, dont deux seulement sont écrits à la main et versionnés :
 | `languages/{locale}.po` | Une langue : chaîne + traduction, format texte | le traducteur (Poedit) | oui |
 | `languages/{locale}.mo` | Le `.po` compilé — byproduct local, sans usage en production | Poedit, à l'enregistrement | non |
 | `languages/{locale}.l10n.php` | Même contenu en tableau PHP, **format que charge WordPress en priorité** (`translation_file_format`, défaut `'php'` depuis WP 6.5) | `npm run build` | non |
-| `languages/couturier-{locale}-{md5}.json` | Traductions JS, chargées par `wp_set_script_translations()` | `npm run build` | non |
 
 **`.mo` n'est jamais lu en production.** `load_theme_textdomain()` ne fait, depuis WP 6.7, qu'enregistrer
 un chemin ; le chargement effectif a lieu dans `load_textdomain()`, qui essaie d'abord `.l10n.php`
@@ -347,25 +349,15 @@ En-têtes fixés dans la commande : copyright **Deefuse** (avec l'année courant
 (`Theme Name` + `Version`), et `POT-Creation-Date` est conservé — le `.pot` change donc à chaque
 régénération, c'est voulu.
 
-> **Ne jamais ajouter `--no-location`.** Les références `#: blocks/hero/index.js:42` sont ce sur quoi
-> `make-json` s'appuie pour distinguer les chaînes JS des chaînes PHP. Sans elles, le build réussit
-> et l'éditeur Gutenberg reste en anglais.
+> **Ne jamais ajouter `--no-location`.** Les références `#: resources/views/base.twig:13` situent
+> chaque chaîne pour le traducteur, et seraient indispensables si la traduction des chaînes JS
+> (`make-json`) était un jour branchée.
 
 #### `npm run i18n:compile` — automatique, à chaque build
 
-Enchaîne `make-php` et `make-json`, précédés de `node bin/i18n-js-map.mjs`. Pas de `make-mo` : voir
-plus haut pourquoi `.mo` n'est plus produit par le build.
-
-Ce dernier existe pour une raison précise : le nom d'un JSON de traduction est un **md5 du chemin du
-script tel que WordPress l'enfile**, donc du fichier compilé (`dist/blocks/hero/index.js`), alors que
-les références du `.po` pointent vers la source (`blocks/hero/index.js`). Le script génère la table de
-correspondance `dist/i18n-js-map.json` passée à `make-json --use-map`. Sans elle, les JSON sont créés
-avec le mauvais nom et WordPress ne les trouve jamais — sans erreur, là encore.
-
-Il cartographie les blocs (tout le dossier d'un bloc est fondu dans `dist/blocks/{nom}/index.js`,
-sauf `view.js`) et les points d'entrée Vite via le manifest. **Limite connue :** un module importé par
-une entrée Vite (ex. `resources/js/credits.js` importé par `app.js`) n'apparaît pas dans le manifest
-et n'est donc pas cartographié — garder les chaînes traduisibles dans le fichier d'entrée.
+Lance `make-php`, qui compile chaque `.po` en `.l10n.php`. Pas de `make-mo` : voir plus haut
+pourquoi `.mo` n'est plus produit par le build. Pas de `make-json` non plus : les chaînes JS ne sont
+pas traduites (cf. plus haut).
 
 #### `bin/wp` — WP-CLI épinglé
 
@@ -393,8 +385,7 @@ Trois règles à leur transmettre :
    le catalogue de ce que produit WP-CLI.
 3. **Conserver les références de source** reprises du `.pot` (cf. `--no-location` ci-dessus).
 
-Poedit ignore en revanche complètement les JSON du JavaScript et le format `.l10n.php` : ceux-là ne
-peuvent venir que du build.
+Poedit ignore en revanche le format `.l10n.php` : il ne peut venir que du build.
 
 ---
 

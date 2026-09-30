@@ -14,7 +14,6 @@ yarn.lock
 # tout le reste est recompilé par `npm run build`.
 /languages/*.mo
 /languages/*.l10n.php
-/languages/*.json
 
 # Les motifs ci-dessus sont ancrés à la racine, et c'est volontaire : les
 # traductions du socle vivent dans vendor/deefuse/wp-theme-core/languages/ et

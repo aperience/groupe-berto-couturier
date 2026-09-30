@@ -47,7 +47,7 @@ final class AdminServiceProvider implements ServiceProviderInterface {
     public static function features( ThemeContext $context ): array {
         return [
             new DisableAdminBar(),
-            new BlockLoader( $context->text_domain ),
+            new BlockLoader(),
             new DisableBlocks( $context->block_namespace ),
             new DisableComment(),
             new DisableConnectors(),
