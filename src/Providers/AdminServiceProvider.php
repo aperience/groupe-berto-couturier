@@ -26,6 +26,7 @@ use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableDefaultDashbo
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableLockAppearanceTools;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableLoginLanguageDropdown;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableNativeBlockSupports;
+use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisablePostByEmail;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableSiteIcon;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableUpdates;
 use Deefuse\ThemeCore\ThemeContext;
@@ -71,6 +72,7 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new DisableLockAppearanceTools(),
             new DisableLoginLanguageDropdown(),
             new DisableNativeBlockSupports(),
+            new DisablePostByEmail(),
             new RestrictHeadingLevels($context),
             new DisableSiteIcon(),
             new DisableUpdates(allow_minor_core: true),
