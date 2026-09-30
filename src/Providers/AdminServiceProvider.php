@@ -57,7 +57,7 @@ final class AdminServiceProvider implements ServiceProviderInterface {
             new DisableNativeBlockSupports(),
             new RestrictHeadingLevels( $context ),
             new DisableSiteIcon(),
-            new DisableUpdates(),
+            new DisableUpdates( allow_minor_core: true ),
             new AdminColorScheme(
                 scheme: $context->slug,
                 label: 'Couturier',
