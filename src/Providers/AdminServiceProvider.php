@@ -29,6 +29,7 @@ use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableNativeBlockSu
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableSiteIcon;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableUpdates;
 use Deefuse\ThemeCore\ThemeContext;
+use Theme\Features\Admin\NestedPagesLinks;
 use Theme\Features\Blocks\BlockLoader;
 use Theme\Features\Blocks\RestrictHeadingLevels;
 
@@ -66,6 +67,7 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new DisableComment(),
             new DisableConnectors(),
             new DisableDefaultDashboardWidgets(),
+            new NestedPagesLinks($context),
             new DisableLockAppearanceTools(),
             new DisableLoginLanguageDropdown(),
             new DisableNativeBlockSupports(),
