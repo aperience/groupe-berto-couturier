@@ -425,6 +425,10 @@ Conséquence pour tous les templates :
   `{{ site.language_attributes|raw }}`. Un `|raw` est une décision, pas un réflexe.
 - **`|e('html_attr')` sur toute valeur concaténée dans une chaîne d'attributs** sortie en `|raw`
   (cf. `macros/ui.twig`) — l'échappement automatique ne s'applique pas aux concaténations `{% set %}`.
+- **`|e('esc_url')|raw` sur toute URL placée dans un `href` / `src`** qui ne vient pas d'une valeur
+  sûre (champ saisi dans l'admin, option, attribut de bloc) : l'échappement HTML laisse passer
+  `javascript:`, `esc_url` l'écarte (chaîne vide). Le `|raw` est nécessaire : sa sortie est déjà
+  prête pour un attribut, l'échappement automatique doublerait les `&` (cf. `macros/ui.twig`).
 - `|e` est inutile sur une sortie normale : l'échappement est déjà appliqué.
 
 Oublier un `|raw` produit un bug d'affichage immédiatement visible (les balises apparaissent en texte) ;

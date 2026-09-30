@@ -2,16 +2,26 @@
     {% set variant = options.variant|default('btn-outline-dark') %}
     {% set class = options.class|default('') %}
     {% set type = options.type|default('button') %}
+    {#
+        esc_url (stratégie d'échappement de Timber) écarte les schémas dangereux (javascript:,
+        data:…) ; une URL refusée donne une chaîne vide, et le lien retombe alors en <button>.
+        Sa sortie est prête pour un attribut (" < > et espaces retirés, & et ' encodés) : |raw
+        évite que l'échappement HTML automatique ne double les & (&amp;#038;).
+    #}
     {% set href = options.href|default(null) %}
+    {% set href = href and href|e('esc_url') is not empty ? href : null %}
     {% set attrs = options.attrs|default({}) %}
 
+    {# Noms d'attributs sortis en |raw : seuls les noms valides passent, les autres sont ignorés. #}
     {% set attr_string = '' %}
     {% for key, value in attrs %}
-        {% set attr_string = attr_string ~ ' ' ~ key ~ '="' ~ value|e('html_attr') ~ '"' %}
+        {% if key matches '/^[a-zA-Z_:][-a-zA-Z0-9_:.]*$/' %}
+            {% set attr_string = attr_string ~ ' ' ~ key ~ '="' ~ value|e('html_attr') ~ '"' %}
+        {% endif %}
     {% endfor %}
 
     {% if href %}
-        <a href="{{ href }}" class="btn {{ variant }} {{ class }}"{{ attr_string|raw }}>
+        <a href="{{ href|e('esc_url')|raw }}" class="btn {{ variant }} {{ class }}"{{ attr_string|raw }}>
             <span>{{ label }}</span>
         </a>
     {% else %}
