@@ -61,7 +61,6 @@ final class AdminServiceProvider implements ServiceProviderInterface
                     'core/heading',
                     'core/list',
                     'core/list-item',
-                    'core/embed',
                 ]
             ),
             new DisableComment(),
