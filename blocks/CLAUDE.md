@@ -216,4 +216,9 @@ inaperçu) :
    dans le HTML, hors des commentaires `<!-- wp:… -->`.
 4. Enregistrer, recharger : bloc et blocs imbriqués **valides** (`isValid`), attributs relus.
 5. Titre imbriqué : non supprimable (`canRemoveBlock` → `false`), sélecteur de niveau visible.
-6. Front : balisage attendu, `logs/debug.log` vide. Supprimer la page de test.
+6. Front : balisage attendu, `logs/debug.log` vide.
+7. **Accessibilité AA** (cf. section « Accessibilité » du `CLAUDE.md` du thème) : HTML rendu valide
+   au validateur W3C Nu, titres du bloc à leur place dans la hiérarchie de la page, contrastes,
+   images avec `alt` adapté ; dans l'éditeur, chaque champ du bloc atteignable et nommé au clavier
+   (`aria-label` sur un `RichText` sans libellé visible). Alerter sur tout écart avant de conclure.
+8. Supprimer la page de test.

@@ -13,6 +13,70 @@ installé en dépendance Composer. Text-domain du thème : `couturier`.
 
 ---
 
+## Accessibilité — niveau AA obligatoire
+
+**Le thème doit impérativement respecter le niveau AA des WCAG 2.2** (référentiel français :
+RGAA 4.1, fondé sur le niveau AA des WCAG). L'exigence vaut pour tout ce que le thème produit : HTML
+des gabarits Twig et des blocs (`render.php`, `save()`), CSS, JavaScript, et interface des blocs
+custom dans l'éditeur.
+
+### Règles pour Claude
+
+- **Écrire du HTML valide** (sans erreur au validateur W3C Nu, <https://validator.w3.org/nu/>) **et
+  conforme AA** — pas de code « à rendre accessible plus tard ».
+- **Alerter systématiquement** dès qu'un code — existant, demandé ou produit — ne respecte pas le
+  niveau AA ou n'est pas valide : HTML, CSS **ou** JS. L'alerte est explicite, en tête de réponse
+  (« ⚠️ Accessibilité »), et donne pour chaque point : l'élément en cause (`fichier:ligne`), le
+  critère WCAG enfreint (numéro et niveau), l'impact pour l'utilisateur, la correction proposée.
+- **Ne pas contourner l'alerte** : si une demande impose un code non conforme (maquette, contrainte
+  client), le signaler avant d'écrire, proposer l'alternative conforme, et n'écrire la version non
+  conforme qu'avec un accord explicite.
+- **Ne pas corriger en silence** un code existant qui change le rendu : signaler, proposer, attendre.
+
+### Points de contrôle (à vérifier sur tout code produit)
+
+- **Structure** : un seul `<h1>` par page, hiérarchie de titres sans saut ; repères uniques
+  `<header>`, `<nav>` (nommé par `aria-label` s'il y en a plusieurs), `<main>`, `<footer>` ; lien
+  d'évitement vers `#main` en premier élément focusable (2.4.1). Les blocs n'offrent que H2 / H3
+  (`RestrictHeadingLevels`) : le `<h1>` de chaque page est produit par le gabarit Twig.
+- **Langue** : `lang` sur `<html>` (via `language_attributes`), `lang` sur tout passage dans une
+  autre langue (3.1.1, 3.1.2).
+- **Contrastes** : 4,5:1 pour le texte, 3:1 pour le texte de grande taille (≥ 24 px, ou ≥ 18,66 px
+  gras), les composants d'interface et l'indicateur de focus (1.4.3, 1.4.11). À contrôler à l'étape
+  charte, sur chaque couleur de `_brand.scss` et chaque combinaison texte / fond.
+- **Focus** : toujours visible — jamais `outline: none` sans indicateur de remplacement au moins
+  aussi visible (2.4.7) ; jamais masqué par un élément fixe, header collant compris (2.4.11).
+- **Clavier** : tout ce qui se fait à la souris se fait au clavier, dans un ordre logique, sans
+  piège (2.1.1, 2.1.2, 2.4.3). `<button>` pour une action, `<a href>` pour une navigation ; jamais de
+  `<div>` ou `<span>` cliquable.
+- **Cibles** : zone cliquable d'au moins 24 × 24 px, ou espacement suffisant (2.5.8).
+- **Images** : `alt` pertinent pour une image porteuse d'information, `alt=""` pour une image
+  décorative ; SVG décoratif en `aria-hidden="true" focusable="false"` (1.1.1).
+- **Liens** : intitulé compréhensible hors contexte ou complété (pas de « Lire la suite » seul, sinon
+  texte masqué `.visually-hidden`) ; ouverture dans une nouvelle fenêtre signalée (2.4.4).
+- **Formulaires** : `<label>` associé à chaque champ, erreurs identifiées en texte et reliées au
+  champ, `autocomplete` sur les données personnelles (1.3.1, 3.3.1, 3.3.2, 1.3.5).
+- **Couleur** : jamais seule porteuse d'une information — liens dans un texte soulignés ou
+  distingués autrement (1.4.1).
+- **Adaptabilité** : lisible à 200 % de zoom et à 320 px de large sans défilement horizontal
+  (1.4.4, 1.4.10) ; espacements de texte modifiables sans perte (1.4.12) ; pas de `user-scalable=no`
+  ni de `maximum-scale`.
+- **Mouvement** : animations et transitions désactivées sous `prefers-reduced-motion: reduce` ;
+  rien qui clignote plus de 3 fois par seconde (2.3.1).
+- **ARIA** : uniquement quand le HTML natif ne suffit pas, et alors complet (rôle, nom, état
+  maintenu à jour par le JS : `aria-expanded`, `aria-controls`…) (4.1.2).
+- **Contenu dynamique** : un message d'état (résultat, erreur, ajout) annoncé via une région
+  `aria-live` / `role="status"` sans déplacer le focus (4.1.3).
+
+### Vérifier
+
+Validateur W3C Nu sur le HTML rendu, extension axe DevTools (ou WAVE) sur chaque gabarit, parcours
+complet au clavier, contrôle au lecteur d'écran (VoiceOver sur macOS), zoom 200 % et fenêtre de
+320 px. Les outils automatiques ne détectent qu'une partie des erreurs : le parcours clavier et le
+lecteur d'écran restent indispensables.
+
+---
+
 ## Commandes
 
 Dans l'environnement Docker, les commandes `npm` tournent dans le conteneur `node` (dont le répertoire
