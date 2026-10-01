@@ -8,11 +8,11 @@
     "packages": [
         {
             "name": "deefuse/wp-theme-core",
-            "version": "v2.1.0",
+            "version": "v2.2.0",
             "source": {
                 "type": "git",
                 "url": "git@github.com:achappard/wp-theme-core.git",
-                "reference": "3e108f0559ccc0f5663d707fb683e89e49773e90"
+                "reference": "9c68a8f8f4cf1e70e437e8be27d5a204e677666e"
             },
             "require": {
                 "enshrined/svg-sanitize": "^1.0",
@@ -39,7 +39,7 @@
                 }
             ],
             "description": "Socle réutilisable des thèmes WordPress Deefuse : noyau Timber, contrats de features et features génériques.",
-            "time": "2026-10-01T12:16:08+00:00"
+            "time": "2026-10-01T13:12:49+00:00"
         },
         {
             "name": "enshrined/svg-sanitize",

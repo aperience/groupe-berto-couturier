@@ -25,6 +25,7 @@ use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableConnectors;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableDefaultDashboardWidgets;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableLockAppearanceTools;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableLoginLanguageDropdown;
+use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableLoginPrivacyPolicyLink;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableNativeBlockSupports;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisablePostByEmail;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableSiteIcon;
@@ -72,6 +73,7 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new NestedPagesLinks($context),
             new DisableLockAppearanceTools(),
             new DisableLoginLanguageDropdown(),
+            new DisableLoginPrivacyPolicyLink(),
             new DisableNativeBlockSupports(),
             new DisablePostByEmail(),
             new RestrictHeadingLevels($context),
