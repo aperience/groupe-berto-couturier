@@ -625,11 +625,16 @@ Couvre les deux chemins d'upload : médiathèque (`upload`) et éditeur de blocs
 > **À définir.** Aucune guideline de design n'est disponible à ce stade.
 >
 > Tant que la charte n'est pas fournie : ne pas inventer de palette, de typographie ni d'échelle
-> d'espacement « définitives ». Les couleurs actuelles sont celles de Bootstrap, posées comme
-> placeholders dans `resources/scss/_brand.scss` (doublées dans `AdminServiceProvider` →
-> `AdminColorScheme`, et pour `theme-color` dans `FrontServiceProvider` → `Favicons` et
-> `bin/favicons.config.mjs`) ; les overrides Bootstrap vont dans `_variables.scss`. Signaler
-> explicitement tout choix provisoire.
+> d'espacement « définitives ». Signaler explicitement tout choix provisoire.
+>
+> **Back-office et page de connexion** : déjà aux couleurs du site actuel du client
+> (couturier-permis.com) — marine `#0A3C6E`, corail `#DC6446` / `#D95B42`, corail clair `#ED7B5F`,
+> bleu nuit `#0A0F2A`. Palette dans `resources/scss/_brand.scss`, doublée dans
+> `AdminServiceProvider` → `AdminColorScheme`. Le corail n'atteignant pas 4,5:1 avec du texte
+> blanc, l'accent de l'admin est un corail assombri, `#B8452C` (cf. en-tête de `_brand.scss`).
+>
+> **Front** : encore sur Bootstrap — overrides dans `_variables.scss`, `theme-color` dans
+> `FrontServiceProvider` → `Favicons` et `bin/favicons.config.mjs`.
 >
 > Cette section sera complétée avec : polices, palette de couleurs, breakpoints, échelle typographique,
 > espacements et règles de layout.

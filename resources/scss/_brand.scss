@@ -1,11 +1,16 @@
 // ─── Palette de marque du client ──────────────────────────────────────────────
 //
-// **Le premier fichier à remplir à l'étape charte.** Les valeurs ci-dessous sont
-// celles de Bootstrap : neutres, lisibles, et volontairement génériques — un
-// back-office resté dans ces tons signale que la charte n'a pas encore été posée.
+// Couleurs reprises de la charte du site actuel (couturier-permis.com) :
+// bleu marine `#0A3C6E` (primaire), corail `#DC6446` / `#D95B42` (accent, CTA),
+// corail clair `#ED7B5F` (secondaire), bleu nuit `#0A0F2A` (texte).
+//
+// ⚠️ Accessibilité : le corail de la charte ne tient pas 4,5:1 avec du texte blanc
+// (3,53) ni sur le fond de l'admin `#f0f0f1` (3,10) — WCAG 1.4.3 AA. Partout où
+// il porte ou entoure du texte, on emploie donc un corail assombri, `#B8452C`
+// (5,35 sur blanc, 4,70 sur `#f0f0f1`), de même teinte.
 //
 // Préfixe `brand_` pour ne pas se confondre avec les variables de Bootstrap.
-// Utilisé par `_variables.scss`, `admin-colors.scss` et `login.scss`.
+// Utilisé par `admin-colors.scss` et `login.scss`.
 //
 // ⚠️ Ces couleurs sont **dupliquées côté PHP** dans `AdminServiceProvider`
 // (arguments `palette:` et `icon_colors:` d'`AdminColorScheme`) : l'aperçu du
@@ -15,20 +20,23 @@
 // qui ne correspondent pas aux couleurs réellement appliquées.
 
 // Couleur principale — menu et barre d'admin, page de connexion.
-$brand_base-color: #212529;
+// Bleu marine de la charte (texte blanc : 11,14:1).
+$brand_base-color: #0a3c6e;
 
 // Élément courant, liens, boutons primaires de l'admin.
-$brand_highlight-color: #0d6efd;
+// Corail de la charte assombri pour l'AA (cf. en-tête).
+$brand_highlight-color: #b8452c;
 
-// Pastilles de compteurs (mises à jour en attente, commentaires).
-$brand_notification-color: #dc3545;
+// Pastilles de compteurs (mises à jour en attente, commentaires) : texte blanc,
+// même corail assombri.
+$brand_notification-color: #b8452c;
 
-// Icônes du menu au repos : volontairement plus sourdes que le texte, pour que
-// l'élément courant se distingue.
-$brand_icon-color: #adb5bd;
+// Icônes du menu au repos : bleu-gris clair, volontairement plus sourd que le
+// texte pour que l'élément courant se distingue (5,73:1 sur le marine).
+$brand_icon-color: #a9bcd0;
 
-// Sous-menus. La valeur par défaut du core assombrit `$brand_base-color` ; sur une
-// couleur déjà sombre cela écrase le contraste, on l'éclaircit donc à la place.
-$brand_submenu-background: #343a40;
-$brand_submenu-text: #adb5bd;
-$brand_submenu-focus-text: #6ea8fe;
+// Sous-menus : marine assombri. Texte bleu-gris clair (9,53:1), corail clair au
+// survol / focus (6,98:1).
+$brand_submenu-background: #072c52;
+$brand_submenu-text: #c9d6e3;
+$brand_submenu-focus-text: #f4a28e;

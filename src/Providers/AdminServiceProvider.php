@@ -82,10 +82,10 @@ final class AdminServiceProvider implements ServiceProviderInterface
                 scheme: $context->slug,
                 label: 'Couturier',
                 // Doublent les variables de resources/scss/_brand.scss : Sass ne peut pas
-                // les exposer à PHP. Les deux fichiers se modifient ensemble, à l'étape charte.
-                palette: ['#212529', '#343a40', '#0d6efd', '#dc3545'],
+                // les exposer à PHP. Les deux fichiers se modifient ensemble.
+                palette: ['#0a3c6e', '#072c52', '#b8452c', '#dc6446'],
                 icon_colors: [
-                    'base'    => '#adb5bd',
+                    'base'    => '#a9bcd0',
                     'focus'   => '#fff',
                     'current' => '#fff',
                 ],

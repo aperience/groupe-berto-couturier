@@ -44,8 +44,8 @@
     $link:       $brand_highlight-color,
     $link-focus: color.adjust($brand_highlight-color, $lightness: -8%),
 
-    // Sous-menus : la valeur par défaut assombrit `$base-color`, déjà très
-    // sombre, ce qui écraserait le contraste. On l'éclaircit à la place.
+    // Sous-menus : couleurs explicites plutôt que celles que le core dérive de
+    // `$base-color`, pour en maîtriser le contraste (cf. `_brand.scss`).
     $menu-submenu-background: $brand_submenu-background,
     $menu-submenu-text:       $brand_submenu-text,
     $menu-submenu-focus-text: $brand_submenu-focus-text,
