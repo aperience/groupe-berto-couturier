@@ -633,8 +633,11 @@ Couvre les deux chemins d'upload : médiathèque (`upload`) et éditeur de blocs
 > `AdminServiceProvider` → `AdminColorScheme`. Le corail n'atteignant pas 4,5:1 avec du texte
 > blanc, l'accent de l'admin est un corail assombri, `#B8452C` (cf. en-tête de `_brand.scss`).
 >
-> **Front** : encore sur Bootstrap — overrides dans `_variables.scss`, `theme-color` dans
-> `FrontServiceProvider` → `Favicons` et `bin/favicons.config.mjs`.
+> **Favicons** : `theme-color` en marine (clair comme sombre), dans `FrontServiceProvider` →
+> `Favicons` et `bin/favicons.config.mjs` ; fond de l'apple-touch-icon en blanc, le logo contenant
+> du marine. `favicon-dark.svg` reprend `favicon-light.svg`, marine remplacé par du blanc.
+>
+> **Front** : encore sur Bootstrap — overrides dans `_variables.scss`.
 >
 > Cette section sera complétée avec : polices, palette de couleurs, breakpoints, échelle typographique,
 > espacements et règles de layout.

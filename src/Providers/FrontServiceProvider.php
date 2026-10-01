@@ -47,8 +47,8 @@ final class FrontServiceProvider implements ServiceProviderInterface {
             new Favicons(
                 // Doublent resources/scss/_brand.scss et bin/favicons.config.mjs :
                 // les trois se modifient ensemble à l'étape charte.
-                theme_color_light: '#212529',
-                theme_color_dark: '#212529',
+                theme_color_light: '#0a3c6e',
+                theme_color_dark: '#0a3c6e',
             ),
         ];
     }
