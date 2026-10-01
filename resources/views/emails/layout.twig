@@ -1,0 +1,136 @@
+{#
+    Gabarit de tous les e-mails envoyés par wp_mail() — cf. Features\Mail\HtmlEmails.
+
+    Mise en page reprise du thème par défaut des e-mails Laravel (illuminate/mail) — logo
+    centré, carte blanche de 570px, pied centré discret — aux couleurs de la charte : fond
+    bleu-gris clair, filet corail en tête de carte, marine pour les titres, liens et le pied.
+
+    Contrastes (WCAG 1.4.3 AA) : texte #3d4b5c 8,9:1 sur blanc, marine #0a3c6e 11,1:1, pied
+    #5a6878 5,1:1 sur le fond #eef2f6. Le corail de la charte ne tient pas 4,5:1 : il ne sert
+    qu'au filet décoratif ; le bouton prend le corail assombri #b8452c (5,35:1 avec du blanc).
+
+    Règles propres au HTML e-mail, à respecter à chaque modification :
+    - mise en page en tables `role="presentation"`, jamais en flex / grid / div positionnées ;
+    - styles EN LIGNE : Gmail et Outlook ignorent une partie du <style>, réservé ici au
+      responsive (surcharges en !important) ;
+    - largeur fluide (100 %, max 570px) + table fantôme à 570px pour Outlook desktop,
+      qui ignore max-width ;
+    - polices système uniquement : les webfonts ne sont pas chargées par la plupart des
+      messageries ;
+    - images en PNG / JPG (pas de SVG), en URL absolue, avec width et alt.
+
+    Les styles des balises du corps sont posés par HtmlEmails::TAG_STYLES, à garder alignés.
+#}
+<!DOCTYPE html>
+<html lang="{{ lang }}" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word">
+<head>
+    <meta charset="{{ charset }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="x-apple-disable-message-reformatting">
+    <meta name="format-detection" content="telephone=no,address=no,email=no,date=no,url=no">
+    {# Thème clair uniquement : le marine du logo disparaîtrait sur un fond sombre. #}
+    <meta name="color-scheme" content="light">
+    <meta name="supported-color-schemes" content="light">
+    <title>{{ subject }}</title>
+    <!--[if mso]>
+    <noscript>
+        <xml>
+            <o:OfficeDocumentSettings>
+                <o:AllowPNG/>
+                <o:PixelsPerInch>96</o:PixelsPerInch>
+            </o:OfficeDocumentSettings>
+        </xml>
+    </noscript>
+    <style>
+        table, td, p, a, h1, h2, li { font-family: Arial, Helvetica, sans-serif !important; }
+    </style>
+    <![endif]-->
+    <style>
+        body { margin: 0; padding: 0; width: 100% !important; -webkit-text-size-adjust: none; -ms-text-size-adjust: 100%; }
+        table, td { border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+        img { border: 0; outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; }
+        a[x-apple-data-detectors] { color: inherit !important; text-decoration: none !important; font-size: inherit !important; font-family: inherit !important; font-weight: inherit !important; line-height: inherit !important; }
+
+        @media only screen and (max-width: 600px) {
+            .email-inner, .email-footer { width: 100% !important; }
+            .email-cell { padding: 24px !important; }
+        }
+
+        @media only screen and (max-width: 500px) {
+            .email-button { width: 100% !important; }
+        }
+    </style>
+</head>
+<body style="margin:0;padding:0;width:100%;background-color:#eef2f6;color:#3d4b5c;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;">
+
+    {# Texte d'aperçu sous l'objet, dans la liste des messages. Les caractères invisibles
+       qui suivent empêchent la messagerie de compléter l'aperçu avec le début du corps. #}
+    <div style="display:none;font-size:1px;line-height:1px;max-height:0;max-width:0;opacity:0;overflow:hidden;mso-hide:all;">
+        {{ preheader }}
+        &#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;&#847;&zwnj;&nbsp;
+    </div>
+
+    <div role="article" aria-roledescription="email" aria-label="{{ subject }}" lang="{{ lang }}">
+        <table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%;margin:0;padding:0;background-color:#eef2f6;">
+            <tr>
+                <td align="center">
+                    <table role="presentation" width="100%" border="0" cellpadding="0" cellspacing="0" style="width:100%;margin:0;padding:0;">
+
+                        {# En-tête : logo centré, hors de la carte (PNG 440px, affiché à 220px). #}
+                        <tr>
+                            <td align="center" style="padding:32px 0 28px;text-align:center;">
+                                <a href="{{ home_url|e('esc_url')|raw }}" style="display:inline-block;color:#0a3c6e;font-size:22px;font-weight:bold;text-decoration:none;">
+                                    {% if logo_url %}
+                                        <img src="{{ logo_url|e('esc_url')|raw }}" width="220" height="54" alt="{{ site_name }}" style="display:block;width:220px;max-width:100%;height:auto;border:0;color:#0a3c6e;font-size:22px;font-weight:bold;">
+                                    {% else %}
+                                        {{ site_name }}
+                                    {% endif %}
+                                </a>
+                            </td>
+                        </tr>
+
+                        {# Corps : carte blanche, filet corail (décoratif) en tête. #}
+                        <tr>
+                            <td width="100%" style="width:100%;margin:0;padding:0;background-color:#eef2f6;">
+                                <!--[if mso]>
+                                <table role="presentation" width="570" align="center" border="0" cellpadding="0" cellspacing="0"><tr><td>
+                                <![endif]-->
+                                <table class="email-inner" role="presentation" align="center" width="570" border="0" cellpadding="0" cellspacing="0" style="width:570px;max-width:570px;margin:0 auto;padding:0;background-color:#ffffff;border:1px solid #dfe5ec;border-top:4px solid #dc6446;border-radius:4px;box-shadow:0 2px 6px rgba(10,60,110,0.06);">
+                                    <tr>
+                                        <td class="email-cell" style="padding:36px 32px 32px;max-width:100vw;font-size:16px;line-height:1.5em;color:#3d4b5c;text-align:left;">
+                                            {{ content|raw }}
+                                        </td>
+                                    </tr>
+                                </table>
+                                <!--[if mso]>
+                                </td></tr></table>
+                                <![endif]-->
+                            </td>
+                        </tr>
+
+                        {# Pied : centré, discret, hors de la carte. #}
+                        <tr>
+                            <td>
+                                <table class="email-footer" role="presentation" align="center" width="570" border="0" cellpadding="0" cellspacing="0" style="width:570px;max-width:570px;margin:0 auto;padding:0;text-align:center;">
+                                    <tr>
+                                        <td class="email-cell" align="center" style="padding:28px 32px 36px;max-width:100vw;">
+                                            <p style="margin:0 0 8px;font-size:12px;line-height:1.5em;color:#5a6878;text-align:center;">
+                                                {{ __('Cet e-mail a été envoyé automatiquement, merci de ne pas y répondre.', 'couturier') }}
+                                            </p>
+                                            <p style="margin:0;font-size:12px;line-height:1.5em;color:#5a6878;text-align:center;">
+                                                © {{ 'now'|date('Y') }} <a href="{{ home_url|e('esc_url')|raw }}" style="color:#0a3c6e;text-decoration:underline;">{{ site_name }}</a>. {{ __('Tous droits réservés.', 'couturier') }}
+                                            </p>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>

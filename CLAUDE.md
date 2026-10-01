@@ -146,6 +146,7 @@ src/Providers/                             ← tout ce que le thème possède en
 ├── SecurityServiceProvider.php
 ├── FrontServiceProvider.php
 ├── AdminServiceProvider.php
+├── MailServiceProvider.php
 └── SeoServiceProvider.php
 
 vendor/deefuse/wp-theme-core/src/          ← le socle (lecture seule, ne jamais éditer ici)
@@ -237,15 +238,17 @@ Si une seule feature est concernée, garder la méthode privée dans la feature.
 | `SecurityServiceProvider` | Durcissement : surface d'attaque et informations publiées | `Security/` — `DisableApplicationPasswords`, `DisableUserEnumeration`, `DisableXmlRpc`, `HideLoginErrors`, `SecurityHeaders` |
 | `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat |
 | `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue du login, icône du site, mises à jour, commentaires, publication par e-mail, services de mise à jour, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Admin/` (thème) — `NestedPagesLinks` (lien « Pages publiées » du tableau de bord et bouton de retour de l'éditeur des pages vers Nested Pages, si l'extension est active)<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
+| `MailServiceProvider` | Forme des e-mails envoyés par `wp_mail()` | `Mail/` (thème) — `HtmlEmails` (cf. *E-mails* plus bas) |
 | `SeoServiceProvider` | Référencement | `Seo/` — `DocumentTitle`, `MetaDescription`, `SitemapExclusion`, `SeoPanel` (panneau de l'éditeur), `OpenGraph` |
 
 Le dossier de la feature suit sa **nature** (`Security/`, `Blocks/`, `PostTypes/`…), le provider suit son
 **domaine de responsabilité**. C'est pourquoi plusieurs dossiers peuvent alimenter un même provider.
 
 Ces domaines sont de deux familles. `Setup`, `Front` et `Admin` désignent un **moment d'exécution** :
-initialisation, rendu public, back-office. `Security` et `Seo` désignent une **préoccupation
+initialisation, rendu public, back-office. `Security`, `Mail` et `Seo` désignent une **préoccupation
 transverse**, qui traverse ces moments — le durcissement touche le front, l'API REST, la page de
-connexion et `xmlrpc.php` ; le SEO touche le rendu public et l'éditeur. Ranger une feature de
+connexion et `xmlrpc.php` ; le SEO touche le rendu public et l'éditeur ; un e-mail part aussi bien
+du front que de l'admin, de `wp-login.php`, de WP-Cron ou de WP-CLI. Ranger une feature de
 sécurité dans `Front` au prétexte qu'elle agit sur le front reviendrait à mentir sur son périmètre.
 
 **Le critère est la raison d'être de la feature, pas le hook qu'elle utilise.** `DisableComment`
@@ -408,6 +411,7 @@ Rendu via **Timber 2.x**. Configuration dans `Kernel::init_timber()`, alimentée
 - `base.twig` — layout master, blocks Twig : `header`, `content`, `footer`
 - `page.twig`, `single.twig`, `index.twig`, `404.twig` — étendent `base.twig`
 - `partials/` — header, footer, navigation, favicon
+- `emails/` — gabarit des e-mails (`layout.twig`), macros (`macros.twig`) et fragments du projet
 - `macros/ui.twig` — macros réutilisables (boutons, etc.)
 
 **Wrappers PHP** à la racine du thème (`page.php`, `single.php`, `index.php`, `404.php`…) : ils se contentent
@@ -454,6 +458,7 @@ Sources dans `resources/`, sorties dans `dist/` (noms de fichiers **hachés**, r
 |--------|----------------------|
 | `resources/js/app.js` + `app.scss` | `dist/assets/app-{hash}.js` et `app-{hash}.css` |
 | `resources/js/login.js` + `login.scss` | `dist/assets/login-{hash}.js` et `login-{hash}.css` (page de connexion) |
+| `resources/js/email.js` → `resources/images/email-logo.png` | `dist/assets/email-logo-{hash}.png` (logo des e-mails, cf. *E-mails*) |
 | `resources/scss/admin-colors.scss` | `dist/assets/admin-colors-{hash}.css` (jeu de couleurs de l'admin) |
 | `resources/scss/editor-gutenberg.scss` | `dist/assets/editor-gutenberg-{hash}.css` (canvas de l'éditeur) |
 | `resources/fonts/` | `dist/assets/fonts/` |
@@ -617,6 +622,88 @@ Couvre les deux chemins d'upload : médiathèque (`upload`) et éditeur de blocs
 - Les images importées **avant** l'activation restent en JPEG / PNG. `wp media regenerate` ne sait
   pas les régénérer en local : le conteneur `cli` n'a ni Imagick ni GD, et le conteneur `php` n'a pas
   WP-CLI.
+
+---
+
+## E-mails
+
+**Tous les e-mails envoyés par `wp_mail()` partent en HTML**, dans le gabarit
+`resources/views/emails/layout.twig` — feature `Mail\HtmlEmails` (`MailServiceProvider`), branchée
+sur le filtre `wp_mail`. Elle couvre le core (mot de passe oublié, nouveau compte, changement
+d'adresse…), dont les textes restent ceux de WordPress, les plugins et les e-mails du projet.
+Reprise du projet Anytime ; mise en page des e-mails par défaut de Laravel (`illuminate/mail`) :
+logo centré, carte blanche de 570px, pied discret, responsive, thème clair uniquement.
+
+**Couleurs** (charte du site actuel, cf. *Design System*), toutes AA (WCAG 1.4.3) : fond `#eef2f6`,
+filet corail `#dc6446` en tête de carte (décoratif, seul usage du corail non assombri), texte
+`#3d4b5c` (8,9:1), titres et liens marine `#0a3c6e` (11,1:1, liens soulignés — 1.4.1), bouton corail
+assombri `#b8452c` (5,35:1 avec du blanc), pied `#5a6878` (5,1:1 sur le fond). Le gris des e-mails
+Laravel (`#718096`, 4,0:1) a été écarté.
+
+| Corps reçu | Traitement |
+|------------|------------|
+| Texte brut (le core) | Échappé, URL rendues cliquables, paragraphes restitués, puis inséré dans le gabarit |
+| Fragment HTML (`Content-Type: text/html` déclaré) | Inséré tel quel dans le gabarit |
+| Document complet (contient `<html`) | Laissé intact : son auteur gère son rendu |
+
+Dans les deux premiers cas, le texte d'origine (ou sa version texte, déduite du fragment) part en
+**alternative texte** (`multipart/alternative`), et les balises du corps sans attribut `style`
+(`h1`, `h2`, `p`, `a`, `ul`, `ol`, `li`) reçoivent les styles en ligne de `HtmlEmails::TAG_STYLES`.
+
+### Envoyer un e-mail depuis le projet
+
+Toujours `wp_mail()`, jamais PHPMailer directement : c'est par lui que passent l'habillage,
+l'alternative texte et, en local, Mailpit. Texte brut pour un message court ; pour un message mis en
+forme, un **fragment Twig** dans `resources/views/emails/` qui ne contient **que le corps**, envoyé
+avec l'en-tête `Content-Type: text/html` (sans lui, les balises seraient échappées) :
+
+```php
+$body = Timber\Timber::compile( 'emails/inscription-confirmee.twig', [ 'first_name' => $first_name, 'url' => home_url( '/mon-espace/' ) ] );
+
+wp_mail( $to, __( 'Votre inscription est confirmée', 'couturier' ), $body, [ 'Content-Type: text/html; charset=UTF-8' ] );
+```
+
+```twig
+{# resources/views/emails/inscription-confirmee.twig #}
+{% import 'emails/macros.twig' as email %}
+
+{# translators: %s : prénom. #}
+<h1>{{ __('Bonjour %s,', 'couturier')|format(first_name) }}</h1>
+<p>{{ __('Votre inscription est confirmée.', 'couturier') }}</p>
+
+{{ email.button(url, __('Accéder à mon espace', 'couturier')) }}
+
+{{ email.subcopy(url, __('Accéder à mon espace', 'couturier')) }}
+```
+
+| Macro (`emails/macros.twig`) | Rôle |
+|-------|------|
+| `email.button(url, label)` | Bouton centré corail ; pleine largeur sur mobile, forme VML pour Outlook |
+| `email.subcopy(url, label)` | En fin de message, sous un filet : l'URL du bouton en clair |
+
+- HTML nu dans le fragment : pas de classes (aucune feuille ne les suit) ; un `style` posé à la main
+  remplace le style par défaut de la balise. Ni `<html>` ni `<body>`.
+- Un seul `<h1>` par message ; objet en texte brut, traduit côté PHP.
+- Images : PNG / JPG en URL absolue, avec `width` et `alt`. Pas de SVG.
+- Pas de `add_filter( 'wp_mail_content_type', … )` : il s'appliquerait à tous les envois suivants
+  de la requête. L'en-tête par envoi suffit.
+
+**Tester** : Mailpit (`http://localhost:8025`) — rendu, onglet **Text** (alternative), onglet
+**HTML Check** (compatibilité des messageries).
+
+### Maintenir le gabarit
+
+Règles du HTML e-mail rappelées en tête de `layout.twig` : tables `role="presentation"`, styles en
+ligne (le `<style>` ne porte que le responsive), 570px max avec table fantôme pour Outlook, polices
+système. Couleurs **dupliquées** entre `layout.twig`, `macros.twig` et `HtmlEmails::TAG_STYLES` :
+les modifier ensemble.
+
+**Logo** : `resources/images/email-logo.png`, PNG 440px affiché à 220px (Gmail et Outlook
+n'affichent pas le SVG), rastérisé depuis `login-logo.svg` — **à régénérer avec lui** :
+`magick -background none -density 300 resources/images/login-logo.svg -resize 440x -depth 8 PNG32:resources/images/email-logo.png`.
+Il entre dans le build par l'entrée `resources/js/email.js` et la feature le résout par
+`ViteManifest` : toujours l'URL buildée de `dist/` (servie par le `.htaccess` de préprod), jamais le
+dev server — un e-mail est lu bien après son envoi. Sans build, le nom du site remplace le logo.
 
 ---
 

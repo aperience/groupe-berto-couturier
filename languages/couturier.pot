@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-01T12:04:46+00:00\n"
+"POT-Creation-Date: 2026-10-01T13:04:42+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -57,6 +57,10 @@ msgstr ""
 msgid "Limite les niveaux de titre proposés dans l'éditeur à %s."
 msgstr ""
 
+#: src/Features/Mail/HtmlEmails.php:84
+msgid "Envoie tous les e-mails du site en HTML, dans un gabarit aux couleurs du thème, avec une version texte en alternative."
+msgstr ""
+
 #: src/Providers/SetupServiceProvider.php:47
 msgid "Menu principal"
 msgstr ""
@@ -75,6 +79,20 @@ msgstr ""
 
 #: resources/views/base.twig:13
 msgid "Aller au contenu"
+msgstr ""
+
+#: resources/views/emails/layout.twig:119
+msgid "Cet e-mail a été envoyé automatiquement, merci de ne pas y répondre."
+msgstr ""
+
+#: resources/views/emails/layout.twig:122
+msgid "Tous droits réservés."
+msgstr ""
+
+#. translators: %s : texte du bouton.
+#: resources/views/emails/macros.twig:47
+#, php-format
+msgid "Si le bouton « %s » ne fonctionne pas, copiez l’adresse ci-dessous dans votre navigateur :"
 msgstr ""
 
 #: resources/views/index.twig:17

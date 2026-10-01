@@ -30,8 +30,8 @@ require_once $theme_autoload;
 /*
  * Composition du thème : son identité, puis les providers dans leur ordre de
  * chargement. Setup initialise, Security durcit, Front et Admin couvrent les deux
- * faces du site, Seo termine. Retirer un provider de cette liste éteint toutes ses
- * features d'un coup.
+ * faces du site, Mail habille les e-mails, Seo termine. Retirer un provider de
+ * cette liste éteint toutes ses features d'un coup.
  */
 \Deefuse\ThemeCore\Kernel::boot(
     new \Deefuse\ThemeCore\ThemeContext( slug: 'couturier' ),
@@ -40,6 +40,7 @@ require_once $theme_autoload;
         \Theme\Providers\SecurityServiceProvider::class,
         \Theme\Providers\FrontServiceProvider::class,
         \Theme\Providers\AdminServiceProvider::class,
+        \Theme\Providers\MailServiceProvider::class,
         \Theme\Providers\SeoServiceProvider::class,
     ]
 );

@@ -100,6 +100,9 @@ export default defineConfig(({ mode, command }) => ({
       input: {
         app:    path.resolve(__dirname, 'resources/js/app.js'),
         login:  path.resolve(__dirname, 'resources/js/login.js'),
+        // Images des e-mails (logo) : émises dans dist/assets/ et résolues par le
+        // manifest (feature Mail\HtmlEmails). Aucun JS n'est chargé.
+        email:  path.resolve(__dirname, 'resources/js/email.js'),
         // Entrées CSS pures, sans JS d'accompagnement : c'est WordPress qui lit
         // ces deux feuilles, jamais le navigateur via le dev server. Elles sont
         // donc toujours servies depuis dist/assets/, même en `npm run dev`.
