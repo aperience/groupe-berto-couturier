@@ -67,6 +67,11 @@ final class NestedPagesLinks implements FeatureInterface {
         add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_back_link' ] );
     }
 
+    /** Courte description affichée sur la page « Fonctionnalités du thème ». */
+    public function description(): string {
+        return __( 'Fait pointer vers la vue arborescente de Nested Pages les liens de l\'admin qui mènent à la liste des pages (tableau de bord, retour de l\'éditeur).', 'couturier' );
+    }
+
     /**
      * Remplace le rappel du module par une enveloppe qui réécrit le lien des pages.
      */

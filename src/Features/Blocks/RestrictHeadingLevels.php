@@ -65,6 +65,17 @@ final class RestrictHeadingLevels implements FeatureInterface {
         add_action( 'enqueue_block_editor_assets', [ $this, 'enqueue_guard' ] );
     }
 
+    /** Courte description affichée sur la page « Fonctionnalités du thème ». */
+    public function description(): string {
+        $levels = implode( ', ', array_map( static fn( int $level ): string => 'H' . $level, $this->levels ) );
+
+        return sprintf(
+            /* translators: %s : niveaux autorisés, ex. « H2, H3 ». */
+            __( 'Limite les niveaux de titre proposés dans l\'éditeur à %s.', 'couturier' ),
+            $levels
+        );
+    }
+
     /** Injecte le garde-fou dans l'éditeur, sur un handle sans source. */
     public function enqueue_guard(): void {
         $path = get_theme_file_path( self::SCRIPT );

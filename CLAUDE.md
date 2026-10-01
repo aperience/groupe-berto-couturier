@@ -149,12 +149,14 @@ src/Providers/                             ← tout ce que le thème possède en
 └── SeoServiceProvider.php
 
 vendor/deefuse/wp-theme-core/src/          ← le socle (lecture seule, ne jamais éditer ici)
-├── Kernel.php                             ← Singleton : Timber + chargement des providers
+├── Kernel.php                             ← Singleton : Timber, chargement des providers, page des features
 ├── ThemeContext.php                       ← identité du thème, transmise aux providers
 ├── Contracts/
-│   ├── FeatureInterface.php               ← register(): void
+│   ├── FeatureInterface.php               ← register(): void, description(): string
 │   └── ServiceProviderInterface.php       ← static features( ThemeContext ): array
 ├── Features/{Categorie}/                  ← une classe = une feature
+├── Internal/
+│   └── ListingFeaturesPage.php            ← page Outils › Fonctionnalités du thème
 └── Support/
     ├── ViteManifest.php                   ← résolution des noms hachés du build
     └── ViteDevServer.php                  ← arbitrage dev/prod, ES modules
@@ -172,6 +174,9 @@ vendor/deefuse/wp-theme-core/src/          ← le socle (lecture seule, ne jamai
 - `Kernel::load_features()` parcourt les providers **dans l'ordre reçu** et appelle `register()` sur
   chaque feature. **L'ordre est décidé par `functions.php`, pas par le noyau** : retirer un provider
   de la liste éteint toutes ses features d'un coup.
+- Le `Kernel` monte ensuite la page **Outils › Fonctionnalités du thème**, réservée aux
+  administrateurs : les features enregistrées, un tableau par provider, avec leur `description()`.
+  Ce n'est pas une feature, aucun provider ne peut la retirer.
 
 ### `ThemeContext` : ce qui change d'un projet à l'autre
 
@@ -202,7 +207,10 @@ d'enregistrement**. Cette signature est le contrat que tout projet implémente :
 1. Créer `src/Features/{Categorie}/{NomClasse}.php` (namespace `Theme\Features\{Categorie}`).
    Si la feature est **générique** et a vocation à servir sur d'autres projets, elle a sa place dans le
    socle : la développer dans `wp-theme-core`, publier une version MINOR, puis la déclarer ici
-2. Implémenter `FeatureInterface` → méthode `register()` qui pose les `add_action` / `add_filter`
+2. Implémenter `FeatureInterface` → méthode `register()` qui pose les `add_action` / `add_filter`,
+   et méthode `description()` : une phrase destinée à un administrateur, en
+   `__( '…', 'couturier' )`, affichée sur la page *Outils › Fonctionnalités du thème*. Elle est
+   obligatoire : une feature qui ne l'implémente pas provoque une erreur fatale au démarrage
 3. L'ajouter au tableau `features()` du provider adapté (cf. table ci-dessous), avec son `use`
 
 ### `Support/` : le code qui n'est pas une feature
@@ -210,6 +218,8 @@ d'enregistrement**. Cette signature est le contrat que tout projet implémente :
 Une classe de `Support/` ne pose aucun hook, n'implémente pas `FeatureInterface` et n'est déclarée
 dans aucun provider : elle n'existe que pour être appelée par des features, et n'a donc pas de
 « moment d'exécution » propre. Dans le socle, `Support/` est le seul dossier dans ce cas.
+(`Internal/` n'est pas non plus fait de features, mais c'est le code du `Kernel` lui-même, hors
+surface publique : à ne jamais appeler depuis le thème.)
 
 Y placer ce que **plusieurs features** doivent faire de la même façon, plutôt que d'en dupliquer la
 logique — `ViteManifest` y est né du fait que trois features rouvraient chacune le manifest Vite.

@@ -42,6 +42,11 @@ final class BlockLoader implements FeatureInterface {
         add_action( 'init', [ $this, 'register_blocks' ] );
     }
 
+    /** Courte description affichée sur la page « Fonctionnalités du thème ». */
+    public function description(): string {
+        return __( 'Enregistre les blocs sur mesure du thème dans l\'éditeur.', 'couturier' );
+    }
+
     /** Enregistre chaque bloc compilé. */
     public function register_blocks(): void {
         $manifests = glob( get_theme_file_path( $this->blocks_path ) . '/*/block.json' );

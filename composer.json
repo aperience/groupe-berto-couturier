@@ -17,7 +17,7 @@
     ],
     "require": {
         "php": ">=8.5",
-        "deefuse/wp-theme-core": "^1.14",
+        "deefuse/wp-theme-core": "^2.0",
         "timber/timber": "^2.3"
     },
     "require-dev": {
