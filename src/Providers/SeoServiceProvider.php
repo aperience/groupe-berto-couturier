@@ -36,7 +36,9 @@ final class SeoServiceProvider implements ServiceProviderInterface {
      */
     public static function features( ThemeContext $context ): array {
         return [
-            new DocumentTitle(),
+            new DocumentTitle(
+                separator: '-'
+            ),
             new MetaDescription(),
             new SitemapExclusion(),
             new SeoPanel( $context ),
