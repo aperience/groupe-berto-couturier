@@ -10,7 +10,23 @@
 // $secondary: #000000;
 
 // Typography
-// $font-family-sans-serif: 'MaPolice', sans-serif;
+// Polices déclarées dans `_fonts.scss` : seules les graisses 400 / 700 (Space
+// Grotesk) et 700 / 800 (Red Hat Display) existent. Toute autre graisse
+// retombe sur la plus proche — d'où les 300 de Bootstrap (`.lead`, `.display-*`)
+// ramenés ici à des graisses réellement disponibles.
+$font-family-sans-serif: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$font-weight-normal:     400;
+$font-weight-bold:       700;
+
+// Titres en Red Hat Display ExtraBold. Provisoire tant que l'échelle
+// typographique n'est pas fournie : le Bold (700) est disponible pour les
+// niveaux qui le demanderont.
+$headings-font-family: 'Red Hat Display', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+$headings-font-weight: 800;
+
+$display-font-family: $headings-font-family;
+$display-font-weight: 800;
+$lead-font-weight:    $font-weight-normal;
 
 // ─── Variables custom du thème ────────────────────────────────────────────────
 //$body-bg: red;

@@ -725,7 +725,22 @@ dev server — un e-mail est lu bien après son envoi. Sans build, le nom du sit
 >
 > **Front** : encore sur Bootstrap — overrides dans `_variables.scss`.
 >
-> Cette section sera complétée avec : polices, palette de couleurs, breakpoints, échelle typographique,
+> **Polices** (licence SIL OFL, fichiers et licences dans `resources/fonts/`, `@font-face` dans
+> `_fonts.scss`) :
+>
+> | Famille | Graisses | Usage | Variable Bootstrap |
+> |---------|----------|-------|--------------------|
+> | Red Hat Display | ExtraBold 800, Bold 700 | Titres, `.display-*` | `$headings-font-family` (800 par défaut, provisoire) |
+> | Space Grotesk | Regular 400, Bold 700 | Texte courant | `$font-family-sans-serif` |
+>
+> Une graisse = un fichier woff2 (~15 Ko), instance statique de la police variable de Google Fonts,
+> réduite aux glyphes du français (le script de génération est décrit en tête de `_fonts.scss`).
+> Aucune autre graisse ni italique n'existe : ne pas utiliser `fw-light`, `fw-semibold`…, qui
+> retomberaient sur la graisse la plus proche ; l'italique (`<em>`) est simulé par le navigateur.
+> Les mêmes `@font-face` valent pour le front et le canvas de l'éditeur. La page de connexion et
+> les e-mails restent en polices système.
+>
+> Cette section sera complétée avec : palette de couleurs, breakpoints, échelle typographique,
 > espacements et règles de layout.
 
 ---

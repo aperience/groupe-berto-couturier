@@ -1,10 +1,49 @@
 // ─── Déclarations @font-face ──────────────────────────────────────────────────
-// Les fichiers de police vont dans resources/fonts/ (copiés vers dist/fonts/).
+// Les fichiers de police vont dans resources/fonts/ (émis dans dist/assets/fonts/).
 //
-// @font-face {
-//   font-family: 'MaPolice';
-//   src: url('../fonts/MaPolice-Regular.woff2') format('woff2');
-//   font-weight: 400;
-//   font-style: normal;
-//   font-display: swap;
-// }
+// Deux familles, sous licence SIL OFL (textes dans resources/fonts/) :
+// - Red Hat Display, ExtraBold (800) et Bold (700) : titres ;
+// - Space Grotesk, Regular (400) et Bold (700) : texte courant.
+//
+// Les fichiers sont des instances statiques des polices variables de Google Fonts
+// (github.com/google/fonts), réduites aux glyphes du français : ASCII, Latin-1,
+// Œ œ Ÿ, ponctuation typographique (’ “ ” – — … •), € ™ et quelques flèches.
+// Une seule graisse par fichier : le navigateur ne télécharge que celles que la
+// page utilise. Pour une graisse supplémentaire, régénérer un fichier depuis la
+// police variable (fontTools : varLib.instancer puis pyftsubset, en woff2) avec
+// le même jeu de caractères.
+//
+// Les polices d'origine n'ont pas l'espace fine insécable (U+202F) : elle est
+// prise dans la police de secours, sans différence visible.
+
+@font-face {
+  font-family: 'Red Hat Display';
+  src: url('../fonts/red-hat-display-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Red Hat Display';
+  src: url('../fonts/red-hat-display-800.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../fonts/space-grotesk-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../fonts/space-grotesk-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
