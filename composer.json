@@ -5,7 +5,7 @@
     "repositories": [
         {
             "type": "git",
-            "url": "git@github.com:achappard/wp-theme-core.git"
+            "url": "https://github.com/achappard/wp-theme-core.git"
         }
     ],
     "license": "GPL-2.0-or-later",

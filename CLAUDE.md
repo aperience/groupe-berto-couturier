@@ -81,7 +81,7 @@ lecteur d'écran restent indispensables.
 ## Commandes
 
 Dans l'environnement Docker, les commandes `npm` tournent dans le conteneur `node` (dont le répertoire
-de travail est le thème) et `composer` dans le conteneur `cli` (agent SSH transmis pour le socle privé) :
+de travail est le thème) et `composer` dans le conteneur `cli` :
 
 ```bash
 docker compose exec node npm run <script>
@@ -128,10 +128,9 @@ retrouver la ligne SCSS d'origine dans l'inspecteur. Il ne reste qu'à recharger
 
 PSR-4 du thème : `{"Theme\\": "src/"}` — le socle apporte le sien.
 
-**Le socle est une dépendance Composer**, tirée d'un dépôt privé déclaré en `repositories` de type
-`git` (et non `vcs` : avec une URL SSH, le driver GitHub tente une URL `dist` sur `api.github.com`,
-inaccessible à une deploy key, et chaque `composer install` d'un serveur essuierait un 404 avant de
-retomber sur le clone). Sa documentation complète est dans son propre README.
+**Le socle est une dépendance Composer**, tirée de son dépôt GitHub public (pas sur Packagist), déclaré
+en `repositories` de type `git` avec l'URL HTTPS : Composer clone le dépôt sans clé SSH ni token, et
+sans passer par l'API GitHub. Sa documentation complète est dans son propre README.
 
 Sur un projet livré : **toujours `composer update deefuse/wp-theme-core`**, jamais `composer update`
 nu, qui mettrait aussi à jour Timber et le reste du graphe.

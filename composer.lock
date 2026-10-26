@@ -4,15 +4,15 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "41f65bd738dcb149d584795688c05b5d",
+    "content-hash": "d4f4daa483ac2e7f9fb502d4e7c1ecb6",
     "packages": [
         {
             "name": "deefuse/wp-theme-core",
-            "version": "v2.2.1",
+            "version": "v2.2.2",
             "source": {
                 "type": "git",
-                "url": "git@github.com:achappard/wp-theme-core.git",
-                "reference": "e8cd654629830461427061eddb4c10ae4c184857"
+                "url": "https://github.com/achappard/wp-theme-core.git",
+                "reference": "1d91f07978174dac3b99722f20a50aa11b6bb615"
             },
             "require": {
                 "enshrined/svg-sanitize": "^1.0",
@@ -39,7 +39,7 @@
                 }
             ],
             "description": "Socle réutilisable des thèmes WordPress Deefuse : noyau Timber, contrats de features et features génériques.",
-            "time": "2026-10-01T13:19:04+00:00"
+            "time": "2026-10-26T14:25:29+00:00"
         },
         {
             "name": "enshrined/svg-sanitize",
