@@ -17,11 +17,15 @@
 // Sur le front, les styles globaux (`is-layout-flex`) ne sont pas chargés : la
 // mise en page du conteneur est reprise ici, avec l'alignement choisi dans la
 // barre d'outils (classes posées par le support `layout` du core).
+// Marge verticale explicite : sans elle, l'éditeur applique les 28 px par
+// défaut des blocs (`html :where(.wp-block)`) et le front aucune — deux blocs
+// Boutons s'y touchaient. Les marges fusionnent, comme entre paragraphes.
 .wp-block-buttons {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     gap: var(--space-16);
+    margin-block: var(--space-28);
 
     &.is-content-justification-center { justify-content: center; }
     &.is-content-justification-right { justify-content: flex-end; }

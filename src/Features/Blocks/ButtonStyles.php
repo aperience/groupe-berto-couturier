@@ -37,8 +37,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * inchangé — aucun bloc invalide si le script venait à manquer, ou si la feature
  * était retirée (la flèche disparaîtrait simplement).
  *
- * Le même script retire les formats « Gras » et « Italique » de la barre d'outils du
- * bouton, dont le texte suit le style « Button » du design system.
+ * Le même script retire de la barre d'outils du bouton les formats sans objet dans
+ * un libellé (gras, italique, code, image, langue, maths, mise en évidence, saisie
+ * clavier) : le texte suit le style « Button » du design system.
  */
 final class ButtonStyles implements FeatureInterface {
 

@@ -609,8 +609,9 @@ Fichiers par bloc :
   prend la couleur `--button-arrow` du style. `ghost` (texte blanc, fond transparent) est réservé
   aux sections sombres. ⚠️ Le bouton orange a un texte **blanc** (choix du client, comme la
   maquette), en dérogation à `text-on-accent` : 2,84:1, sous l'AA — validation reportée. Le
-  même script masque les formats « Gras » et « Italique » quand un bouton est sélectionné (texte
-  au style « Button » du design system).
+  même script masque, quand un bouton est sélectionné, les formats sans objet dans un libellé :
+  « Gras », « Italique » (texte au style « Button »), « Code en ligne », « Image en ligne »,
+  « Langue », « Maths », « Mettre en évidence », « Saisie au clavier » (liste `FORMATS_OFF`).
 
 ---
 

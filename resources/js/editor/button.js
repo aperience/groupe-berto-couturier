@@ -9,8 +9,9 @@
  *    du bouton dans le canvas — sur le front, c'est le filtre `render_block` de la
  *    feature qui la pose. Rien n'est écrit dans le HTML enregistré.
  * 2. Formats. Le texte d'un bouton suit le style « Button » du design system
- *    (Space Grotesk Bold, sans italique) : les formats « Gras » et « Italique »
- *    n'y ont pas leur place. Le core ne permet pas de
+ *    (Space Grotesk Bold, sans italique) : les formats « Gras », « Italique » et
+ *    ceux qui n'ont pas leur place dans un libellé (liste `FORMATS_OFF`) sont
+ *    retirés. Le core ne permet pas de
  *    restreindre les formats d'un bloc qu'il fournit ; chaque format retiré est
  *    donc réenregistré avec une interface (bouton de barre d'outils, raccourci
  *    clavier) qui ne s'affiche pas quand un bouton est sélectionné. Il reste
@@ -27,9 +28,19 @@
 	var __ = wp.i18n.__;
 	var BLOCK = 'core/button';
 
-	// Formats sans objet dans le texte d'un bouton : graisse et style fixés par le
-	// design system.
-	var FORMATS_OFF = [ 'core/bold', 'core/italic' ];
+	// Formats sans objet dans le texte d'un bouton : graisse, style et couleur
+	// fixés par le design system ; code, image, saisie clavier, formule et langue
+	// n'ont pas leur place dans un libellé d'action.
+	var FORMATS_OFF = [
+		'core/bold',
+		'core/italic',
+		'core/code', // Code en ligne
+		'core/image', // Image en ligne
+		'core/language', // Langue
+		'core/math', // Maths
+		'core/text-color', // Mettre en évidence
+		'core/keyboard', // Saisie au clavier
+	];
 
 	var withArrowControl = wp.compose.createHigherOrderComponent( function ( BlockEdit ) {
 		return function ( props ) {
