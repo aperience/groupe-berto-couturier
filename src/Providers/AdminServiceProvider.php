@@ -34,6 +34,7 @@ use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableUpdates;
 use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\Admin\NestedPagesLinks;
 use Theme\Features\Blocks\BlockLoader;
+use Theme\Features\Blocks\DisableDropCap;
 use Theme\Features\Blocks\RestrictHeadingLevels;
 
 if (!defined('ABSPATH')) {
@@ -75,6 +76,7 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new DisableLoginLanguageDropdown(),
             new DisableLoginPrivacyPolicyLink(),
             new DisableNativeBlockSupports(),
+            new DisableDropCap(),
             new DisablePostByEmail(),
             new RestrictHeadingLevels($context),
             new DisableSiteIcon(),
