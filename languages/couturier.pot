@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-01T13:04:42+00:00\n"
+"POT-Creation-Date: 2026-10-27T15:08:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -49,6 +49,10 @@ msgstr ""
 
 #: src/Features/Blocks/BlockLoader.php:47
 msgid "Enregistre les blocs sur mesure du thème dans l'éditeur."
+msgstr ""
+
+#: src/Features/Blocks/DisableDropCap.php:42
+msgid "Retire le réglage de lettrine des paragraphes dans l'éditeur."
 msgstr ""
 
 #. translators: %s : niveaux autorisés, ex. « H2, H3 ».
