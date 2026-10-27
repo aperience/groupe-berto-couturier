@@ -9,6 +9,11 @@
 @use "sass:map";
 @use "brand" as *;
 
+// Options
+// Pas de mode sombre sur le site : Bootstrap n'émet pas le bloc
+// `[data-bs-theme=dark]` ni ses variables `--bs-*-dark`.
+$enable-dark-mode: false;
+
 // Colors
 // Bootstrap calcule sur ces valeurs (teintes, contraste des boutons) : il lui
 // faut des couleurs Sass, pas les `var(--color-…)` des composants.
