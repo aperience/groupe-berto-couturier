@@ -16,13 +16,13 @@ export default {
 
 	// Couleur de la barre de navigateur / chrome PWA. Doit rester alignée sur
 	// $brand_base-color de _brand.scss.
-	themeColorLight: '#0a3c6e',
-	themeColorDark: '#0a3c6e',
+	themeColorLight: '#004e63',
+	themeColorDark: '#004e63',
 
 	// Fond de l'écran de démarrage PWA (site.webmanifest → background_color)
 	// et couleur de remplissage de l'apple-touch-icon (iOS n'accepte pas la
 	// transparence : les zones transparentes de la source sont aplaties sur
-	// cette couleur). Blanc et non marine : le logo contient du marine, qui
+	// cette couleur). Blanc et non pétrole : le logo contient du bleu foncé, qui
 	// disparaîtrait sur un fond de même couleur.
 	backgroundColor: '#ffffff',
 };

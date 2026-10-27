@@ -520,7 +520,9 @@ resources/scss/
 ├── _bootstrap-config.scss ← Bootstrap sans sortie CSS : fonctions, variables, maps, mixins
 ├── _bootstrap-layout.scss ← Bootstrap front uniquement : conteneurs, grille, composants, utilitaires
 ├── _variables.scss        ← overrides Bootstrap, AVANT `bootstrap-config`
-├── _brand.scss            ← palette de marque
+├── _tokens.scss           ← custom properties du design system, importé par `_content.scss`
+├── _typography.scss       ← interlignes et styles de texte, importé par `_content.scss`
+├── _brand.scss            ← charte : design system + ancienne palette de l'admin (cf. *Design System*)
 ├── _mixins.scss
 ├── _fonts.scss            ← @font-face
 ├── partials/              ← layout du site (header, footer, navigation…) — front uniquement
@@ -633,11 +635,12 @@ d'adresse…), dont les textes restent ceux de WordPress, les plugins et les e-m
 Reprise du projet Anytime ; mise en page des e-mails par défaut de Laravel (`illuminate/mail`) :
 logo centré, carte blanche de 570px, pied discret, responsive, thème clair uniquement.
 
-**Couleurs** (charte du site actuel, cf. *Design System*), toutes AA (WCAG 1.4.3) : fond `#eef2f6`,
-filet corail `#dc6446` en tête de carte (décoratif, seul usage du corail non assombri), texte
-`#3d4b5c` (8,9:1), titres et liens marine `#0a3c6e` (11,1:1, liens soulignés — 1.4.1), bouton corail
-assombri `#b8452c` (5,35:1 avec du blanc), pied `#5a6878` (5,1:1 sur le fond). Le gris des e-mails
-Laravel (`#718096`, 4,0:1) a été écarté.
+**Couleurs** (design system, cf. *Design System* — valeurs en dur, le HTML e-mail ne lit pas les
+variables CSS), toutes AA (WCAG 1.4.3) : fond neutral/50 `#f6f6f6`, filet orange `#ff6b35` en tête
+de carte (décoratif), bordure petrol/100 `#e0eaec`, texte petrol/900 `#00232d` (16,4:1), titres et
+liens petrol/500 `#004e63` (9,25:1, liens soulignés — 1.4.1), bouton orange `#ff6b35` à texte
+petrol/900 (5,79:1 ; le blanc n'y tiendrait que 2,8:1), pied petrol/400 `#3b7787` (4,65:1 sur le
+fond). Le gris des e-mails Laravel (`#718096`, 4,0:1) a été écarté.
 
 | Corps reçu | Traitement |
 |------------|------------|
@@ -677,7 +680,7 @@ wp_mail( $to, __( 'Votre inscription est confirmée', 'couturier' ), $body, [ 'C
 
 | Macro (`emails/macros.twig`) | Rôle |
 |-------|------|
-| `email.button(url, label)` | Bouton centré corail ; pleine largeur sur mobile, forme VML pour Outlook |
+| `email.button(url, label)` | Bouton centré orange ; pleine largeur sur mobile, forme VML pour Outlook |
 | `email.subcopy(url, label)` | En fin de message, sous un filet : l'URL du bouton en clair |
 
 - HTML nu dans le fragment : pas de classes (aucune feuille ne les suit) ; un `style` posé à la main
@@ -708,20 +711,46 @@ dev server — un e-mail est lu bien après son envoi. Sans build, le nom du sit
 
 ## Design System
 
-> **À définir.** Aucune guideline de design n'est disponible à ce stade.
+**Source** : planche « Couturier · Design System » (Permis & Formations), transcrite dans
+`resources/scss/_brand.scss` (partie 1). Toutes les valeurs ont été vérifiées une à une dans Figma
+(2026-10-27).
+
+| Fichier | Rôle |
+|---------|------|
+| `_brand.scss` | Valeurs sources, sans sortie CSS — partie 1, design system : primitives (`$ds-palette`, `ds-color()`), rôles sémantiques (`$ds-semantic-colors`, `ds-semantic()`), espacements, rayons, ombres, layout et styles de texte (mobile, desktop), `to-rem()` ; partie 2, ancienne charte `$brand_*` (admin, connexion) |
+| `_tokens.scss` | Émet les custom properties sur `:root` (front et éditeur, via `_content.scss`) |
+| `_variables.scss` | Overrides Bootstrap tirés du design system (couleurs, polices, tailles, rayons, ombres, conteneur) |
+| `_typography.scss` | Interlignes par style, classes `.text-body-medium` et `.text-eyebrow` |
+| `_mixins.scss` | `text-style($nom)` : applique un style de texte complet |
+
+**Règles d'usage :**
+- Les composants n'emploient **que les tokens** : `var(--color-{rôle})`, `var(--space-{px})`,
+  `var(--radius-{sm|md|lg|xl|full})`, `var(--shadow-{card|floating|nav})`, `var(--layout-…)`,
+  `@include text-style(…)`. Jamais une primitive (`ds-color()`), jamais un hexadécimal en dur.
+  `ds-color()` / `ds-semantic()` ne servent qu'à `_tokens.scss` et aux overrides Bootstrap.
+- Tokens responsive (`--fs-*`, `--lh-*`, `--layout-*`) : valeur mobile, desktop à partir de `md`
+  (768 px).
+- Texte posé sur l'orange : `--color-text-on-accent` (pétrole foncé, 5,8:1), jamais du blanc
+  (2,8:1). C'est aussi `$color-contrast-dark` de Bootstrap.
+- Corps de texte = style **Body** (14 px), `.lead` = **Body L**, `small` = **Small**, `.display-1` =
+  **Display**. Bootstrap ne pilote que les tailles (`var(--fs-*)`, RFS désactivé).
+- `$spacers` de Bootstrap inchangés (4, 8, 16, 24, 48 px, tous dans l'échelle du design system) ;
+  les autres pas n'existent qu'en `--space-*`.
+- Conteneur : 1040 px de contenu + 24 px de marge de chaque côté, gouttière 16 px (valeurs
+  desktop). Les valeurs mobiles (marge 12 px, gouttière 14 px) sont à poser à l'intégration du
+  layout, via `--layout-*`.
+
+> **Back-office et page de connexion** : aux couleurs du design system (partie 2 de
+> `resources/scss/_brand.scss`, doublée dans `AdminServiceProvider` → `AdminColorScheme`) — menu
+> et boutons de connexion en bleu pétrole, accent (élément courant, boutons primaires, pastilles)
+> en orange/700, liens en pétrole, sous-menus en pétrole/700. L'orange de la charte ne tenant pas
+> 4,5:1 avec du texte blanc, ni orange/700 sur le fond `#f0f0f1` de l'admin, cf. en-tête de la
+> partie 2.
 >
-> Tant que la charte n'est pas fournie : ne pas inventer de palette, de typographie ni d'échelle
-> d'espacement « définitives ». Signaler explicitement tout choix provisoire.
->
-> **Back-office et page de connexion** : déjà aux couleurs du site actuel du client
-> (couturier-permis.com) — marine `#0A3C6E`, corail `#DC6446` / `#D95B42`, corail clair `#ED7B5F`,
-> bleu nuit `#0A0F2A`. Palette dans `resources/scss/_brand.scss`, doublée dans
-> `AdminServiceProvider` → `AdminColorScheme`. Le corail n'atteignant pas 4,5:1 avec du texte
-> blanc, l'accent de l'admin est un corail assombri, `#B8452C` (cf. en-tête de `_brand.scss`).
->
-> **Favicons** : `theme-color` en marine (clair comme sombre), dans `FrontServiceProvider` →
-> `Favicons` et `bin/favicons.config.mjs` ; fond de l'apple-touch-icon en blanc, le logo contenant
-> du marine. `favicon-dark.svg` reprend `favicon-light.svg`, marine remplacé par du blanc.
+> **Favicons** : `theme-color` en petrol/500 `#004e63` (clair comme sombre), dans
+> `FrontServiceProvider` → `Favicons` et `bin/favicons.config.mjs` ; fond de l'apple-touch-icon en
+> blanc. SVG sources : `favicon-light.svg` en petrol/500 `#004e63` et orange/500 `#ff6b35` ;
+> `favicon-dark.svg` reprend le même dessin, pétrole remplacé par du blanc.
 >
 > **Front** : encore sur Bootstrap — overrides dans `_variables.scss`.
 >
@@ -730,8 +759,8 @@ dev server — un e-mail est lu bien après son envoi. Sans build, le nom du sit
 >
 > | Famille | Graisses | Usage | Variable Bootstrap |
 > |---------|----------|-------|--------------------|
-> | Red Hat Display | ExtraBold 800, Bold 700 | Titres, `.display-*` | `$headings-font-family` (800 par défaut, provisoire) |
-> | Space Grotesk | Regular 400, Bold 700 | Texte courant | `$font-family-sans-serif` |
+> | Red Hat Display | ExtraBold 800 (Display), Bold 700 (titres) | Titres, `.display-1` | `$headings-font-family` |
+> | Space Grotesk | Regular 400, Medium 500, Bold 700 | Texte courant | `$font-family-sans-serif` |
 >
 > Une graisse = un fichier woff2 (~15 Ko), instance statique de la police variable de Google Fonts,
 > réduite aux glyphes du français (le script de génération est décrit en tête de `_fonts.scss`).
@@ -739,9 +768,6 @@ dev server — un e-mail est lu bien après son envoi. Sans build, le nom du sit
 > retomberaient sur la graisse la plus proche ; l'italique (`<em>`) est simulé par le navigateur.
 > Les mêmes `@font-face` valent pour le front et le canvas de l'éditeur. La page de connexion et
 > les e-mails restent en polices système.
->
-> Cette section sera complétée avec : palette de couleurs, breakpoints, échelle typographique,
-> espacements et règles de layout.
 
 ---
 

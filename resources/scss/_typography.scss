@@ -1,0 +1,36 @@
+// ─── Typographie du design system ─────────────────────────────────────────────
+//
+// Complète le socle typographique de Bootstrap (`reboot`, `type`), dont les
+// tailles pointent déjà vers les `--fs-*` (cf. `_variables.scss`) : Bootstrap
+// n'ayant qu'un interligne pour le corps et un pour tous les titres, ceux du
+// design system sont posés ici, style par style.
+
+body {
+    line-height: var(--lh-body);
+}
+
+h1, .h1 { line-height: var(--lh-h1); }
+h2, .h2 { line-height: var(--lh-h2); }
+
+h3, .h3,
+h4, .h4,
+h5, .h5,
+h6, .h6 { line-height: var(--lh-h3); }
+
+.lead {
+    line-height: var(--lh-body-lg);
+}
+
+small,
+.small {
+    line-height: var(--lh-small);
+}
+
+// Styles sans équivalent Bootstrap, en classes utilitaires.
+.text-body-medium {
+    @include text-style(body-medium);
+}
+
+.text-eyebrow {
+    @include text-style(eyebrow);
+}

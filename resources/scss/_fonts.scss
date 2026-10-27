@@ -3,7 +3,7 @@
 //
 // Deux familles, sous licence SIL OFL (textes dans resources/fonts/) :
 // - Red Hat Display, ExtraBold (800) et Bold (700) : titres ;
-// - Space Grotesk, Regular (400) et Bold (700) : texte courant.
+// - Space Grotesk, Regular (400), Medium (500) et Bold (700) : texte courant.
 //
 // Les fichiers sont des instances statiques des polices variables de Google Fonts
 // (github.com/google/fonts), réduites aux glyphes du français : ASCII, Latin-1,
@@ -36,6 +36,14 @@
   font-family: 'Space Grotesk';
   src: url('../fonts/space-grotesk-400.woff2') format('woff2');
   font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Space Grotesk';
+  src: url('../fonts/space-grotesk-500.woff2') format('woff2');
+  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }

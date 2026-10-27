@@ -26,7 +26,7 @@ use Timber\Timber;
  * - **document HTML complet** (contient `<html`) : laissé intact, son auteur gère son rendu.
  *
  * La mise en page reprend celle des e-mails par défaut de Laravel (`illuminate/mail`), aux
- * couleurs de la charte Couturier (marine, corail).
+ * couleurs du design system Couturier (pétrole, orange).
  *
  * Le gabarit n'a pas de feuille de style externe : les messageries ne les chargent pas, et
  * Gmail comme Outlook ignorent une partie du `<style>`. Les styles sont donc posés en ligne,
@@ -44,13 +44,13 @@ final class HtmlEmails implements FeatureInterface {
     private const LOGO = 'resources/images/email-logo.png';
 
     /**
-     * Texte courant : gris ardoise teinté de marine (8,9:1 sur blanc). Le gris des e-mails
+     * Texte courant : petrol/900 du design system (16,4:1 sur blanc). Le gris des e-mails
      * Laravel (`#718096`, 4,0:1) n'atteint pas l'AA (WCAG 1.4.3).
      */
-    private const TEXT_COLOR = '#3d4b5c';
+    private const TEXT_COLOR = '#00232d';
 
-    /** Titres et liens : marine de la charte (11,1:1 sur blanc). */
-    private const BRAND_COLOR = '#0a3c6e';
+    /** Titres et liens : petrol/500 du design system (9,25:1 sur blanc). */
+    private const BRAND_COLOR = '#004e63';
 
     /**
      * Styles en ligne des balises du corps, qui ne portent pas déjà d'attribut `style`.

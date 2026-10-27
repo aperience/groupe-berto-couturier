@@ -2,38 +2,88 @@
 // Doit être importé AVANT Bootstrap (Bootstrap utilise !default sur ses variables).
 // Référence : node_modules/bootstrap/scss/_variables.scss
 //
-// Aucune charte graphique n'est définie à ce stade : les valeurs par défaut de
-// Bootstrap s'appliquent. Centraliser ici tout choix provisoire.
+// Les valeurs viennent du design system (`_brand.scss`), réexporté ici : les
+// feuilles qui importent `variables` y ont accès sans connaître le découpage.
+
+@forward "brand";
+@use "sass:map";
+@use "brand" as *;
 
 // Colors
-// $primary:   #000000;
-// $secondary: #000000;
+// Bootstrap calcule sur ces valeurs (teintes, contraste des boutons) : il lui
+// faut des couleurs Sass, pas les `var(--color-…)` des composants.
+$primary:   ds-semantic(action-primary);
+$secondary: ds-semantic(action-dark);
+$danger:    ds-semantic(text-danger);
+
+// Texte posé sur une couleur de thème (`.btn-primary`, `.text-bg-*`…) : le
+// pétrole foncé plutôt que le noir, qui l'emporte sur l'orange (cf. `text-on-accent`).
+$color-contrast-dark: ds-semantic(text-on-accent);
+
+$body-bg:        ds-semantic(surface-page);
+$body-color:     ds-semantic(text-default);
+$headings-color: ds-semantic(text-heading);
+$link-color:     ds-semantic(text-heading);
 
 // Typography
-// Polices déclarées dans `_fonts.scss` : seules les graisses 400 / 700 (Space
-// Grotesk) et 700 / 800 (Red Hat Display) existent. Toute autre graisse
+// Polices déclarées dans `_fonts.scss` : seules les graisses 400 / 500 / 700
+// (Space Grotesk) et 700 / 800 (Red Hat Display) existent. Toute autre graisse
 // retombe sur la plus proche — d'où les 300 de Bootstrap (`.lead`, `.display-*`)
 // ramenés ici à des graisses réellement disponibles.
 $font-family-sans-serif: 'Space Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
 $font-weight-normal:     400;
+$font-weight-medium:     500;
 $font-weight-bold:       700;
 
-// Titres en Red Hat Display ExtraBold. Provisoire tant que l'échelle
-// typographique n'est pas fournie : le Bold (700) est disponible pour les
-// niveaux qui le demanderont.
+// Titres en Red Hat Display Bold ; seul le style Display est en ExtraBold.
 $headings-font-family: 'Red Hat Display', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-$headings-font-weight: 800;
+$headings-font-weight: 700;
 
 $display-font-family: $headings-font-family;
 $display-font-weight: 800;
 $lead-font-weight:    $font-weight-normal;
 
-// ─── Variables custom du thème ────────────────────────────────────────────────
-//$body-bg: red;
+// Tailles : celles du design system, en custom properties qui basculent de la
+// valeur mobile à la valeur desktop (`_tokens.scss`). Le design system fixe ses
+// propres tailles mobiles : pas de RFS. Les interlignes sont posés par
+// `_typography.scss` (Bootstrap n'en a qu'un pour tous les titres).
+// `$font-size-base` reste un nombre : Bootstrap en dérive d'autres tailles.
+$enable-rfs:     false;
+$font-size-base: to-rem(14); // Body
+$h1-font-size:   var(--fs-h1);
+$h2-font-size:   var(--fs-h2);
+$h3-font-size:   var(--fs-h3);
+// Les blocs n'offrent que H2 / H3 (`RestrictHeadingLevels`) : H4 à H6 sont
+// alignés sur H3 au cas où un contenu en contiendrait.
+$h4-font-size:   var(--fs-h3);
+$h5-font-size:   var(--fs-h3);
+$h6-font-size:   var(--fs-h3);
+$lead-font-size: var(--fs-body-lg);
+$small-font-size: var(--fs-small);
+$display-font-sizes: (
+    1: var(--fs-display),
+);
+$display-line-height: var(--lh-display);
 
-// ─── Palette de marque du client ──────────────────────────────────────────────
-//
-// Définie dans `_brand.scss`, réexportée ici pour que les feuilles qui importent
-// `variables` y aient accès sans connaître le découpage.
+// Rayons
+$border-radius-sm:   to-rem(map.get($ds-radius, sm));
+$border-radius:      to-rem(map.get($ds-radius, md));
+$border-radius-lg:   to-rem(map.get($ds-radius, lg));
+$border-radius-xl:   to-rem(map.get($ds-radius, xl));
+$border-radius-pill: to-rem(map.get($ds-radius, full));
 
-@forward "brand";
+// Ombres (cf. `_brand.scss`)
+$box-shadow-sm: map.get($ds-shadows, card);
+$box-shadow:    map.get($ds-shadows, nav);
+$box-shadow-lg: map.get($ds-shadows, floating);
+
+// Grille et conteneur
+// Gouttière desktop du design system (`layout/grid-gap`, 16 px) ; marge latérale
+// de page desktop (`layout/page-padding`, 24 px de chaque côté) ; conteneur de
+// 1040 px de contenu, marges comprises. Les valeurs mobiles (14 / 12 px) restent
+// à poser avec l'intégration du layout, via les custom properties `--layout-*`.
+$grid-gutter-width:    to-rem(16);
+$container-padding-x:  to-rem(48);
+$container-max-widths: (
+    lg: to-rem(1040 + 48),
+);

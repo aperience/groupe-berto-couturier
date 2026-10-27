@@ -1,1 +1,33 @@
 // ─── Mixins du thème ──────────────────────────────────────────────────────────
+
+@use "sass:map";
+
+/// Applique un style de texte du design system (`$ds-text-styles`) : famille,
+/// graisse, taille et interligne responsive (`--fs-*` / `--lh-*`, cf.
+/// `_tokens.scss`), capitales et interlettrage le cas échéant.
+/// Ex. `@include text-style(eyebrow);`
+@mixin text-style($name) {
+    $style: map.get($ds-text-styles, $name);
+
+    @if $style == null {
+        @error "text-style : style inconnu `#{$name}`.";
+    }
+
+    @if map.get($style, family) == heading {
+        font-family: $headings-font-family;
+    } @else {
+        font-family: $font-family-sans-serif;
+    }
+
+    font-weight: map.get($style, weight);
+    font-size: var(--fs-#{$name});
+    line-height: var(--lh-#{$name});
+
+    @if map.get($style, uppercase) {
+        text-transform: uppercase;
+    }
+
+    @if map.get($style, tracking) {
+        letter-spacing: to-rem(map.get($style, tracking));
+    }
+}

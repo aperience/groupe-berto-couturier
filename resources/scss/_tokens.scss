@@ -1,0 +1,66 @@
+// ─── Design system : custom properties ────────────────────────────────────────
+//
+// Émet sur `:root` les tokens de `_brand.scss`, seule interface des
+// composants avec le design system : `var(--color-text-heading)`,
+// `var(--space-24)`, `var(--radius-full)`… Importé par `_content.scss`, il vaut
+// pour le front comme pour le canvas de l'éditeur.
+//
+// Les tokens responsive (`--layout-*`, `--fs-*`, `--lh-*`) portent la valeur
+// mobile, puis la valeur desktop à partir du breakpoint `md`.
+
+@use "sass:list";
+@use "sass:map";
+
+:root {
+    // Couleurs sémantiques
+    @each $role, $ref in $ds-semantic-colors {
+        --color-#{$role}: #{ds-color(list.nth($ref, 1), list.nth($ref, 2))};
+    }
+
+    // Espacements
+    @each $step in $ds-spacing {
+        --space-#{$step}: #{to-rem($step)};
+    }
+
+    // Rayons
+    @each $name, $px in $ds-radius {
+        --radius-#{$name}: #{to-rem($px)};
+    }
+
+    // Ombres
+    @each $name, $shadow in $ds-shadows {
+        --shadow-#{$name}: #{$shadow};
+    }
+
+    // Mise en page et styles de texte : valeurs mobiles
+    @each $name, $values in $ds-layout {
+        --layout-#{$name}: #{to-rem(list.nth($values, 1))};
+    }
+
+    @each $name, $style in $ds-text-styles {
+        --fs-#{$name}: #{to-rem(list.nth(map.get($style, size), 1))};
+        --lh-#{$name}: #{to-rem(list.nth(map.get($style, line), 1))};
+    }
+
+    // Valeurs desktop
+    @include media-breakpoint-up(md) {
+        @each $name, $values in $ds-layout {
+            @if list.nth($values, 1) != list.nth($values, 2) {
+                --layout-#{$name}: #{to-rem(list.nth($values, 2))};
+            }
+        }
+
+        @each $name, $style in $ds-text-styles {
+            $size: map.get($style, size);
+            $line: map.get($style, line);
+
+            @if list.nth($size, 1) != list.nth($size, 2) {
+                --fs-#{$name}: #{to-rem(list.nth($size, 2))};
+            }
+
+            @if list.nth($line, 1) != list.nth($line, 2) {
+                --lh-#{$name}: #{to-rem(list.nth($line, 2))};
+            }
+        }
+    }
+}

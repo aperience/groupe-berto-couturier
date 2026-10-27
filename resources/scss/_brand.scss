@@ -1,13 +1,193 @@
-// ─── Palette de marque du client ──────────────────────────────────────────────
+// ─── Charte Couturier : valeurs sources ───────────────────────────────────────
 //
-// Couleurs reprises de la charte du site actuel (couturier-permis.com) :
-// bleu marine `#0A3C6E` (primaire), corail `#DC6446` / `#D95B42` (accent, CTA),
-// corail clair `#ED7B5F` (secondaire), bleu nuit `#0A0F2A` (texte).
+// Deux parties :
+// 1. le design system du site, transcrit de la planche « Couturier · Design
+//    System » (Permis & Formations) ;
+// 2. l'ancienne charte (site actuel), encore utilisée par le jeu de couleurs de
+//    l'admin et la page de connexion (variables `$brand_*`, en fin de fichier).
 //
-// ⚠️ Accessibilité : le corail de la charte ne tient pas 4,5:1 avec du texte blanc
-// (3,53) ni sur le fond de l'admin `#f0f0f1` (3,10) — WCAG 1.4.3 AA. Partout où
-// il porte ou entoure du texte, on emploie donc un corail assombri, `#B8452C`
-// (5,35 sur blanc, 4,70 sur `#f0f0f1`), de même teinte.
+// Ce module ne produit aucune règle : il expose les valeurs (maps Sass) et les
+// fonctions d'accès. Les custom properties CSS qu'en tirent les composants sont
+// émises par `_tokens.scss` ; les overrides Bootstrap, dans `_variables.scss`.
+//
+// Toutes les valeurs (couleurs, typographie, espacements, rayons, ombres, mise en
+// page) ont été vérifiées une à une dans Figma (2026-10-27).
+//
+// Règle du design system : les composants n'emploient **que les couleurs
+// sémantiques** (`var(--color-…)`), jamais les primitives. `ds-color()` est
+// réservé à ce fichier, à `_tokens.scss` et aux overrides Bootstrap.
+
+@use "sass:map";
+@use "sass:list";
+@use "sass:math";
+
+// ═══ 1. Design system ════════════════════════════════════════════════════════
+
+// ─── Primitives ───────────────────────────────────────────────────────────────
+// Couleurs de la charte (500 / Pêche 500 / Rouge 500 / Blanc cassé) et teintes
+// dérivées, éclaircies ou assombries pour obtenir des contrastes lisibles.
+$ds-palette: (
+    petrol: (
+        900: #00232d,
+        700: #003b4a,
+        500: #004e63, // Bleu pétrole — titres, fonds de marque
+        400: #3b7787,
+        200: #bfd3d8,
+        100: #e0eaec,
+        50:  #f0f4f6,
+    ),
+    orange: (
+        700: #ba4e27,
+        600: #e0562f,
+        500: #ff6b35, // Orange — actions principales, accents
+        100: #ffeae3,
+    ),
+    peach: (
+        500: #f8c5a0, // Pêche — fonds doux
+        300: #fbdfcb,
+        100: #fdf0e7,
+    ),
+    red: (
+        500: #ea0021, // Rouge — informations clés
+        100: #fde5e9,
+    ),
+    neutral: (
+        0:   #fff,
+        50:  #f6f6f6, // Blanc cassé — fond de page
+    ),
+);
+
+/// Couleur primitive, ex. `ds-color(petrol, 500)`.
+@function ds-color($name, $shade) {
+    $shades: map.get($ds-palette, $name);
+
+    @if $shades == null or not map.has-key($shades, $shade) {
+        @error "ds-color : teinte inconnue `#{$name}/#{$shade}`.";
+    }
+
+    @return map.get($shades, $shade);
+}
+
+// ─── Couleurs sémantiques ─────────────────────────────────────────────────────
+// Rôle → primitive. Émises en `--color-{rôle}` par `_tokens.scss`.
+$ds-semantic-colors: (
+    surface-page:        (neutral, 50),
+    surface-card:        (neutral, 0),
+    surface-brand:       (petrol, 500),
+    surface-brand-deep:  (petrol, 900),
+    surface-accent:      (orange, 500),
+    surface-accent-soft: (orange, 100),
+    surface-peach:       (peach, 500),
+    surface-peach-soft:  (peach, 300),
+    surface-peach-faint: (peach, 100),
+    surface-petrol-soft: (petrol, 100),
+    surface-petrol-faint:(petrol, 50),
+    surface-danger-soft: (red, 100),
+
+    text-default:        (petrol, 900),
+    text-heading:        (petrol, 500),
+    text-muted:          (petrol, 400),
+    text-on-brand:       (neutral, 0),
+    // Le blanc sur l'orange n'atteint que 2,8:1 : le texte posé sur l'orange est
+    // en bleu pétrole foncé (5,8:1).
+    text-on-accent:      (petrol, 900),
+    text-accent:         (orange, 700),
+    text-accent-on-dark: (orange, 500),
+    text-danger:         (red, 500),
+
+    border-subtle:       (petrol, 100),
+    border-strong:       (petrol, 500),
+    border-on-dark:      (petrol, 400),
+
+    action-primary:       (orange, 500),
+    action-primary-hover: (orange, 600),
+    action-dark:          (petrol, 500),
+    action-dark-hover:    (petrol, 700),
+
+    flag-bg:             (peach, 100),
+    flag-text:           (orange, 700),
+);
+
+/// Valeur Sass d'une couleur sémantique, ex. `ds-semantic(text-heading)` — pour
+/// les overrides Bootstrap, qui calculent sur des couleurs et non des `var()`.
+@function ds-semantic($role) {
+    $ref: map.get($ds-semantic-colors, $role);
+
+    @if $ref == null {
+        @error "ds-semantic : rôle inconnu `#{$role}`.";
+    }
+
+    @return ds-color(list.nth($ref, 1), list.nth($ref, 2));
+}
+
+// ─── Conversion px → rem ──────────────────────────────────────────────────────
+// La planche est en px ; le CSS est en rem, pour suivre la taille de police
+// choisie par l'utilisateur (WCAG 1.4.4).
+@function to-rem($px) {
+    @return math.div($px, 16) * 1rem;
+}
+
+// ─── Espacements (px) ─────────────────────────────────────────────────────────
+// Émis en `--space-{n}`. Les `$spacers` de Bootstrap (0 à 5 : 4, 8, 16, 24,
+// 48 px) en sont un sous-ensemble et restent inchangés.
+$ds-spacing: 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 40, 48, 64, 96;
+
+// ─── Rayons (px) ──────────────────────────────────────────────────────────────
+$ds-radius: (
+    sm:   12,
+    md:   20,
+    lg:   28,
+    xl:   40,
+    full: 999,
+);
+
+// ─── Ombres ───────────────────────────────────────────────────────────────────
+// Bleu pétrole (500) en transparence, valeurs de Figma.
+$ds-shadows: (
+    card:     0 1px 0 0 rgba(ds-color(petrol, 500), .06),    // Filet d'ombre des cartes
+    floating: 0 10px 30px 0 rgba(ds-color(petrol, 500), .14), // Badges flottants sur les visuels
+    nav:      0 6px 28px 0 rgba(ds-color(petrol, 500), .08),  // Barre de navigation
+);
+
+// ─── Mise en page responsive (px) : (mobile, desktop) ─────────────────────────
+// Desktop à partir du breakpoint `md` de Bootstrap (cf. `_tokens.scss`).
+$ds-layout: (
+    container:    (390, 1040),
+    page-padding: (12, 24),
+    section-gap:  (48, 96),
+    card-padding: (24, 30),
+    grid-gap:     (14, 16),
+);
+
+// ─── Styles de texte ──────────────────────────────────────────────────────────
+// Taille et interligne en px, (mobile, desktop). Émis en `--fs-{style}` /
+// `--lh-{style}` par `_tokens.scss`, appliqués par le mixin `text-style()`
+// (`_mixins.scss`). `family` : `heading` (Red Hat Display) ou `body` (Space
+// Grotesk).
+$ds-text-styles: (
+    display:     (family: heading, weight: 800, size: (38, 58),     line: (39, 59)),
+    h1:          (family: heading, weight: 700, size: (32, 46),     line: (34, 49)),
+    h2:          (family: heading, weight: 700, size: (22, 28),     line: (26, 32)),
+    h3:          (family: heading, weight: 700, size: (18, 20),     line: (22, 25)),
+    body-lg:     (family: body,    weight: 400, size: (16, 18),     line: (25.5, 29)),
+    body:        (family: body,    weight: 400, size: (14, 14),     line: (22.5, 24)),
+    body-medium: (family: body,    weight: 500, size: (14, 14),     line: (22.5, 24)),
+    small:       (family: body,    weight: 400, size: (12.5, 12.5), line: (18, 19)),
+    // Capitales, interlettrage +1,5 px.
+    eyebrow:     (family: body,    weight: 700, size: (11.5, 11.5), line: (16, 16), uppercase: true, tracking: 1.5),
+    button:      (family: body,    weight: 700, size: (15, 15),     line: (20, 20)),
+);
+
+// ═══ 2. Admin et page de connexion ═══════════════════════════════════════════
+//
+// Couleurs du jeu de couleurs de l'admin et de la page de connexion, tirées du
+// design system (partie 1). Contrastes WCAG mesurés sur les valeurs actuelles des
+// primitives — à recontrôler si elles changent.
+//
+// ⚠️ Accessibilité : l'orange de la charte (500) ne tient pas 4,5:1 avec du texte
+// blanc (2,8). Partout où il porte du texte blanc, on emploie orange/700 (4,99).
+// Celui-ci ne tient pas non plus sur le fond de l'admin `#f0f0f1` (4,38) : les
+// liens de l'admin sont donc en bleu pétrole (8,12 sur `#f0f0f1`).
 //
 // Préfixe `brand_` pour ne pas se confondre avec les variables de Bootstrap.
 // Utilisé par `admin-colors.scss` et `login.scss`.
@@ -20,23 +200,26 @@
 // qui ne correspondent pas aux couleurs réellement appliquées.
 
 // Couleur principale — menu et barre d'admin, page de connexion.
-// Bleu marine de la charte (texte blanc : 11,14:1).
-$brand_base-color: #0a3c6e;
+// Bleu pétrole (texte blanc : 9,25:1).
+$brand_base-color: ds-color(petrol, 500);
 
-// Élément courant, liens, boutons primaires de l'admin.
-// Corail de la charte assombri pour l'AA (cf. en-tête).
-$brand_highlight-color: #b8452c;
+// Élément courant, boutons primaires de l'admin.
+// Orange assombri pour l'AA (cf. en-tête).
+$brand_highlight-color: ds-color(orange, 700);
+
+// Liens de l'admin : bleu pétrole (cf. en-tête).
+$brand_link-color: ds-color(petrol, 500);
 
 // Pastilles de compteurs (mises à jour en attente, commentaires) : texte blanc,
-// même corail assombri.
-$brand_notification-color: #b8452c;
+// même orange assombri.
+$brand_notification-color: ds-color(orange, 700);
 
-// Icônes du menu au repos : bleu-gris clair, volontairement plus sourd que le
-// texte pour que l'élément courant se distingue (5,73:1 sur le marine).
-$brand_icon-color: #a9bcd0;
+// Icônes du menu au repos : pétrole clair, volontairement plus sourd que le
+// texte pour que l'élément courant se distingue (5,96:1 sur le pétrole).
+$brand_icon-color: ds-color(petrol, 200);
 
-// Sous-menus : marine assombri. Texte bleu-gris clair (9,53:1), corail clair au
-// survol / focus (6,98:1).
-$brand_submenu-background: #072c52;
-$brand_submenu-text: #c9d6e3;
-$brand_submenu-focus-text: #f4a28e;
+// Sous-menus : pétrole assombri. Texte pétrole très clair (9,94:1), pêche au
+// survol / focus (7,82:1 ; l'orange de la charte n'y tiendrait que 4,29).
+$brand_submenu-background: ds-color(petrol, 700);
+$brand_submenu-text: ds-color(petrol, 100);
+$brand_submenu-focus-text: ds-color(peach, 500);
