@@ -34,6 +34,7 @@ use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableUpdates;
 use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\Admin\NestedPagesLinks;
 use Theme\Features\Blocks\BlockLoader;
+use Theme\Features\Blocks\ButtonStyles;
 use Theme\Features\Blocks\DisableDropCap;
 use Theme\Features\Blocks\RestrictHeadingLevels;
 
@@ -66,6 +67,8 @@ final class AdminServiceProvider implements ServiceProviderInterface
                     'core/heading',
                     'core/list',
                     'core/list-item',
+                    'core/buttons',
+                    'core/button',
                 ]
             ),
             new DisableComment(),
@@ -79,6 +82,7 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new DisableDropCap(),
             new DisablePostByEmail(),
             new RestrictHeadingLevels($context),
+            new ButtonStyles($context),
             new DisableSiteIcon(),
             new DisableUpdateServices(),
             new DisableUpdates(allow_minor_core: true),

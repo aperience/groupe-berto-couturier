@@ -1,0 +1,169 @@
+// ─── Boutons : core/buttons + core/button ─────────────────────────────────────
+//
+// Balisage du core, styles et flèche déclarés par `Theme\Features\Blocks\ButtonStyles` :
+//
+//   div.wp-block-buttons                  ← conteneur (flex, alignement)
+//     div.wp-block-button.is-style-…      ← style de bloc ; `has-arrow` si flèche
+//       a.wp-block-button__link           ← le bouton
+//
+// Chaque style ne fait que redéfinir les custom properties `--button-*` ; les
+// règles sont communes. Le style par défaut (`primary`, orange) n'a pas de classe.
+//
+// Les feuilles de blocs du core ne sont pas chargées sur le front
+// (`DisableBlockStyles`), mais le sont dans l'éditeur : les sélecteurs ci-dessous
+// (spécificité 0,3,0) l'emportent sur les leurs (`:root :where(…)`, 0,1,0).
+
+// ─── Conteneur ────────────────────────────────────────────────────────────────
+// Sur le front, les styles globaux (`is-layout-flex`) ne sont pas chargés : la
+// mise en page du conteneur est reprise ici, avec l'alignement choisi dans la
+// barre d'outils (classes posées par le support `layout` du core).
+.wp-block-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-16);
+
+    &.is-content-justification-center { justify-content: center; }
+    &.is-content-justification-right { justify-content: flex-end; }
+    &.is-content-justification-space-between { justify-content: space-between; }
+
+    &.is-vertical {
+        flex-direction: column;
+        align-items: flex-start;
+
+        &.is-content-justification-center { align-items: center; }
+        &.is-content-justification-right { align-items: flex-end; }
+    }
+}
+
+// ─── Styles : couleurs par état ───────────────────────────────────────────────
+.wp-block-button {
+    // Orange (défaut)
+    --button-bg:          var(--color-action-primary);
+    --button-bg-hover:    var(--color-action-primary-hover);
+    --button-border:      var(--button-bg);
+    --button-border-hover: var(--button-bg-hover);
+    // ⚠️ Accessibilité : texte blanc à la demande du client, comme sur la maquette,
+    // contre la règle du design system (`text-on-accent`, pétrole foncé). Le blanc
+    // n'atteint que 2,84:1 sur l'orange et 3,79:1 au survol, sous les 4,5:1 exigés
+    // (WCAG 1.4.3 AA) — validation reportée.
+    --button-text:        var(--color-text-on-brand);
+    // Pastille de la flèche ; la flèche prend la couleur de texte de la pastille.
+    --button-pastille:    var(--color-surface-card);
+    --button-arrow:       var(--color-text-on-accent);
+
+    &.is-style-outline {
+        --button-bg:           var(--color-surface-card);
+        --button-bg-hover:     var(--color-surface-petrol-faint);
+        --button-border:       var(--color-border-strong);
+        --button-border-hover: var(--color-border-strong);
+        --button-text:         var(--color-text-heading);
+        --button-pastille:     var(--color-surface-accent);
+    }
+
+    &.is-style-secondary {
+        --button-bg:       var(--color-action-dark);
+        --button-bg-hover: var(--color-action-dark-hover);
+        --button-text:     var(--color-text-on-brand);
+        --button-pastille: var(--color-surface-accent);
+    }
+
+    &.is-style-deep {
+        --button-bg:       var(--color-surface-brand-deep);
+        --button-bg-hover: var(--color-action-dark);
+        --button-text:     var(--color-text-on-brand);
+        --button-pastille: var(--color-surface-accent);
+    }
+
+    // Fond transparent, pour une section sombre uniquement : son texte blanc
+    // disparaîtrait sur un fond clair. Survol provisoire (absent de la maquette).
+    &.is-style-ghost {
+        --button-bg:           transparent;
+        --button-bg-hover:     var(--color-action-dark-hover);
+        --button-border:       var(--color-border-on-dark);
+        --button-border-hover: var(--color-border-on-dark);
+        --button-text:         var(--color-text-on-brand);
+        --button-pastille:     var(--color-surface-accent);
+    }
+}
+
+// ─── Bouton ───────────────────────────────────────────────────────────────────
+.wp-block-buttons > .wp-block-button > .wp-block-button__link {
+    @include text-style(button);
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    // 50 px de haut : 20 px d'interligne, 14 px de marge interne, 1 px de bordure.
+    min-height: to-rem(50);
+    padding: var(--space-14) var(--space-24);
+    border: 1px solid var(--button-border);
+    border-radius: var(--radius-full);
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    text-align: center;
+    text-decoration: none;
+    transition: background-color .15s ease, border-color .15s ease;
+
+    &:hover,
+    &:focus-visible {
+        border-color: var(--button-border-hover);
+        background-color: var(--button-bg-hover);
+        color: var(--button-text);
+    }
+
+    // Double anneau : blanc puis pétrole foncé, visible sur fond clair comme
+    // sombre (WCAG 2.4.7, 1.4.11). Le contour transparent reste affiché en mode
+    // de contraste forcé, où les ombres disparaissent.
+    &:focus-visible {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 2px var(--color-surface-card), 0 0 0 4px var(--color-text-default);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
+
+// ─── Flèche ───────────────────────────────────────────────────────────────────
+// Deux pseudo-éléments décoratifs, ignorés des lecteurs d'écran : la pastille
+// (`::before`), puis la flèche (`::after`), peinte en `currentColor` à travers le
+// SVG en masque — elle hérite donc de la couleur (`color`) posée sur elle.
+// Chemin relatif aux feuilles d'entrée (`resources/scss/`), comme pour les polices.
+$button-pastille-size: var(--space-32);
+$button-pastille-inset: var(--space-8);
+$button-arrow-size: to-rem(18);
+
+.wp-block-buttons > .wp-block-button.has-arrow > .wp-block-button__link {
+    // Place de la pastille : marge droite + pastille + écart avec le texte.
+    padding-right: calc(#{$button-pastille-inset} + #{$button-pastille-size} + var(--space-12));
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        pointer-events: none;
+    }
+
+    &::before {
+        right: $button-pastille-inset;
+        width: $button-pastille-size;
+        height: $button-pastille-size;
+        border-radius: 50%;
+        background-color: var(--button-pastille);
+        transform: translateY(-50%);
+    }
+
+    &::after {
+        right: calc(#{$button-pastille-inset} + (#{$button-pastille-size} - #{$button-arrow-size}) / 2);
+        width: $button-arrow-size;
+        height: $button-arrow-size;
+        color: var(--button-arrow);
+        background-color: currentColor;
+        mask: url("../images/icons/arrow-right.svg") center / contain no-repeat;
+        transform: translateY(-50%);
+    }
+}

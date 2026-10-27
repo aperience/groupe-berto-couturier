@@ -39,4 +39,4 @@ body {
 // ─── 3. Blocs Gutenberg ───────────────────────────────────────────────────────
 // Un partial par bloc dans `block/`, importé ici une seule fois : il vaut pour le
 // front et pour l'éditeur (cf. `blocks/CLAUDE.md`).
-// @import 'block/mon-bloc';
+@import 'block/button';

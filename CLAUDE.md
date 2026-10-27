@@ -236,7 +236,7 @@ Si une seule feature est concernée, garder la méthode privée dans la feature.
 | `SetupServiceProvider` | Initialisation du thème, chargé en premier | `Setup/` — `ThemeSupport`, `Menus`, `TwigDump` |
 | `SecurityServiceProvider` | Durcissement : surface d'attaque et informations publiées | `Security/` — `DisableApplicationPasswords`, `DisableUserEnumeration`, `DisableXmlRpc`, `HideLoginErrors`, `SecurityHeaders` |
 | `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat |
-| `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue et lien « Politique de confidentialité » du login (page de connexion réservée à l'équipe ; à revoir si l'inscription est ouverte), icône du site, mises à jour, commentaires, publication par e-mail, services de mise à jour, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Admin/` (thème) — `NestedPagesLinks` (lien « Pages publiées » du tableau de bord et bouton de retour de l'éditeur des pages vers Nested Pages, si l'extension est active)<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout), `DisableDropCap` (pas de lettrine sur les paragraphes)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
+| `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue et lien « Politique de confidentialité » du login (page de connexion réservée à l'équipe ; à revoir si l'inscription est ouverte), icône du site, mises à jour, commentaires, publication par e-mail, services de mise à jour, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Admin/` (thème) — `NestedPagesLinks` (lien « Pages publiées » du tableau de bord et bouton de retour de l'éditeur des pages vers Nested Pages, si l'extension est active)<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout), `DisableDropCap` (pas de lettrine sur les paragraphes), `ButtonStyles` (boutons du design system sur `core/button`, cf. *Blocs Gutenberg*)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
 | `MailServiceProvider` | Forme des e-mails envoyés par `wp_mail()` | `Mail/` (thème) — `HtmlEmails` (cf. *E-mails* plus bas) |
 | `SeoServiceProvider` | Référencement | `Seo/` — `DocumentTitle`, `MetaDescription`, `SitemapExclusion`, `SeoPanel` (panneau de l'éditeur), `OpenGraph` |
 
@@ -598,6 +598,19 @@ Fichiers par bloc :
 - Blocs conteneur / enfant : le parent déclare `allowedBlocks`, l'enfant déclare `parent`
 - Fournir un `example` dans `block.json` pour la prévisualisation de l'inserter
 - Les blocs core autorisés sont whitelistés par la feature `Admin\DisableBlocks` (core minimal + `couturier/*`)
+- **Boutons : blocs du core habillés**, pas de bloc custom (feature `Blocks\ButtonStyles`, styles
+  dans `resources/scss/block/_button.scss`). Les cinq styles de bloc (`primary` par défaut,
+  `outline`, `secondary`, `deep`, `ghost`) remplacent `fill` / `outline` du core ; un attribut
+  `hasArrow` (interrupteur « Afficher la flèche », `resources/js/editor/button.js`) ajoute la
+  classe `has-arrow` **au rendu** (`render_block_core/button`) et dans le canvas, jamais dans le
+  HTML enregistré. Styles, attribut et supports retirés (bordure, ombre, espacements, largeur) se
+  déclarent sur `register_block_type_args` : la définition serveur l'emporte dans l'éditeur. La
+  flèche (`resources/images/icons/arrow-right.svg`) est un masque CSS peint en `currentColor` : elle
+  prend la couleur `--button-arrow` du style. `ghost` (texte blanc, fond transparent) est réservé
+  aux sections sombres. ⚠️ Le bouton orange a un texte **blanc** (choix du client, comme la
+  maquette), en dérogation à `text-on-accent` : 2,84:1, sous l'AA — validation reportée. Le
+  même script masque les formats « Gras » et « Italique » quand un bouton est sélectionné (texte
+  au style « Button » du design system).
 
 ---
 
