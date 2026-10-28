@@ -45,6 +45,7 @@ import { __ } from '@wordpress/i18n';
 import ImageField, { ImageInfoPanel } from '../_shared/image-field.js';
 import { plus } from '../_shared/icons.js';
 import metadata from './block.json';
+import exampleImage from './example.webp';
 import './formats.js';
 
 /** Verrou propre au bloc : supprimable malgré `templateLock: 'all'`, non déplaçable. */
@@ -54,6 +55,14 @@ const REMOVABLE = { remove: false, move: true };
 const LOCKED = { remove: true, move: true };
 
 const GHOST = 'is-style-ghost';
+
+/**
+ * `imageId` réservé à l'aperçu de l'inserteur (`example`) : une image fournie avec
+ * le bloc, l'aperçu ne pouvant compter sur aucune pièce jointe de la médiathèque.
+ * Jamais enregistré ; `render.php` n'afficherait d'ailleurs rien.
+ */
+const EXAMPLE_IMAGE_ID = -1;
+const EXAMPLE_MEDIA = { source_url: exampleImage, alt_text: '' };
 
 /** Les deux boutons du modèle : orange avec flèche, puis transparent. */
 const BUTTONS = [
@@ -156,6 +165,10 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 		( select ) => {
 			if ( ! imageId ) {
 				return { media: null, isMissing: false };
+			}
+
+			if ( EXAMPLE_IMAGE_ID === imageId ) {
+				return { media: EXAMPLE_MEDIA, isMissing: false };
 			}
 
 			const attachment = select( coreStore ).getMedia( imageId, { context: 'view' } );
@@ -281,6 +294,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 }
 
 registerBlockType( metadata.name, {
+	example: { ...metadata.example, attributes: { imageId: EXAMPLE_IMAGE_ID } },
 	edit: Edit,
 	save: () => <InnerBlocks.Content />,
 } );

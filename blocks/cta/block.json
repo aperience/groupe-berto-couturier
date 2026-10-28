@@ -17,8 +17,9 @@
 		"html": false
 	},
 	"example": {
+		"viewportWidth": 1200,
 		"innerBlocks": [
-			{ "name": "core/heading", "attributes": { "level": 2, "content": "Un projet de permis ?" } },
+			{ "name": "core/heading", "attributes": { "level": 2, "content": "Un projet de <span class=\"wp-block-couturier-cta__highlight\">permis</span> ?" } },
 			{ "name": "core/paragraph", "attributes": { "content": "Un conseiller vous rappelle et vous aide à choisir." } },
 			{
 				"name": "core/buttons",
