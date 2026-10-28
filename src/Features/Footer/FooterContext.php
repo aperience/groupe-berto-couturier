@@ -17,7 +17,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Ajoute `footer` au contexte Timber de toutes les pages :
- * `{ certifications: [{ image, url }], copyright }`.
+ * `{ certifications: [{ image, url }], copyright }` — certifications actives seulement.
  *
  * `image` est le HTML de `wp_get_attachment_image()` (chargement différé), avec le
  * texte alternatif de la médiathèque, à défaut le titre de l'image : le logo est
@@ -63,7 +63,7 @@ final class FooterContext implements FeatureInterface {
                     ),
                     'url'   => $certification['url'],
                 ],
-                Footer::certifications()
+                Footer::active_certifications()
             ),
             'copyright'      => Footer::copyright(),
         ];

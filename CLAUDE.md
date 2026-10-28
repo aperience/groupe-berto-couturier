@@ -659,10 +659,11 @@ sous le haut de la carte blanche des certifications, qui chevauche ainsi son bor
   sous-éléments en sont les liens ; emplacement `legal` pour les liens de la barre du bas.
 - **Écran Apparence › « Pied de page »** (feature `Footer\FooterSettings`, capacité `edit_others_pages`, Settings
   API comme l'offre du moment), option autoloadée `couturier_footer` (lecture : `Footer\Footer`) :
-  - certifications : image de la médiathèque (SVG compris) et lien facultatif, dans l'ordre
-    d'affichage ; ajout, déplacement et retrait par boutons, au clavier, annoncés en `role="status"`
+  - certifications : image de la médiathèque (SVG compris), lien facultatif et interrupteur
+    « Activer » (une certification désactivée reste dans la liste mais n'est pas affichée), dans
+    l'ordre d'affichage ; ajout, déplacement et retrait par boutons, au clavier, annoncés en `role="status"`
     (`resources/js/editor/footer-settings.js`, injecté en inline sur l'écran seul). Champs postés en
-    tableaux parallèles (`image_id[]`, `url[]`) : l'ordre du DOM fait l'ordre enregistré. Le texte
+    tableaux parallèles (`image_id[]`, `url[]`, `enabled[]`) : l'ordre du DOM fait l'ordre enregistré. Le texte
     alternatif de la médiathèque sert d'intitulé au logo (à défaut, le titre de l'image ; l'écran
     signale l'image sans alt) ;
   - réseaux sociaux : une adresse par réseau de `Footer::NETWORKS`, réseau sans adresse masqué ;

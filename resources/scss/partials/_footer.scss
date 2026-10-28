@@ -92,17 +92,19 @@
     }
 }
 
+// Flex et non grille : une rangée incomplète (moins de 6 logos actifs, ou la
+// 2e rangée mobile) reste centrée, chaque logo gardant la largeur d'une colonne.
 .footer-certifications__list {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-32) 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
+    row-gap: var(--space-32);
     margin: 0;
     padding: 0;
     list-style: none;
 
     @include media-breakpoint-up(lg) {
-        grid-template-columns: repeat(6, minmax(0, 1fr));
         max-width: calc(#{map.get($container-max-widths, lg)} - #{$container-padding-x});
         margin-inline: auto;
     }
@@ -110,7 +112,12 @@
 
 .footer-certifications__item {
     display: flex;
+    flex: 0 0 calc(100% / 3);
     justify-content: center;
+
+    @include media-breakpoint-up(lg) {
+        flex-basis: calc(100% / 6);
+    }
 
     a {
         display: block;

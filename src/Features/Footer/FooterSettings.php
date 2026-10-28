@@ -26,9 +26,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * `CAPABILITY` pour ce seul groupe de réglages.
  *
  * **Liste de certifications sans index.** Les champs sont postés en tableaux
- * parallèles (`image_id[]`, `url[]`) : leur ordre est celui du DOM, que le script
+ * parallèles (`image_id[]`, `url[]`, `enabled[]`) : leur ordre est celui du DOM, que le script
  * de l'écran (`resources/js/editor/footer-settings.js`) réordonne sans avoir à
- * renuméroter les noms. Une ligne sans image est ignorée.
+ * renuméroter les noms. Une ligne sans image est ignorée. L'interrupteur
+ * « Activer » est une case sans nom, recopiée par le script dans un champ caché
+ * `enabled[]` (1 ou 0) : une case décochée n'est pas postée, et décalerait les
+ * tableaux.
  *
  * **Un tableau, une ligne par certification**, pour tenir peu de place.
  * Réordonnancement au clavier : boutons « Monter », « Descendre », « Retirer »
@@ -135,6 +138,8 @@ final class FooterSettings implements FeatureInterface {
             'mediaTitle'   => __( 'Logo de la certification', 'couturier' ),
             'mediaButton'  => __( 'Utiliser cette image', 'couturier' ),
             'changeImage'  => __( 'Changer', 'couturier' ),
+            'yes'          => __( 'Oui', 'couturier' ),
+            'no'           => __( 'Non', 'couturier' ),
             /* translators: %d : nouvelle position de la certification. */
             'moved'        => __( 'Certification déplacée en position %d.', 'couturier' ),
             'removed'      => __( 'Certification retirée.', 'couturier' ),
@@ -147,12 +152,24 @@ final class FooterSettings implements FeatureInterface {
         wp_add_inline_script( $handle, 'window.couturierFooterSettings = ' . wp_json_encode( $l10n ) . ';', 'before' );
         wp_add_inline_script( $handle, (string) file_get_contents( $path ) );
 
-        // Mise en forme du tableau, propre à cet écran.
+        // Mise en forme du tableau, propre à cet écran. Interrupteur « Activer » :
+        // la case à cocher native, redessinée en glissière (même clavier, même
+        // lecteur d'écran). Contrastes sur blanc (WCAG 1.4.11) : contour et pastille
+        // grise `#8c8f94` 3,3:1, piste pétrole `#004e63` 9,25:1.
         wp_add_inline_style( 'common', '
             .couturier-certifications { max-width: 60rem; }
             .widefat.couturier-certifications tbody th, .widefat.couturier-certifications tbody td { vertical-align: middle; }
             .couturier-certifications .column-number { width: 2.5rem; }
             .couturier-certifications .column-logo { width: 14rem; }
+            .couturier-certifications .column-enabled { width: 6rem; }
+            .couturier-certifications .column-enabled label { display: inline-flex; align-items: center; gap: .5rem; min-height: 1.5rem; cursor: pointer; }
+            .couturier-certifications input[type="checkbox"].couturier-certification__toggle { appearance: none; position: relative; flex: none; width: 2.5rem; height: 1.375rem; margin: 0; border: 1px solid #8c8f94; border-radius: 999px; background: #fff; box-shadow: none; cursor: pointer; transition: background-color .15s, border-color .15s; }
+            .couturier-certifications input[type="checkbox"].couturier-certification__toggle::before { content: none; }
+            .couturier-certifications input[type="checkbox"].couturier-certification__toggle::after { content: ""; position: absolute; top: 2px; left: 2px; width: 1rem; height: 1rem; border-radius: 50%; background: #8c8f94; transition: transform .15s, background-color .15s; }
+            .couturier-certifications input[type="checkbox"].couturier-certification__toggle:checked { background: #004e63; border-color: #004e63; }
+            .couturier-certifications input[type="checkbox"].couturier-certification__toggle:checked::after { background: #fff; transform: translateX(1.125rem); }
+            .couturier-certifications input[type="checkbox"].couturier-certification__toggle:focus-visible { outline: 2px solid #004e63; outline-offset: 2px; }
+            @media (prefers-reduced-motion: reduce) { .couturier-certifications input[type="checkbox"].couturier-certification__toggle, .couturier-certifications input[type="checkbox"].couturier-certification__toggle::after { transition: none; } }
             .couturier-certifications .column-actions { width: 8.5rem; text-align: right; }
             .couturier-certification__logo { display: flex; align-items: center; gap: .75rem; }
             .couturier-certification__preview { display: flex; align-items: center; justify-content: center; width: 6rem; height: 2.5rem; }
@@ -170,7 +187,7 @@ final class FooterSettings implements FeatureInterface {
      * certification ou le réseau en cause (WCAG 3.3.1).
      *
      * @param mixed $input Valeurs postées.
-     * @return array{certifications: list<array{image_id: int, url: string}>, social: array<string, string>, copyright: string}
+     * @return array{certifications: list<array{image_id: int, url: string, enabled: bool}>, social: array<string, string>, copyright: string}
      */
     public function sanitize( mixed $input ): array {
         if ( null !== $this->sanitized ) {
@@ -183,6 +200,7 @@ final class FooterSettings implements FeatureInterface {
         $posted    = is_array( $input['certifications'] ?? null ) ? $input['certifications'] : [];
         $image_ids = array_values( (array) ( $posted['image_id'] ?? [] ) );
         $urls      = array_values( (array) ( $posted['url'] ?? [] ) );
+        $enabled   = array_values( (array) ( $posted['enabled'] ?? [] ) );
 
         $certifications = [];
 
@@ -218,6 +236,7 @@ final class FooterSettings implements FeatureInterface {
             $certifications[] = [
                 'image_id' => $image_id,
                 'url'      => $url,
+                'enabled'  => '0' !== (string) ( $enabled[ $index ] ?? '1' ),
             ];
         }
 
@@ -273,22 +292,23 @@ final class FooterSettings implements FeatureInterface {
         echo '<p id="couturier-certifications-description">' . esc_html__( 'Logos affichés en tête du pied de page, dans cet ordre. Le texte alternatif de chaque image, saisi dans la médiathèque, sert d\'intitulé au logo : par exemple « Qualiopi, processus certifié ».', 'couturier' ) . '</p>';
 
         printf(
-            '<table class="widefat striped couturier-certifications" aria-describedby="couturier-certifications-description"><thead><tr><th scope="col" class="column-number">%1$s</th><th scope="col" class="column-logo">%2$s</th><th scope="col">%3$s</th><th scope="col" class="column-actions"><span class="screen-reader-text">%4$s</span></th></tr></thead><tbody id="couturier-certifications">',
+            '<table class="widefat striped couturier-certifications" aria-describedby="couturier-certifications-description"><thead><tr><th scope="col" class="column-number">%1$s</th><th scope="col" class="column-logo">%2$s</th><th scope="col">%3$s</th><th scope="col" class="column-enabled">%5$s</th><th scope="col" class="column-actions"><span class="screen-reader-text">%4$s</span></th></tr></thead><tbody id="couturier-certifications">',
             esc_html_x( 'N°', 'position de la certification', 'couturier' ),
             esc_html__( 'Logo', 'couturier' ),
             esc_html__( 'Lien (facultatif)', 'couturier' ),
-            esc_html__( 'Ordre et retrait', 'couturier' )
+            esc_html__( 'Ordre et retrait', 'couturier' ),
+            esc_html__( 'Activer', 'couturier' )
         );
 
         foreach ( Footer::certifications() as $index => $certification ) {
-            $this->render_certification( (string) $index, $index + 1, $certification['image_id'], $certification['url'] );
+            $this->render_certification( (string) $index, $index + 1, $certification['image_id'], $certification['url'], $certification['enabled'] );
         }
 
         echo '</tbody></table>';
 
         // Gabarit d'une ligne vierge, cloné par le script.
         echo '<template id="couturier-certification-template">';
-        $this->render_certification( self::ROW_KEY, 0, 0, '' );
+        $this->render_certification( self::ROW_KEY, 0, 0, '', true );
         echo '</template>';
 
         printf(
@@ -348,8 +368,9 @@ final class FooterSettings implements FeatureInterface {
      * @param int    $number   Position affichée (0 dans le gabarit : le script la renseigne).
      * @param int    $image_id Image de la médiathèque, 0 si aucune.
      * @param string $url      Lien facultatif.
+     * @param bool   $enabled  Certification affichée sur le site.
      */
-    private function render_certification( string $key, int $number, int $image_id, string $url ): void {
+    private function render_certification( string $key, int $number, int $image_id, string $url, bool $enabled ): void {
         $has_image = Footer::is_valid_image( $image_id );
         $alt       = $has_image ? trim( (string) get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) : '';
 
@@ -394,6 +415,19 @@ final class FooterSettings implements FeatureInterface {
             esc_html__( 'Lien (facultatif)', 'couturier' ),
             esc_attr( Footer::OPTION . '[certifications][url][]' ),
             esc_attr( $url )
+        );
+
+        // Activer : interrupteur (case `role="switch"`, nommée « Activer »), état
+        // « Oui » / « Non » affiché à côté, masqué aux lecteurs d'écran qui
+        // l'annoncent déjà. La case n'a pas de `name` : le script recopie son état
+        // dans le champ caché posté.
+        printf(
+            '<td class="column-enabled"><input type="hidden" class="couturier-certification__enabled" name="%1$s" value="%2$s"><label><input type="checkbox" role="switch" class="couturier-certification__toggle"%3$s><span class="screen-reader-text">%4$s</span> <span class="couturier-certification__state" aria-hidden="true">%5$s</span></label></td>',
+            esc_attr( Footer::OPTION . '[certifications][enabled][]' ),
+            $enabled ? '1' : '0',
+            checked( $enabled, true, false ),
+            esc_html__( 'Activer', 'couturier' ),
+            esc_html( $enabled ? __( 'Oui', 'couturier' ) : __( 'Non', 'couturier' ) )
         );
 
         echo '<td class="column-actions"><span class="couturier-certification__actions">';

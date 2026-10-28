@@ -47,7 +47,7 @@ final class Footer {
     /**
      * Réglages enregistrés, complétés par les valeurs par défaut.
      *
-     * @return array{certifications: list<array{image_id: int, url: string}>, social: array<string, string>, copyright: string}
+     * @return array{certifications: list<array{image_id: int, url: string, enabled: bool}>, social: array<string, string>, copyright: string}
      */
     public static function settings(): array {
         $stored = get_option( self::OPTION, [] );
@@ -68,11 +68,13 @@ final class Footer {
     }
 
     /**
-     * Certifications dont l'image existe encore dans la médiathèque.
+     * Certifications dont l'image existe encore dans la médiathèque, actives ou non
+     * (écran d'admin).
      *
-     * Une image supprimée après l'enregistrement est ignorée, sans erreur.
+     * Une image supprimée après l'enregistrement est ignorée, sans erreur. Une
+     * certification enregistrée avant l'interrupteur « Activer » est active.
      *
-     * @return list<array{image_id: int, url: string}>
+     * @return list<array{image_id: int, url: string, enabled: bool}>
      */
     public static function certifications(): array {
         $certifications = self::settings()['certifications'];
@@ -81,9 +83,26 @@ final class Footer {
         _prime_post_caches( array_column( $certifications, 'image_id' ) );
 
         return array_values(
+            array_map(
+                static fn( array $certification ): array => $certification + [ 'enabled' => true ],
+                array_filter(
+                    $certifications,
+                    static fn( array $certification ): bool => self::is_valid_image( (int) $certification['image_id'] )
+                )
+            )
+        );
+    }
+
+    /**
+     * Certifications affichées sur le site : celles qui sont actives.
+     *
+     * @return list<array{image_id: int, url: string, enabled: bool}>
+     */
+    public static function active_certifications(): array {
+        return array_values(
             array_filter(
-                $certifications,
-                static fn( array $certification ): bool => self::is_valid_image( (int) $certification['image_id'] )
+                self::certifications(),
+                static fn( array $certification ): bool => $certification['enabled']
             )
         );
     }

@@ -134,6 +134,18 @@
 		}
 	} );
 
+	// Interrupteur « Activer » : la case n'est pas postée, son état l'est par le champ caché.
+	list.addEventListener( 'change', function ( event ) {
+		var toggle = event.target.closest( '.couturier-certification__toggle' );
+
+		if ( toggle ) {
+			var row = toggle.closest( '.couturier-certification' );
+
+			row.querySelector( '.couturier-certification__enabled' ).value = toggle.checked ? '1' : '0';
+			row.querySelector( '.couturier-certification__state' ).textContent = toggle.checked ? settings.yes : settings.no;
+		}
+	} );
+
 	addButton.addEventListener( 'click', function () {
 		// Un <tr> n'est analysé qu'à l'intérieur d'un <tbody> : dans un <div>, il serait ignoré.
 		var holder = document.createElement( 'tbody' );
