@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-28T08:51:46+00:00\n"
+"POT-Creation-Date: 2026-10-28T09:10:34+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -85,8 +85,78 @@ msgstr ""
 msgid "Limite les niveaux de titre proposés dans l'éditeur à %s."
 msgstr ""
 
+#. translators: 1 : date, 2 : heure.
+#: src/Features/CurrentOffer/CurrentOffer.php:174
+#, php-format
+msgid "%1$s à %2$s"
+msgstr ""
+
+#. translators: %s : date de fin de l'offre.
+#: src/Features/CurrentOffer/CurrentOffer.php:185
+#, php-format
+msgid "En ligne jusqu'au %s."
+msgstr ""
+
+#: src/Features/CurrentOffer/CurrentOffer.php:186
+msgid "En ligne, sans date de fin."
+msgstr ""
+
+#. translators: 1 : date de début, 2 : date de fin de l'offre.
+#: src/Features/CurrentOffer/CurrentOffer.php:192
+#, php-format
+msgid "Programmée du %1$s au %2$s."
+msgstr ""
+
+#. translators: %s : date de début de l'offre.
+#: src/Features/CurrentOffer/CurrentOffer.php:194
+#, php-format
+msgid "Programmée à partir du %s."
+msgstr ""
+
+#. translators: %s : date de fin de l'offre.
+#: src/Features/CurrentOffer/CurrentOffer.php:197
+#, php-format
+msgid "Expirée depuis le %s : elle n'est plus affichée."
+msgstr ""
+
+#: src/Features/CurrentOffer/CurrentOffer.php:198
+msgid "Non affichée : la page de l'offre n'est plus publiée."
+msgstr ""
+
+#: src/Features/CurrentOffer/CurrentOffer.php:199
+msgid "Désactivée : l'offre n'est pas affichée."
+msgstr ""
+
+#: src/Features/CurrentOffer/CurrentOffer.php:205
+msgid "État :"
+msgstr ""
+
 #: src/Features/CurrentOffer/CurrentOfferContext.php:46
 msgid "Expose l'offre du moment aux templates, quand elle est active et dans ses dates (mise en cache)."
+msgstr ""
+
+#: src/Features/CurrentOffer/CurrentOfferDashboard.php:45
+msgid "Widget « Offre du moment » sur le tableau de bord : état de l'offre, titre, texte, page, et lien vers ses réglages."
+msgstr ""
+
+#: src/Features/CurrentOffer/CurrentOfferDashboard.php:54
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:95
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:96
+msgid "Offre du moment"
+msgstr ""
+
+#: src/Features/CurrentOffer/CurrentOfferDashboard.php:65
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:281
+#: resources/views/partials/current-offer.twig:9
+msgid "Découvrir l'offre"
+msgstr ""
+
+#: src/Features/CurrentOffer/CurrentOfferDashboard.php:78
+msgid "(nouvel onglet)"
+msgstr ""
+
+#: src/Features/CurrentOffer/CurrentOfferDashboard.php:87
+msgid "Gérer l'offre du moment"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferPageCache.php:58
@@ -95,11 +165,6 @@ msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:89
 msgid "Écran « Offre du moment » : une offre datée, activable, qui renvoie vers une page dédiée et s'affiche en page d'accueil."
-msgstr ""
-
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:95
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:96
-msgid "Offre du moment"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:149
@@ -115,7 +180,7 @@ msgid "Choisissez la page de l'offre pour l'activer."
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:161
-msgid "La date de fin doit être postérieure ou égale à la date de début."
+msgid "La fin doit être postérieure au début."
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:170
@@ -168,11 +233,6 @@ msgstr ""
 msgid "Intitulé du lien"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:281
-#: resources/views/partials/current-offer.twig:9
-msgid "Découvrir l'offre"
-msgstr ""
-
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:284
 msgid "Facultatif. « Découvrir l'offre » si le champ est vide."
 msgstr ""
@@ -182,7 +242,11 @@ msgid "Date de début"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:290
-msgid "Facultatif. L'offre s'affiche à partir de 00:00 ce jour-là ; sans date, dès son activation."
+msgid "Heure de début"
+msgstr ""
+
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:290
+msgid "Facultatif. L'offre s'affiche à partir de cet instant ; sans date, dès son activation."
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:291
@@ -190,50 +254,19 @@ msgid "Date de fin"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:291
-msgid "Facultatif. L'offre s'affiche jusqu'à 23:59 ce jour-là ; sans date, jusqu'à sa désactivation."
+msgid "Heure de fin"
 msgstr ""
 
-#. translators: %s : date de fin de l'offre.
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:329
-#, php-format
-msgid "En ligne jusqu'au %s inclus."
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:291
+msgid "Facultatif. L'offre disparaît à cet instant (à 00:00, elle n'est plus affichée ce jour-là) ; sans date, à sa désactivation."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:330
-msgid "En ligne, sans date de fin."
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:304
+msgctxt "entre la date et l'heure"
+msgid "à"
 msgstr ""
 
-#. translators: 1 : date de début, 2 : date de fin de l'offre.
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:336
-#, php-format
-msgid "Programmée du %1$s au %2$s inclus."
-msgstr ""
-
-#. translators: %s : date de début de l'offre.
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:338
-#, php-format
-msgid "Programmée à partir du %s."
-msgstr ""
-
-#. translators: %s : date de fin de l'offre.
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:341
-#, php-format
-msgid "Expirée depuis le %s : elle n'est plus affichée."
-msgstr ""
-
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:342
-msgid "Non affichée : la page de l'offre n'est plus publiée."
-msgstr ""
-
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:343
-msgid "Désactivée : l'offre n'est pas affichée."
-msgstr ""
-
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:349
-msgid "État :"
-msgstr ""
-
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:368
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:333
 msgid "(obligatoire)"
 msgstr ""
 

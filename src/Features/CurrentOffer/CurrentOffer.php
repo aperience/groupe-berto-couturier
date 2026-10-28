@@ -24,9 +24,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * coûte rien. Sur le front, le seul coût est la résolution de la page cible, et
  * `CurrentOfferContext` le met en cache.
  *
- * **Dates à la journée, dans le fuseau du site.** L'offre démarre à 00:00 le jour
- * de début et s'arrête à 23:59:59 le jour de fin, ce qui revient à 00:00 le
- * lendemain. Une date vide veut dire « pas de borne ».
+ * **Dates à la minute, dans le fuseau du site.** L'offre démarre à l'instant de
+ * début et s'arrête à l'instant de fin, qui est exclu. Une date vide veut dire
+ * « pas de borne ».
  */
 final class CurrentOffer {
 
@@ -40,8 +40,11 @@ final class CurrentOffer {
     /** Action émise quand l'offre affichée peut avoir changé (purge d'un cache de page). */
     public const CHANGED_ACTION = 'couturier_current_offer_changed';
 
-    /** Format de stockage des dates. */
-    public const DATE_FORMAT = 'Y-m-d';
+    /** Slug de l'écran de réglages, préfixé par `ThemeContext::handle()`. */
+    public const MENU_SLUG = 'current-offer';
+
+    /** Format de stockage des dates (date et heure). */
+    public const DATE_FORMAT = 'Y-m-d H:i';
 
     /** États possibles de l'offre. */
     public const STATUS_DISABLED  = 'disabled';
@@ -81,7 +84,7 @@ final class CurrentOffer {
         $settings = self::settings();
         $now    ??= new DateTimeImmutable( 'now', wp_timezone() );
         $start    = self::parse_date( $settings['start'] );
-        $end      = self::end_of( $settings['end'] );
+        $end      = self::parse_date( $settings['end'] );
 
         if ( ! $settings['enabled'] ) {
             return self::STATUS_DISABLED;
@@ -137,7 +140,7 @@ final class CurrentOffer {
         $now      = new DateTimeImmutable( 'now', wp_timezone() );
         $upcoming = [];
 
-        foreach ( [ self::parse_date( $settings['start'] ), self::end_of( $settings['end'] ) ] as $boundary ) {
+        foreach ( [ self::parse_date( $settings['start'] ), self::parse_date( $settings['end'] ) ] as $boundary ) {
             if ( $boundary && $now < $boundary ) {
                 $upcoming[] = $boundary->getTimestamp();
             }
@@ -158,21 +161,62 @@ final class CurrentOffer {
         do_action( self::CHANGED_ACTION );
     }
 
-    /** Date `Y-m-d` stricte, à 00:00 dans le fuseau du site, ou `null`. */
+    /**
+     * Affiche l'état réel de l'offre dans une notice de l'admin.
+     *
+     * Partagée par l'écran de réglages et le widget du tableau de bord.
+     */
+    public static function render_status(): void {
+        $settings = self::settings();
+        $date     = static fn( string $value ): string => ( $parsed = self::parse_date( $value ) )
+            ? sprintf(
+                /* translators: 1 : date, 2 : heure. */
+                __( '%1$s à %2$s', 'couturier' ),
+                wp_date( (string) get_option( 'date_format' ), $parsed->getTimestamp() ),
+                wp_date( (string) get_option( 'time_format' ), $parsed->getTimestamp() )
+            )
+            : '';
+
+        [ $type, $message ] = match ( self::status() ) {
+            self::STATUS_LIVE      => [
+                'success',
+                '' !== $settings['end']
+                    /* translators: %s : date de fin de l'offre. */
+                    ? sprintf( __( 'En ligne jusqu\'au %s.', 'couturier' ), $date( $settings['end'] ) )
+                    : __( 'En ligne, sans date de fin.', 'couturier' ),
+            ],
+            self::STATUS_SCHEDULED => [
+                'info',
+                '' !== $settings['end']
+                    /* translators: 1 : date de début, 2 : date de fin de l'offre. */
+                    ? sprintf( __( 'Programmée du %1$s au %2$s.', 'couturier' ), $date( $settings['start'] ), $date( $settings['end'] ) )
+                    /* translators: %s : date de début de l'offre. */
+                    : sprintf( __( 'Programmée à partir du %s.', 'couturier' ), $date( $settings['start'] ) ),
+            ],
+            /* translators: %s : date de fin de l'offre. */
+            self::STATUS_EXPIRED   => [ 'warning', sprintf( __( 'Expirée depuis le %s : elle n\'est plus affichée.', 'couturier' ), $date( $settings['end'] ) ) ],
+            self::STATUS_INVALID   => [ 'error', __( 'Non affichée : la page de l\'offre n\'est plus publiée.', 'couturier' ) ],
+            default                => [ 'info', __( 'Désactivée : l\'offre n\'est pas affichée.', 'couturier' ) ],
+        };
+
+        printf(
+            '<div class="notice notice-%1$s inline"><p><strong>%2$s</strong> %3$s</p></div>',
+            esc_attr( $type ),
+            esc_html__( 'État :', 'couturier' ),
+            esc_html( $message )
+        );
+    }
+
+    /** Date `Y-m-d H:i` stricte, dans le fuseau du site, ou `null`. */
     public static function parse_date( string $value ): ?DateTimeImmutable {
         $date = DateTimeImmutable::createFromFormat( '!' . self::DATE_FORMAT, $value, wp_timezone() );
 
-        // Rejette les dates débordantes (2026-02-31), que createFromFormat() reporte au mois suivant.
+        // Rejette les dates débordantes (2026-02-31, 25:00), que createFromFormat() reporte plus loin.
         return $date && $date->format( self::DATE_FORMAT ) === $value ? $date : null;
     }
 
     /** Vrai si l'ID désigne une page publiée. */
     public static function is_valid_page( int $page_id ): bool {
         return $page_id > 0 && 'page' === get_post_type( $page_id ) && 'publish' === get_post_status( $page_id );
-    }
-
-    /** Fin exclusive d'une date de fin : 00:00 le lendemain, ou `null`. */
-    private static function end_of( string $value ): ?DateTimeImmutable {
-        return self::parse_date( $value )?->modify( '+1 day' );
     }
 }

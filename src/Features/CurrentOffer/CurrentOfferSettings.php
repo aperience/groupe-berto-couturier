@@ -38,7 +38,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class CurrentOfferSettings implements FeatureInterface {
 
     /** Capability requise pour gérer l'offre (éditeurs et administrateurs). */
-    private const CAPABILITY = 'edit_others_pages';
+    public const CAPABILITY = 'edit_others_pages';
 
     /** Groupe de réglages, transmis par le formulaire à `options.php`. */
     private const GROUP = 'couturier_current_offer';
@@ -95,7 +95,7 @@ final class CurrentOfferSettings implements FeatureInterface {
             __( 'Offre du moment', 'couturier' ),
             __( 'Offre du moment', 'couturier' ),
             self::CAPABILITY,
-            $this->context->handle( 'current-offer' ),
+            $this->context->handle( CurrentOffer::MENU_SLUG ),
             [ $this, 'render' ],
             'dashicons-megaphone',
             self::MENU_POSITION
@@ -135,8 +135,8 @@ final class CurrentOfferSettings implements FeatureInterface {
             'text'       => sanitize_text_field( (string) ( $input['text'] ?? '' ) ),
             'page_id'    => absint( $input['page_id'] ?? 0 ),
             'link_label' => sanitize_text_field( (string) ( $input['link_label'] ?? '' ) ),
-            'start'      => $this->sanitize_date( (string) ( $input['start'] ?? '' ) ),
-            'end'        => $this->sanitize_date( (string) ( $input['end'] ?? '' ) ),
+            'start'      => $this->sanitize_datetime( (string) ( $input['start_date'] ?? '' ), (string) ( $input['start_time'] ?? '' ) ),
+            'end'        => $this->sanitize_datetime( (string) ( $input['end_date'] ?? '' ), (string) ( $input['end_time'] ?? '' ) ),
         ];
 
         if ( ! CurrentOffer::is_valid_page( $value['page_id'] ) ) {
@@ -157,8 +157,8 @@ final class CurrentOfferSettings implements FeatureInterface {
             $errors['page_id'] = __( 'Choisissez la page de l\'offre pour l\'activer.', 'couturier' );
         }
 
-        if ( '' !== $value['start'] && '' !== $value['end'] && $value['end'] < $value['start'] ) {
-            $errors['end'] = __( 'La date de fin doit être postérieure ou égale à la date de début.', 'couturier' );
+        if ( '' !== $value['start'] && '' !== $value['end'] && $value['end'] <= $value['start'] ) {
+            $errors['end'] = __( 'La fin doit être postérieure au début.', 'couturier' );
         }
 
         foreach ( $errors as $field => $message ) {
@@ -194,7 +194,7 @@ final class CurrentOfferSettings implements FeatureInterface {
         echo '<h1>' . esc_html( get_admin_page_title() ) . '</h1>';
 
         settings_errors( CurrentOffer::OPTION );
-        $this->render_status( $settings );
+        CurrentOffer::render_status();
 
         printf(
             '<p>%s</p>',
@@ -285,20 +285,26 @@ final class CurrentOfferSettings implements FeatureInterface {
             $errors
         );
 
-        // Dates.
+        // Dates : un champ date et un champ heure (00:00 par défaut), recombinés par sanitize().
         foreach ( [
-            'start' => [ __( 'Date de début', 'couturier' ), __( 'Facultatif. L\'offre s\'affiche à partir de 00:00 ce jour-là ; sans date, dès son activation.', 'couturier' ) ],
-            'end'   => [ __( 'Date de fin', 'couturier' ), __( 'Facultatif. L\'offre s\'affiche jusqu\'à 23:59 ce jour-là ; sans date, jusqu\'à sa désactivation.', 'couturier' ) ],
-        ] as $field => [ $label, $help ] ) {
+            'start' => [ __( 'Date de début', 'couturier' ), __( 'Heure de début', 'couturier' ), __( 'Facultatif. L\'offre s\'affiche à partir de cet instant ; sans date, dès son activation.', 'couturier' ) ],
+            'end'   => [ __( 'Date de fin', 'couturier' ), __( 'Heure de fin', 'couturier' ), __( 'Facultatif. L\'offre disparaît à cet instant (à 00:00, elle n\'est plus affichée ce jour-là) ; sans date, à sa désactivation.', 'couturier' ) ],
+        ] as $field => [ $label, $time_label, $help ] ) {
+            [ $date, $time ] = array_pad( explode( ' ', $settings[ $field ] ), 2, '' );
+
             $this->render_row(
                 $field,
                 $label,
                 sprintf(
-                    '<input type="date" id="current-offer-%1$s" name="%2$s" value="%3$s"%4$s>',
+                    '<input type="date" id="current-offer-%1$s" name="%2$s" value="%3$s"%4$s> <span aria-hidden="true">%5$s</span> <label for="current-offer-%1$s-time" class="screen-reader-text">%6$s</label><input type="time" id="current-offer-%1$s-time" name="%7$s" value="%8$s"%4$s>',
                     esc_attr( $field ),
-                    esc_attr( $name( $field ) ),
-                    esc_attr( $settings[ $field ] ),
-                    $this->field_attributes( $field, $errors )
+                    esc_attr( $name( $field . '_date' ) ),
+                    esc_attr( $date ),
+                    $this->field_attributes( $field, $errors ),
+                    esc_html_x( 'à', 'entre la date et l\'heure', 'couturier' ),
+                    esc_html( $time_label ),
+                    esc_attr( $name( $field . '_time' ) ),
+                    esc_attr( '' !== $time ? $time : '00:00' )
                 ),
                 $help,
                 $errors
@@ -308,47 +314,6 @@ final class CurrentOfferSettings implements FeatureInterface {
         echo '</tbody></table>';
         submit_button();
         echo '</form></div>';
-    }
-
-    /**
-     * Affiche l'état réel de l'offre, dans une notice.
-     *
-     * @param array<string, mixed> $settings Réglages enregistrés.
-     */
-    private function render_status( array $settings ): void {
-        $format = (string) get_option( 'date_format' );
-        $date   = static fn( string $value ): string => ( $parsed = CurrentOffer::parse_date( $value ) )
-            ? wp_date( $format, $parsed->getTimestamp() )
-            : '';
-
-        [ $type, $message ] = match ( CurrentOffer::status() ) {
-            CurrentOffer::STATUS_LIVE      => [
-                'success',
-                '' !== $settings['end']
-                    /* translators: %s : date de fin de l'offre. */
-                    ? sprintf( __( 'En ligne jusqu\'au %s inclus.', 'couturier' ), $date( $settings['end'] ) )
-                    : __( 'En ligne, sans date de fin.', 'couturier' ),
-            ],
-            CurrentOffer::STATUS_SCHEDULED => [
-                'info',
-                '' !== $settings['end']
-                    /* translators: 1 : date de début, 2 : date de fin de l'offre. */
-                    ? sprintf( __( 'Programmée du %1$s au %2$s inclus.', 'couturier' ), $date( $settings['start'] ), $date( $settings['end'] ) )
-                    /* translators: %s : date de début de l'offre. */
-                    : sprintf( __( 'Programmée à partir du %s.', 'couturier' ), $date( $settings['start'] ) ),
-            ],
-            /* translators: %s : date de fin de l'offre. */
-            CurrentOffer::STATUS_EXPIRED   => [ 'warning', sprintf( __( 'Expirée depuis le %s : elle n\'est plus affichée.', 'couturier' ), $date( $settings['end'] ) ) ],
-            CurrentOffer::STATUS_INVALID   => [ 'error', __( 'Non affichée : la page de l\'offre n\'est plus publiée.', 'couturier' ) ],
-            default                        => [ 'info', __( 'Désactivée : l\'offre n\'est pas affichée.', 'couturier' ) ],
-        };
-
-        printf(
-            '<div class="notice notice-%1$s inline"><p><strong>%2$s</strong> %3$s</p></div>',
-            esc_attr( $type ),
-            esc_html__( 'État :', 'couturier' ),
-            esc_html( $message )
-        );
     }
 
     /**
@@ -390,9 +355,10 @@ final class CurrentOfferSettings implements FeatureInterface {
         return sprintf( ' aria-describedby="%s"', esc_attr( implode( ' ', $described ) ) ) . ( $invalid ? ' aria-invalid="true"' : '' );
     }
 
-    /** Date `Y-m-d` valide, ou chaîne vide. */
-    private function sanitize_date( string $value ): string {
-        $value = sanitize_text_field( $value );
+    /** Date et heure `Y-m-d H:i` valides, ou chaîne vide si la date manque ; heure vide = 00:00. */
+    private function sanitize_datetime( string $date, string $time ): string {
+        $time  = sanitize_text_field( $time );
+        $value = sanitize_text_field( $date ) . ' ' . ( '' !== $time ? substr( $time, 0, 5 ) : '00:00' );
 
         return CurrentOffer::parse_date( $value ) ? $value : '';
     }

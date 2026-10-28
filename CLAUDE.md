@@ -238,7 +238,7 @@ Si une seule feature est concernée, garder la méthode privée dans la feature.
 | `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat |
 | `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue et lien « Politique de confidentialité » du login (page de connexion réservée à l'équipe ; à revoir si l'inscription est ouverte), icône du site, mises à jour, commentaires, publication par e-mail, services de mise à jour, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Admin/` (thème) — `NestedPagesLinks` (lien « Pages publiées » du tableau de bord et bouton de retour de l'éditeur des pages vers Nested Pages, si l'extension est active)<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout), `DisableDropCap` (pas de lettrine sur les paragraphes), `ButtonStyles` (boutons du design system sur `core/button`, cf. *Blocs Gutenberg*)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
 | `MailServiceProvider` | Forme des e-mails envoyés par `wp_mail()` | `Mail/` (thème) — `HtmlEmails` (cf. *E-mails* plus bas) |
-| `MarketingServiceProvider` | Mise en avant commerciale | `CurrentOffer/` (thème) — `CurrentOfferSettings` (écran « Offre du moment »), `CurrentOfferContext` (`current_offer` dans le contexte Timber), `CurrentOfferPageCache` (purge W3 Total Cache / WP Super Cache), cf. *Offre du moment* |
+| `MarketingServiceProvider` | Mise en avant commerciale | `CurrentOffer/` (thème) — `CurrentOfferSettings` (écran « Offre du moment »), `CurrentOfferDashboard` (widget du tableau de bord), `CurrentOfferContext` (`current_offer` dans le contexte Timber), `CurrentOfferPageCache` (purge W3 Total Cache / WP Super Cache), cf. *Offre du moment* |
 | `SeoServiceProvider` | Référencement | `Seo/` — `DocumentTitle`, `MetaDescription`, `SitemapExclusion`, `SeoPanel` (panneau de l'éditeur), `OpenGraph` |
 
 > **Une feature répartie sur plusieurs classes garde un seul dossier** (`src/Features/{Feature}/`) et
@@ -624,13 +624,15 @@ Fichiers par bloc :
 
 Une seule offre mise en avant (ex. « Vacances de la Toussaint – Je me lance »), gérée par les
 éditeurs dans l'admin (menu **Offre du moment**, sous Pages) : titre, texte, page dédiée (obligatoires
-pour activer l'offre), intitulé du lien (défaut « Découvrir l'offre »), dates de début et de fin à la
-journée (fuseau du site), interrupteur. Code dans `src/Features/CurrentOffer/` :
+pour activer l'offre), intitulé du lien (défaut « Découvrir l'offre »), dates et heures de début et de fin
+(fuseau du site, heure à 00:00 par défaut, instant de fin exclu : une fin au 5 novembre à 00:00
+arrête l'offre à la fin du 4), interrupteur. Code dans `src/Features/CurrentOffer/` :
 
 | Classe | Provider | Rôle |
 |--------|----------|------|
-| `CurrentOffer` | — | Logique sans hook : option `couturier_current_offer` (autoloadée), état, dates, `flush()` |
+| `CurrentOffer` | — | Logique sans hook : option `couturier_current_offer` (autoloadée), état, dates, bloc d'état de l'admin, `flush()` |
 | `CurrentOfferSettings` | Marketing | Écran (Settings API, capacité `edit_others_pages`), validation : une saisie incohérente est enregistrée mais l'offre désactivée |
+| `CurrentOfferDashboard` | Marketing | Widget du tableau de bord : état (même bloc que l'écran, `CurrentOffer::render_status()`), aperçu « **titre** • texte lien », lien vers l'écran |
 | `CurrentOfferContext` | Marketing | `current_offer` dans le contexte Timber de toutes les pages (`null` hors ligne), mis en cache dans `wp_cache` jusqu'à la prochaine date |
 | `CurrentOfferPageCache` | Marketing | Purge du cache de page à l'enregistrement et aux dates (tâches WP-Cron) : W3 Total Cache, WP Super Cache |
 

@@ -13,6 +13,7 @@ use Deefuse\ThemeCore\Contracts\FeatureInterface;
 use Deefuse\ThemeCore\Contracts\ServiceProviderInterface;
 use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\CurrentOffer\CurrentOfferContext;
+use Theme\Features\CurrentOffer\CurrentOfferDashboard;
 use Theme\Features\CurrentOffer\CurrentOfferPageCache;
 use Theme\Features\CurrentOffer\CurrentOfferSettings;
 
@@ -38,6 +39,7 @@ final class MarketingServiceProvider implements ServiceProviderInterface {
     public static function features( ThemeContext $context ): array {
         return [
             new CurrentOfferSettings( $context ),
+            new CurrentOfferDashboard( $context ),
             new CurrentOfferContext(),
             new CurrentOfferPageCache(),
         ];
