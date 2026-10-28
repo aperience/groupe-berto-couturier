@@ -1,4 +1,8 @@
 <footer id="colophon" class="site-footer">
+    {% if footer.certifications %}
+        {% include 'partials/footer/certifications.twig' %}
+    {% endif %}
+
     <div class="site-footer__body">
         <div class="container">
             {% if footer_menu %}

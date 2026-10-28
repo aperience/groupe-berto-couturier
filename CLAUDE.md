@@ -236,7 +236,7 @@ Si une seule feature est concernée, garder la méthode privée dans la feature.
 |----------|------|-----------------------------------|
 | `SetupServiceProvider` | Initialisation du thème, chargé en premier | `Setup/` — `ThemeSupport`, `Menus`, `TwigDump` |
 | `SecurityServiceProvider` | Durcissement : surface d'attaque et informations publiées | `Security/` — `DisableApplicationPasswords`, `DisableUserEnumeration`, `DisableXmlRpc`, `HideLoginErrors`, `SecurityHeaders` |
-| `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat |
+| `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat<br>`Footer/` (thème) — `FooterSettings` (écran « Pied de page »), `FooterContext` (`footer` dans le contexte Timber), cf. *Pied de page* |
 | `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue et lien « Politique de confidentialité » du login (page de connexion réservée à l'équipe ; à revoir si l'inscription est ouverte), icône du site, mises à jour, commentaires, publication par e-mail, services de mise à jour, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Admin/` (thème) — `NestedPagesLinks` (lien « Pages publiées » du tableau de bord et bouton de retour de l'éditeur des pages vers Nested Pages, si l'extension est active), `HelpScreen` (menu « Aide », cf. *Page d'aide*)<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout), `DisableDropCap` (pas de lettrine sur les paragraphes), `ButtonStyles` (boutons du design system sur `core/button`, cf. *Blocs Gutenberg*)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
 | `MailServiceProvider` | Forme des e-mails envoyés par `wp_mail()` | `Mail/` (thème) — `HtmlEmails` (cf. *E-mails* plus bas) |
 | `MarketingServiceProvider` | Mise en avant commerciale | `CurrentOffer/` (thème) — `CurrentOfferSettings` (écran « Offre du moment »), `CurrentOfferDashboard` (widget du tableau de bord), `CurrentOfferContext` (`current_offer` dans le contexte Timber), `CurrentOfferPageCache` (purge W3 Total Cache / WP Super Cache), cf. *Offre du moment* |
@@ -646,6 +646,36 @@ avec le héros.
 > cachée suivante. `define( 'DISABLE_WP_CRON', true );` + `wp cron event run --due-now` chaque
 > minute dans la crontab du serveur (en place en préprod, sous `deefuse`). Procédure complète et branchement d'un autre plugin de cache :
 > `docs/mise-en-prod.md` (racine du dépôt).
+
+## Pied de page
+
+Gabarit `resources/views/partials/footer.twig`, découpé en `partials/footer/` (`certifications`, `nav`,
+`bottom`, `link` — lien de menu avec `aria-current` et nouvel onglet annoncé), styles
+`resources/scss/partials/_footer.scss`. Fond orange (`surface-footer`) en pseudo-élément, décalé
+sous le haut de la carte blanche des certifications, qui chevauche ainsi son bord.
+
+- **Menus** (Apparence › Menus) : emplacement `footer`, **à deux niveaux** — chaque élément de
+  premier niveau est une colonne (titre en `<h2>`, cliquable sauf lien personnalisé `#`), ses
+  sous-éléments en sont les liens ; emplacement `legal` pour les liens de la barre du bas.
+- **Écran Apparence › « Pied de page »** (feature `Footer\FooterSettings`, capacité `edit_others_pages`, Settings
+  API comme l'offre du moment), option autoloadée `couturier_footer` (lecture : `Footer\Footer`) :
+  - certifications : image de la médiathèque (SVG compris) et lien facultatif, dans l'ordre
+    d'affichage ; ajout, déplacement et retrait par boutons, au clavier, annoncés en `role="status"`
+    (`resources/js/editor/footer-settings.js`, injecté en inline sur l'écran seul). Champs postés en
+    tableaux parallèles (`image_id[]`, `url[]`) : l'ordre du DOM fait l'ordre enregistré. Le texte
+    alternatif de la médiathèque sert d'intitulé au logo (à défaut, le titre de l'image ; l'écran
+    signale l'image sans alt) ;
+  - réseaux sociaux : une adresse par réseau de `Footer::NETWORKS`, réseau sans adresse masqué ;
+  - copyright : texte après « © année », « Groupe Couturier · Sainte-Gemme-Moronval (28) » par défaut ;
+  - adresses : http(s) seulement ; une adresse invalide est retirée et signalée par une erreur qui
+    nomme la ligne en cause.
+- **Menu de l'admin** : sous-menu d'**Apparence** (`add_theme_page()`). Un éditeur, qui n'a pas
+  `edit_theme_options`, voit « Apparence » réduit à ce seul écran. Si la personnalisation du menu de
+  Nested Pages est active (option `nestedpages_admin`, par rôle), vérifier qu'elle ne masque pas
+  « Apparence » pour les éditeurs.
+
+> ⚠️ **Accessibilité** : titres de colonne en blanc sur l'orange (2,8:1, sous l'AA), choix du
+> client, validation reportée (cf. `_brand.scss`). Liens et barre du bas en pétrole 900 (5,8:1).
 
 ## Page d'aide
 

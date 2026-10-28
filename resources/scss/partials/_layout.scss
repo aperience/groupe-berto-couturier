@@ -1,1 +1,15 @@
 // ─── Layout général ───────────────────────────────────────────────────────────
+
+// Pied de page toujours en bas : sur une page courte, `<main>` prend la hauteur
+// restante de la fenêtre. `dvh` suit la hauteur réellement visible sur mobile
+// (barres du navigateur déployées ou non) ; `vh` sert de repli.
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+}
+
+#main {
+    flex: 1 0 auto;
+}

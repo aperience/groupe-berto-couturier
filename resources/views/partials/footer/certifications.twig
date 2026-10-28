@@ -1,0 +1,24 @@
+{#
+    Logos des certifications, en tête du pied de page.
+    Données : `footer.certifications` (feature Footer\FooterContext) — `image` (HTML de
+    wp_get_attachment_image, alt compris), `url` facultative, saisies dans l'écran
+    « Pied de page ».
+
+    Pas de titre visible dans la maquette : titre masqué, pour que la liste figure dans
+    le plan de la page.
+#}
+<div class="footer-certifications">
+    <h2 class="visually-hidden">{{ __('Nos certifications', 'couturier') }}</h2>
+
+    <ul class="footer-certifications__list">
+        {% for certification in footer.certifications %}
+            <li class="footer-certifications__item">
+                {% if certification.url %}
+                    <a href="{{ certification.url|e('esc_url')|raw }}">{{ certification.image|raw }}</a>
+                {% else %}
+                    {{ certification.image|raw }}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>

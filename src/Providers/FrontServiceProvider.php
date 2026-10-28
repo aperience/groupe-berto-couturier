@@ -19,6 +19,8 @@ use Deefuse\ThemeCore\Features\Front\DisableFunctionalities\DisableEmojis;
 use Deefuse\ThemeCore\Features\Front\DisableFunctionalities\DisableHeartbeat;
 use Deefuse\ThemeCore\Features\Front\Favicons;
 use Deefuse\ThemeCore\ThemeContext;
+use Theme\Features\Footer\FooterContext;
+use Theme\Features\Footer\FooterSettings;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -26,7 +28,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Regroupe les features front-end : assets, nettoyage du <head>,
- * optimisations et désactivations côté public.
+ * optimisations et désactivations côté public, pied de page (son écran d'admin
+ * n'existe que pour lui : la feature reste entière ici).
  */
 final class FrontServiceProvider implements ServiceProviderInterface {
 
@@ -50,6 +53,8 @@ final class FrontServiceProvider implements ServiceProviderInterface {
                 theme_color_light: '#004e63',
                 theme_color_dark: '#004e63',
             ),
+            new FooterSettings( $context ),
+            new FooterContext(),
         ];
     }
 }

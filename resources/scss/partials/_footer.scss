@@ -8,15 +8,46 @@
 // (WCAG 1.4.3, 1.4.11). Dérogation acceptée par le client pour l'instant, cf.
 // `_brand.scss`.
 
+@use "sass:map";
+
+// Le fond orange est un pseudo-élément qui commence sous le haut de la carte des
+// certifications : la carte blanche, à coins inférieurs arrondis, chevauche ainsi
+// son bord supérieur, comme sur la maquette.
 .site-footer {
+    --footer-offset: var(--space-16);
+
+    position: relative;
+    isolation: isolate;
     margin-top: var(--layout-section-gap);
+
+    // Desktop : le haut de la carte (16 px) et le tiers supérieur des logos
+    // (28 px) dépassent au-dessus du fond.
+    @include media-breakpoint-up(lg) {
+        --footer-offset: calc(var(--space-16) + var(--space-28));
+    }
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: var(--footer-offset) 0 0;
+        z-index: -1;
+        background-color: var(--color-surface-footer);
+        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    }
+
+    // Sans certifications, rien ne dépasse au-dessus du fond.
+    &:not(:has(.footer-certifications)) {
+        --footer-offset: 0px;
+    }
 }
 
 .site-footer__body {
-    padding-block: var(--space-48) var(--space-64);
+    padding-block: var(--space-40) var(--space-64);
     color: var(--color-text-on-footer);
-    background-color: var(--color-surface-footer);
-    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+
+    @include media-breakpoint-up(lg) {
+        padding-top: var(--space-64);
+    }
 
     a {
         color: inherit;
@@ -35,6 +66,79 @@
     }
 }
 
+// ─── Certifications ───────────────────────────────────────────────────────────
+// Mesures de la maquette (desktop 1440 px, mobile 390 px).
+// - Mobile : carte à 12 px des bords, 3 colonnes égales sur toute sa largeur,
+//   32 px entre les deux rangées.
+// - Desktop : carte plus large que le conteneur de 48 px de chaque côté ; les
+//   6 logos se partagent la largeur du conteneur (1136 px). Le fond orange coupe
+//   les logos vers leur tiers supérieur.
+// Logos : hauteur maximale (celle du plus haut de la maquette, 78 px) et largeur
+// maximale (celle du plus large, 134 px) ; en mobile, 104 × 62 px ;
+// proportions conservées. Jamais plus
+// grands que le fichier lui-même (`height: auto`, image en taille `full`, cf.
+// `FooterContext`).
+
+.footer-certifications {
+    margin-inline: var(--layout-page-padding);
+    padding: var(--space-16) 0 var(--space-12);
+    background-color: var(--color-surface-card);
+    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+
+    @include media-breakpoint-up(lg) {
+        max-width: calc(#{map.get($container-max-widths, lg)} + 2 * var(--space-48));
+        margin-inline: auto;
+        padding: var(--space-16) var(--space-48);
+    }
+}
+
+.footer-certifications__list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-32) 0;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @include media-breakpoint-up(lg) {
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        max-width: calc(#{map.get($container-max-widths, lg)} - #{$container-padding-x});
+        margin-inline: auto;
+    }
+}
+
+.footer-certifications__item {
+    display: flex;
+    justify-content: center;
+
+    a {
+        display: block;
+        border-radius: var(--radius-sm);
+
+        // Sur la carte blanche : contour pétrole, 9,25:1 (WCAG 2.4.7, 1.4.11).
+        &:focus-visible {
+            outline: 2px solid var(--color-border-strong);
+            outline-offset: 4px;
+        }
+    }
+}
+
+.footer-certifications__logo {
+    display: block;
+    // `width` et `height` restent `auto` : les deux plafonds s'appliquent alors
+    // ensemble, sans déformer l'image (ses proportions sont conservées).
+    width: auto;
+    max-width: min(100%, #{to-rem(104)});
+    height: auto;
+    max-height: to-rem(62);
+
+    @include media-breakpoint-up(lg) {
+        max-width: min(100%, #{to-rem(134)});
+        max-height: to-rem(78);
+    }
+}
+
 // ─── Navigation en colonnes ───────────────────────────────────────────────────
 
 .footer-nav {
@@ -49,13 +153,17 @@
 
 .footer-nav__title {
     @include text-style(footer-title);
-    margin-bottom: var(--space-16);
+    // 13 px, valeur de la maquette hors échelle d'espacements (12 / 14).
+    margin-bottom: to-rem(13);
     color: inherit;
 }
 
 // Liens en pétrole foncé (maquette) : 5,8:1 sur l'orange, conformes AA, comme
 // leur indicateur de focus (`currentColor`).
 .footer-nav__list {
+    // Sur la liste et non sur le lien : le lien est `inline-block`, sa ligne
+    // garderait sinon l'interligne du corps de texte (24 px).
+    @include text-style(footer-link);
     margin: 0;
     color: var(--color-text-on-accent);
     padding: 0;
@@ -67,9 +175,9 @@
 }
 
 .footer-nav__link {
-    @include text-style(footer-link);
-    // Cible de 20 px de haut, espacée de 6 px : 26 px d'un centre à l'autre, ce
-    // qui satisfait l'exception d'espacement de WCAG 2.5.8 (cercles de 24 px).
+    // Cible de 18 px de haut, espacée de 6 px : 24 px d'un centre à l'autre,
+    // minimum de l'exception d'espacement de WCAG 2.5.8 (cercles de 24 px). Ne
+    // pas resserrer davantage.
     display: inline-block;
 }
 

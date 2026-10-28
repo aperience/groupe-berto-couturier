@@ -1,13 +1,14 @@
 {#
     Barre de bas de page : copyright et liens légaux (emplacement de menu `legal`).
-    Données : `legal_menu` (Timber\Menu, `null` si aucun menu n'est affecté).
+    Données : `footer.copyright` (feature Footer\FooterContext, écran « Pied de page »),
+    `legal_menu` (Timber\Menu, `null` si aucun menu n'est affecté).
 
     Les réseaux sociaux s'y ajouteront en tête, à gauche en desktop.
 #}
 <div class="footer-bottom">
     <div class="footer-bottom__legal">
         <p class="footer-bottom__copyright">
-            &copy; {{ "now"|date("Y") }} {{ __('Groupe Couturier · Sainte-Gemme-Moronval (28)', 'couturier') }}
+            &copy; {{ "now"|date("Y") }} {{ footer.copyright }}
         </p>
 
         {% if legal_menu %}

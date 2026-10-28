@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-28T11:58:29+00:00\n"
+"POT-Creation-Date: 2026-10-28T13:32:26+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -225,6 +225,7 @@ msgid "Par exemple : Offre du moment"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:264
+#: src/Features/Footer/FooterSettings.php:325
 msgid "Texte"
 msgstr ""
 
@@ -283,6 +284,151 @@ msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:357
 msgid "(obligatoire)"
+msgstr ""
+
+#: src/Features/Footer/Footer.php:67
+msgid "Groupe Couturier · Sainte-Gemme-Moronval (28)"
+msgstr ""
+
+#: src/Features/Footer/FooterContext.php:41
+msgid "Expose aux templates les réglages du pied de page (certifications, copyright)."
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:82
+msgid "Écran « Pied de page » : logos des certifications et leurs liens, réseaux sociaux, texte du copyright."
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:88
+#: src/Features/Footer/FooterSettings.php:89
+#: resources/views/partials/footer/nav.twig:10
+msgid "Pied de page"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:134
+msgid "Logo de la certification"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:135
+msgid "Utiliser cette image"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:136
+#: src/Features/Footer/FooterSettings.php:378
+msgid "Changer"
+msgstr ""
+
+#. translators: %d : nouvelle position de la certification.
+#: src/Features/Footer/FooterSettings.php:138
+#, php-format
+msgid "Certification déplacée en position %d."
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:139
+msgid "Certification retirée."
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:140
+msgid "Certification ajoutée. Choisissez son image."
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:141
+msgid "Image choisie."
+msgstr ""
+
+#. translators: %d : numéro de la certification dans la liste.
+#: src/Features/Footer/FooterSettings.php:198
+#, php-format
+msgid "Certification %d : aucune image choisie, elle a été ignorée."
+msgstr ""
+
+#. translators: %d : numéro de la certification dans la liste.
+#: src/Features/Footer/FooterSettings.php:213
+#, php-format
+msgid "Certification %d : le lien n'est pas une adresse web valide (https://…), il a été retiré."
+msgstr ""
+
+#. translators: %s : nom du réseau social.
+#: src/Features/Footer/FooterSettings.php:236
+#, php-format
+msgid "%s : l'adresse n'est pas une adresse web valide (https://…), elle a été retirée."
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:271
+msgid "Certifications"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:272
+msgid "Logos affichés en tête du pied de page, dans cet ordre. Le texte alternatif de chaque image, saisi dans la médiathèque, sert d'intitulé au logo : par exemple « Qualiopi, processus certifié »."
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:276
+msgctxt "position de la certification"
+msgid "N°"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:277
+msgid "Logo"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:278
+#: src/Features/Footer/FooterSettings.php:393
+msgid "Lien (facultatif)"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:279
+msgid "Ordre et retrait"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:295
+msgid "Ajouter une certification"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:300
+msgid "Réseaux sociaux"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:301
+msgid "Adresse complète de chaque page (https://…). Un réseau sans adresse n'est pas affiché."
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:321
+msgid "Copyright"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:329
+msgid "Affiché après « © » et l'année en cours, mise à jour automatiquement. Facultatif : le texte grisé s'affiche si le champ est vide."
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:359
+msgid "Certification"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:367
+msgid "Aucune image"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:378
+msgid "Choisir"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:385
+msgid "Sans texte alternatif :"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:387
+msgid "le renseigner"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:401
+msgid "Monter"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:402
+msgid "Descendre"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:403
+msgid "Retirer"
 msgstr ""
 
 #: src/Features/Mail/HtmlEmails.php:84
@@ -511,14 +657,10 @@ msgstr ""
 msgid "Aucun contenu trouvé."
 msgstr ""
 
-#: resources/views/partials/footer/bottom.twig:10
-msgid "Groupe Couturier · Sainte-Gemme-Moronval (28)"
-msgstr ""
-
-#: resources/views/partials/footer/bottom.twig:14
+#: resources/views/partials/footer/bottom.twig:15
 msgid "Informations légales"
 msgstr ""
 
-#: resources/views/partials/footer/nav.twig:10
-msgid "Pied de page"
+#: resources/views/partials/footer/certifications.twig:11
+msgid "Nos certifications"
 msgstr ""
