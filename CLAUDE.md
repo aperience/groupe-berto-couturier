@@ -640,7 +640,8 @@ avec le héros.
 > ⚠️ **Production avec cache de page : vrai cron obligatoire.** Les visites servies par le cache
 > n'exécutent pas WordPress, donc pas WP-Cron : la fin de l'offre ne serait purgée qu'à la visite non
 > cachée suivante. `define( 'DISABLE_WP_CRON', true );` + `wp cron event run --due-now` toutes les
-> 5 minutes dans la crontab du serveur.
+> 5 minutes dans la crontab du serveur. Procédure complète et branchement d'un autre plugin de cache :
+> `docs/mise-en-prod.md` (racine du dépôt).
 
 ## Médias : conversion WebP à l'upload
 
