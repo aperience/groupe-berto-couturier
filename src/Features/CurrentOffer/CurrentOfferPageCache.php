@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Theme\Features\CurrentOffer;
 
 use Deefuse\ThemeCore\Contracts\FeatureInterface;
+use Theme\Support\PageCache;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -28,11 +29,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  *   Chaque enregistrement programme donc une tâche WP-Cron à chacune des dates à
  *   venir. La tâche appelle `CurrentOffer::flush()`.
  *
- * **Tout le cache est vidé, pas une seule URL** : l'offre s'affiche sur toutes les pages.
- *
- * **Plugins pris en charge : W3 Total Cache et WP Super Cache.** Chacun n'est appelé
- * que si sa fonction existe. Sans plugin, la purge ne fait rien. Pour un autre
- * plugin, ajouter sa fonction « tout vider » dans `purge()`.
+ * **La purge elle-même est `Theme\Support\PageCache::purge()`**, partagée avec le
+ * pied de page : tout le cache est vidé, plugins pris en charge et ajout d'un autre
+ * plugin, cf. cette classe.
  *
  * ⚠️ **En production, un vrai cron est indispensable.** WP-Cron ne se déclenche qu'à
  * une visite qui exécute WordPress, et un cache de page sert justement la plupart des
@@ -51,7 +50,7 @@ final class CurrentOfferPageCache implements FeatureInterface {
         add_action( 'add_option_' . CurrentOffer::OPTION, [ $this, 'schedule' ], 10, 0 );
         add_action( 'update_option_' . CurrentOffer::OPTION, [ $this, 'schedule' ], 10, 0 );
         add_action( self::CRON_HOOK, [ CurrentOffer::class, 'flush' ], 10, 0 );
-        add_action( CurrentOffer::CHANGED_ACTION, [ $this, 'purge' ] );
+        add_action( CurrentOffer::CHANGED_ACTION, [ PageCache::class, 'purge' ], 10, 0 );
     }
 
     /** Courte description affichée sur la page « Fonctionnalités du thème ». */
@@ -76,19 +75,6 @@ final class CurrentOfferPageCache implements FeatureInterface {
 
         foreach ( CurrentOffer::boundaries() as $timestamp ) {
             wp_schedule_single_event( $timestamp, self::CRON_HOOK, [ $timestamp ] );
-        }
-    }
-
-    /** Vide tout le cache des plugins de cache de page installés. */
-    public function purge(): void {
-        // W3 Total Cache : vide tous ses caches (pages, minification, objet…).
-        if ( function_exists( 'w3tc_flush_all' ) ) {
-            w3tc_flush_all();
-        }
-
-        // WP Super Cache : vide tous les fichiers en cache du site.
-        if ( function_exists( 'wp_cache_clear_cache' ) ) {
-            wp_cache_clear_cache();
         }
     }
 }

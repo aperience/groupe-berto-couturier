@@ -226,6 +226,10 @@ Y placer ce que **plusieurs features** doivent faire de la même façon, plutôt
 logique — `ViteManifest` y est né du fait que trois features rouvraient chacune le manifest Vite.
 Si une seule feature est concernée, garder la méthode privée dans la feature.
 
+Le thème a aussi son `src/Support/` (namespace `Theme\Support`), pour ce que partagent **ses**
+features : `PageCache::purge()` (vider le cache de page W3 Total Cache / WP Super Cache), appelée par
+l'offre du moment et par le pied de page. Un autre plugin de cache s'ajoute là, une seule fois.
+
 > **Règle :** si aucun provider existant ne correspond au domaine de la feature, **ne pas en créer un
 > d'office** — proposer le nouveau provider à Aurélien et attendre son accord explicite avant de l'ajouter
 > (fichier `src/Providers/`, `use` + ajout à la liste de `functions.php`, ligne dans ce tableau).
@@ -636,7 +640,7 @@ arrête l'offre à la fin du 4), interrupteur. Code dans `src/Features/CurrentOf
 | `CurrentOfferSettings` | Marketing | Écran (Settings API, capacité `edit_others_pages`), validation : une saisie incohérente est enregistrée mais l'offre désactivée ; onglet « Offre du moment » de la page d'aide (cf. *Page d'aide*) |
 | `CurrentOfferDashboard` | Marketing | Widget du tableau de bord : état (même bloc que l'écran, `CurrentOffer::render_status()`), aperçu « **titre** • texte lien », lien vers l'écran |
 | `CurrentOfferContext` | Marketing | `current_offer` dans le contexte Timber de toutes les pages (`null` hors ligne), mis en cache dans `wp_cache` jusqu'à la prochaine date |
-| `CurrentOfferPageCache` | Marketing | Purge du cache de page à l'enregistrement et aux dates (tâches WP-Cron) : W3 Total Cache, WP Super Cache |
+| `CurrentOfferPageCache` | Marketing | Purge du cache de page (`Support\PageCache`) à l'enregistrement et aux dates (tâches WP-Cron) : W3 Total Cache, WP Super Cache |
 
 Rendu : `resources/views/partials/current-offer.twig`, inclus par `page.twig` ; sans styles, à habiller
 avec le héros.
@@ -670,6 +674,8 @@ sous le haut de la carte blanche des certifications, qui chevauche ainsi son bor
   - copyright : texte après « © année », « Groupe Couturier · Sainte-Gemme-Moronval (28) » par défaut ;
   - adresses : http(s) seulement ; une adresse invalide est retirée et signalée par une erreur qui
     nomme la ligne en cause.
+- **Cache de page** : chaque enregistrement de l'écran vide tout le cache (`Support\PageCache`), le
+  pied de page étant sur toutes les pages.
 - **Menu de l'admin** : sous-menu d'**Apparence** (`add_theme_page()`). Un éditeur, qui n'a pas
   `edit_theme_options`, voit « Apparence » réduit à ce seul écran. Si la personnalisation du menu de
   Nested Pages est active (option `nestedpages_admin`, par rôle), vérifier qu'elle ne masque pas

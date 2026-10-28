@@ -11,6 +11,7 @@ namespace Theme\Features\Footer;
 
 use Deefuse\ThemeCore\Contracts\FeatureInterface;
 use Deefuse\ThemeCore\ThemeContext;
+use Theme\Support\PageCache;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -69,11 +70,15 @@ final class FooterSettings implements FeatureInterface {
         private readonly ThemeContext $context,
     ) {}
 
-    /** Enregistre l'écran, le réglage et le script. */
+    /** Enregistre l'écran, le réglage, le script et la purge du cache de page. */
     public function register(): void {
         add_action( 'admin_menu', [ $this, 'add_page' ] );
         add_action( 'admin_init', [ $this, 'register_setting' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ] );
+
+        // Le pied de page est sur toutes les pages : son enregistrement vide le cache de page.
+        add_action( 'add_option_' . Footer::OPTION, [ PageCache::class, 'purge' ], 10, 0 );
+        add_action( 'update_option_' . Footer::OPTION, [ PageCache::class, 'purge' ], 10, 0 );
         add_filter( 'option_page_capability_' . self::GROUP, static fn(): string => self::CAPABILITY );
     }
 
