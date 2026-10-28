@@ -187,7 +187,7 @@ $ds-text-styles: (
 // ⚠️ Accessibilité : l'orange de la charte (500) ne tient pas 4,5:1 avec du texte
 // blanc (2,8). Partout où il porte du texte blanc, on emploie orange/700 (4,99).
 // Celui-ci ne tient pas non plus sur le fond de l'admin `#f0f0f1` (4,38) : les
-// liens de l'admin sont donc en bleu pétrole (8,12 sur `#f0f0f1`).
+// liens de l'admin sont donc en bleu pétrole.
 //
 // Préfixe `brand_` pour ne pas se confondre avec les variables de Bootstrap.
 // Utilisé par `admin-colors.scss` et `login.scss`.
@@ -211,8 +211,14 @@ $brand_menu-background: ds-color(petrol, 700);
 // Orange assombri pour l'AA (cf. en-tête).
 $brand_highlight-color: ds-color(orange, 700);
 
-// Liens de l'admin : bleu pétrole (cf. en-tête).
-$brand_link-color: ds-color(petrol, 500);
+// Liens de l'admin : pétrole vif, pétrole/500 au survol et au focus. Hors
+// palette : même teinte que le pétrole (192°), saturée (88 % contre 39 % pour
+// pétrole/400) pour être vue comme un lien, sans rejoindre les bleus de
+// WordPress (`#2271b1` à 207°, `#3858e9` à 229°). Choix assumé sous l'AA
+// (4,23:1 sur le fond `#f0f0f1`, 4,82:1 sur le blanc) : l'AA est exigé pour le
+// front, pas pour le back-office.
+$brand_link-color: #0a7c99;
+$brand_link-hover-color: ds-color(petrol, 500);
 
 // Pastilles de compteurs (mises à jour en attente, commentaires) : texte blanc,
 // même orange assombri.

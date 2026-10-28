@@ -40,10 +40,9 @@
     $button-color: $brand_highlight-color,
     $form-checked: $brand_highlight-color,
 
-    // Liens de l'admin : bleu pétrole, assombri au survol (contraste ≥ 4.5:1
-    // sur les fonds de l'admin dans les deux états, cf. `_brand.scss`).
+    // Liens de l'admin : pétrole clair, plus foncé au survol (cf. `_brand.scss`).
     $link:       $brand_link-color,
-    $link-focus: color.adjust($brand_link-color, $lightness: -8%),
+    $link-focus: $brand_link-hover-color,
 
     // Sous-menus : couleurs explicites plutôt que celles que le core dérive de
     // `$base-color`, pour en maîtriser le contraste (cf. `_brand.scss`).

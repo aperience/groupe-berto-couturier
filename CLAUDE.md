@@ -18,7 +18,8 @@ installé en dépendance Composer. Text-domain du thème : `couturier`.
 **Le thème doit impérativement respecter le niveau AA des WCAG 2.2** (référentiel français :
 RGAA 4.1, fondé sur le niveau AA des WCAG). L'exigence vaut pour tout ce que le thème produit : HTML
 des gabarits Twig et des blocs (`render.php`, `save()`), CSS, JavaScript, et interface des blocs
-custom dans l'éditeur.
+custom dans l'éditeur. **Les couleurs du back-office n'y sont pas soumises** (jeu de couleurs de
+l'admin, éditeur) : l'AA y reste visé, mais un écart peut être assumé, et signalé en commentaire.
 
 ### Règles pour Claude
 
@@ -813,7 +814,7 @@ dev server — un e-mail est lu bien après son envoi. Sans build, le nom du sit
 > `resources/scss/_brand.scss`, doublée dans `AdminServiceProvider` → `AdminColorScheme`) — menu
 > de gauche et barre d'admin en pétrole/700, sous-menus dépliés en pétrole/500 (plus clairs),
 > boutons de connexion en pétrole/500, accent (élément courant, boutons primaires, pastilles)
-> en orange/700, liens en pétrole/500. **Éditeur de blocs** : couleur d'interaction en pétrole/500
+> en orange/700, liens en pétrole vif `#0a7c99`, hors palette (pétrole/500 au survol ; 4,23:1, sous l'AA, assumé). **Éditeur de blocs** : couleur d'interaction en pétrole/500
 > (liens et boutons de la barre latérale, interrupteurs, « Publier », focus). WordPress 7 y pose sa
 > palette en style inline, depuis une table codée en dur des seuls jeux du core : un jeu personnalisé
 > retombe sur le bleu `#3858e9`. `admin-colors.scss` (section « Éditeur de blocs ») la remplace en

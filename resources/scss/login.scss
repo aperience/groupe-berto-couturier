@@ -5,8 +5,9 @@
 // inscription) : ces règles s'appliquent donc aussi au formulaire « mot de passe
 // oublié » sans traitement supplémentaire.
 //
-// La couleur de marque vient de `_variables.scss` (`$brand_base-color`), comme le
-// jeu de couleurs de l'admin — une seule source, partagée entre les deux entrées.
+// Les couleurs viennent de `_brand.scss` (`$brand_base-color`, `$brand_link-color`),
+// comme le jeu de couleurs de l'admin — une seule source, partagée entre les deux
+// entrées.
 
 @use "sass:color";
 @use "brand" as *;
@@ -97,12 +98,17 @@
     border-left-color: $brand_base-color;
 }
 
-// Lien mis en avant de la même teinte (« Mot de passe oublié ? », « ← Aller sur
-// le site »). Le core les affiche en gris ; on ne surcharge que le survol/focus
-// pour rester discret.
-#login #nav a:hover,
-#login #nav a:focus,
-#login #backtoblog a:hover,
-#login #backtoblog a:focus {
-    color: $brand_base-color;
+// Liens : même couleur que dans l'admin (pétrole vif, pétrole au survol), cf.
+// `$brand_link-color`. `#login a` couvre les liens des messages et des erreurs ;
+// « Mot de passe oublié ? » et « ← Aller sur le site », que le core affiche en
+// gris avec un sélecteur plus fort (`.login #nav a`), sont repris explicitement.
+#login a,
+#login #nav a,
+#login #backtoblog a {
+    color: $brand_link-color;
+
+    &:hover,
+    &:focus {
+        color: $brand_link-hover-color;
+    }
 }
