@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-28T14:11:36+00:00\n"
+"POT-Creation-Date: 2026-10-28T14:16:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -160,7 +160,7 @@ msgid "Offre du moment"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferDashboard.php:65
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:305
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:313
 #: resources/views/partials/current-offer.twig:11
 msgid "Découvrir l'offre"
 msgstr ""
@@ -202,87 +202,92 @@ msgstr ""
 msgid "L'offre a été enregistrée mais désactivée : corrigez les erreurs ci-dessus puis réactivez-la."
 msgstr ""
 
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:225
+#: src/Features/Footer/FooterSettings.php:318
+msgid "Réglages enregistrés."
+msgstr ""
+
 #. translators: %s : astérisque signalant un champ obligatoire.
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:227
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:235
 #, php-format
 msgid "Les champs marqués d'un astérisque %s sont obligatoires pour activer l'offre."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:237
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:245
 msgid "Activation"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:242
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:250
 msgid "Afficher l'offre en page d'accueil pendant ses dates"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:249
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:257
 msgid "Titre"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:256
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:264
 msgid "Par exemple : Offre du moment"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:264
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:272
 #: src/Features/Footer/FooterSettings.php:382
 msgid "Texte"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:271
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:279
 msgid "Par exemple : Vacances de la Toussaint – Je me lance"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:282
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:290
 msgid "— Choisir une page —"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:289
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:297
 msgid "Page de l'offre"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:292
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:300
 msgid "Page publiée vers laquelle renvoie l'offre."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:300
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:308
 msgid "Intitulé du lien"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:308
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:316
 msgid "Facultatif. « Découvrir l'offre » si le champ est vide."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:314
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:322
 msgid "Date de début"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:314
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:322
 msgid "Heure de début"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:314
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:322
 msgid "Facultatif. L'offre s'affiche à partir de cet instant ; sans date, dès son activation."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:315
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:323
 msgid "Date de fin"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:315
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:323
 msgid "Heure de fin"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:315
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:323
 msgid "Facultatif. L'offre disparaît à cet instant (à 00:00, elle n'est plus affichée ce jour-là) ; sans date, à sa désactivation."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:328
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:336
 msgctxt "entre la date et l'heure"
 msgid "à"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:357
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:365
 msgid "(obligatoire)"
 msgstr ""
 
@@ -351,10 +356,6 @@ msgstr ""
 #: src/Features/Footer/FooterSettings.php:282
 #, php-format
 msgid "%s : l'adresse n'est pas une adresse web valide (https://…), elle a été retirée."
-msgstr ""
-
-#: src/Features/Footer/FooterSettings.php:318
-msgid "Réglages enregistrés."
 msgstr ""
 
 #: src/Features/Footer/FooterSettings.php:327

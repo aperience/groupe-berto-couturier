@@ -217,6 +217,14 @@ final class CurrentOfferSettings implements FeatureInterface {
         echo '<div class="wrap">';
         echo '<h1>' . esc_html( get_admin_page_title() ) . '</h1>';
 
+        // Notice verte après l'enregistrement. WordPress ne l'ajoute que sur les écrans
+        // du menu Réglages (`options-head.php`) : celui-ci est un menu à part. Les
+        // erreurs éventuelles s'affichent en plus : la saisie a bien été enregistrée,
+        // l'offre désactivée si elle est incohérente.
+        if ( isset( $_GET['settings-updated'] ) && 'true' === $_GET['settings-updated'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- simple affichage, posé par options.php.
+            add_settings_error( CurrentOffer::OPTION, 'settings_updated', __( 'Réglages enregistrés.', 'couturier' ), 'success' );
+        }
+
         settings_errors( CurrentOffer::OPTION );
         CurrentOffer::render_status();
 
