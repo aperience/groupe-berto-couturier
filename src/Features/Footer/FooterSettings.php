@@ -27,9 +27,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  * `CAPABILITY` pour ce seul groupe de réglages.
  *
  * **Deux tableaux réordonnables, une ligne par élément**, pour tenir peu de place
- * (classes `couturier-sortable__*`, communes aux deux). Réordonnancement au clavier :
- * boutons « Monter », « Descendre » (et « Retirer » pour les certifications) plutôt
- * qu'un glisser-déposer, annoncés par une région `role="status"` (WCAG 2.1.1, 4.1.3).
+ * (classes `couturier-sortable__*`, communes aux deux). Une poignée « ≡ » par ligne :
+ * glisser-déposer (jQuery UI Sortable, comme Nested Pages), flèches ↑ ↓ au clavier,
+ * ou clic pour un menu de déplacement ; « Supprimer » en plus pour les certifications.
+ * Chaque déplacement est annoncé par une région `role="status"`.
  * Les réseaux sont une liste fixe (`Footer::NETWORKS`, une icône chacun) : ni ajout
  * ni retrait, un réseau inutile se désactive ou reste sans adresse.
  *
@@ -150,7 +151,7 @@ final class FooterSettings implements FeatureInterface {
             'imageChosen'  => __( 'Image choisie.', 'couturier' ),
         ];
 
-        wp_register_script( $handle, false, [ 'media-editor' ], null, true );
+        wp_register_script( $handle, false, [ 'media-editor', 'jquery-ui-sortable' ], null, true );
         wp_enqueue_script( $handle );
         wp_add_inline_script( $handle, 'window.couturierFooterSettings = ' . wp_json_encode( $l10n ) . ';', 'before' );
         wp_add_inline_script( $handle, (string) file_get_contents( $path ) );
@@ -162,11 +163,23 @@ final class FooterSettings implements FeatureInterface {
         wp_add_inline_style( 'common', '
             .couturier-sortable { max-width: 60rem; }
             .widefat.couturier-sortable tbody th, .widefat.couturier-sortable tbody td { vertical-align: middle; }
-            .couturier-sortable .column-number { width: 2.5rem; }
             .couturier-sortable .column-logo { width: 14rem; }
             .couturier-sortable .column-network { width: 10rem; }
             .couturier-sortable .column-enabled { width: 6rem; }
-            .couturier-sortable .column-actions { width: 8.5rem; text-align: right; }
+            .couturier-sortable .column-number { position: relative; width: 4rem; white-space: nowrap; }
+            .couturier-sortable .column-actions { width: 5.5rem; text-align: right; }
+            .couturier-sortable__number { display: inline-block; min-width: 1.25rem; }
+            .couturier-sortable__placeholder td { height: 3rem; background: #f0f4f6; outline: 2px dashed #8c8f94; outline-offset: -2px; }
+            .couturier-sortable__row.ui-sortable-helper { display: table; background: #fff; box-shadow: 0 6px 20px rgba(0, 0, 0, .15); }
+            .couturier-sortable__handle { display: inline-flex; align-items: center; justify-content: center; width: 1.5rem; height: 1.5rem; margin-left: .25rem; padding: 0; color: #8c8f94; vertical-align: middle; background: none; border: 0; border-radius: 3px; cursor: grab; }
+            .couturier-sortable__handle:hover, .couturier-sortable__handle[aria-expanded="true"] { color: #1d2327; }
+            .couturier-sortable__handle:focus-visible { color: #1d2327; outline: 2px solid #004e63; outline-offset: 1px; }
+            .couturier-sortable__handle:active { cursor: grabbing; }
+            .couturier-sortable__menu { position: absolute; z-index: 10; top: calc(100% - .25rem); left: .5rem; min-width: 11rem; padding: .25rem 0; text-align: left; background: #fff; border: 1px solid #c3c4c7; border-radius: 4px; box-shadow: 0 4px 12px rgba(0, 0, 0, .15); }
+            .couturier-sortable__menu[hidden] { display: none; }
+            .couturier-sortable__menu button { display: block; width: 100%; padding: .4rem .75rem; text-align: left; background: none; border: 0; cursor: pointer; }
+            .couturier-sortable__menu button:hover:not(:disabled), .couturier-sortable__menu button:focus { background: #f0f4f6; outline: none; }
+            .couturier-sortable__menu button:disabled { color: #a7aaad; cursor: default; }
             .couturier-sortable .column-enabled label { display: inline-flex; align-items: center; gap: .5rem; min-height: 1.5rem; cursor: pointer; }
             .couturier-sortable input[type="checkbox"].couturier-sortable__toggle { appearance: none; position: relative; flex: none; width: 2.5rem; height: 1.375rem; margin: 0; border: 1px solid #8c8f94; border-radius: 999px; background: #fff; box-shadow: none; cursor: pointer; transition: background-color .15s, border-color .15s; }
             .couturier-sortable input[type="checkbox"].couturier-sortable__toggle::before { content: none; }
@@ -175,8 +188,6 @@ final class FooterSettings implements FeatureInterface {
             .couturier-sortable input[type="checkbox"].couturier-sortable__toggle:checked::after { background: #fff; transform: translateX(1.125rem); }
             .couturier-sortable input[type="checkbox"].couturier-sortable__toggle:focus-visible { outline: 2px solid #004e63; outline-offset: 2px; }
             @media (prefers-reduced-motion: reduce) { .couturier-sortable input[type="checkbox"].couturier-sortable__toggle, .couturier-sortable input[type="checkbox"].couturier-sortable__toggle::after { transition: none; } }
-            .couturier-sortable__actions { display: inline-flex; gap: .25rem; }
-            .couturier-sortable__actions .button { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; min-height: 2rem; padding: 0; }
             .couturier-certification__logo { display: flex; align-items: center; gap: .75rem; }
             .couturier-certification__preview { display: flex; align-items: center; justify-content: center; width: 6rem; height: 2.5rem; }
             .couturier-certification__preview img { max-width: 100%; max-height: 100%; width: auto; height: auto; }
@@ -299,13 +310,21 @@ final class FooterSettings implements FeatureInterface {
         echo '<div class="wrap">';
         echo '<h1>' . esc_html( get_admin_page_title() ) . '</h1>';
 
+        // Notice verte après l'enregistrement. WordPress ne l'ajoute que sur les écrans
+        // du menu Réglages (`options-head.php`) : celui-ci est sous Apparence. Les
+        // avertissements éventuels (adresse retirée…) s'affichent en plus : la saisie
+        // a bien été enregistrée, corrigée.
+        if ( isset( $_GET['settings-updated'] ) && 'true' === $_GET['settings-updated'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- simple affichage, posé par options.php.
+            add_settings_error( Footer::OPTION, 'settings_updated', __( 'Réglages enregistrés.', 'couturier' ), 'success' );
+        }
+
         settings_errors( Footer::OPTION );
 
         echo '<form method="post" action="options.php" novalidate="novalidate">';
         settings_fields( self::GROUP );
 
         // Certifications.
-        echo '<h2>' . esc_html__( 'Certifications', 'couturier' ) . '</h2>';
+        echo '<h2>' . esc_html__( 'Logos de réassurance et certifications', 'couturier' ) . '</h2>';
         echo '<p id="couturier-certifications-description">' . esc_html__( 'Logos affichés en tête du pied de page, dans cet ordre. Le texte alternatif de chaque image, saisi dans la médiathèque, sert d\'intitulé au logo : par exemple « Qualiopi, processus certifié ».', 'couturier' ) . '</p>';
 
         $this->open_table(
@@ -314,7 +333,7 @@ final class FooterSettings implements FeatureInterface {
             [ 'column-logo' => __( 'Logo', 'couturier' ), '' => __( 'Lien (facultatif)', 'couturier' ) ],
             /* translators: %d : nouvelle position de la certification. */
             __( 'Certification déplacée en position %d.', 'couturier' ),
-            __( 'Certification retirée.', 'couturier' )
+            __( 'Certification supprimée.', 'couturier' )
         );
 
         foreach ( Footer::certifications() as $index => $certification ) {
@@ -373,14 +392,15 @@ final class FooterSettings implements FeatureInterface {
     }
 
     /**
-     * Ouvre un tableau réordonnable : en-têtes (n°, colonnes propres, « Activer »,
-     * actions) et `<tbody>` qui porte les annonces du script.
+     * Ouvre un tableau réordonnable : en-têtes (n° et poignée, colonnes propres,
+     * « Activer », « Supprimer » si les lignes peuvent l'être) et `<tbody>` qui porte
+     * les annonces du script.
      *
      * @param string                $id          Identifiant du `<tbody>`.
      * @param string                $description Identifiant du paragraphe qui décrit le tableau.
      * @param array<string, string> $columns     Colonnes propres : classe => intitulé.
      * @param string                $moved       Annonce d'un déplacement (`%d` : nouvelle position).
-     * @param string                $removed     Annonce d'un retrait ('' : pas de retrait).
+     * @param string                $removed     Annonce d'un retrait ('' : pas de retrait, ni de colonne).
      */
     private function open_table( string $id, string $description, array $columns, string $moved, string $removed ): void {
         printf(
@@ -394,9 +414,9 @@ final class FooterSettings implements FeatureInterface {
         }
 
         printf(
-            '<th scope="col" class="column-enabled">%1$s</th><th scope="col" class="column-actions"><span class="screen-reader-text">%2$s</span></th></tr></thead><tbody id="%3$s" class="couturier-sortable__body" data-moved="%4$s" data-removed="%5$s">',
+            '<th scope="col" class="column-enabled">%1$s</th>%2$s</tr></thead><tbody id="%3$s" class="couturier-sortable__body" data-moved="%4$s" data-removed="%5$s">',
             esc_html__( 'Activer', 'couturier' ),
-            esc_html__( 'Ordre', 'couturier' ),
+            '' !== $removed ? '<th scope="col" class="column-actions"><span class="screen-reader-text">' . esc_html__( 'Supprimer', 'couturier' ) . '</span></th>' : '',
             esc_attr( $id ),
             esc_attr( $moved ),
             esc_attr( $removed )
@@ -424,9 +444,10 @@ final class FooterSettings implements FeatureInterface {
         echo '<tr class="couturier-sortable__row">';
 
         printf(
-            '<th scope="row" class="column-number"><span class="screen-reader-text">%1$s </span><span class="couturier-sortable__number">%2$s</span></th>',
+            '<th scope="row" class="column-number"><span class="screen-reader-text">%1$s </span><span class="couturier-sortable__number">%2$s</span>%3$s</th>',
             esc_html__( 'Certification', 'couturier' ),
-            esc_html( $number > 0 ? (string) $number : '' )
+            esc_html( $number > 0 ? (string) $number : '' ),
+            $this->handle() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- échappé par handle().
         );
 
         // Logo : aperçu, identifiant posté, bouton de choix, avertissement d'alt manquant.
@@ -465,7 +486,11 @@ final class FooterSettings implements FeatureInterface {
         );
 
         $this->render_toggle( $field . '[enabled][]', $enabled );
-        $this->render_actions( true );
+
+        printf(
+            '<td class="column-actions"><button type="button" class="button-link button-link-delete couturier-sortable__remove">%s</button></td>',
+            esc_html__( 'Supprimer', 'couturier' )
+        );
 
         echo '</tr>';
     }
@@ -483,12 +508,13 @@ final class FooterSettings implements FeatureInterface {
         $icon  = get_theme_file_path( 'resources/views/partials/footer/icons/' . $network['network'] . '.svg' );
 
         printf(
-            '<tr class="couturier-sortable__row"><td class="column-number couturier-sortable__number">%1$s</td><th scope="row" class="column-network"><span class="couturier-network">%2$s%3$s</span><input type="hidden" name="%4$s" value="%5$s"></th>',
+            '<tr class="couturier-sortable__row"><td class="column-number"><span class="couturier-sortable__number">%1$s</span>%6$s</td><th scope="row" class="column-network"><span class="couturier-network">%2$s%3$s</span><input type="hidden" name="%4$s" value="%5$s"></th>',
             esc_html( (string) $number ),
             is_readable( $icon ) ? (string) file_get_contents( $icon ) : '', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- icône du thème, décorative (aria-hidden).
             esc_html( $network['name'] ),
             esc_attr( $field . '[network][]' ),
-            esc_attr( $network['network'] )
+            esc_attr( $network['network'] ),
+            $this->handle() // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- échappé par handle().
         );
 
         printf(
@@ -501,7 +527,6 @@ final class FooterSettings implements FeatureInterface {
         );
 
         $this->render_toggle( $field . '[enabled][]', $network['enabled'] );
-        $this->render_actions( false );
 
         echo '</tr>';
     }
@@ -527,34 +552,35 @@ final class FooterSettings implements FeatureInterface {
     }
 
     /**
-     * Cellule des actions : monter, descendre et, si la ligne peut l'être, retirer.
-     * Boutons à icône, intitulé en texte masqué et en `title` pour la souris.
+     * Poignée « ≡ » de déplacement, posée après le numéro de la ligne, et son menu.
      *
-     * @param bool $removable Afficher « Retirer ».
+     * Trois usages (cf. `footer-settings.js`) : on la fait glisser pour déposer la
+     * ligne ailleurs ; au clavier, les flèches ↑ ↓ déplacent la ligne ; un clic ouvre
+     * un menu « Monter / Descendre / Mettre en premier / Mettre en dernier ».
+     *
+     * @return string HTML échappé.
      */
-    private function render_actions( bool $removable ): void {
-        $actions = [
-            'up'   => [ __( 'Monter', 'couturier' ), 'dashicons-arrow-up-alt2' ],
-            'down' => [ __( 'Descendre', 'couturier' ), 'dashicons-arrow-down-alt2' ],
-        ];
+    private function handle(): string {
+        $html = sprintf(
+            '<button type="button" class="couturier-sortable__handle" aria-haspopup="menu" aria-expanded="false" title="%1$s"><span class="dashicons dashicons-menu" aria-hidden="true"></span><span class="screen-reader-text">%2$s</span></button><div class="couturier-sortable__menu" role="menu" hidden>',
+            esc_attr__( 'Glisser pour déplacer, ou cliquer', 'couturier' ),
+            esc_html__( 'Déplacer', 'couturier' )
+        );
 
-        if ( $removable ) {
-            $actions['remove'] = [ __( 'Retirer', 'couturier' ), 'dashicons-no-alt' ];
-        }
-
-        echo '<td class="column-actions"><span class="couturier-sortable__actions">';
-
-        foreach ( $actions as $action => [ $label, $icon ] ) {
-            printf(
-                '<button type="button" class="button couturier-sortable__%1$s" title="%2$s"><span class="dashicons %3$s" aria-hidden="true"></span><span class="screen-reader-text">%4$s</span></button>',
+        foreach ( [
+            'up'    => __( 'Monter', 'couturier' ),
+            'down'  => __( 'Descendre', 'couturier' ),
+            'first' => __( 'Mettre en premier', 'couturier' ),
+            'last'  => __( 'Mettre en dernier', 'couturier' ),
+        ] as $action => $label ) {
+            $html .= sprintf(
+                '<button type="button" role="menuitem" tabindex="-1" data-move="%1$s">%2$s</button>',
                 esc_attr( $action ),
-                esc_attr( $label ),
-                esc_attr( $icon ),
                 esc_html( $label )
             );
         }
 
-        echo '</span></td>';
+        return $html . '</div>';
     }
 
     /**

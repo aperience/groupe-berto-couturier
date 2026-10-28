@@ -2,21 +2,24 @@
  * Tableaux réordonnables de l'écran « Pied de page » : certifications, réseaux sociaux.
  *
  * Injecté en inline par `Theme\Features\Footer\FooterSettings`, sans build : écrit
- * sans imports, sur la globale `wp.media`. La feature ne le charge que sur son
- * écran, et lui transmet ses libellés par `window.couturierFooterSettings`.
+ * sans imports, sur les globales `wp.media` et `jQuery` (jQuery UI Sortable). La
+ * feature ne le charge que sur son écran, et lui transmet ses libellés par
+ * `window.couturierFooterSettings`.
  *
  * Chaque tableau (`<tbody class="couturier-sortable__body">`) a une ligne par
- * élément, qui se déplace (et, pour les certifications, se retire) par des boutons,
- * et un interrupteur « Activer ». Les champs étant postés en tableaux parallèles,
- * l'ordre du DOM fait l'ordre d'enregistrement : aucun nom à renuméroter. Les
- * annonces propres à chaque tableau sont dans ses attributs `data-moved` et
- * `data-removed`. Chaque action est annoncée dans une région `role="status"`, et le
- * focus reste sur un élément du tableau (WCAG 2.4.3, 4.1.3).
+ * élément, avec une poignée « ≡ » qui sert trois usages :
+ * - glisser-déposer la ligne à la souris (comme dans Nested Pages) ;
+ * - au clavier, flèches ↑ ↓ pour la déplacer d'un cran ;
+ * - clic pour un menu « Monter / Descendre / Mettre en premier / Mettre en dernier ».
+ * Les certifications se retirent en plus par un bouton, choisissent leur image dans
+ * la médiathèque et s'ajoutent depuis un gabarit `<template>`.
  *
- * Les certifications choisissent en plus leur image dans la médiathèque, et
- * s'ajoutent depuis un gabarit `<template>`.
+ * Les champs étant postés en tableaux parallèles, l'ordre du DOM fait l'ordre
+ * d'enregistrement : aucun nom à renuméroter. Les annonces propres à chaque tableau
+ * sont dans ses attributs `data-moved` et `data-removed`, lues dans une région
+ * `role="status"` commune.
  */
-( function ( wp, settings ) {
+( function ( wp, $, settings ) {
 	'use strict';
 
 	var status = document.getElementById( 'couturier-footer-status' );
@@ -35,48 +38,158 @@
 		}, 100 );
 	}
 
-	/** Renumérote les lignes d'un tableau et désactive les déplacements impossibles. */
+	/** Renumérote les lignes d'un tableau et grise les déplacements impossibles du menu. */
 	function refresh( body ) {
 		var rows = body.children;
 
 		for ( var i = 0; i < rows.length; i++ ) {
+			var first = 0 === i;
+			var last = rows.length - 1 === i;
+
 			rows[ i ].querySelector( '.couturier-sortable__number' ).textContent = String( i + 1 );
-			rows[ i ].querySelector( '.couturier-sortable__up' ).disabled = 0 === i;
-			rows[ i ].querySelector( '.couturier-sortable__down' ).disabled = rows.length - 1 === i;
+			rows[ i ].querySelector( '[data-move="up"]' ).disabled = first;
+			rows[ i ].querySelector( '[data-move="first"]' ).disabled = first;
+			rows[ i ].querySelector( '[data-move="down"]' ).disabled = last;
+			rows[ i ].querySelector( '[data-move="last"]' ).disabled = last;
 		}
 	}
 
-	/** Déplace une ligne d'un cran, en gardant le focus sur le bouton utilisé. */
-	function move( body, row, button, direction ) {
-		var sibling = direction < 0 ? row.previousElementSibling : row.nextElementSibling;
+	/** Position (à partir de 0) d'une ligne dans son tableau. */
+	function indexOf( body, row ) {
+		return Array.prototype.indexOf.call( body.children, row );
+	}
 
-		if ( ! sibling ) {
+	/** Place une ligne à une position, renumérote et annonce. */
+	function moveTo( body, row, index ) {
+		var rows = body.children;
+
+		index = Math.max( 0, Math.min( rows.length - 1, index ) );
+
+		if ( index === indexOf( body, row ) ) {
 			return;
 		}
 
-		body.insertBefore( row, direction < 0 ? sibling : sibling.nextElementSibling );
+		row.remove();
+		body.insertBefore( row, body.children[ index ] || null );
 		refresh( body );
-
-		// Arrivé en bout de liste, le bouton est désactivé : le focus passe à l'autre.
-		( button.disabled
-			? row.querySelector( direction < 0 ? '.couturier-sortable__down' : '.couturier-sortable__up' )
-			: button
-		).focus();
-
-		announce( body.dataset.moved.replace( '%d', String( Array.prototype.indexOf.call( body.children, row ) + 1 ) ) );
+		announce( body.dataset.moved.replace( '%d', String( index + 1 ) ) );
 	}
 
-	/** Retire une ligne ; le focus passe à la suivante, ou au tableau d'origine. */
+	/** Cible d'un déplacement du menu : `up`, `down`, `first` ou `last`. */
+	function targetIndex( body, row, move ) {
+		var current = indexOf( body, row );
+
+		return { up: current - 1, down: current + 1, first: 0, last: body.children.length - 1 }[ move ];
+	}
+
+	/** Retire une ligne ; le focus passe à la suivante, ou au bouton d'ajout. */
 	function remove( body, row ) {
 		var next = row.nextElementSibling || row.previousElementSibling;
 
 		row.remove();
 		refresh( body );
 
-		// Sans ligne restante, le focus va au bouton d'ajout qui suit le tableau.
-		( next ? next.querySelector( 'button' ) : document.getElementById( 'couturier-certification-add' ) ).focus();
+		( next ? next.querySelector( '.couturier-sortable__handle' ) : document.getElementById( 'couturier-certification-add' ) ).focus();
 		announce( body.dataset.removed );
 	}
+
+	// ─── Menu de la poignée ───────────────────────────────────────────────────
+
+	/** Ferme le menu ouvert, s'il y en a un ; rend le focus à sa poignée si demandé. */
+	function closeMenu( restoreFocus ) {
+		var menu = document.querySelector( '.couturier-sortable__menu:not([hidden])' );
+
+		if ( ! menu ) {
+			return;
+		}
+
+		var handle = menu.parentElement.querySelector( '.couturier-sortable__handle' );
+
+		menu.hidden = true;
+		handle.setAttribute( 'aria-expanded', 'false' );
+
+		if ( restoreFocus ) {
+			handle.focus();
+		}
+	}
+
+	/** Ouvre le menu d'une poignée, focus sur le premier déplacement possible. */
+	function openMenu( handle ) {
+		var menu = handle.parentElement.querySelector( '.couturier-sortable__menu' );
+
+		closeMenu( false );
+		menu.hidden = false;
+		handle.setAttribute( 'aria-expanded', 'true' );
+		( menu.querySelector( 'button:not(:disabled)' ) || handle ).focus();
+	}
+
+	/** Navigation au clavier dans le menu ouvert. */
+	function menuKeydown( event ) {
+		var menu = event.target.closest( '.couturier-sortable__menu' );
+		var items = Array.prototype.filter.call( menu.querySelectorAll( 'button' ), function ( item ) {
+			return ! item.disabled;
+		} );
+		var current = items.indexOf( event.target );
+
+		if ( 'Escape' === event.key ) {
+			event.preventDefault();
+			closeMenu( true );
+		} else if ( 'ArrowDown' === event.key || 'ArrowUp' === event.key ) {
+			event.preventDefault();
+			items[ ( current + ( 'ArrowDown' === event.key ? 1 : -1 ) + items.length ) % items.length ].focus();
+		} else if ( 'Tab' === event.key ) {
+			closeMenu( false );
+		}
+	}
+
+	document.addEventListener( 'click', function ( event ) {
+		if ( ! event.target.closest( '.couturier-sortable__menu, .couturier-sortable__handle' ) ) {
+			closeMenu( false );
+		}
+	} );
+
+	// ─── Glisser-déposer ──────────────────────────────────────────────────────
+
+	/**
+	 * Glisser-déposer par la poignée (jQuery UI Sortable, livré par WordPress). Un
+	 * glissement ne déclenche pas de clic : le menu ne s'ouvre qu'au clic simple.
+	 */
+	function makeDraggable( body ) {
+		if ( ! $ || ! $.fn.sortable ) {
+			return;
+		}
+
+		$( body ).sortable( {
+			items: '> tr',
+			axis: 'y',
+			handle: '.couturier-sortable__handle',
+			// Par défaut, un bouton ne peut pas servir à saisir : la poignée en est un.
+			cancel: 'input, textarea, select, option, a, label, button:not(.couturier-sortable__handle)',
+			placeholder: 'couturier-sortable__placeholder',
+			// Une ligne de tableau perd la largeur de ses cellules en se détachant :
+			// elles sont figées le temps du déplacement.
+			helper: function ( event, row ) {
+				row.children().each( function () {
+					$( this ).width( $( this ).width() );
+				} );
+
+				return row;
+			},
+			start: function ( event, ui ) {
+				closeMenu( false );
+				ui.placeholder.html( '<td colspan="' + ui.item.children().length + '"></td>' );
+			},
+			stop: function ( event, ui ) {
+				ui.item.children().css( 'width', '' );
+			},
+			update: function ( event, ui ) {
+				refresh( body );
+				announce( body.dataset.moved.replace( '%d', String( ui.item.index() + 1 ) ) );
+			},
+		} );
+	}
+
+	// ─── Médiathèque ──────────────────────────────────────────────────────────
 
 	/** Ouvre la médiathèque et place l'image choisie dans la ligne. */
 	function chooseImage( row ) {
@@ -107,14 +220,15 @@
 			announce( settings.imageChosen );
 		} );
 
-		// La modale rend le focus au <body> en se fermant (choix fait ou annulé) :
-		// il revient au bouton qui l'a ouverte (WCAG 2.4.3).
+		// La modale rend le focus au <body> en se fermant : il revient au bouton qui l'a ouverte.
 		frame.on( 'close', function () {
 			row.querySelector( '.couturier-certification__choose' ).focus();
 		} );
 
 		frame.open();
 	}
+
+	// ─── Branchement des tableaux ─────────────────────────────────────────────
 
 	Array.prototype.forEach.call( bodies, function ( body ) {
 		body.addEventListener( 'click', function ( event ) {
@@ -125,14 +239,39 @@
 				return;
 			}
 
-			if ( button.classList.contains( 'couturier-sortable__up' ) ) {
-				move( body, row, button, -1 );
-			} else if ( button.classList.contains( 'couturier-sortable__down' ) ) {
-				move( body, row, button, 1 );
+			if ( button.classList.contains( 'couturier-sortable__handle' ) ) {
+				if ( 'true' === button.getAttribute( 'aria-expanded' ) ) {
+					closeMenu( true );
+				} else {
+					openMenu( button );
+				}
+			} else if ( button.dataset.move ) {
+				var handle = row.querySelector( '.couturier-sortable__handle' );
+
+				closeMenu( false );
+				moveTo( body, row, targetIndex( body, row, button.dataset.move ) );
+				handle.focus();
 			} else if ( button.classList.contains( 'couturier-sortable__remove' ) ) {
 				remove( body, row );
 			} else if ( button.classList.contains( 'couturier-certification__choose' ) && wp && wp.media ) {
 				chooseImage( row );
+			}
+		} );
+
+		body.addEventListener( 'keydown', function ( event ) {
+			if ( event.target.closest( '.couturier-sortable__menu' ) ) {
+				menuKeydown( event );
+				return;
+			}
+
+			// Flèches ↑ ↓ sur la poignée : déplacement d'un cran, le focus suit la ligne.
+			if ( event.target.classList.contains( 'couturier-sortable__handle' ) && ( 'ArrowUp' === event.key || 'ArrowDown' === event.key ) ) {
+				var row = event.target.closest( '.couturier-sortable__row' );
+
+				event.preventDefault();
+				closeMenu( false );
+				moveTo( body, row, targetIndex( body, row, 'ArrowUp' === event.key ? 'up' : 'down' ) );
+				event.target.focus();
 			}
 		} );
 
@@ -148,10 +287,12 @@
 			}
 		} );
 
+		makeDraggable( body );
 		refresh( body );
 	} );
 
-	// Ajout d'une certification, depuis le gabarit d'une ligne vierge.
+	// ─── Ajout d'une certification ────────────────────────────────────────────
+
 	var certifications = document.getElementById( 'couturier-certifications' );
 	var template = document.getElementById( 'couturier-certification-template' );
 	var addButton = document.getElementById( 'couturier-certification-add' );
@@ -173,4 +314,4 @@
 			announce( settings.added );
 		} );
 	}
-} )( window.wp, window.couturierFooterSettings );
+} )( window.wp, window.jQuery, window.couturierFooterSettings );

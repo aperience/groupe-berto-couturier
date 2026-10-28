@@ -665,7 +665,9 @@ sous le haut de la carte blanche des certifications, qui chevauche ainsi son bor
   API comme l'offre du moment), option autoloadée `couturier_footer` (lecture : `Footer\Footer`) :
   - certifications : image de la médiathèque (SVG compris), lien facultatif et interrupteur
     « Activer » (une certification désactivée reste dans la liste mais n'est pas affichée), dans
-    l'ordre d'affichage ; ajout, déplacement et retrait par boutons, au clavier, annoncés en `role="status"`
+    l'ordre d'affichage ; déplacement par une poignée « ≡ » (glisser-déposer jQuery UI Sortable comme Nested Pages, flèches
+    ↑ ↓ au clavier, ou clic pour un menu Monter / Descendre / premier / dernier) ; ajout et retrait
+    par boutons ; annoncés en `role="status"`
     (`resources/js/editor/footer-settings.js`, injecté en inline sur l'écran seul). Champs postés en
     tableaux parallèles (`image_id[]`, `url[]`, `enabled[]`) : l'ordre du DOM fait l'ordre enregistré
     (classes `couturier-sortable__*`, communes aux deux tableaux). Le texte
