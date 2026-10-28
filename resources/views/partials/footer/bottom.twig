@@ -3,9 +3,25 @@
     Données : `footer.copyright` (feature Footer\FooterContext, écran « Pied de page »),
     `legal_menu` (Timber\Menu, `null` si aucun menu n'est affecté).
 
-    Les réseaux sociaux s'y ajouteront en tête, à gauche en desktop.
+    Réseaux sociaux (`footer.social`, ceux dont l'adresse est renseignée) en tête, à gauche
+    en desktop. Icônes SVG en ligne depuis `partials/footer/icons/{réseau}.svg` (dans les
+    vues : le dossier est déployé, `resources/images/` ne l'est pas), décoratives : le
+    lien est nommé par le nom du réseau, en texte masqué.
 #}
 <div class="footer-bottom">
+    {% if footer.social %}
+        <ul class="footer-social" aria-label="{{ __('Réseaux sociaux', 'couturier') }}">
+            {% for item in footer.social %}
+                <li>
+                    <a class="footer-social__link" href="{{ item.url|e('esc_url')|raw }}">
+                        {{- source('partials/footer/icons/' ~ item.network ~ '.svg') -}}
+                        <span class="visually-hidden">{{ item.name }}</span>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     <div class="footer-bottom__legal">
         <p class="footer-bottom__copyright">
             &copy; {{ "now"|date("Y") }} {{ footer.copyright }}

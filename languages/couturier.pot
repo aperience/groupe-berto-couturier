@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-28T13:39:10+00:00\n"
+"POT-Creation-Date: 2026-10-28T13:55:55+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -174,7 +174,7 @@ msgstr ""
 msgid "Gérer l'offre du moment"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferPageCache.php:59
+#: src/Features/CurrentOffer/CurrentOfferPageCache.php:58
 msgid "Vide le cache de page (W3 Total Cache, WP Super Cache) quand l'offre du moment est enregistrée, commence ou se termine."
 msgstr ""
 
@@ -225,7 +225,7 @@ msgid "Par exemple : Offre du moment"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:264
-#: src/Features/Footer/FooterSettings.php:335
+#: src/Features/Footer/FooterSettings.php:363
 msgid "Texte"
 msgstr ""
 
@@ -286,163 +286,179 @@ msgstr ""
 msgid "(obligatoire)"
 msgstr ""
 
-#: src/Features/Footer/Footer.php:67
+#: src/Features/Footer/Footer.php:70
 msgid "Groupe Couturier · Sainte-Gemme-Moronval (28)"
 msgstr ""
 
-#: src/Features/Footer/FooterContext.php:41
-msgid "Expose aux templates les réglages du pied de page (certifications, copyright)."
+#: src/Features/Footer/FooterContext.php:42
+msgid "Expose aux templates les réglages du pied de page (certifications, réseaux sociaux, copyright)."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:82
+#: src/Features/Footer/FooterSettings.php:88
 msgid "Écran « Pied de page » : logos des certifications et leurs liens, réseaux sociaux, texte du copyright."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:94
-#: src/Features/Footer/FooterSettings.php:95
+#: src/Features/Footer/FooterSettings.php:100
+#: src/Features/Footer/FooterSettings.php:101
 #: resources/views/partials/footer/nav.twig:10
 msgid "Pied de page"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:138
+#: src/Features/Footer/FooterSettings.php:144
 msgid "Logo de la certification"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:139
+#: src/Features/Footer/FooterSettings.php:145
 msgid "Utiliser cette image"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:140
-#: src/Features/Footer/FooterSettings.php:389
+#: src/Features/Footer/FooterSettings.php:146
+#: src/Features/Footer/FooterSettings.php:447
 msgid "Changer"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:141
-#: src/Features/Footer/FooterSettings.php:419
+#: src/Features/Footer/FooterSettings.php:147
+#: src/Features/Footer/FooterSettings.php:525
 msgid "Oui"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:142
-#: src/Features/Footer/FooterSettings.php:419
+#: src/Features/Footer/FooterSettings.php:148
+#: src/Features/Footer/FooterSettings.php:525
 msgid "Non"
 msgstr ""
 
-#. translators: %d : nouvelle position de la certification.
-#: src/Features/Footer/FooterSettings.php:144
-#, php-format
-msgid "Certification déplacée en position %d."
-msgstr ""
-
-#: src/Features/Footer/FooterSettings.php:145
-msgid "Certification retirée."
-msgstr ""
-
-#: src/Features/Footer/FooterSettings.php:146
+#: src/Features/Footer/FooterSettings.php:149
 msgid "Certification ajoutée. Choisissez son image."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:147
+#: src/Features/Footer/FooterSettings.php:150
 msgid "Image choisie."
 msgstr ""
 
 #. translators: %d : numéro de la certification dans la liste.
-#: src/Features/Footer/FooterSettings.php:206
+#: src/Features/Footer/FooterSettings.php:223
 #, php-format
 msgid "Certification %d : aucune image choisie, elle a été ignorée."
 msgstr ""
 
 #. translators: %d : numéro de la certification dans la liste.
-#: src/Features/Footer/FooterSettings.php:221
+#: src/Features/Footer/FooterSettings.php:238
 #, php-format
 msgid "Certification %d : le lien n'est pas une adresse web valide (https://…), il a été retiré."
 msgstr ""
 
 #. translators: %s : nom du réseau social.
-#: src/Features/Footer/FooterSettings.php:245
+#: src/Features/Footer/FooterSettings.php:271
 #, php-format
 msgid "%s : l'adresse n'est pas une adresse web valide (https://…), elle a été retirée."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:280
+#: src/Features/Footer/FooterSettings.php:308
 msgid "Certifications"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:281
+#: src/Features/Footer/FooterSettings.php:309
 msgid "Logos affichés en tête du pied de page, dans cet ordre. Le texte alternatif de chaque image, saisi dans la médiathèque, sert d'intitulé au logo : par exemple « Qualiopi, processus certifié »."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:285
-msgctxt "position de la certification"
-msgid "N°"
-msgstr ""
-
-#: src/Features/Footer/FooterSettings.php:286
+#: src/Features/Footer/FooterSettings.php:314
 msgid "Logo"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:287
-#: src/Features/Footer/FooterSettings.php:404
+#: src/Features/Footer/FooterSettings.php:314
+#: src/Features/Footer/FooterSettings.php:462
 msgid "Lien (facultatif)"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:288
-msgid "Ordre et retrait"
+#. translators: %d : nouvelle position de la certification.
+#: src/Features/Footer/FooterSettings.php:316
+#, php-format
+msgid "Certification déplacée en position %d."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:289
-#: src/Features/Footer/FooterSettings.php:418
-msgid "Activer"
+#: src/Features/Footer/FooterSettings.php:317
+msgid "Certification retirée."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:305
+#: src/Features/Footer/FooterSettings.php:333
 msgid "Ajouter une certification"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:310
+#: src/Features/Footer/FooterSettings.php:337
+#: resources/views/partials/footer/bottom.twig:13
 msgid "Réseaux sociaux"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:311
-msgid "Adresse complète de chaque page (https://…). Un réseau sans adresse n'est pas affiché."
+#: src/Features/Footer/FooterSettings.php:338
+msgid "Pastilles affichées en bas du pied de page, dans cet ordre. Adresse complète de chaque page (https://…) : un réseau sans adresse, ou désactivé, n'est pas affiché."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:331
+#: src/Features/Footer/FooterSettings.php:343
+msgid "Réseau"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:343
+#: src/Features/Footer/FooterSettings.php:497
+msgid "Adresse"
+msgstr ""
+
+#. translators: %d : nouvelle position du réseau social.
+#: src/Features/Footer/FooterSettings.php:345
+#, php-format
+msgid "Réseau déplacé en position %d."
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:359
 msgid "Copyright"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:339
+#: src/Features/Footer/FooterSettings.php:367
 msgid "Affiché après « © » et l'année en cours, mise à jour automatiquement. Facultatif : le texte grisé s'affiche si le champ est vide."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:370
-msgid "Certification"
-msgstr ""
-
-#: src/Features/Footer/FooterSettings.php:378
-msgid "Aucune image"
-msgstr ""
-
 #: src/Features/Footer/FooterSettings.php:389
-msgid "Choisir"
-msgstr ""
-
-#: src/Features/Footer/FooterSettings.php:396
-msgid "Sans texte alternatif :"
+msgctxt "position dans la liste"
+msgid "N°"
 msgstr ""
 
 #: src/Features/Footer/FooterSettings.php:398
+#: src/Features/Footer/FooterSettings.php:524
+msgid "Activer"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:399
+msgid "Ordre"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:428
+msgid "Certification"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:436
+msgid "Aucune image"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:447
+msgid "Choisir"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:454
+msgid "Sans texte alternatif :"
+msgstr ""
+
+#: src/Features/Footer/FooterSettings.php:456
 msgid "le renseigner"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:425
+#: src/Features/Footer/FooterSettings.php:537
 msgid "Monter"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:426
+#: src/Features/Footer/FooterSettings.php:538
 msgid "Descendre"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:427
+#: src/Features/Footer/FooterSettings.php:542
 msgid "Retirer"
 msgstr ""
 
@@ -672,7 +688,7 @@ msgstr ""
 msgid "Aucun contenu trouvé."
 msgstr ""
 
-#: resources/views/partials/footer/bottom.twig:15
+#: resources/views/partials/footer/bottom.twig:31
 msgid "Informations légales"
 msgstr ""
 

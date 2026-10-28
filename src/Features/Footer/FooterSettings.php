@@ -19,25 +19,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Ajoute au menu « Apparence » un écran « Pied de page » : certifications (logo de la
- * médiathèque et lien facultatif, dans l'ordre d'affichage), adresses des réseaux
- * sociaux, texte du copyright.
+ * médiathèque, lien facultatif), réseaux sociaux (adresse), tous deux dans l'ordre
+ * d'affichage et avec un interrupteur « Activer », et texte du copyright.
  *
  * **Settings API, ouverte aux éditeurs**, comme l'écran « Offre du moment » : le
  * filtre `option_page_capability_{groupe}` abaisse l'exigence de `options.php` à
  * `CAPABILITY` pour ce seul groupe de réglages.
  *
- * **Liste de certifications sans index.** Les champs sont postés en tableaux
- * parallèles (`image_id[]`, `url[]`, `enabled[]`) : leur ordre est celui du DOM, que le script
- * de l'écran (`resources/js/editor/footer-settings.js`) réordonne sans avoir à
- * renuméroter les noms. Une ligne sans image est ignorée. L'interrupteur
- * « Activer » est une case sans nom, recopiée par le script dans un champ caché
- * `enabled[]` (1 ou 0) : une case décochée n'est pas postée, et décalerait les
- * tableaux.
+ * **Deux tableaux réordonnables, une ligne par élément**, pour tenir peu de place
+ * (classes `couturier-sortable__*`, communes aux deux). Réordonnancement au clavier :
+ * boutons « Monter », « Descendre » (et « Retirer » pour les certifications) plutôt
+ * qu'un glisser-déposer, annoncés par une région `role="status"` (WCAG 2.1.1, 4.1.3).
+ * Les réseaux sont une liste fixe (`Footer::NETWORKS`, une icône chacun) : ni ajout
+ * ni retrait, un réseau inutile se désactive ou reste sans adresse.
  *
- * **Un tableau, une ligne par certification**, pour tenir peu de place.
- * Réordonnancement au clavier : boutons « Monter », « Descendre », « Retirer »
- * plutôt qu'un glisser-déposer, annoncés par une région `aria-live` (WCAG 2.1.1,
- * 4.1.3).
+ * **Lignes sans index.** Les champs sont postés en tableaux parallèles
+ * (`image_id[]`, `url[]`, `enabled[]` ; `network[]`, `url[]`, `enabled[]`) : leur ordre
+ * est celui du DOM, que le script de l'écran (`resources/js/editor/footer-settings.js`)
+ * réordonne sans avoir à renuméroter les noms. L'interrupteur « Activer » est une case
+ * sans nom, recopiée par le script dans un champ caché `enabled[]` (1 ou 0) : une case
+ * décochée n'est pas postée, et décalerait les tableaux.
  */
 final class FooterSettings implements FeatureInterface {
 
@@ -145,9 +146,6 @@ final class FooterSettings implements FeatureInterface {
             'changeImage'  => __( 'Changer', 'couturier' ),
             'yes'          => __( 'Oui', 'couturier' ),
             'no'           => __( 'Non', 'couturier' ),
-            /* translators: %d : nouvelle position de la certification. */
-            'moved'        => __( 'Certification déplacée en position %d.', 'couturier' ),
-            'removed'      => __( 'Certification retirée.', 'couturier' ),
             'added'        => __( 'Certification ajoutée. Choisissez son image.', 'couturier' ),
             'imageChosen'  => __( 'Image choisie.', 'couturier' ),
         ];
@@ -157,31 +155,34 @@ final class FooterSettings implements FeatureInterface {
         wp_add_inline_script( $handle, 'window.couturierFooterSettings = ' . wp_json_encode( $l10n ) . ';', 'before' );
         wp_add_inline_script( $handle, (string) file_get_contents( $path ) );
 
-        // Mise en forme du tableau, propre à cet écran. Interrupteur « Activer » :
+        // Mise en forme des tableaux, propre à cet écran. Interrupteur « Activer » :
         // la case à cocher native, redessinée en glissière (même clavier, même
         // lecteur d'écran). Contrastes sur blanc (WCAG 1.4.11) : contour et pastille
         // grise `#8c8f94` 3,3:1, piste pétrole `#004e63` 9,25:1.
         wp_add_inline_style( 'common', '
-            .couturier-certifications { max-width: 60rem; }
-            .widefat.couturier-certifications tbody th, .widefat.couturier-certifications tbody td { vertical-align: middle; }
-            .couturier-certifications .column-number { width: 2.5rem; }
-            .couturier-certifications .column-logo { width: 14rem; }
-            .couturier-certifications .column-enabled { width: 6rem; }
-            .couturier-certifications .column-enabled label { display: inline-flex; align-items: center; gap: .5rem; min-height: 1.5rem; cursor: pointer; }
-            .couturier-certifications input[type="checkbox"].couturier-certification__toggle { appearance: none; position: relative; flex: none; width: 2.5rem; height: 1.375rem; margin: 0; border: 1px solid #8c8f94; border-radius: 999px; background: #fff; box-shadow: none; cursor: pointer; transition: background-color .15s, border-color .15s; }
-            .couturier-certifications input[type="checkbox"].couturier-certification__toggle::before { content: none; }
-            .couturier-certifications input[type="checkbox"].couturier-certification__toggle::after { content: ""; position: absolute; top: 2px; left: 2px; width: 1rem; height: 1rem; border-radius: 50%; background: #8c8f94; transition: transform .15s, background-color .15s; }
-            .couturier-certifications input[type="checkbox"].couturier-certification__toggle:checked { background: #004e63; border-color: #004e63; }
-            .couturier-certifications input[type="checkbox"].couturier-certification__toggle:checked::after { background: #fff; transform: translateX(1.125rem); }
-            .couturier-certifications input[type="checkbox"].couturier-certification__toggle:focus-visible { outline: 2px solid #004e63; outline-offset: 2px; }
-            @media (prefers-reduced-motion: reduce) { .couturier-certifications input[type="checkbox"].couturier-certification__toggle, .couturier-certifications input[type="checkbox"].couturier-certification__toggle::after { transition: none; } }
-            .couturier-certifications .column-actions { width: 8.5rem; text-align: right; }
+            .couturier-sortable { max-width: 60rem; }
+            .widefat.couturier-sortable tbody th, .widefat.couturier-sortable tbody td { vertical-align: middle; }
+            .couturier-sortable .column-number { width: 2.5rem; }
+            .couturier-sortable .column-logo { width: 14rem; }
+            .couturier-sortable .column-network { width: 10rem; }
+            .couturier-sortable .column-enabled { width: 6rem; }
+            .couturier-sortable .column-actions { width: 8.5rem; text-align: right; }
+            .couturier-sortable .column-enabled label { display: inline-flex; align-items: center; gap: .5rem; min-height: 1.5rem; cursor: pointer; }
+            .couturier-sortable input[type="checkbox"].couturier-sortable__toggle { appearance: none; position: relative; flex: none; width: 2.5rem; height: 1.375rem; margin: 0; border: 1px solid #8c8f94; border-radius: 999px; background: #fff; box-shadow: none; cursor: pointer; transition: background-color .15s, border-color .15s; }
+            .couturier-sortable input[type="checkbox"].couturier-sortable__toggle::before { content: none; }
+            .couturier-sortable input[type="checkbox"].couturier-sortable__toggle::after { content: ""; position: absolute; top: 2px; left: 2px; width: 1rem; height: 1rem; border-radius: 50%; background: #8c8f94; transition: transform .15s, background-color .15s; }
+            .couturier-sortable input[type="checkbox"].couturier-sortable__toggle:checked { background: #004e63; border-color: #004e63; }
+            .couturier-sortable input[type="checkbox"].couturier-sortable__toggle:checked::after { background: #fff; transform: translateX(1.125rem); }
+            .couturier-sortable input[type="checkbox"].couturier-sortable__toggle:focus-visible { outline: 2px solid #004e63; outline-offset: 2px; }
+            @media (prefers-reduced-motion: reduce) { .couturier-sortable input[type="checkbox"].couturier-sortable__toggle, .couturier-sortable input[type="checkbox"].couturier-sortable__toggle::after { transition: none; } }
+            .couturier-sortable__actions { display: inline-flex; gap: .25rem; }
+            .couturier-sortable__actions .button { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; min-height: 2rem; padding: 0; }
             .couturier-certification__logo { display: flex; align-items: center; gap: .75rem; }
             .couturier-certification__preview { display: flex; align-items: center; justify-content: center; width: 6rem; height: 2.5rem; }
             .couturier-certification__preview img { max-width: 100%; max-height: 100%; width: auto; height: auto; }
             .couturier-certification__alt-warning { margin: .25rem 0 0; }
-            .couturier-certification__actions { display: inline-flex; gap: .25rem; }
-            .couturier-certification__actions .button { display: inline-flex; align-items: center; justify-content: center; min-width: 2rem; min-height: 2rem; padding: 0; }
+            .couturier-network { display: inline-flex; align-items: center; gap: .5rem; }
+            .couturier-network svg { width: 1.25rem; height: 1.25rem; color: #1d2327; }
         ' );
     }
 
@@ -192,7 +193,7 @@ final class FooterSettings implements FeatureInterface {
      * certification ou le réseau en cause (WCAG 3.3.1).
      *
      * @param mixed $input Valeurs postées.
-     * @return array{certifications: list<array{image_id: int, url: string, enabled: bool}>, social: array<string, string>, copyright: string}
+     * @return array{certifications: list<array{image_id: int, url: string, enabled: bool}>, social: list<array{network: string, url: string, enabled: bool}>, copyright: string}
      */
     public function sanitize( mixed $input ): array {
         if ( null !== $this->sanitized ) {
@@ -245,12 +246,21 @@ final class FooterSettings implements FeatureInterface {
             ];
         }
 
-        // Réseaux sociaux.
+        // Réseaux sociaux : tableaux parallèles, dans l'ordre du formulaire.
         $posted_social = is_array( $input['social'] ?? null ) ? $input['social'] : [];
+        $networks      = array_values( (array) ( $posted_social['network'] ?? [] ) );
+        $social_urls   = array_values( (array) ( $posted_social['url'] ?? [] ) );
+        $social_on     = array_values( (array) ( $posted_social['enabled'] ?? [] ) );
         $social        = [];
 
-        foreach ( Footer::NETWORKS as $network => $name ) {
-            $raw_url = trim( (string) ( $posted_social[ $network ] ?? '' ) );
+        foreach ( $networks as $index => $network ) {
+            $network = sanitize_key( (string) $network );
+
+            if ( ! isset( Footer::NETWORKS[ $network ] ) || in_array( $network, array_column( $social, 'network' ), true ) ) {
+                continue;
+            }
+
+            $raw_url = trim( (string) ( $social_urls[ $index ] ?? '' ) );
             $url     = $this->sanitize_url( $raw_url );
 
             if ( '' !== $raw_url && '' === $url ) {
@@ -258,13 +268,15 @@ final class FooterSettings implements FeatureInterface {
                     Footer::OPTION,
                     'social-' . $network,
                     /* translators: %s : nom du réseau social. */
-                    sprintf( __( '%s : l\'adresse n\'est pas une adresse web valide (https://…), elle a été retirée.', 'couturier' ), $name )
+                    sprintf( __( '%s : l\'adresse n\'est pas une adresse web valide (https://…), elle a été retirée.', 'couturier' ), Footer::NETWORKS[ $network ] )
                 );
             }
 
-            if ( '' !== $url ) {
-                $social[ $network ] = $url;
-            }
+            $social[] = [
+                'network' => $network,
+                'url'     => $url,
+                'enabled' => '0' !== (string) ( $social_on[ $index ] ?? '1' ),
+            ];
         }
 
         return $this->sanitized = [
@@ -296,13 +308,13 @@ final class FooterSettings implements FeatureInterface {
         echo '<h2>' . esc_html__( 'Certifications', 'couturier' ) . '</h2>';
         echo '<p id="couturier-certifications-description">' . esc_html__( 'Logos affichés en tête du pied de page, dans cet ordre. Le texte alternatif de chaque image, saisi dans la médiathèque, sert d\'intitulé au logo : par exemple « Qualiopi, processus certifié ».', 'couturier' ) . '</p>';
 
-        printf(
-            '<table class="widefat striped couturier-certifications" aria-describedby="couturier-certifications-description"><thead><tr><th scope="col" class="column-number">%1$s</th><th scope="col" class="column-logo">%2$s</th><th scope="col">%3$s</th><th scope="col" class="column-enabled">%5$s</th><th scope="col" class="column-actions"><span class="screen-reader-text">%4$s</span></th></tr></thead><tbody id="couturier-certifications">',
-            esc_html_x( 'N°', 'position de la certification', 'couturier' ),
-            esc_html__( 'Logo', 'couturier' ),
-            esc_html__( 'Lien (facultatif)', 'couturier' ),
-            esc_html__( 'Ordre et retrait', 'couturier' ),
-            esc_html__( 'Activer', 'couturier' )
+        $this->open_table(
+            'couturier-certifications',
+            'couturier-certifications-description',
+            [ 'column-logo' => __( 'Logo', 'couturier' ), '' => __( 'Lien (facultatif)', 'couturier' ) ],
+            /* translators: %d : nouvelle position de la certification. */
+            __( 'Certification déplacée en position %d.', 'couturier' ),
+            __( 'Certification retirée.', 'couturier' )
         );
 
         foreach ( Footer::certifications() as $index => $certification ) {
@@ -320,28 +332,28 @@ final class FooterSettings implements FeatureInterface {
             '<p><button type="button" class="button" id="couturier-certification-add">%s</button></p>',
             esc_html__( 'Ajouter une certification', 'couturier' )
         );
-        echo '<p class="screen-reader-text" role="status" id="couturier-certifications-status"></p>';
 
         // Réseaux sociaux.
         echo '<h2>' . esc_html__( 'Réseaux sociaux', 'couturier' ) . '</h2>';
-        echo '<p>' . esc_html__( 'Adresse complète de chaque page (https://…). Un réseau sans adresse n\'est pas affiché.', 'couturier' ) . '</p>';
-        echo '<table class="form-table" role="presentation"><tbody>';
+        echo '<p id="couturier-social-description">' . esc_html__( 'Pastilles affichées en bas du pied de page, dans cet ordre. Adresse complète de chaque page (https://…) : un réseau sans adresse, ou désactivé, n\'est pas affiché.', 'couturier' ) . '</p>';
 
-        foreach ( Footer::NETWORKS as $network => $network_name ) {
-            $field   = 'social-' . $network;
-            $invalid = in_array( $field, $errors, true );
+        $this->open_table(
+            'couturier-social',
+            'couturier-social-description',
+            [ 'column-network' => __( 'Réseau', 'couturier' ), '' => __( 'Adresse', 'couturier' ) ],
+            /* translators: %d : nouvelle position du réseau social. */
+            __( 'Réseau déplacé en position %d.', 'couturier' ),
+            ''
+        );
 
-            printf(
-                '<tr><th scope="row"><label for="couturier-footer-%1$s">%2$s</label></th><td><input type="url" class="regular-text" id="couturier-footer-%1$s" name="%3$s" value="%4$s" autocomplete="url"%5$s></td></tr>',
-                esc_attr( $field ),
-                esc_html( $network_name ),
-                esc_attr( $name( 'social' ) . '[' . $network . ']' ),
-                esc_attr( $settings['social'][ $network ] ?? '' ),
-                $invalid ? ' aria-invalid="true" aria-describedby="' . esc_attr( 'setting-error-' . $field ) . '"' : ''
-            );
+        foreach ( Footer::networks() as $index => $network ) {
+            $this->render_network( $index + 1, $network, in_array( 'social-' . $network['network'], $errors, true ) );
         }
 
         echo '</tbody></table>';
+
+        // Annonces des déplacements, retraits et ajouts, communes aux deux tableaux.
+        echo '<p class="screen-reader-text" role="status" id="couturier-footer-status"></p>';
 
         // Copyright.
         echo '<h2>' . esc_html__( 'Copyright', 'couturier' ) . '</h2>';
@@ -361,13 +373,42 @@ final class FooterSettings implements FeatureInterface {
     }
 
     /**
+     * Ouvre un tableau réordonnable : en-têtes (n°, colonnes propres, « Activer »,
+     * actions) et `<tbody>` qui porte les annonces du script.
+     *
+     * @param string                $id          Identifiant du `<tbody>`.
+     * @param string                $description Identifiant du paragraphe qui décrit le tableau.
+     * @param array<string, string> $columns     Colonnes propres : classe => intitulé.
+     * @param string                $moved       Annonce d'un déplacement (`%d` : nouvelle position).
+     * @param string                $removed     Annonce d'un retrait ('' : pas de retrait).
+     */
+    private function open_table( string $id, string $description, array $columns, string $moved, string $removed ): void {
+        printf(
+            '<table class="widefat striped couturier-sortable" aria-describedby="%1$s"><thead><tr><th scope="col" class="column-number">%2$s</th>',
+            esc_attr( $description ),
+            esc_html_x( 'N°', 'position dans la liste', 'couturier' )
+        );
+
+        foreach ( $columns as $class => $label ) {
+            printf( '<th scope="col"%1$s>%2$s</th>', '' !== $class ? ' class="' . esc_attr( $class ) . '"' : '', esc_html( $label ) );
+        }
+
+        printf(
+            '<th scope="col" class="column-enabled">%1$s</th><th scope="col" class="column-actions"><span class="screen-reader-text">%2$s</span></th></tr></thead><tbody id="%3$s" class="couturier-sortable__body" data-moved="%4$s" data-removed="%5$s">',
+            esc_html__( 'Activer', 'couturier' ),
+            esc_html__( 'Ordre', 'couturier' ),
+            esc_attr( $id ),
+            esc_attr( $moved ),
+            esc_attr( $removed )
+        );
+    }
+
+    /**
      * Affiche une certification, en une ligne du tableau : position, logo et bouton
-     * de choix, lien, boutons de déplacement et de retrait.
+     * de choix, lien, interrupteur, boutons de déplacement et de retrait.
      *
      * La position est l'en-tête de la ligne (`<th scope="row">`) : un lecteur d'écran
      * l'annonce avec chaque champ et chaque bouton, qui n'ont donc pas à la répéter.
-     * Les boutons à icône portent leur intitulé en texte masqué, et en `title` pour
-     * la souris.
      *
      * @param string $key      Clé unique des identifiants de la ligne (`ROW_KEY` dans le gabarit).
      * @param int    $number   Position affichée (0 dans le gabarit : le script la renseigne).
@@ -378,11 +419,12 @@ final class FooterSettings implements FeatureInterface {
     private function render_certification( string $key, int $number, int $image_id, string $url, bool $enabled ): void {
         $has_image = Footer::is_valid_image( $image_id );
         $alt       = $has_image ? trim( (string) get_post_meta( $image_id, '_wp_attachment_image_alt', true ) ) : '';
+        $field     = Footer::OPTION . '[certifications]';
 
-        echo '<tr class="couturier-certification">';
+        echo '<tr class="couturier-sortable__row">';
 
         printf(
-            '<th scope="row" class="column-number"><span class="screen-reader-text">%1$s </span><span class="couturier-certification__number">%2$s</span></th>',
+            '<th scope="row" class="column-number"><span class="screen-reader-text">%1$s </span><span class="couturier-sortable__number">%2$s</span></th>',
             esc_html__( 'Certification', 'couturier' ),
             esc_html( $number > 0 ? (string) $number : '' )
         );
@@ -396,7 +438,7 @@ final class FooterSettings implements FeatureInterface {
 
         printf(
             '<input type="hidden" class="couturier-certification__image-id" name="%1$s" value="%2$s">',
-            esc_attr( Footer::OPTION . '[certifications][image_id][]' ),
+            esc_attr( $field . '[image_id][]' ),
             esc_attr( $has_image ? (string) $image_id : '' )
         );
 
@@ -418,32 +460,93 @@ final class FooterSettings implements FeatureInterface {
             '<td><label for="couturier-certification-url-%1$s" class="screen-reader-text">%2$s</label><input type="url" class="large-text" id="couturier-certification-url-%1$s" name="%3$s" value="%4$s" placeholder="https://"></td>',
             esc_attr( $key ),
             esc_html__( 'Lien (facultatif)', 'couturier' ),
-            esc_attr( Footer::OPTION . '[certifications][url][]' ),
+            esc_attr( $field . '[url][]' ),
             esc_attr( $url )
         );
 
-        // Activer : interrupteur (case `role="switch"`, nommée « Activer »), état
-        // « Oui » / « Non » affiché à côté, masqué aux lecteurs d'écran qui
-        // l'annoncent déjà. La case n'a pas de `name` : le script recopie son état
-        // dans le champ caché posté.
+        $this->render_toggle( $field . '[enabled][]', $enabled );
+        $this->render_actions( true );
+
+        echo '</tr>';
+    }
+
+    /**
+     * Affiche un réseau social, en une ligne du tableau : position, icône et nom
+     * (en-tête de la ligne), adresse, interrupteur, boutons de déplacement.
+     *
+     * @param int                                                          $number  Position affichée.
+     * @param array{network: string, name: string, url: string, enabled: bool} $network Réseau.
+     * @param bool                                                         $invalid Adresse refusée à la dernière sauvegarde.
+     */
+    private function render_network( int $number, array $network, bool $invalid ): void {
+        $field = Footer::OPTION . '[social]';
+        $icon  = get_theme_file_path( 'resources/views/partials/footer/icons/' . $network['network'] . '.svg' );
+
         printf(
-            '<td class="column-enabled"><input type="hidden" class="couturier-certification__enabled" name="%1$s" value="%2$s"><label><input type="checkbox" role="switch" class="couturier-certification__toggle"%3$s><span class="screen-reader-text">%4$s</span> <span class="couturier-certification__state" aria-hidden="true">%5$s</span></label></td>',
-            esc_attr( Footer::OPTION . '[certifications][enabled][]' ),
+            '<tr class="couturier-sortable__row"><td class="column-number couturier-sortable__number">%1$s</td><th scope="row" class="column-network"><span class="couturier-network">%2$s%3$s</span><input type="hidden" name="%4$s" value="%5$s"></th>',
+            esc_html( (string) $number ),
+            is_readable( $icon ) ? (string) file_get_contents( $icon ) : '', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- icône du thème, décorative (aria-hidden).
+            esc_html( $network['name'] ),
+            esc_attr( $field . '[network][]' ),
+            esc_attr( $network['network'] )
+        );
+
+        printf(
+            '<td><label for="couturier-social-url-%1$s" class="screen-reader-text">%2$s</label><input type="url" class="large-text" id="couturier-social-url-%1$s" name="%3$s" value="%4$s" placeholder="https://" autocomplete="url"%5$s></td>',
+            esc_attr( $network['network'] ),
+            esc_html__( 'Adresse', 'couturier' ),
+            esc_attr( $field . '[url][]' ),
+            esc_attr( $network['url'] ),
+            $invalid ? ' aria-invalid="true" aria-describedby="' . esc_attr( 'setting-error-social-' . $network['network'] ) . '"' : ''
+        );
+
+        $this->render_toggle( $field . '[enabled][]', $network['enabled'] );
+        $this->render_actions( false );
+
+        echo '</tr>';
+    }
+
+    /**
+     * Cellule « Activer » : interrupteur (case `role="switch"`, nommée « Activer »),
+     * état « Oui » / « Non » affiché à côté, masqué aux lecteurs d'écran qui
+     * l'annoncent déjà. La case n'a pas de `name` : le script recopie son état dans
+     * le champ caché posté.
+     *
+     * @param string $name    Nom du champ caché posté.
+     * @param bool   $enabled État.
+     */
+    private function render_toggle( string $name, bool $enabled ): void {
+        printf(
+            '<td class="column-enabled"><input type="hidden" class="couturier-sortable__enabled" name="%1$s" value="%2$s"><label><input type="checkbox" role="switch" class="couturier-sortable__toggle"%3$s><span class="screen-reader-text">%4$s</span> <span class="couturier-sortable__state" aria-hidden="true">%5$s</span></label></td>',
+            esc_attr( $name ),
             $enabled ? '1' : '0',
             checked( $enabled, true, false ),
             esc_html__( 'Activer', 'couturier' ),
             esc_html( $enabled ? __( 'Oui', 'couturier' ) : __( 'Non', 'couturier' ) )
         );
+    }
 
-        echo '<td class="column-actions"><span class="couturier-certification__actions">';
+    /**
+     * Cellule des actions : monter, descendre et, si la ligne peut l'être, retirer.
+     * Boutons à icône, intitulé en texte masqué et en `title` pour la souris.
+     *
+     * @param bool $removable Afficher « Retirer ».
+     */
+    private function render_actions( bool $removable ): void {
+        $actions = [
+            'up'   => [ __( 'Monter', 'couturier' ), 'dashicons-arrow-up-alt2' ],
+            'down' => [ __( 'Descendre', 'couturier' ), 'dashicons-arrow-down-alt2' ],
+        ];
 
-        foreach ( [
-            'up'     => [ __( 'Monter', 'couturier' ), 'dashicons-arrow-up-alt2' ],
-            'down'   => [ __( 'Descendre', 'couturier' ), 'dashicons-arrow-down-alt2' ],
-            'remove' => [ __( 'Retirer', 'couturier' ), 'dashicons-no-alt' ],
-        ] as $action => [ $label, $icon ] ) {
+        if ( $removable ) {
+            $actions['remove'] = [ __( 'Retirer', 'couturier' ), 'dashicons-no-alt' ];
+        }
+
+        echo '<td class="column-actions"><span class="couturier-sortable__actions">';
+
+        foreach ( $actions as $action => [ $label, $icon ] ) {
             printf(
-                '<button type="button" class="button couturier-certification__%1$s" title="%2$s"><span class="dashicons %3$s" aria-hidden="true"></span><span class="screen-reader-text">%4$s</span></button>',
+                '<button type="button" class="button couturier-sortable__%1$s" title="%2$s"><span class="dashicons %3$s" aria-hidden="true"></span><span class="screen-reader-text">%4$s</span></button>',
                 esc_attr( $action ),
                 esc_attr( $label ),
                 esc_attr( $icon ),
@@ -451,7 +554,7 @@ final class FooterSettings implements FeatureInterface {
             );
         }
 
-        echo '</span></td></tr>';
+        echo '</span></td>';
     }
 
     /**

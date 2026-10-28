@@ -667,10 +667,17 @@ sous le haut de la carte blanche des certifications, qui chevauche ainsi son bor
     « Activer » (une certification désactivée reste dans la liste mais n'est pas affichée), dans
     l'ordre d'affichage ; ajout, déplacement et retrait par boutons, au clavier, annoncés en `role="status"`
     (`resources/js/editor/footer-settings.js`, injecté en inline sur l'écran seul). Champs postés en
-    tableaux parallèles (`image_id[]`, `url[]`, `enabled[]`) : l'ordre du DOM fait l'ordre enregistré. Le texte
+    tableaux parallèles (`image_id[]`, `url[]`, `enabled[]`) : l'ordre du DOM fait l'ordre enregistré
+    (classes `couturier-sortable__*`, communes aux deux tableaux). Le texte
     alternatif de la médiathèque sert d'intitulé au logo (à défaut, le titre de l'image ; l'écran
     signale l'image sans alt) ;
-  - réseaux sociaux : une adresse par réseau de `Footer::NETWORKS`, réseau sans adresse masqué ;
+  - réseaux sociaux : tableau réordonnable de même forme (liste fixe `Footer::NETWORKS`, sans ajout
+    ni retrait), adresse et interrupteur « Activer » ; réseau sans adresse ou désactivé masqué.
+    Stockés en liste `{ network, url, enabled }` ; l'ancien format `{ réseau: adresse }` est relu
+    par `Footer::networks()` ;
+    pastilles rendues par `partials/footer/bottom.twig`, icônes SVG en ligne
+    (`source()`) depuis `resources/views/partials/footer/icons/{réseau}.svg`, en `currentColor` —
+    dans les vues et non `resources/images/`, que le déploiement n'envoie pas ;
   - copyright : texte après « © année », « Groupe Couturier · Sainte-Gemme-Moronval (28) » par défaut ;
   - adresses : http(s) seulement ; une adresse invalide est retirée et signalée par une erreur qui
     nomme la ligne en cause.

@@ -29,7 +29,10 @@ final class Footer {
     /** Slug de l'écran de réglages, préfixé par `ThemeContext::handle()`. */
     public const MENU_SLUG = 'footer';
 
-    /** Réseaux sociaux proposés, dans l'ordre d'affichage : clé => nom. */
+    /**
+     * Réseaux sociaux proposés : clé => nom. Ordre par défaut ; l'ordre affiché est
+     * celui de l'écran. Chaque clé a son icône dans `resources/views/partials/footer/icons/`.
+     */
     public const NETWORKS = [
         'facebook'  => 'Facebook',
         'instagram' => 'Instagram',
@@ -47,7 +50,7 @@ final class Footer {
     /**
      * Réglages enregistrés, complétés par les valeurs par défaut.
      *
-     * @return array{certifications: list<array{image_id: int, url: string, enabled: bool}>, social: array<string, string>, copyright: string}
+     * @return array{certifications: list<array{image_id: int, url: string, enabled: bool}>, social: array<mixed>, copyright: string}
      */
     public static function settings(): array {
         $stored = get_option( self::OPTION, [] );
@@ -103,6 +106,69 @@ final class Footer {
             array_filter(
                 self::certifications(),
                 static fn( array $certification ): bool => $certification['enabled']
+            )
+        );
+    }
+
+    /**
+     * Tous les réseaux de `NETWORKS`, dans l'ordre enregistré (écran d'admin).
+     *
+     * Les réseaux absents de l'enregistrement (nouveau réseau, premier passage) sont
+     * ajoutés à la fin, sans adresse. Un enregistrement antérieur à l'ordre et à
+     * l'interrupteur (`{ réseau: adresse }`) est relu dans l'ordre de `NETWORKS`,
+     * réseaux actifs.
+     *
+     * @return list<array{network: string, name: string, url: string, enabled: bool}>
+     */
+    public static function networks(): array {
+        $stored = self::settings()['social'];
+
+        if ( ! array_is_list( $stored ) ) {
+            $stored = array_map(
+                static fn( string $network, mixed $url ): array => [ 'network' => $network, 'url' => (string) $url ],
+                array_keys( $stored ),
+                $stored
+            );
+        }
+
+        $networks = [];
+
+        foreach ( $stored as $item ) {
+            $network = (string) ( $item['network'] ?? '' );
+
+            if ( isset( self::NETWORKS[ $network ] ) && ! isset( $networks[ $network ] ) ) {
+                $networks[ $network ] = [
+                    'network' => $network,
+                    'name'    => self::NETWORKS[ $network ],
+                    'url'     => (string) ( $item['url'] ?? '' ),
+                    'enabled' => (bool) ( $item['enabled'] ?? true ),
+                ];
+            }
+        }
+
+        foreach ( self::NETWORKS as $network => $name ) {
+            $networks[ $network ] ??= [
+                'network' => $network,
+                'name'    => $name,
+                'url'     => '',
+                'enabled' => true,
+            ];
+        }
+
+        return array_values( $networks );
+    }
+
+    /**
+     * Réseaux affichés sur le site : actifs et dont l'adresse est renseignée, dans
+     * l'ordre enregistré.
+     *
+     * @return list<array{network: string, name: string, url: string, enabled: bool}>
+     */
+    public static function social(): array {
+        return array_values(
+            array_filter(
+                self::networks(),
+                static fn( array $item ): bool => $item['enabled'] && '' !== $item['url']
             )
         );
     }
