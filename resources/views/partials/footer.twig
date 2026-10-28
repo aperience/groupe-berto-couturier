@@ -1,8 +1,11 @@
 <footer id="colophon" class="site-footer">
-    <div class="container-fluid">
-        {% if footer_menu %}
-            {% include 'partials/navigation.twig' with { menu: footer_menu } %}
-        {% endif %}
-        <p>&copy; {{ "now"|date("Y") }} {{ site.name }}</p>
+    <div class="site-footer__body">
+        <div class="container">
+            {% if footer_menu %}
+                {% include 'partials/footer/nav.twig' with { menu: footer_menu } %}
+            {% endif %}
+
+            <p>&copy; {{ "now"|date("Y") }} {{ site.name }}</p>
+        </div>
     </div>
 </footer>

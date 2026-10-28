@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-28T10:12:56+00:00\n"
+"POT-Creation-Date: 2026-10-28T11:52:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -166,6 +166,7 @@ msgid "Découvrir l'offre"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferDashboard.php:78
+#: resources/views/partials/footer/link.twig:14
 msgid "(nouvel onglet)"
 msgstr ""
 
@@ -294,6 +295,10 @@ msgstr ""
 
 #: src/Providers/SetupServiceProvider.php:48
 msgid "Menu pied de page"
+msgstr ""
+
+#: src/Providers/SetupServiceProvider.php:49
+msgid "Liens légaux du pied de page"
 msgstr ""
 
 #: resources/js/editor/button.js:60
@@ -504,4 +509,8 @@ msgstr ""
 
 #: resources/views/index.twig:17
 msgid "Aucun contenu trouvé."
+msgstr ""
+
+#: resources/views/partials/footer/nav.twig:10
+msgid "Pied de page"
 msgstr ""

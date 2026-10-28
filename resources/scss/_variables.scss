@@ -85,10 +85,11 @@ $box-shadow-lg: map.get($ds-shadows, floating);
 // Grille et conteneur
 // Gouttière desktop du design system (`layout/grid-gap`, 16 px) ; marge latérale
 // de page desktop (`layout/page-padding`, 24 px de chaque côté) ; conteneur de
-// 1040 px de contenu, marges comprises. Les valeurs mobiles (14 / 12 px) restent
+// 1136 px de contenu (hors marges ; 1040 sur la planche, porté à 1136 le
+// 2026-10-28 d'après la maquette du footer). Les valeurs mobiles (14 / 12 px) restent
 // à poser avec l'intégration du layout, via les custom properties `--layout-*`.
 $grid-gutter-width:    to-rem(16);
 $container-padding-x:  to-rem(48);
 $container-max-widths: (
-    lg: to-rem(1040 + 48),
+    lg: to-rem(1136 + 48),
 );

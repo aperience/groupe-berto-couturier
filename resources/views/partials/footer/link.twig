@@ -1,0 +1,15 @@
+{#
+    Lien d'un élément de menu du pied de page.
+    Données : `item` (Timber\MenuItem), `class` (facultatif).
+
+    URL saisie dans Apparence › Menus : esc_url écarte les schémas dangereux (cf.
+    macros/ui.twig). Lien courant signalé par `aria-current` ; ouverture dans un nouvel
+    onglet annoncée en texte masqué (WCAG 2.4.4).
+#}
+<a href="{{ item.link|e('esc_url')|raw }}"
+    {%- if class is defined %} class="{{ class }}"{% endif %}
+    {%- if item.current %} aria-current="page"{% endif %}
+    {%- if item.is_target_blank %} target="_blank" rel="noopener"{% endif %}>
+    {{- item.title -}}
+    {%- if item.is_target_blank %}<span class="visually-hidden"> {{ __('(nouvel onglet)', 'couturier') }}</span>{% endif -%}
+</a>

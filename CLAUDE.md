@@ -806,7 +806,7 @@ dev server — un e-mail est lu bien après son envoi. Sans build, le nom du sit
   **Display**. Bootstrap ne pilote que les tailles (`var(--fs-*)`, RFS désactivé).
 - `$spacers` de Bootstrap inchangés (4, 8, 16, 24, 48 px, tous dans l'échelle du design system) ;
   les autres pas n'existent qu'en `--space-*`.
-- Conteneur : 1040 px de contenu + 24 px de marge de chaque côté, gouttière 16 px (valeurs
+- Conteneur : 1136 px de contenu (1040 sur la planche, élargi le 2026-10-28) + 24 px de marge de chaque côté, gouttière 16 px (valeurs
   desktop). Les valeurs mobiles (marge 12 px, gouttière 14 px) sont à poser à l'intégration du
   layout, via `--layout-*`.
 

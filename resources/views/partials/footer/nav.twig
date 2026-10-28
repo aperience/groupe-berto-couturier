@@ -1,0 +1,30 @@
+{#
+    Navigation du pied de page, en colonnes.
+    Données : `menu` (Timber\Menu de l'emplacement `footer`).
+
+    Convention du menu (Apparence › Menus, deux niveaux) : chaque élément de premier
+    niveau est une colonne, dont il donne le titre ; ses sous-éléments en sont les liens.
+    Le titre n'est cliquable que s'il pointe vers une vraie page : un lien personnalisé
+    `#` donne un titre en texte seul.
+#}
+<nav class="footer-nav" aria-label="{{ __('Pied de page', 'couturier') }}">
+    {% for column in menu.items %}
+        <div class="footer-nav__column">
+            <h2 class="footer-nav__title">
+                {%- if column.link and column.link != '#' -%}
+                    {% include 'partials/footer/link.twig' with { item: column } only %}
+                {%- else -%}
+                    {{ column.title }}
+                {%- endif -%}
+            </h2>
+
+            {% if column.children %}
+                <ul class="footer-nav__list">
+                    {% for item in column.children %}
+                        <li>{% include 'partials/footer/link.twig' with { item: item, class: 'footer-nav__link' } only %}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    {% endfor %}
+</nav>

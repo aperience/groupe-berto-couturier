@@ -46,6 +46,7 @@ final class SetupServiceProvider implements ServiceProviderInterface {
                 locations: static fn(): array => [
                     'primary' => __( 'Menu principal', 'couturier' ),
                     'footer'  => __( 'Menu pied de page', 'couturier' ),
+                    'legal'   => __( 'Liens légaux du pied de page', 'couturier' ),
                 ],
             ),
             new TwigDump(),

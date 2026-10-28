@@ -1,0 +1,74 @@
+// ─── Pied de page ─────────────────────────────────────────────────────────────
+//
+// Rendu par `partials/footer.twig` : fond orange à coins supérieurs arrondis,
+// navigation en colonnes (2 en mobile, 4 à partir de `lg`).
+//
+// ⚠️ Accessibilité : titres de colonne, texte et leur focus en blanc sur l'orange
+// (`text-on-footer` sur `surface-footer`), comme la maquette — 2,8:1, sous l'AA
+// (WCAG 1.4.3, 1.4.11). Dérogation acceptée par le client pour l'instant, cf.
+// `_brand.scss`.
+
+.site-footer {
+    margin-top: var(--layout-section-gap);
+}
+
+.site-footer__body {
+    padding-block: var(--space-48) var(--space-64);
+    color: var(--color-text-on-footer);
+    background-color: var(--color-surface-footer);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+
+    a {
+        color: inherit;
+        text-decoration: none;
+        text-underline-offset: .2em;
+
+        &:hover {
+            text-decoration: underline;
+        }
+
+        &:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
+            border-radius: var(--radius-sm);
+        }
+    }
+}
+
+// ─── Navigation en colonnes ───────────────────────────────────────────────────
+
+.footer-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-48) var(--layout-grid-gap);
+
+    @include media-breakpoint-up(lg) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+.footer-nav__title {
+    @include text-style(footer-title);
+    margin-bottom: var(--space-16);
+    color: inherit;
+}
+
+// Liens en pétrole foncé (maquette) : 5,8:1 sur l'orange, conformes AA, comme
+// leur indicateur de focus (`currentColor`).
+.footer-nav__list {
+    margin: 0;
+    color: var(--color-text-on-accent);
+    padding: 0;
+    list-style: none;
+
+    li + li {
+        margin-top: var(--space-6);
+    }
+}
+
+.footer-nav__link {
+    @include text-style(footer-link);
+    // Cible de 20 px de haut, espacée de 6 px : 26 px d'un centre à l'autre, ce
+    // qui satisfait l'exception d'espacement de WCAG 2.5.8 (cercles de 24 px).
+    display: inline-block;
+}
