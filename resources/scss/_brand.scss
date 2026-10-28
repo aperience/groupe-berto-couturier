@@ -3,8 +3,8 @@
 // Deux parties :
 // 1. le design system du site, transcrit de la planche « Couturier · Design
 //    System » (Permis & Formations) ;
-// 2. l'ancienne charte (site actuel), encore utilisée par le jeu de couleurs de
-//    l'admin et la page de connexion (variables `$brand_*`, en fin de fichier).
+// 2. les couleurs du jeu de couleurs de l'admin et de la page de connexion
+//    (variables `$brand_*`, en fin de fichier), tirées du design system.
 //
 // Ce module ne produit aucune règle : il expose les valeurs (maps Sass) et les
 // fonctions d'accès. Les custom properties CSS qu'en tirent les composants sont
@@ -199,9 +199,13 @@ $ds-text-styles: (
 // Une divergence ne casse rien — elle donne simplement des pastilles de sélecteur
 // qui ne correspondent pas aux couleurs réellement appliquées.
 
-// Couleur principale — menu et barre d'admin, page de connexion.
+// Couleur de marque — page de connexion, icônes du tableau de bord.
 // Bleu pétrole (texte blanc : 9,25:1).
 $brand_base-color: ds-color(petrol, 500);
+
+// Menu de gauche et barre d'admin : pétrole assombri (texte blanc : 12,18:1).
+// Les sous-menus, plus clairs, s'en détachent.
+$brand_menu-background: ds-color(petrol, 700);
 
 // Élément courant, boutons primaires de l'admin.
 // Orange assombri pour l'AA (cf. en-tête).
@@ -215,11 +219,22 @@ $brand_link-color: ds-color(petrol, 500);
 $brand_notification-color: ds-color(orange, 700);
 
 // Icônes du menu au repos : pétrole clair, volontairement plus sourd que le
-// texte pour que l'élément courant se distingue (5,96:1 sur le pétrole).
+// texte pour que l'élément courant se distingue (7,84:1 sur le menu).
 $brand_icon-color: ds-color(petrol, 200);
 
-// Sous-menus : pétrole assombri. Texte pétrole très clair (9,94:1), pêche au
-// survol / focus (7,82:1 ; l'orange de la charte n'y tiendrait que 4,29).
-$brand_submenu-background: ds-color(petrol, 700);
+// Sous-menus : bleu pétrole, plus clair que le menu. Texte pétrole très clair
+// (7,56:1), pêche au survol / focus (5,94:1 ; l'orange de la charte n'y tiendrait
+// que 3,26).
+$brand_submenu-background: ds-color(petrol, 500);
 $brand_submenu-text: ds-color(petrol, 100);
 $brand_submenu-focus-text: ds-color(peach, 500);
+
+// Éditeur de blocs : couleur d'interaction (liens et boutons de la barre latérale,
+// interrupteurs, bouton « Publier », anneaux de focus). Bleu pétrole : 9,25:1 sur
+// le blanc, dans les deux sens. Cf. `admin-colors.scss`, « Éditeur de blocs ».
+$brand_editor-color: ds-color(petrol, 500);
+$brand_editor-color-active: ds-color(petrol, 700);
+$brand_editor-color-pressed: ds-color(petrol, 900);
+$brand_editor-surface: ds-color(petrol, 50);
+$brand_editor-surface-active: ds-color(petrol, 100);
+$brand_editor-stroke: ds-color(petrol, 200);

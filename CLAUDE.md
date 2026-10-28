@@ -528,7 +528,7 @@ resources/scss/
 ├── _variables.scss        ← overrides Bootstrap, AVANT `bootstrap-config`
 ├── _tokens.scss           ← custom properties du design system, importé par `_content.scss`
 ├── _typography.scss       ← interlignes et styles de texte, importé par `_content.scss`
-├── _brand.scss            ← charte : design system + ancienne palette de l'admin (cf. *Design System*)
+├── _brand.scss            ← charte : design system + couleurs de l'admin et de la connexion (cf. *Design System*)
 ├── _mixins.scss
 ├── _fonts.scss            ← @font-face
 ├── partials/              ← layout du site (header, footer, navigation…) — front uniquement
@@ -786,7 +786,7 @@ dev server — un e-mail est lu bien après son envoi. Sans build, le nom du sit
 
 | Fichier | Rôle |
 |---------|------|
-| `_brand.scss` | Valeurs sources, sans sortie CSS — partie 1, design system : primitives (`$ds-palette`, `ds-color()`), rôles sémantiques (`$ds-semantic-colors`, `ds-semantic()`), espacements, rayons, ombres, layout et styles de texte (mobile, desktop), `to-rem()` ; partie 2, ancienne charte `$brand_*` (admin, connexion) |
+| `_brand.scss` | Valeurs sources, sans sortie CSS — partie 1, design system : primitives (`$ds-palette`, `ds-color()`), rôles sémantiques (`$ds-semantic-colors`, `ds-semantic()`), espacements, rayons, ombres, layout et styles de texte (mobile, desktop), `to-rem()` ; partie 2, couleurs `$brand_*` de l'admin et de la connexion, tirées de la partie 1 |
 | `_tokens.scss` | Émet les custom properties sur `:root` (front et éditeur, via `_content.scss`) |
 | `_variables.scss` | Overrides Bootstrap tirés du design system (couleurs, polices, tailles, rayons, ombres, conteneur) |
 | `_typography.scss` | Interlignes par style, classes `.text-body-medium` et `.text-eyebrow` |
@@ -811,8 +811,14 @@ dev server — un e-mail est lu bien après son envoi. Sans build, le nom du sit
 
 > **Back-office et page de connexion** : aux couleurs du design system (partie 2 de
 > `resources/scss/_brand.scss`, doublée dans `AdminServiceProvider` → `AdminColorScheme`) — menu
-> et boutons de connexion en bleu pétrole, accent (élément courant, boutons primaires, pastilles)
-> en orange/700, liens en pétrole, sous-menus en pétrole/700. L'orange de la charte ne tenant pas
+> de gauche et barre d'admin en pétrole/700, sous-menus dépliés en pétrole/500 (plus clairs),
+> boutons de connexion en pétrole/500, accent (élément courant, boutons primaires, pastilles)
+> en orange/700, liens en pétrole/500. **Éditeur de blocs** : couleur d'interaction en pétrole/500
+> (liens et boutons de la barre latérale, interrupteurs, « Publier », focus). WordPress 7 y pose sa
+> palette en style inline, depuis une table codée en dur des seuls jeux du core : un jeu personnalisé
+> retombe sur le bleu `#3858e9`. `admin-colors.scss` (section « Éditeur de blocs ») la remplace en
+> `!important` sur les éléments qui portent ce bleu — à revoir si WordPress permet un jour de
+> déclarer la couleur d'un jeu personnalisé. L'orange de la charte ne tenant pas
 > 4,5:1 avec du texte blanc, ni orange/700 sur le fond `#f0f0f1` de l'admin, cf. en-tête de la
 > partie 2.
 >

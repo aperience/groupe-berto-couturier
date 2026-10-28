@@ -27,7 +27,8 @@
 @use "~wp-admin/css/colors/admin" with (
     $scheme-name: "couturier",
 
-    $base-color:         $brand_base-color,
+    // Menu de gauche et barre d'admin : le core en dérive leurs fonds.
+    $base-color:         $brand_menu-background,
     $highlight-color:    $brand_highlight-color,
     $notification-color: $brand_notification-color,
 
@@ -92,4 +93,47 @@ body {
     --wp-admin-theme-color-darker-10--rgb: #{rgb-triplet($theme-darker-10)};
     --wp-admin-theme-color-darker-20: #{$theme-darker-20};
     --wp-admin-theme-color-darker-20--rgb: #{rgb-triplet($theme-darker-20)};
+}
+
+// ─── Éditeur de blocs (WordPress ≥ 7) ─────────────────────────────────────────
+//
+// L'éditeur ne lit plus `--wp-admin-theme-color` sur `body` : son `ThemeProvider`
+// (@wordpress/theme) pose en style inline, sur `<html>` et sur ses conteneurs, une
+// palette entière (`--wpds-color-*-brand*`, `--wp-admin-theme-color*`) calculée
+// depuis une couleur de départ. Celle-ci est lue dans une table codée en dur des
+// jeux de couleurs du core (`getAdminThemeColors()`, edit-post.js) : un jeu
+// personnalisé y retombe sur le bleu par défaut, `#3858e9`, sans filtre pour
+// l'éviter.
+//
+// On remplace donc ces variables par le pétrole, en `!important` — seul moyen de
+// l'emporter sur un style inline. La cible : les éléments dont le style inline
+// porte la couleur par défaut, c'est-à-dire les fournisseurs que le core a
+// initialisés faute de connaître notre jeu (racine, conteneurs, fenêtres).
+// À revoir si une version de WordPress permet de déclarer la couleur d'un jeu
+// personnalisé : le sélecteur cesserait alors simplement de correspondre.
+
+$editor-darker-10: solid(color.adjust($brand_editor-color, $lightness: -5%));
+$editor-darker-20: solid(color.adjust($brand_editor-color, $lightness: -10%));
+
+body.admin-color-couturier [style*="--wp-admin-theme-color: #3858e9"],
+html:has(> body.admin-color-couturier)[style*="--wp-admin-theme-color: #3858e9"] {
+    --wpds-color-background-interactive-brand-strong: #{$brand_editor-color} !important;
+    --wpds-color-background-interactive-brand-strong-active: #{$brand_editor-color-active} !important;
+    --wpds-color-background-interactive-brand-weak-active: #{$brand_editor-surface-active} !important;
+    --wpds-color-foreground-interactive-brand: #{$brand_editor-color} !important;
+    --wpds-color-foreground-interactive-brand-active: #{$brand_editor-color-pressed} !important;
+    --wpds-color-background-thumb-brand: #{$brand_editor-color} !important;
+    --wpds-color-background-thumb-brand-active: #{$brand_editor-color} !important;
+    --wpds-color-stroke-focus: #{$brand_editor-color} !important;
+    --wpds-color-stroke-interactive-brand: #{$brand_editor-color} !important;
+    --wpds-color-stroke-interactive-brand-active: #{$brand_editor-color-active} !important;
+    --wpds-color-stroke-surface-brand-strong: #{$brand_editor-color} !important;
+    --wpds-color-stroke-surface-brand: #{$brand_editor-stroke} !important;
+    --wpds-color-background-surface-brand: #{$brand_editor-surface} !important;
+    --wp-admin-theme-color: #{$brand_editor-color} !important;
+    --wp-admin-theme-color--rgb: #{rgb-triplet($brand_editor-color)} !important;
+    --wp-admin-theme-color-darker-10: #{$editor-darker-10} !important;
+    --wp-admin-theme-color-darker-10--rgb: #{rgb-triplet($editor-darker-10)} !important;
+    --wp-admin-theme-color-darker-20: #{$editor-darker-20} !important;
+    --wp-admin-theme-color-darker-20--rgb: #{rgb-triplet($editor-darker-20)} !important;
 }

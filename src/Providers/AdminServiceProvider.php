@@ -93,7 +93,8 @@ final class AdminServiceProvider implements ServiceProviderInterface
                 label: 'Couturier',
                 // Doublent les variables de resources/scss/_brand.scss : Sass ne peut pas
                 // les exposer à PHP. Les deux fichiers se modifient ensemble.
-                palette: ['#004e63', '#003b4a', '#ba4e27', '#ff6b35'],
+                // Pastilles : menu et barre d'admin, sous-menus, accent, survol des sous-menus.
+                palette: ['#003b4a', '#004e63', '#ba4e27', '#f8c5a0'],
                 icon_colors: [
                     'base'    => '#bfd3d8',
                     'focus'   => '#fff',
