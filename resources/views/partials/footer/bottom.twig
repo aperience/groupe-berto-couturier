@@ -13,9 +13,9 @@
         <ul class="footer-social" aria-label="{{ __('Réseaux sociaux', 'couturier') }}">
             {% for item in footer.social %}
                 <li>
-                    <a class="footer-social__link" href="{{ item.url|e('esc_url')|raw }}">
+                    <a class="footer-social__link" href="{{ item.url|e('esc_url')|raw }}" target="_blank" rel="noopener">
                         {{- source('partials/footer/icons/' ~ item.network ~ '.svg') -}}
-                        <span class="visually-hidden">{{ item.name }}</span>
+                        <span class="visually-hidden">{{ item.name }} {{ __('(nouvel onglet)', 'couturier') }}</span>
                     </a>
                 </li>
             {% endfor %}
