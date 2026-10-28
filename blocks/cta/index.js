@@ -70,6 +70,12 @@ const TEMPLATE = [
 /** Le titre du CTA est toujours un `<h2>`. */
 const LEVEL = 2;
 
+/**
+ * Espace avant une ponctuation haute, balises intercalées comprises : même motif que
+ * `render.php`, qui la rend insécable sur le front.
+ */
+const SPACE_BEFORE_PUNCTUATION = / +((?:<[^>]*>)*)(?=[?!:;»])/gu;
+
 /** Texte d'un champ RichText, balises retirées. */
 const textOf = ( block ) => String( block?.attributes?.content ?? '' ).replace( /<[^>]*>/g, '' ).trim();
 
@@ -204,6 +210,23 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 			if ( Object.keys( changes ).length ) {
 				__unstableMarkNextChangeAsNotPersistent();
 				updateBlockAttributes( block.clientId, changes );
+			}
+		} );
+	}, [ heading, paragraph, updateBlockAttributes, __unstableMarkNextChangeAsNotPersistent ] );
+
+	// Espace avant « ? ! : ; » rendue insécable dans le titre et le texte, comme le
+	// fait `render.php` sur le front : sans cela, le canvas peut renvoyer le signe
+	// seul à la ligne. Le remplacement est enregistré avec le contenu (même
+	// longueur : le curseur ne bouge pas) ; `render.php` le garde pour les contenus
+	// saisis avant.
+	useEffect( () => {
+		[ heading, paragraph ].filter( Boolean ).forEach( ( block ) => {
+			const content = String( block.attributes.content ?? '' );
+			const fixed = content.replace( SPACE_BEFORE_PUNCTUATION, '\u00A0$1' );
+
+			if ( fixed !== content ) {
+				__unstableMarkNextChangeAsNotPersistent();
+				updateBlockAttributes( block.clientId, { content: fixed } );
 			}
 		} );
 	}, [ heading, paragraph, updateBlockAttributes, __unstableMarkNextChangeAsNotPersistent ] );
