@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-28T14:29:23+00:00\n"
+"POT-Creation-Date: 2026-10-28T15:57:04+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -58,6 +58,10 @@ msgstr ""
 
 #: src/Features/Admin/NestedPagesLinks.php:72
 msgid "Fait pointer vers la vue arborescente de Nested Pages les liens de l'admin qui mènent à la liste des pages (tableau de bord, retour de l'éditeur)."
+msgstr ""
+
+#: src/Features/Blocks/BlockImageSizes.php:46
+msgid "Affiche les images des blocs sur mesure à leur taille prévue, même en chargement différé."
 msgstr ""
 
 #: src/Features/Blocks/BlockLoader.php:47
@@ -222,6 +226,7 @@ msgid "Afficher l'offre en page d'accueil pendant ses dates"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:257
+#: blocks/cta/index.js:65
 msgid "Titre"
 msgstr ""
 
@@ -231,6 +236,7 @@ msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:272
 #: src/Features/Footer/FooterSettings.php:410
+#: blocks/cta/index.js:66
 msgid "Texte"
 msgstr ""
 
@@ -437,6 +443,7 @@ msgstr ""
 
 #: src/Features/Footer/FooterSettings.php:447
 #: src/Features/Footer/FooterSettings.php:520
+#: blocks/_shared/image-field.js:81
 msgid "Supprimer"
 msgstr ""
 
@@ -500,12 +507,103 @@ msgstr ""
 msgid "Liens légaux du pied de page"
 msgstr ""
 
+#: blocks/cta/formats.js:44
+msgid "Mise en avant"
+msgstr ""
+
+#: blocks/cta/formats.js:59
+msgid "Mise en avant (orange)"
+msgstr ""
+
+#: blocks/cta/index.js:126
+msgid "Boutons"
+msgstr ""
+
+#: blocks/cta/index.js:131
+msgid "Nombre de boutons"
+msgstr ""
+
+#: blocks/cta/index.js:132
+msgid "Le premier bouton est orange avec une flèche, le second transparent."
+msgstr ""
+
+#: blocks/cta/index.js:136
+msgid "Aucun"
+msgstr ""
+
+#: blocks/cta/index.js:226
+msgid "Le titre et le texte sont obligatoires : sans eux, ce bloc n'est pas affiché sur le site."
+msgstr ""
+
+#: blocks/cta/index.js:240
+msgid "Ajouter des boutons"
+msgstr ""
+
+#: blocks/cta/index.js:252
+msgid "Image (facultative)"
+msgstr ""
+
+#: blocks/_shared/image-field.js:52
+#: blocks/_shared/image-field.js:108
+msgid "Image"
+msgstr ""
+
+#: blocks/_shared/image-field.js:53
+msgid "Téléversez une image, choisissez-la dans la médiathèque ou déposez-la ici."
+msgstr ""
+
+#: blocks/_shared/image-field.js:75
+msgid "Remplacer"
+msgstr ""
+
+#: blocks/_shared/image-field.js:111
+msgid "L'image choisie n'existe plus dans la médiathèque."
+msgstr ""
+
+#: blocks/_shared/image-field.js:115
+msgid "Texte alternatif :"
+msgstr ""
+
+#: blocks/_shared/image-field.js:118
+msgid "Sans texte alternatif dans la médiathèque : l'image sera considérée comme décorative."
+msgstr ""
+
 #: resources/js/editor/button.js:60
 msgid "Flèche"
 msgstr ""
 
 #: resources/js/editor/button.js:63
 msgid "Afficher la flèche"
+msgstr ""
+
+#: blocks/cta/block.json
+msgctxt "block title"
+msgid "Appel à l'action"
+msgstr ""
+
+#: blocks/cta/block.json
+msgctxt "block description"
+msgid "Panneau sombre : titre avec mots mis en avant, texte, un ou deux boutons et une image facultatifs."
+msgstr ""
+
+#: blocks/cta/block.json
+msgctxt "block keyword"
+msgid "cta"
+msgstr ""
+
+#: blocks/cta/block.json
+msgctxt "block keyword"
+msgid "bouton"
+msgstr ""
+
+#: blocks/cta/block.json
+msgctxt "block keyword"
+msgid "contact"
+msgstr ""
+
+#: blocks/cta/block.json
+msgctxt "block keyword"
+msgid "rappel"
 msgstr ""
 
 #: resources/views/404.twig:7

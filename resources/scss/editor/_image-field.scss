@@ -1,0 +1,32 @@
+// ─── Champ image des blocs custom (éditeur seulement) ─────────────────────────
+//
+// Composant `blocks/_shared/image-field.js` : boutons « Remplacer » / « Supprimer »
+// posés sur l'image, et emplacement (`MediaPlaceholder`) quand il n'y en a pas.
+// Ces éléments n'existent que dans le canvas : la feuille n'est importée que par
+// `editor-gutenberg.scss`. Les dimensions de l'emplacement sont fixées par le
+// partial du bloc (`block/_{nom}.scss`), qui connaît celles de son image.
+
+.couturier-image-field {
+    position: relative;
+}
+
+// Boutons en haut à droite de l'image. « Remplacer » (bouton secondaire, sans
+// fond) reçoit un fond blanc pour rester lisible sur n'importe quelle image.
+.couturier-image-field__actions {
+    position: absolute;
+    top: var(--space-12);
+    right: var(--space-12);
+    display: flex;
+    gap: var(--space-8);
+
+    .components-button.is-secondary {
+        background-color: var(--color-surface-card);
+    }
+}
+
+// L'emplacement occupe toute l'enveloppe ; le bloc en fixe le format.
+.couturier-image-field__placeholder {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+}

@@ -2,7 +2,8 @@
 // Les fichiers de police vont dans resources/fonts/ (émis dans dist/assets/fonts/).
 //
 // Deux familles, sous licence SIL OFL (textes dans resources/fonts/) :
-// - Red Hat Display, ExtraBold (800) et Bold (700) : titres ;
+// - Red Hat Display, Black (900), ExtraBold (800) et Bold (700) : titres (Black :
+//   titre du bloc « Appel à l'action ») ;
 // - Space Grotesk, Regular (400), Medium (500) et Bold (700) : texte courant.
 //
 // Les fichiers sont des instances statiques des polices variables de Google Fonts
@@ -11,7 +12,8 @@
 // Une seule graisse par fichier : le navigateur ne télécharge que celles que la
 // page utilise. Pour une graisse supplémentaire, régénérer un fichier depuis la
 // police variable (fontTools : varLib.instancer puis pyftsubset, en woff2) avec
-// le même jeu de caractères.
+// le même jeu de caractères, toutes les fonctionnalités OpenType, sans hinting —
+// ainsi a été produit le 900, en reprenant les codepoints du fichier 800.
 //
 // Les polices d'origine n'ont pas l'espace fine insécable (U+202F) : elle est
 // prise dans la police de secours, sans différence visible.
@@ -28,6 +30,14 @@
   font-family: 'Red Hat Display';
   src: url('../fonts/red-hat-display-800.woff2') format('woff2');
   font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Red Hat Display';
+  src: url('../fonts/red-hat-display-900.woff2') format('woff2');
+  font-weight: 900;
   font-style: normal;
   font-display: swap;
 }

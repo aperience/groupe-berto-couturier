@@ -41,6 +41,7 @@ Vérifié dans le code de l'éditeur (WordPress 7.1, `wp-includes/js/dist/editor
 | **Titre** (`h2` / `h3`) | **Toujours** un `core/heading` imbriqué (InnerBlocks) — seule façon d'apparaître dans le panneau Structure |
 | **Texte** (sur-titre, accroche, paragraphe, libellé…) | **Attribut** `"type": "string", "source": "html", "selector": "…"`, écrit dans le HTML par `save()` |
 | Texte long, libre, multi-paragraphes | Blocs imbriqués (`core/paragraph`, `core/list`) si la saisie libre l'exige ; sinon attribut |
+| Texte **placé entre deux blocs imbriqués** (ex. texte du CTA, entre le titre et les boutons) | `core/paragraph` imbriqué, verrouillé : un bloc n'a qu'une zone d'imbrication, un attribut ne s'écrit qu'avant ou après elle (dans `save()` comme dans `edit()`) |
 | Donnée non textuelle (image, URL, booléen, choix) | Attribut classique (stocké dans le commentaire, non compté — c'est voulu) |
 
 **Un attribut de texte doit avoir `"source": "html"`.** Sans source, WordPress stocke la valeur dans
@@ -149,9 +150,25 @@ printf( '<hgroup %s>%s</hgroup>', get_block_wrapper_attributes(), $content );
 - **Verrouiller la structure** avec `templateLock: 'all'` (ni suppression, ni déplacement, ni ajout).
   **Pas `contentOnly`** : testé, il ajoute un bouton « Modifier la composition » (barre d'outils et
   barre latérale) qui lève le verrou, sans réglage pour le retirer sur un bloc custom.
-- **Cadenas « Déverrouiller »** : il apparaît sur le titre imbriqué verrouillé et permet de lever le
-  verrou. Accepté en l'état (sa suppression passerait par `canLockBlocks: false`, global au site, écarté).
-- **Niveau H2 / H3** : depuis WordPress 7, `core/heading` change de niveau par ses variations H1…H6,
+- **Ne passer le `template` qu'à l'insertion** (`template: blocks.length ? undefined : TEMPLATE`, où
+  `blocks` sont les blocs imbriqués). Sous `templateLock: 'all'`, WordPress resynchronise les blocs
+  imbriqués avec le modèle **à chaque ouverture de l'éditeur, en profondeur** et sans trace dans
+  l'historique (`useInnerBlockTemplateSync`) : un bloc imbriqué supprimé (bouton, groupe) revient au
+  rechargement. Contrepartie : un titre retiré par l'éditeur de code n'est plus recréé — le bloc doit
+  alors ne rien rendre (cf. `render.php` du CTA) et avertir dans l'éditeur.
+- **Cadenas « Déverrouiller »** : il apparaît sur tout bloc imbriqué verrouillé et lève le verrou ; une
+  fois levé, le titre peut être supprimé, déplacé, transformé en paragraphe ou changé de niveau. Le
+  retirer du site (`canLockBlocks: false`, ou `supports.lock` de `core/heading`) est écarté : global.
+  Si le bloc l'exige (CTA), **rétablir le verrou aussitôt** : poser `lock: { remove: true, move: true }`
+  dans le modèle, et dans `edit()` un `useEffect` qui le réécrit s'il a changé
+  (`__unstableMarkNextChangeAsNotPersistent()` puis `updateBlockAttributes`) ; masquer le cadenas de la
+  barre d'outils par une règle `<style>` montée le temps de la sélection du bloc imbriqué (filtre
+  `editor.BlockEdit`, `.block-editor-block-lock-toolbar`). L'entrée « Déverrouiller » du menu
+  « Options », sans classe, reste visible, sans effet. Cf. `blocks/cta/index.js`.
+- **Niveau fixe** (CTA : toujours H2) : `useEffect` qui ramène `level`, et masquage des variations
+  H1…H6 de la barre latérale (`.block-editor-block-variation-transforms`, même règle `<style>`).
+  Le sélecteur « Titre 2 » de la barre d'outils est inerte sous le verrou.
+- **Niveau au choix (H2 / H3)** : depuis WordPress 7, `core/heading` change de niveau par ses variations H1…H6,
   dont le sélecteur de barre d'outils disparaît sous `templateLock: 'all'`. Poser un
   `HeadingLevelDropdown` dans `BlockControls` — sur le bloc, et sur le titre imbriqué via le filtre
   `editor.BlockEdit` (c'est lui que l'utilisateur sélectionne le plus souvent) :
@@ -194,6 +211,84 @@ printf( '<hgroup %s>%s</hgroup>', get_block_wrapper_attributes(), $content );
 
 ---
 
+## Blocs imbriqués facultatifs (ex. boutons du CTA)
+
+- **Supprimables malgré `templateLock: 'all'`** : poser `lock: { remove: false, move: true }` sur le
+  bloc imbriqué dans le modèle. Le verrou propre au bloc l'emporte sur celui du modèle
+  (`canRemoveBlock`) ; le verrou du modèle continue d'interdire tout ajout.
+- **Rajout** : `insertBlocks` respecte le verrou, `replaceInnerBlocks` non. Le CTA expose un réglage
+  « Nombre de boutons » (barre latérale) et, bloc sélectionné et sans bouton, un bouton « Ajouter des
+  boutons » dans le canvas ; les deux passent par le même hook (`useButtonCount`).
+- Un groupe vidé de ses enfants est retiré par un `useEffect`, marqué non persistant pour rester
+  dans la même étape d'annulation.
+
+## Formats du texte des blocs imbriqués
+
+Le core ne permet pas de restreindre les formats (gras, lien…) d'un bloc qu'il fournit. Comme
+`resources/js/editor/button.js`, `blocks/cta/formats.js` réenregistre chaque format à retirer avec
+une interface (bouton, raccourci) qui ne s'affiche pas quand le bloc imbriqué concerné est
+sélectionné. Les formats sont enregistrés par plusieurs scripts, parfois à l'initialisation de
+l'éditeur (`core/footnote`) : les envelopper dès qu'ils apparaissent dans le store (`subscribe`). Un
+format propre au bloc (mise en avant orange du titre du CTA) est enregistré pour tout le site — un
+contenu collé ailleurs reste valide — mais son bouton n'est proposé que dans le bloc.
+
+## Le canvas montre le rendu du front
+
+**Un bloc non sélectionné s'affiche exactement comme sur le front** (décision d'Aurélien,
+2026-10-28) : avertissements, boutons d'ajout, emplacements vides et boutons sur les images ne
+s'affichent que lorsque le bloc **ou l'un de ses blocs imbriqués** est sélectionné.
+
+```js
+const isEditing = useSelect(
+	( select ) => isSelected || select( blockEditorStore ).hasSelectedInnerBlock( clientId, true ),
+	[ clientId, isSelected ]
+);
+```
+
+---
+
+## Images : toujours le composant `ImageField`
+
+**Toute image d'un bloc custom passe par `blocks/_shared/image-field.js`** (décision d'Aurélien,
+2026-10-28) — premier usage : `couturier/cta`. Dans le canvas :
+
+| Bloc | Image choisie | Pas d'image |
+|---|---|---|
+| En cours d'édition (bloc ou bloc imbriqué sélectionné) | image + boutons « Remplacer » (médiathèque) et « Supprimer » (rouge) posés dessus | emplacement `MediaPlaceholder` (téléverser, médiathèque, glisser-déposer) **à la place de l'image** |
+| Non sélectionné | image seule | rien |
+
+Un bloc non sélectionné montre ainsi le rendu du front, sans aucun contrôle.
+
+```js
+import ImageField, { imageUrl } from '../_shared/image-field.js';
+
+<ImageField
+	className="wp-block-couturier-{nom}__media"       // enveloppe : ses dimensions
+	imageClassName="wp-block-couturier-{nom}__image"  // même classe que l'<img> du front
+	media={ media }                                   // getMedia( imageId ), null sans image
+	isEditing={ isEditing }                           // isSelected || hasSelectedInnerBlock( clientId, true )
+	onSelect={ ( selected ) => setAttributes( { imageId: selected?.id } ) }
+	onRemove={ () => setAttributes( { imageId: undefined } ) }
+	label={ __( 'Image', 'couturier' ) }
+/>
+```
+
+- Donnée : un attribut `imageId` (number), rendu au front par `wp_get_attachment_image()` dans
+  `render.php` (`alt` de la médiathèque, vide à défaut ; pièce jointe supprimée → pas d'image).
+- Pendant le chargement d'une image déjà choisie (`imageId` sans `media`), ne pas afficher
+  l'emplacement : il clignoterait à chaque ouverture de l'éditeur (cf. `hasMediaColumn` du CTA).
+- Le format de l'emplacement se fixe dans le partial du bloc
+  (`.wp-block-couturier-{nom}__media > .couturier-image-field__placeholder { aspect-ratio: … }`) ;
+  les styles du composant (boutons, emplacement) sont dans `resources/scss/editor/_image-field.scss`,
+  importé par `editor-gutenberg.scss` seulement.
+- **Aucun autre contrôle de l'image** : ni bouton dans la barre d'outils du bloc
+  (`MediaReplaceFlow`), ni boutons dans la barre latérale — ils doubleraient ceux du canvas. La
+  barre latérale ne porte que `<ImageInfoPanel media={ media } isMissing={ isMissing } />` (même
+  module) : texte alternatif repris de la médiathèque, ou avertissement s'il manque (image
+  décorative) ; avertissement si l'image a été supprimée de la médiathèque. Absent sans image.
+
+---
+
 ## Styles
 
 - Partial `resources/scss/block/_{nom}.scss`, importé **une seule fois** dans `_content.scss`, partagé
@@ -215,10 +310,13 @@ inaperçu) :
 3. Contenu enregistré (`wp.data.select('core/editor').getEditedPostContent()`) : chaque texte est
    dans le HTML, hors des commentaires `<!-- wp:… -->`.
 4. Enregistrer, recharger : bloc et blocs imbriqués **valides** (`isValid`), attributs relus.
-5. Titre imbriqué : non supprimable (`canRemoveBlock` → `false`), sélecteur de niveau visible.
-6. Front : balisage attendu, `logs/debug.log` vide.
-7. **Accessibilité AA** (cf. section « Accessibilité » du `CLAUDE.md` du thème) : HTML rendu valide
+5. Titre imbriqué : non supprimable (`canRemoveBlock` → `false`), sélecteur de niveau visible (ou
+   niveau fixe rétabli) ; un bloc imbriqué supprimé ne revient pas après enregistrement et
+   rechargement.
+6. Bloc non sélectionné : rendu du front, sans aucun contrôle de l'éditeur.
+7. Front : balisage attendu, `logs/debug.log` vide.
+8. **Accessibilité AA** (cf. section « Accessibilité » du `CLAUDE.md` du thème) : HTML rendu valide
    au validateur W3C Nu, titres du bloc à leur place dans la hiérarchie de la page, contrastes,
    images avec `alt` adapté ; dans l'éditeur, chaque champ du bloc atteignable et nommé au clavier
    (`aria-label` sur un `RichText` sans libellé visible). Alerter sur tout écart avant de conclure.
-8. Supprimer la page de test.
+9. Supprimer la page de test.

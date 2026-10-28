@@ -246,7 +246,7 @@ l'offre du moment et par le pied de page. Un autre plugin de cache s'ajoute là,
 | `SetupServiceProvider` | Initialisation du thème, chargé en premier | `Setup/` — `ThemeSupport`, `Menus`, `TwigDump` |
 | `SecurityServiceProvider` | Durcissement : surface d'attaque et informations publiées | `Security/` — `DisableApplicationPasswords`, `DisableUserEnumeration`, `DisableXmlRpc`, `HideLoginErrors`, `SecurityHeaders` |
 | `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat<br>`Footer/` (thème) — `FooterSettings` (écran « Pied de page »), `FooterContext` (`footer` dans le contexte Timber), cf. *Pied de page* |
-| `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue et lien « Politique de confidentialité » du login (page de connexion réservée à l'équipe ; à revoir si l'inscription est ouverte), icône du site, mises à jour, commentaires, publication par e-mail, services de mise à jour, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Admin/` (thème) — `NestedPagesLinks` (lien « Pages publiées » du tableau de bord et bouton de retour de l'éditeur des pages vers Nested Pages, si l'extension est active), `HelpScreen` (menu « Aide », cf. *Page d'aide*)<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout), `DisableDropCap` (pas de lettrine sur les paragraphes), `ButtonStyles` (boutons du design system sur `core/button`, cf. *Blocs Gutenberg*)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
+| `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue et lien « Politique de confidentialité » du login (page de connexion réservée à l'équipe ; à revoir si l'inscription est ouverte), icône du site, mises à jour, commentaires, publication par e-mail, services de mise à jour, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Admin/` (thème) — `NestedPagesLinks` (lien « Pages publiées » du tableau de bord et bouton de retour de l'éditeur des pages vers Nested Pages, si l'extension est active), `HelpScreen` (menu « Aide », cf. *Page d'aide*)<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout), `DisableDropCap` (pas de lettrine sur les paragraphes), `ButtonStyles` (boutons du design system sur `core/button`, cf. *Blocs Gutenberg*), `BlockImageSizes` (retire le `auto` de l'attribut `sizes` des images `wp-block-couturier-{nom}__image` : sans lui, une image en `width: auto` s'afficherait en 300 px)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
 | `MailServiceProvider` | Forme des e-mails envoyés par `wp_mail()` | `Mail/` (thème) — `HtmlEmails` (cf. *E-mails* plus bas) |
 | `MarketingServiceProvider` | Mise en avant commerciale | `CurrentOffer/` (thème) — `CurrentOfferSettings` (écran « Offre du moment »), `CurrentOfferDashboard` (widget du tableau de bord), `CurrentOfferContext` (`current_offer` dans le contexte Timber), `CurrentOfferPageCache` (purge W3 Total Cache / WP Super Cache), cf. *Offre du moment* |
 | `SeoServiceProvider` | Référencement | `Seo/` — `DocumentTitle`, `MetaDescription`, `SitemapExclusion`, `SeoPanel` (panneau de l'éditeur), `OpenGraph` |
@@ -542,7 +542,9 @@ resources/scss/
 ├── _mixins.scss
 ├── _fonts.scss            ← @font-face
 ├── partials/              ← layout du site (header, footer, navigation…) — front uniquement
-└── block/                 ← un fichier _{nom-du-bloc}.scss par bloc Gutenberg
+├── block/                 ← un fichier _{nom-du-bloc}.scss par bloc Gutenberg
+└── editor/                ← interface des blocs custom dans le canvas (boutons sur une image,
+                              emplacement vide…) — importé par `editor-gutenberg.scss` seulement
 ```
 
 **Où écrire un style ?** S'il touche au contenu saisi dans l'éditeur (typographie, titres, listes,
@@ -577,6 +579,17 @@ Fichiers par bloc :
 - `block.json` — définition (`apiVersion: 3`, `name: "couturier/{nom}"`, attributs, `editorScript`, `render`, `textdomain`)
 - `index.js` — interface éditeur (React/JSX, `@wordpress/blocks`, `@wordpress/block-editor`)
 - `render.php` — rendu frontend dynamique (`$attributes`, `$content`, `$block`), wrapper via `get_block_wrapper_attributes()`
+
+**Code partagé entre blocs** : `blocks/_shared/` (sans `block.json`, wp-scripts ne le compile pas
+seul ; il est inclus dans le script de chaque bloc qui l'importe) — `image-field.js` (image d'un
+bloc : emplacement, boutons « Remplacer » / « Supprimer », panneau d'informations, cf.
+`blocks/CLAUDE.md`), `icons.js` (icônes SVG de l'interface : `@wordpress/icons` n'est pas installé).
+
+**Blocs du thème :**
+
+| Bloc | Rôle |
+|------|------|
+| `couturier/cta` « Appel à l'action » | Carte pétrole foncé : titre H2 (mots mis en avant en orange, format `couturier/highlight`), texte (`core/paragraph` : gras, italique, lien, barré, exposant, indice), 0 à 2 boutons (orange avec flèche, transparent), image facultative jamais recadrée. Rien n'est rendu si le titre ou le texte est vide. Styles : `block/_cta.scss` ; titre en Red Hat Display Black (900), styles de texte `cta-title` / `cta-text` (`_brand.scss`) |
 
 **Ajouter un bloc :**
 1. Créer `blocks/{nom}/` avec `block.json`, `index.js`, `render.php`
@@ -890,7 +903,7 @@ dev server — un e-mail est lu bien après son envoi. Sans build, le nom du sit
 >
 > | Famille | Graisses | Usage | Variable Bootstrap |
 > |---------|----------|-------|--------------------|
-> | Red Hat Display | ExtraBold 800 (Display), Bold 700 (titres) | Titres, `.display-1` | `$headings-font-family` |
+> | Red Hat Display | Black 900 (titre du CTA), ExtraBold 800 (Display), Bold 700 (titres) | Titres, `.display-1` | `$headings-font-family` |
 > | Space Grotesk | Regular 400, Medium 500, Bold 700 | Texte courant | `$font-family-sans-serif` |
 >
 > Une graisse = un fichier woff2 (~15 Ko), instance statique de la police variable de Google Fonts,

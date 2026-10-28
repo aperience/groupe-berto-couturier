@@ -40,6 +40,11 @@
 @import 'mixins';
 @import 'content';
 
+// ─── Interface des blocs custom dans le canvas ────────────────────────────────
+// Éléments que seul l'éditeur affiche (boutons sur une image, emplacement d'une
+// image absente) : partiels de `editor/`, jamais importés par `app.scss`.
+@import 'editor/image-field';
+
 // ─── Largeur du contenu : celle du front ──────────────────────────────────────
 //
 // Seules règles propres à l'éditeur : elles neutralisent la mise en page que

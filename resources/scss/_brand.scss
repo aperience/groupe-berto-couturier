@@ -185,6 +185,10 @@ $ds-text-styles: (
     // Pied de page (maquette du footer, hors planche) : titres de colonne, liens.
     footer-title: (family: body,   weight: 700, size: (15, 15),     line: (20, 20)),
     footer-link:  (family: body,   weight: 400, size: (13, 13),     line: (18, 18)),
+    // Bloc « Appel à l'action » (maquette du CTA, hors planche) : titre en Black
+    // (900), aux tailles du H1 ; texte de 16 px (interligne de Body L mobile).
+    cta-title:    (family: heading, weight: 900, size: (32, 46),    line: (34, 49)),
+    cta-text:     (family: body,   weight: 400, size: (16, 16),     line: (25.5, 25.5)),
 );
 
 // ═══ 2. Admin et page de connexion ═══════════════════════════════════════════

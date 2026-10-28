@@ -1,0 +1,34 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/cta",
+	"title": "Appel à l'action",
+	"category": "design",
+	"icon": "megaphone",
+	"description": "Panneau sombre : titre avec mots mis en avant, texte, un ou deux boutons et une image facultatifs.",
+	"keywords": [ "cta", "bouton", "contact", "rappel" ],
+	"textdomain": "couturier",
+	"attributes": {
+		"imageId": {
+			"type": "number"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"example": {
+		"innerBlocks": [
+			{ "name": "core/heading", "attributes": { "level": 2, "content": "Un projet de permis ?" } },
+			{ "name": "core/paragraph", "attributes": { "content": "Un conseiller vous rappelle et vous aide à choisir." } },
+			{
+				"name": "core/buttons",
+				"innerBlocks": [
+					{ "name": "core/button", "attributes": { "text": "Être rappelé", "hasArrow": true } },
+					{ "name": "core/button", "attributes": { "text": "Nous appeler", "className": "is-style-ghost" } }
+				]
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

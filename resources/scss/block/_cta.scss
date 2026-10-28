@@ -1,0 +1,155 @@
+// ─── Bloc « Appel à l'action » (couturier/cta) ────────────────────────────────
+//
+// Balisage (front : `render.php` ; éditeur : `blocks/cta/index.js`, mêmes classes) :
+//
+//   section.wp-block-couturier-cta[.has-image]   ← carte pétrole foncé
+//     div.__content                              ← h2, p, div.wp-block-buttons
+//     div.__media > img.__image                  ← image facultative
+//
+// Mobile : tout empilé, image en bas. Desktop (`lg`) : contenu à gauche, image à
+// droite, centrés verticalement.
+//
+// Dans l'éditeur, les blocs imbriqués reçoivent les marges par défaut du canvas
+// (`html :where(.wp-block)`, spécificité nulle) : les marges sont donc toutes
+// posées ici, pour un rendu identique des deux côtés.
+
+$cta-image-width: to-rem(432);
+
+.wp-block-couturier-cta {
+    display: grid;
+    gap: var(--space-24);
+    margin-block: var(--layout-section-gap);
+    padding: var(--space-24);
+    border-radius: var(--radius-lg);
+    background-color: var(--color-surface-brand-deep);
+    color: var(--color-text-on-brand);
+
+    @include media-breakpoint-up(lg) {
+        align-items: center;
+        gap: var(--space-48);
+        // 56 px : valeur de la maquette, hors de l'échelle des espacements.
+        padding: to-rem(56) var(--space-64);
+        border-radius: var(--radius-xl);
+
+        &.has-image {
+            grid-template-columns: minmax(0, 1fr) minmax(0, $cta-image-width);
+        }
+    }
+
+    // Avertissement de l'éditeur (titre ou texte vide) : sur toute la largeur.
+    > .wp-block-couturier-cta__notice {
+        grid-column: 1 / -1;
+        margin: 0;
+    }
+}
+
+// ─── Contenu ──────────────────────────────────────────────────────────────────
+.wp-block-couturier-cta__content {
+    > * {
+        margin-block: 0;
+    }
+
+    > h2 {
+        @include text-style(cta-title);
+        color: inherit;
+    }
+
+    // Écart de 2,5 px de la maquette, hors de l'échelle des espacements.
+    > p {
+        @include text-style(cta-text);
+        margin-top: to-rem(2.5);
+    }
+
+    // Spécificité 0,2,0 : l'emporte sur la marge et l'écart de `.wp-block-buttons`
+    // (`_button.scss`).
+    > .wp-block-buttons,
+    > .wp-block-couturier-cta__add-buttons {
+        margin-top: var(--space-32);
+    }
+
+    > .wp-block-buttons {
+        gap: var(--space-24);
+    }
+
+    // Boutons tous sans libellé : le core les retire du rendu, mais laisse le groupe.
+    > .wp-block-buttons:not(:has(.wp-block-button)) {
+        display: none;
+    }
+
+    // Mobile : boutons empilés, alignés à gauche.
+    @include media-breakpoint-down(sm) {
+        > .wp-block-buttons {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+}
+
+// Mots mis en avant dans le titre (format `couturier/highlight`) : orange sur
+// pétrole foncé, 5,8:1.
+.wp-block-couturier-cta__highlight {
+    color: var(--color-text-accent-on-dark);
+}
+
+// Liens du texte : couleur du texte et soulignés, la couleur seule ne les
+// distinguerait pas (WCAG 1.4.1).
+.wp-block-couturier-cta__content > p a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: .15em;
+
+    &:hover {
+        text-decoration-thickness: 2px;
+    }
+
+    &:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+        border-radius: 2px;
+    }
+}
+
+// ─── Image ────────────────────────────────────────────────────────────────────
+// **Jamais recadrée** (décision d'Aurélien, 2026-10-28).
+// Mobile : sous le contenu, dans ses proportions.
+// Desktop : un cadre de la largeur de la colonne et de la hauteur du texte (titre,
+// texte, boutons), sans descendre sous la hauteur de la maquette (5/3 de sa
+// largeur) ; un contenu plus court est alors centré verticalement. L'image y est
+// entière et centrée, à la plus grande taille qui tient dans le cadre : une image
+// d'un autre format que lui laisse du vide autour d'elle. L'`<img>` a la taille de
+// l'image affichée (et non celle du cadre, comme avec `object-fit: contain`) : ses
+// coins arrondis tombent toujours sur l'image. Elle n'est jamais agrandie au-delà
+// de sa taille réelle.
+.wp-block-couturier-cta__media {
+    position: relative;
+    min-width: 0;
+
+    @include media-breakpoint-up(lg) {
+        align-self: stretch;
+        min-height: calc(#{$cta-image-width} * 3 / 5);
+    }
+}
+
+// Éditeur : l'emplacement de l'image absente prend le format de l'image.
+.wp-block-couturier-cta__media > .couturier-image-field__placeholder {
+    aspect-ratio: 5 / 3;
+    border-radius: var(--radius-md);
+}
+
+.wp-block-couturier-cta__image {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: var(--radius-md);
+
+    // Hors du flux : seule la colonne de texte fixe la hauteur de la carte.
+    @include media-breakpoint-up(lg) {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: auto;
+        max-width: 100%;
+        max-height: 100%;
+        transform: translate(-50%, -50%);
+    }
+}
