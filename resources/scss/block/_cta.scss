@@ -112,22 +112,11 @@ $cta-image-width: to-rem(432);
 // ─── Image ────────────────────────────────────────────────────────────────────
 // **Jamais recadrée** (décision d'Aurélien, 2026-10-28).
 // Mobile : sous le contenu, dans ses proportions.
-// Desktop : un cadre de la largeur de la colonne et de la hauteur du texte (titre,
-// texte, boutons), sans descendre sous la hauteur de la maquette (5/3 de sa
-// largeur) ; un contenu plus court est alors centré verticalement. L'image y est
-// entière et centrée, à la plus grande taille qui tient dans le cadre : une image
-// d'un autre format que lui laisse du vide autour d'elle. L'`<img>` a la taille de
-// l'image affichée (et non celle du cadre, comme avec `object-fit: contain`) : ses
-// coins arrondis tombent toujours sur l'image. Elle n'est jamais agrandie au-delà
-// de sa taille réelle.
+// Desktop : toute la largeur de sa colonne, dans ses proportions, centrée
+// verticalement face au texte ; une image plus haute que le texte agrandit la
+// carte. Elle n'est jamais agrandie au-delà de sa taille réelle.
 .wp-block-couturier-cta__media {
-    position: relative;
     min-width: 0;
-
-    @include media-breakpoint-up(lg) {
-        align-self: stretch;
-        min-height: calc(#{$cta-image-width} * 3 / 5);
-    }
 }
 
 // Éditeur : l'emplacement de l'image absente prend le format de l'image.
@@ -142,14 +131,9 @@ $cta-image-width: to-rem(432);
     height: auto;
     border-radius: var(--radius-md);
 
-    // Hors du flux : seule la colonne de texte fixe la hauteur de la carte.
     @include media-breakpoint-up(lg) {
-        position: absolute;
-        top: 50%;
-        left: 50%;
         width: auto;
         max-width: 100%;
-        max-height: 100%;
-        transform: translate(-50%, -50%);
+        margin-inline: auto;
     }
 }

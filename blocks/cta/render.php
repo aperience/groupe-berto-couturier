@@ -31,6 +31,11 @@ if ( in_array( false, $couturier_cta_filled, true ) ) {
     return;
 }
 
+// Espace saisie avant une ponctuation haute (« permis ? ») rendue insécable : sans
+// cela, le navigateur peut renvoyer le signe seul à la ligne. Les balises situées
+// entre l'espace et le signe (mise en avant, lien…) sont conservées.
+$couturier_cta_content = preg_replace( '/ +((?:<[^>]*>)*)(?=[?!:;»])/u', "\u{00A0}$1", $content ) ?? $content;
+
 // Image facultative. `alt` repris de la médiathèque, vide à défaut (image décorative) ;
 // pièce jointe supprimée : chaîne vide, le bloc s'affiche sans colonne image.
 // `sizes` donne la largeur réelle de l'image ; le `auto` que WordPress y ajoute est
@@ -50,6 +55,6 @@ $couturier_cta_image = empty( $attributes['imageId'] ) ? '' : wp_get_attachment_
 printf(
     '<section %s><div class="wp-block-couturier-cta__content">%s</div>%s</section>',
     get_block_wrapper_attributes( [ 'class' => $couturier_cta_image ? 'has-image' : '' ] ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
-    $content, // phpcs:ignore WordPress.Security.EscapeOutput -- HTML des blocs imbriqués.
+    $couturier_cta_content, // phpcs:ignore WordPress.Security.EscapeOutput -- HTML des blocs imbriqués.
     $couturier_cta_image ? '<div class="wp-block-couturier-cta__media">' . $couturier_cta_image . '</div>' : '' // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par wp_get_attachment_image().
 );
