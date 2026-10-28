@@ -51,12 +51,13 @@
 // WordPress impose au canvas des thèmes classiques (`wp-editor-classic-layout-
 // styles`) — chaque bloc limité à 840 px et centré, 8 px de marge autour.
 //
-// Le front rend le contenu dans `main.container-fluid` (cf. `base.twig`) : toute
-// la largeur disponible, avec la gouttière horizontale de Bootstrap — la moitié
-// de `$container-padding-x` de chaque côté, comme le mixin `make-container`. Le
-// canvas reprend la même règle, à partir de la même variable. Si le layout du
-// front change (conteneur à largeur maximale, colonne de lecture…), modifier ces
-// deux règles en conséquence.
+// Le front rend le contenu dans `main.container-fluid` (cf. `base.twig`), puis
+// dans un `.container` (cf. `page.twig`) : deux gouttières horizontales — la
+// moitié de `$container-padding-x` de chaque côté, à chaque niveau — et une
+// largeur maximale par point de rupture (`$container-max-widths`). Le canvas
+// reprend les deux niveaux, à partir des mêmes variables et mixins : le `<body>`
+// joue le `.container-fluid`, la liste racine des blocs le `.container`. Si le
+// layout du front change, modifier ces règles en conséquence.
 //
 // `.editor-styles-wrapper` : dans l'iframe, c'est le `<body>`, et ce sélecteur
 // égale en spécificité celui du core (`.editor-styles-wrapper { padding: 8px }`),
@@ -69,4 +70,16 @@ body,
 
 .wp-block {
     max-width: none;
+}
+
+// Le `.container` de `page.twig` (cf. le module `containers` de Bootstrap). Les
+// media queries s'évaluent sur la largeur de l'iframe, donc du canvas.
+.is-root-container {
+    @include make-container();
+
+    @each $breakpoint, $container-max-width in $container-max-widths {
+        @include media-breakpoint-up($breakpoint) {
+            max-width: $container-max-width;
+        }
+    }
 }
