@@ -1,0 +1,91 @@
+{#
+    Aide de l'admin, onglet « Offre du moment » (feature Admin\HelpScreen).
+    Données : `current_offer_url`, `new_page_url`, `dashboard_url` (URL de l'admin).
+#}
+<h2>{{ __("À quoi sert l'offre du moment ?", 'couturier') }}</h2>
+<p>{{ __("L'offre du moment met en avant une offre commerciale sur une seule ligne, en page d'accueil : un titre, un court texte et un lien vers une page qui détaille l'offre. Par exemple : « Offre du moment • Vacances de la Toussaint – Je me lance. Découvrir l'offre ».", 'couturier') }}</p>
+<p>{{ __("Une seule offre peut être en ligne à la fois. Pour en lancer une nouvelle, remplacez simplement le contenu de la précédente.", 'couturier') }}</p>
+
+<h2>{{ __('Mettre en place une offre', 'couturier') }}</h2>
+<ol>
+    <li>
+        <strong>{{ __("Créez la page de l'offre", 'couturier') }}</strong>
+        {{ __("et publiez-la : c'est elle qui présente l'offre en détail. Une page en brouillon ne peut pas être choisie.", 'couturier') }}
+        <a href="{{ new_page_url }}">{{ __('Créer une page', 'couturier') }}</a>
+    </li>
+    <li>
+        <strong>{{ __("Ouvrez l'écran « Offre du moment »", 'couturier') }}</strong>
+        {{ __('dans le menu de gauche, sous Pages.', 'couturier') }}
+        <a href="{{ current_offer_url }}">{{ __("Ouvrir l'écran de l'offre", 'couturier') }}</a>
+    </li>
+    <li>
+        <strong>{{ __('Remplissez les champs obligatoires :', 'couturier') }}</strong>
+        {{ __("le titre, le texte et la page de l'offre.", 'couturier') }}
+    </li>
+    <li>
+        <strong>{{ __('Facultatif : personnalisez le lien.', 'couturier') }}</strong>
+        {{ __("Si le champ « Intitulé du lien » reste vide, le lien affiche « Découvrir l'offre ».", 'couturier') }}
+    </li>
+    <li>
+        <strong>{{ __("Facultatif : programmez l'offre", 'couturier') }}</strong>
+        {{ __('avec une date et une heure de début et de fin (voir plus bas).', 'couturier') }}
+    </li>
+    <li>
+        <strong>{{ __('Cochez « Activation »', 'couturier') }}</strong>
+        {{ __('puis cliquez sur « Enregistrer les modifications ».', 'couturier') }}
+    </li>
+    <li>
+        <strong>{{ __("Vérifiez l'état de l'offre", 'couturier') }}</strong>
+        {{ __("affiché en haut de l'écran : il indique si l'offre est en ligne, programmée ou non affichée. Le même état apparaît sur le", 'couturier') }}
+        <a href="{{ dashboard_url }}">{{ __('tableau de bord', 'couturier') }}</a>.
+    </li>
+</ol>
+
+<h2>{{ __('Bien régler les dates', 'couturier') }}</h2>
+<ul>
+    <li>{{ __("Les dates et heures sont celles du fuseau horaire du site. Sans heure, l'heure retenue est 00:00.", 'couturier') }}</li>
+    <li>{{ __("Sans date de début, l'offre s'affiche dès son activation. Sans date de fin, elle reste affichée jusqu'à ce que vous décochiez « Activation ».", 'couturier') }}</li>
+    <li>
+        <strong>{{ __("L'offre disparaît à l'instant exact de fin.", 'couturier') }}</strong>
+        {{ __("Une fin le 5 novembre à 00:00 arrête l'offre au début du 5 novembre : le dernier jour affiché est le 4. Pour garder l'offre toute la journée du 5, indiquez une fin le 6 à 00:00.", 'couturier') }}
+    </li>
+    <li>{{ __('La date de fin doit être postérieure à la date de début.', 'couturier') }}</li>
+</ul>
+
+<h2>{{ __("Comprendre l'état de l'offre", 'couturier') }}</h2>
+<table class="widefat striped">
+    <thead>
+        <tr>
+            <th scope="col">{{ __('État', 'couturier') }}</th>
+            <th scope="col">{{ __('Signification', 'couturier') }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th scope="row">{{ __('En ligne', 'couturier') }}</th>
+            <td>{{ __("L'offre est affichée sur le site en ce moment.", 'couturier') }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{{ __('Programmée', 'couturier') }}</th>
+            <td>{{ __("L'offre est activée mais sa date de début n'est pas encore arrivée : elle s'affichera toute seule.", 'couturier') }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{{ __('Expirée', 'couturier') }}</th>
+            <td>{{ __("La date de fin est passée : l'offre n'est plus affichée. Changez les dates ou préparez une nouvelle offre.", 'couturier') }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{{ __('Non affichée', 'couturier') }}</th>
+            <td>{{ __("La page de l'offre n'est plus publiée (brouillon, corbeille…) : republiez-la ou choisissez-en une autre.", 'couturier') }}</td>
+        </tr>
+        <tr>
+            <th scope="row">{{ __('Désactivée', 'couturier') }}</th>
+            <td>{{ __("La case « Activation » n'est pas cochée : l'offre n'est pas affichée, mais son contenu est conservé.", 'couturier') }}</td>
+        </tr>
+    </tbody>
+</table>
+
+<h2>{{ __('En cas de problème', 'couturier') }}</h2>
+<ul>
+    <li>{{ __("Si un champ obligatoire manque ou si les dates sont incohérentes, l'offre est enregistrée mais désactivée : un message indique le champ à corriger. Corrigez-le, recochez « Activation » et enregistrez.", 'couturier') }}</li>
+    <li>{{ __("Pour retirer l'offre du site avant sa date de fin, décochez « Activation » et enregistrez.", 'couturier') }}</li>
+</ul>

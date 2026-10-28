@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-28T09:10:34+00:00\n"
+"POT-Creation-Date: 2026-10-28T10:12:56+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -41,6 +41,19 @@ msgstr ""
 
 #: functions.php:24
 msgid "Thème Couturier — dépendances manquantes"
+msgstr ""
+
+#: src/Features/Admin/HelpScreen.php:85
+msgid "Écran « Aide » : explique aux éditeurs les fonctionnalités du thème, un onglet par fonctionnalité."
+msgstr ""
+
+#: src/Features/Admin/HelpScreen.php:95
+#: src/Features/Admin/HelpScreen.php:96
+msgid "Aide"
+msgstr ""
+
+#: src/Features/Admin/HelpScreen.php:119
+msgid "Rubriques de l'aide"
 msgstr ""
 
 #: src/Features/Admin/NestedPagesLinks.php:72
@@ -140,14 +153,15 @@ msgid "Widget « Offre du moment » sur le tableau de bord : état de l'offre, t
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferDashboard.php:54
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:95
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:96
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:98
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:99
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:195
 msgid "Offre du moment"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferDashboard.php:65
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:281
-#: resources/views/partials/current-offer.twig:9
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:305
+#: resources/views/partials/current-offer.twig:11
 msgid "Découvrir l'offre"
 msgstr ""
 
@@ -159,114 +173,114 @@ msgstr ""
 msgid "Gérer l'offre du moment"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferPageCache.php:58
+#: src/Features/CurrentOffer/CurrentOfferPageCache.php:59
 msgid "Vide le cache de page (W3 Total Cache, WP Super Cache) quand l'offre du moment est enregistrée, commence ou se termine."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:89
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:92
 msgid "Écran « Offre du moment » : une offre datée, activable, qui renvoie vers une page dédiée et s'affiche en page d'accueil."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:149
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:152
 msgid "Le titre est obligatoire pour activer l'offre."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:153
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:156
 msgid "Le texte est obligatoire pour activer l'offre."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:157
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:160
 msgid "Choisissez la page de l'offre pour l'activer."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:161
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:164
 msgid "La fin doit être postérieure au début."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:170
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:173
 msgid "L'offre a été enregistrée mais désactivée : corrigez les erreurs ci-dessus puis réactivez-la."
 msgstr ""
 
 #. translators: %s : astérisque signalant un champ obligatoire.
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:203
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:227
 #, php-format
 msgid "Les champs marqués d'un astérisque %s sont obligatoires pour activer l'offre."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:213
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:237
 msgid "Activation"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:218
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:242
 msgid "Afficher l'offre en page d'accueil pendant ses dates"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:225
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:249
 msgid "Titre"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:232
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:256
 msgid "Par exemple : Offre du moment"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:240
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:264
 msgid "Texte"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:247
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:271
 msgid "Par exemple : Vacances de la Toussaint – Je me lance"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:258
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:282
 msgid "— Choisir une page —"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:265
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:289
 msgid "Page de l'offre"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:268
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:292
 msgid "Page publiée vers laquelle renvoie l'offre."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:276
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:300
 msgid "Intitulé du lien"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:284
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:308
 msgid "Facultatif. « Découvrir l'offre » si le champ est vide."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:290
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:314
 msgid "Date de début"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:290
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:314
 msgid "Heure de début"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:290
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:314
 msgid "Facultatif. L'offre s'affiche à partir de cet instant ; sans date, dès son activation."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:291
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:315
 msgid "Date de fin"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:291
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:315
 msgid "Heure de fin"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:291
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:315
 msgid "Facultatif. L'offre disparaît à cet instant (à 00:00, elle n'est plus affichée ce jour-là) ; sans date, à sa désactivation."
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:304
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:328
 msgctxt "entre la date et l'heure"
 msgid "à"
 msgstr ""
 
-#: src/Features/CurrentOffer/CurrentOfferSettings.php:333
+#: src/Features/CurrentOffer/CurrentOfferSettings.php:357
 msgid "(obligatoire)"
 msgstr ""
 
@@ -296,6 +310,178 @@ msgstr ""
 
 #: resources/views/404.twig:8
 msgid "Retour à la page d'accueil"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:5
+msgid "À quoi sert l'offre du moment ?"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:6
+msgid "L'offre du moment met en avant une offre commerciale sur une seule ligne, en page d'accueil : un titre, un court texte et un lien vers une page qui détaille l'offre. Par exemple : « Offre du moment • Vacances de la Toussaint – Je me lance. Découvrir l'offre »."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:7
+msgid "Une seule offre peut être en ligne à la fois. Pour en lancer une nouvelle, remplacez simplement le contenu de la précédente."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:9
+msgid "Mettre en place une offre"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:12
+msgid "Créez la page de l'offre"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:13
+msgid "et publiez-la : c'est elle qui présente l'offre en détail. Une page en brouillon ne peut pas être choisie."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:14
+msgid "Créer une page"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:17
+msgid "Ouvrez l'écran « Offre du moment »"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:18
+msgid "dans le menu de gauche, sous Pages."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:19
+msgid "Ouvrir l'écran de l'offre"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:22
+msgid "Remplissez les champs obligatoires :"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:23
+msgid "le titre, le texte et la page de l'offre."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:26
+msgid "Facultatif : personnalisez le lien."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:27
+msgid "Si le champ « Intitulé du lien » reste vide, le lien affiche « Découvrir l'offre »."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:30
+msgid "Facultatif : programmez l'offre"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:31
+msgid "avec une date et une heure de début et de fin (voir plus bas)."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:34
+msgid "Cochez « Activation »"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:35
+msgid "puis cliquez sur « Enregistrer les modifications »."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:38
+msgid "Vérifiez l'état de l'offre"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:39
+msgid "affiché en haut de l'écran : il indique si l'offre est en ligne, programmée ou non affichée. Le même état apparaît sur le"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:40
+msgid "tableau de bord"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:44
+msgid "Bien régler les dates"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:46
+msgid "Les dates et heures sont celles du fuseau horaire du site. Sans heure, l'heure retenue est 00:00."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:47
+msgid "Sans date de début, l'offre s'affiche dès son activation. Sans date de fin, elle reste affichée jusqu'à ce que vous décochiez « Activation »."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:49
+msgid "L'offre disparaît à l'instant exact de fin."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:50
+msgid "Une fin le 5 novembre à 00:00 arrête l'offre au début du 5 novembre : le dernier jour affiché est le 4. Pour garder l'offre toute la journée du 5, indiquez une fin le 6 à 00:00."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:52
+msgid "La date de fin doit être postérieure à la date de début."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:55
+msgid "Comprendre l'état de l'offre"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:59
+msgid "État"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:60
+msgid "Signification"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:65
+msgid "En ligne"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:66
+msgid "L'offre est affichée sur le site en ce moment."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:69
+msgid "Programmée"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:70
+msgid "L'offre est activée mais sa date de début n'est pas encore arrivée : elle s'affichera toute seule."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:73
+msgid "Expirée"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:74
+msgid "La date de fin est passée : l'offre n'est plus affichée. Changez les dates ou préparez une nouvelle offre."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:77
+msgid "Non affichée"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:78
+msgid "La page de l'offre n'est plus publiée (brouillon, corbeille…) : republiez-la ou choisissez-en une autre."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:81
+msgid "Désactivée"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:82
+msgid "La case « Activation » n'est pas cochée : l'offre n'est pas affichée, mais son contenu est conservé."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:87
+msgid "En cas de problème"
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:89
+msgid "Si un champ obligatoire manque ou si les dates sont incohérentes, l'offre est enregistrée mais désactivée : un message indique le champ à corriger. Corrigez-le, recochez « Activation » et enregistrez."
+msgstr ""
+
+#: resources/views/admin/help/current-offer.twig:90
+msgid "Pour retirer l'offre du site avant sa date de fin, décochez « Activation » et enregistrez."
 msgstr ""
 
 #: resources/views/base.twig:13

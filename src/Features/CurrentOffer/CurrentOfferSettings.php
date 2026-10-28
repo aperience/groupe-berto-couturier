@@ -11,6 +11,7 @@ namespace Theme\Features\CurrentOffer;
 
 use Deefuse\ThemeCore\Contracts\FeatureInterface;
 use Deefuse\ThemeCore\ThemeContext;
+use Theme\Features\Admin\HelpScreen;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -82,6 +83,8 @@ final class CurrentOfferSettings implements FeatureInterface {
         add_action( 'save_post_page', [ $this, 'flush_if_target' ] );
         add_action( 'trashed_post', [ $this, 'flush_if_target' ] );
         add_action( 'deleted_post', [ $this, 'flush_if_target' ] );
+
+        add_filter( HelpScreen::TABS_FILTER, [ $this, 'help_tab' ] );
     }
 
     /** Courte description affichée sur la page « Fonctionnalités du thème ». */
@@ -178,6 +181,27 @@ final class CurrentOfferSettings implements FeatureInterface {
         if ( $post_id === (int) CurrentOffer::settings()['page_id'] ) {
             CurrentOffer::flush();
         }
+    }
+
+    /**
+     * Déclare l'onglet « Offre du moment » de la page d'aide
+     * (gabarit `resources/views/admin/help/current-offer.twig`).
+     *
+     * @param array<string, array<string, mixed>> $tabs Onglets déjà déclarés.
+     * @return array<string, array<string, mixed>>
+     */
+    public function help_tab( array $tabs ): array {
+        $tabs['current-offer'] = [
+            'label'    => __( 'Offre du moment', 'couturier' ),
+            'priority' => 10,
+            'context'  => [
+                'current_offer_url' => admin_url( 'admin.php?page=' . $this->context->handle( CurrentOffer::MENU_SLUG ) ),
+                'new_page_url'      => admin_url( 'post-new.php?post_type=page' ),
+                'dashboard_url'     => admin_url(),
+            ],
+        ];
+
+        return $tabs;
     }
 
     /** Affiche l'écran : état de l'offre, puis le formulaire. */

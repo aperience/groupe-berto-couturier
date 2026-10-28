@@ -236,7 +236,7 @@ Si une seule feature est concernée, garder la méthode privée dans la feature.
 | `SetupServiceProvider` | Initialisation du thème, chargé en premier | `Setup/` — `ThemeSupport`, `Menus`, `TwigDump` |
 | `SecurityServiceProvider` | Durcissement : surface d'attaque et informations publiées | `Security/` — `DisableApplicationPasswords`, `DisableUserEnumeration`, `DisableXmlRpc`, `HideLoginErrors`, `SecurityHeaders` |
 | `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat |
-| `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue et lien « Politique de confidentialité » du login (page de connexion réservée à l'équipe ; à revoir si l'inscription est ouverte), icône du site, mises à jour, commentaires, publication par e-mail, services de mise à jour, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Admin/` (thème) — `NestedPagesLinks` (lien « Pages publiées » du tableau de bord et bouton de retour de l'éditeur des pages vers Nested Pages, si l'extension est active)<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout), `DisableDropCap` (pas de lettrine sur les paragraphes), `ButtonStyles` (boutons du design system sur `core/button`, cf. *Blocs Gutenberg*)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
+| `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue et lien « Politique de confidentialité » du login (page de connexion réservée à l'équipe ; à revoir si l'inscription est ouverte), icône du site, mises à jour, commentaires, publication par e-mail, services de mise à jour, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Admin/` (thème) — `NestedPagesLinks` (lien « Pages publiées » du tableau de bord et bouton de retour de l'éditeur des pages vers Nested Pages, si l'extension est active), `HelpScreen` (menu « Aide », cf. *Page d'aide*)<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout), `DisableDropCap` (pas de lettrine sur les paragraphes), `ButtonStyles` (boutons du design system sur `core/button`, cf. *Blocs Gutenberg*)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
 | `MailServiceProvider` | Forme des e-mails envoyés par `wp_mail()` | `Mail/` (thème) — `HtmlEmails` (cf. *E-mails* plus bas) |
 | `MarketingServiceProvider` | Mise en avant commerciale | `CurrentOffer/` (thème) — `CurrentOfferSettings` (écran « Offre du moment »), `CurrentOfferDashboard` (widget du tableau de bord), `CurrentOfferContext` (`current_offer` dans le contexte Timber), `CurrentOfferPageCache` (purge W3 Total Cache / WP Super Cache), cf. *Offre du moment* |
 | `SeoServiceProvider` | Référencement | `Seo/` — `DocumentTitle`, `MetaDescription`, `SitemapExclusion`, `SeoPanel` (panneau de l'éditeur), `OpenGraph` |
@@ -417,6 +417,7 @@ Rendu via **Timber 2.x**. Configuration dans `Kernel::init_timber()`, alimentée
 - `partials/` — header, footer, navigation, favicon
 - `emails/` — gabarit des e-mails (`layout.twig`), macros (`macros.twig`) et fragments du projet
 - `macros/ui.twig` — macros réutilisables (boutons, etc.)
+- `admin/help/` — un gabarit par onglet de la page d'aide de l'admin (cf. *Page d'aide*)
 
 **Wrappers PHP** à la racine du thème (`page.php`, `single.php`, `index.php`, `404.php`…) : ils se contentent
 de construire le contexte et de rendre le Twig correspondant.
@@ -631,7 +632,7 @@ arrête l'offre à la fin du 4), interrupteur. Code dans `src/Features/CurrentOf
 | Classe | Provider | Rôle |
 |--------|----------|------|
 | `CurrentOffer` | — | Logique sans hook : option `couturier_current_offer` (autoloadée), état, dates, bloc d'état de l'admin, `flush()` |
-| `CurrentOfferSettings` | Marketing | Écran (Settings API, capacité `edit_others_pages`), validation : une saisie incohérente est enregistrée mais l'offre désactivée |
+| `CurrentOfferSettings` | Marketing | Écran (Settings API, capacité `edit_others_pages`), validation : une saisie incohérente est enregistrée mais l'offre désactivée ; onglet « Offre du moment » de la page d'aide (cf. *Page d'aide*) |
 | `CurrentOfferDashboard` | Marketing | Widget du tableau de bord : état (même bloc que l'écran, `CurrentOffer::render_status()`), aperçu « **titre** • texte lien », lien vers l'écran |
 | `CurrentOfferContext` | Marketing | `current_offer` dans le contexte Timber de toutes les pages (`null` hors ligne), mis en cache dans `wp_cache` jusqu'à la prochaine date |
 | `CurrentOfferPageCache` | Marketing | Purge du cache de page à l'enregistrement et aux dates (tâches WP-Cron) : W3 Total Cache, WP Super Cache |
@@ -644,6 +645,30 @@ avec le héros.
 > cachée suivante. `define( 'DISABLE_WP_CRON', true );` + `wp cron event run --due-now` chaque
 > minute dans la crontab du serveur (en place en préprod, sous `deefuse`). Procédure complète et branchement d'un autre plugin de cache :
 > `docs/mise-en-prod.md` (racine du dépôt).
+
+## Page d'aide
+
+Menu **Aide** de l'admin, tout en bas (feature `Admin\HelpScreen`, `AdminServiceProvider`), réservé
+aux éditeurs et administrateurs (`edit_others_pages`) : explique aux éditeurs les fonctionnalités du
+thème, **un onglet par fonctionnalité**. Seules les fonctionnalités choisies par Aurélien y figurent —
+ne pas en ajouter d'office.
+
+- **Ce sont les features qui déclarent leurs onglets**, sur le filtre `HelpScreen::TABS_FILTER`
+  (`couturier_help_tabs`) : `HelpScreen` n'en connaît aucun. Retirer un provider retire l'aide de ses
+  features ; sans onglet, le menu n'est pas ajouté.
+- **Ajouter un onglet** : dans la feature concernée, un `add_filter( HelpScreen::TABS_FILTER, … )`
+  qui ajoute `'{slug}' => [ 'label' => …, 'priority' => …, 'context' => [ … ] ]`, et le gabarit
+  `resources/views/admin/help/{slug}.twig`, rendu avec `context` (URL des écrans cités…). Titres à
+  partir de `h2` (le `h1` est celui de la page), textes en `__( '…', 'couturier' )`, puis
+  `npm run i18n:pot`. Le gabarit reste dans `resources/views/`, comme tous les Twig du thème.
+- **Ordre** : `priority` croissante (défaut `HelpScreen::DEFAULT_PRIORITY` = 10), puis ordre de
+  déclaration à égalité. Numéroter de 10 en 10 pour pouvoir intercaler.
+- Onglets : liens natifs `nav-tab-wrapper` vers `&tab={slug}` (`aria-current="page"` sur l'actif),
+  sans JS ; un slug inconnu retombe sur le premier onglet.
+
+| Slug | Priorité | Déclaré par |
+|------|----------|-------------|
+| `current-offer` | 10 | `CurrentOffer\CurrentOfferSettings::help_tab()` |
 
 ## Médias : conversion WebP à l'upload
 

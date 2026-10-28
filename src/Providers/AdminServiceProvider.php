@@ -32,6 +32,7 @@ use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableSiteIcon;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableUpdateServices;
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableUpdates;
 use Deefuse\ThemeCore\ThemeContext;
+use Theme\Features\Admin\HelpScreen;
 use Theme\Features\Admin\NestedPagesLinks;
 use Theme\Features\Blocks\BlockLoader;
 use Theme\Features\Blocks\ButtonStyles;
@@ -75,6 +76,7 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new DisableConnectors(),
             new DisableDefaultDashboardWidgets(),
             new NestedPagesLinks($context),
+            new HelpScreen($context),
             new DisableLockAppearanceTools(),
             new DisableLoginLanguageDropdown(),
             new DisableLoginPrivacyPolicyLink(),
