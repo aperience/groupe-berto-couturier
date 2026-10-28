@@ -38,7 +38,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * une visite qui exécute WordPress, et un cache de page sert justement la plupart des
  * visites sans l'exécuter. La purge de fin d'offre partirait avec des heures de retard.
  * La parade : `define( 'DISABLE_WP_CRON', true );` dans `wp-config.php`, et
- * `wp cron event run --due-now` toutes les 5 minutes dans la crontab du serveur.
+ * `wp cron event run --due-now` chaque minute dans la crontab du serveur, sous
+ * l'utilisateur du pool PHP-FPM du site. Procédure : `docs/mise-en-prod.md`.
  */
 final class CurrentOfferPageCache implements FeatureInterface {
 
