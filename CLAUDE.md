@@ -13,13 +13,18 @@ installé en dépendance Composer. Text-domain du thème : `couturier`.
 
 ---
 
-## Accessibilité — niveau AA obligatoire
+## Accessibilité — niveau AA obligatoire (front)
 
-**Le thème doit impérativement respecter le niveau AA des WCAG 2.2** (référentiel français :
-RGAA 4.1, fondé sur le niveau AA des WCAG). L'exigence vaut pour tout ce que le thème produit : HTML
-des gabarits Twig et des blocs (`render.php`, `save()`), CSS, JavaScript, et interface des blocs
-custom dans l'éditeur. **Les couleurs du back-office n'y sont pas soumises** (jeu de couleurs de
-l'admin, éditeur) : l'AA y reste visé, mais un écart peut être assumé, et signalé en commentaire.
+**Le front du thème doit impérativement respecter le niveau AA des WCAG 2.2** (référentiel
+français : RGAA 4.1, fondé sur le niveau AA des WCAG). L'exigence vaut pour tout ce que voit un
+visiteur du site : HTML des gabarits Twig et des blocs (`render.php`, `save()`), CSS et JavaScript
+du front.
+
+**L'administration WordPress n'y est pas soumise** (décision d'Aurélien, 2026-10-28) : écrans
+d'admin du thème (Settings API, tableaux, scripts de `resources/js/editor/`), interface des blocs
+custom dans l'éditeur, jeu de couleurs de l'admin, page de connexion. Elle ne sert qu'à l'équipe :
+y écrire un code propre et utilisable, sans alerte « ⚠️ Accessibilité » ni blocage sur un écart AA.
+Les règles ci-dessous ne visent donc que le front.
 
 ### Règles pour Claude
 
