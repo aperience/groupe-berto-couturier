@@ -238,13 +238,18 @@ Si une seule feature est concernée, garder la méthode privée dans la feature.
 | `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat |
 | `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue et lien « Politique de confidentialité » du login (page de connexion réservée à l'équipe ; à revoir si l'inscription est ouverte), icône du site, mises à jour, commentaires, publication par e-mail, services de mise à jour, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Admin/` (thème) — `NestedPagesLinks` (lien « Pages publiées » du tableau de bord et bouton de retour de l'éditeur des pages vers Nested Pages, si l'extension est active)<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout), `DisableDropCap` (pas de lettrine sur les paragraphes), `ButtonStyles` (boutons du design system sur `core/button`, cf. *Blocs Gutenberg*)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
 | `MailServiceProvider` | Forme des e-mails envoyés par `wp_mail()` | `Mail/` (thème) — `HtmlEmails` (cf. *E-mails* plus bas) |
+| `MarketingServiceProvider` | Mise en avant commerciale | `CurrentOffer/` (thème) — `CurrentOfferSettings` (écran « Offre du moment »), `CurrentOfferContext` (`current_offer` dans le contexte Timber), `CurrentOfferPageCache` (purge W3 Total Cache / WP Super Cache), cf. *Offre du moment* |
 | `SeoServiceProvider` | Référencement | `Seo/` — `DocumentTitle`, `MetaDescription`, `SitemapExclusion`, `SeoPanel` (panneau de l'éditeur), `OpenGraph` |
+
+> **Une feature répartie sur plusieurs classes garde un seul dossier** (`src/Features/{Feature}/`) et
+> un seul provider : ex. `CurrentOffer/`, entièrement déclaré dans `MarketingServiceProvider`. Sa logique
+> partagée y reste aussi, dans une classe sans hook, plutôt que dans `Support/`.
 
 Le dossier de la feature suit sa **nature** (`Security/`, `Blocks/`, `PostTypes/`…), le provider suit son
 **domaine de responsabilité**. C'est pourquoi plusieurs dossiers peuvent alimenter un même provider.
 
 Ces domaines sont de deux familles. `Setup`, `Front` et `Admin` désignent un **moment d'exécution** :
-initialisation, rendu public, back-office. `Security`, `Mail` et `Seo` désignent une **préoccupation
+initialisation, rendu public, back-office. `Security`, `Mail`, `Seo` et `Marketing` désignent une **préoccupation
 transverse**, qui traverse ces moments — le durcissement touche le front, l'API REST, la page de
 connexion et `xmlrpc.php` ; le SEO touche le rendu public et l'éditeur ; un e-mail part aussi bien
 du front que de l'admin, de `wp-login.php`, de WP-Cron ou de WP-CLI. Ranger une feature de
@@ -614,6 +619,28 @@ Fichiers par bloc :
   « Langue », « Maths », « Mettre en évidence », « Saisie au clavier » (liste `FORMATS_OFF`).
 
 ---
+
+## Offre du moment
+
+Une seule offre mise en avant (ex. « Vacances de la Toussaint – Je me lance »), gérée par les
+éditeurs dans l'admin (menu **Offre du moment**, sous Pages) : titre, texte, page dédiée (obligatoires
+pour activer l'offre), intitulé du lien (défaut « Découvrir l'offre »), dates de début et de fin à la
+journée (fuseau du site), interrupteur. Code dans `src/Features/CurrentOffer/` :
+
+| Classe | Provider | Rôle |
+|--------|----------|------|
+| `CurrentOffer` | — | Logique sans hook : option `couturier_current_offer` (autoloadée), état, dates, `flush()` |
+| `CurrentOfferSettings` | Marketing | Écran (Settings API, capacité `edit_others_pages`), validation : une saisie incohérente est enregistrée mais l'offre désactivée |
+| `CurrentOfferContext` | Marketing | `current_offer` dans le contexte Timber de toutes les pages (`null` hors ligne), mis en cache dans `wp_cache` jusqu'à la prochaine date |
+| `CurrentOfferPageCache` | Marketing | Purge du cache de page à l'enregistrement et aux dates (tâches WP-Cron) : W3 Total Cache, WP Super Cache |
+
+Rendu : `resources/views/partials/current-offer.twig`, inclus par `page.twig` ; sans styles, à habiller
+avec le héros.
+
+> ⚠️ **Production avec cache de page : vrai cron obligatoire.** Les visites servies par le cache
+> n'exécutent pas WordPress, donc pas WP-Cron : la fin de l'offre ne serait purgée qu'à la visite non
+> cachée suivante. `define( 'DISABLE_WP_CRON', true );` + `wp cron event run --due-now` toutes les
+> 5 minutes dans la crontab du serveur.
 
 ## Médias : conversion WebP à l'upload
 

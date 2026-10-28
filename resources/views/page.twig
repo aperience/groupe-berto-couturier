@@ -2,6 +2,10 @@
 {% import "macros/ui.twig" as ui %}
 
 {% block content %}
+    {% if current_offer %}
+        {% include 'partials/current-offer.twig' %}
+    {% endif %}
+
     <article class="{{ post.class }}">
         {{ post.content|raw }}
     </article>

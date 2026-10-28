@@ -41,6 +41,7 @@ require_once $theme_autoload;
         \Theme\Providers\FrontServiceProvider::class,
         \Theme\Providers\AdminServiceProvider::class,
         \Theme\Providers\MailServiceProvider::class,
+        \Theme\Providers\MarketingServiceProvider::class,
         \Theme\Providers\SeoServiceProvider::class,
     ]
 );
