@@ -53,7 +53,7 @@ $ds-palette: (
     ),
     neutral: (
         0:   #fff,
-        50:  #f6f6f6, // Blanc cassé — fond de page
+        50:  #f6f6f6, // Blanc cassé
     ),
 );
 
@@ -71,7 +71,7 @@ $ds-palette: (
 // ─── Couleurs sémantiques ─────────────────────────────────────────────────────
 // Rôle → primitive. Émises en `--color-{rôle}` par `_tokens.scss`.
 $ds-semantic-colors: (
-    surface-page:        (neutral, 50),
+    surface-page:        (neutral, 0),  // Blanc depuis la maquette du footer (2026-10-28)
     surface-card:        (neutral, 0),
     surface-brand:       (petrol, 500),
     surface-brand-deep:  (petrol, 900),
@@ -83,6 +83,7 @@ $ds-semantic-colors: (
     surface-petrol-soft: (petrol, 100),
     surface-petrol-faint:(petrol, 50),
     surface-danger-soft: (red, 100),
+    surface-footer:      (orange, 500),
 
     text-default:        (petrol, 900),
     text-heading:        (petrol, 500),
@@ -94,6 +95,11 @@ $ds-semantic-colors: (
     text-accent:         (orange, 700),
     text-accent-on-dark: (orange, 500),
     text-danger:         (red, 500),
+    // ⚠️ Accessibilité : blanc sur l'orange du footer (`surface-footer`), comme la
+    // maquette, en dérogation à `text-on-accent` — 2,8:1, sous l'AA (WCAG 1.4.3,
+    // 1.4.11). Choix du client (2026-10-28), validation reportée. Correctif :
+    // `text-on-accent`, ou fond orange/700 (blanc à 4,99:1).
+    text-on-footer:      (neutral, 0),
 
     border-subtle:       (petrol, 100),
     border-strong:       (petrol, 500),
