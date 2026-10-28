@@ -1,0 +1,97 @@
+{#
+    Aide de l'admin, onglet « Pied de page » (feature Admin\HelpScreen).
+    Données : `footer_url`, `media_url` (URL de l'admin), `menus_url` (vide si l'utilisateur
+    ne peut pas modifier les menus), `networks` (noms des réseaux proposés).
+#}
+<h2>{{ __('Que contient le pied de page ?', 'couturier') }}</h2>
+<p>{{ __("Le pied de page s'affiche en bas de toutes les pages du site. Il se compose de quatre parties :", 'couturier') }}</p>
+<ul>
+    <li><strong>{{ __('les logos de réassurance et de certification', 'couturier') }}</strong> {{ __('(Qualiopi, label…), dans une carte blanche en haut ;', 'couturier') }}</li>
+    <li><strong>{{ __('les colonnes de liens', 'couturier') }}</strong> {{ __("sur fond orange, chacune avec son titre ;", 'couturier') }}</li>
+    <li><strong>{{ __('les réseaux sociaux', 'couturier') }}</strong> {{ __('sous forme de pastilles ;', 'couturier') }}</li>
+    <li><strong>{{ __('la barre du bas', 'couturier') }}</strong> {{ __('avec le copyright et les liens légaux (mentions légales, confidentialité…).', 'couturier') }}</li>
+</ul>
+<p>
+    {{ __("Les logos, les réseaux sociaux et le copyright se règlent dans l'écran « Pied de page », sous Apparence.", 'couturier') }}
+    <a href="{{ footer_url }}">{{ __("Ouvrir l'écran du pied de page", 'couturier') }}</a>
+</p>
+<p>{{ __("Après chaque modification, cliquez sur « Enregistrer les modifications » : le message « Réglages enregistrés. » confirme l'enregistrement, et le changement est visible aussitôt sur tout le site.", 'couturier') }}</p>
+
+<h2>{{ __('Logos de réassurance et certifications', 'couturier') }}</h2>
+<ol>
+    <li>
+        <strong>{{ __('Préparez le logo dans la médiathèque', 'couturier') }}</strong>
+        {{ __("(SVG, PNG ou JPEG) et renseignez son « Texte alternatif » : c'est ce que lisent les personnes malvoyantes à la place du logo. Par exemple : « Qualiopi, processus certifié ».", 'couturier') }}
+        <a href="{{ media_url }}">{{ __('Ouvrir la médiathèque', 'couturier') }}</a>
+    </li>
+    <li>
+        <strong>{{ __('Cliquez sur « Ajouter une certification »', 'couturier') }}</strong>
+        {{ __('puis sur « Choisir » pour sélectionner le logo.', 'couturier') }}
+    </li>
+    <li>
+        <strong>{{ __('Facultatif : ajoutez un lien', 'couturier') }}</strong>
+        {{ __("vers le site de l'organisme ou le certificat, adresse complète commençant par https://.", 'couturier') }}
+    </li>
+    <li>
+        <strong>{{ __('Vérifiez « Activer »', 'couturier') }}</strong>
+        {{ __('puis enregistrez.', 'couturier') }}
+    </li>
+</ol>
+<ul>
+    <li>{{ __("Un logo sans texte alternatif est signalé dans l'écran par « Sans texte alternatif : le renseigner ». Le lien ouvre l'image dans la médiathèque.", 'couturier') }}</li>
+    <li>{{ __("Pour masquer un logo un temps sans le perdre, passez « Activer » sur « Non ». Pour le retirer définitivement, cliquez sur « Supprimer ».", 'couturier') }}</li>
+    <li>{{ __("Pour remplacer un logo, cliquez sur « Changer » : le lien est conservé.", 'couturier') }}</li>
+</ul>
+
+<h2>{{ __('Réseaux sociaux', 'couturier') }}</h2>
+<p>
+    {{ __('Réseaux proposés :', 'couturier') }} {{ networks|join(', ') }}.
+    {{ __("La liste est fixe : on ne peut ni ajouter ni supprimer de réseau. Il suffit de laisser vide, ou de désactiver, ceux qui ne servent pas.", 'couturier') }}
+</p>
+<ul>
+    <li>{{ __("Collez l'adresse complète de la page (https://…), copiée depuis la barre d'adresse du navigateur.", 'couturier') }}</li>
+    <li>{{ __("Une pastille n'est affichée que si le réseau a une adresse et que « Activer » est sur « Oui ».", 'couturier') }}</li>
+</ul>
+
+<h2>{{ __("Changer l'ordre d'affichage", 'couturier') }}</h2>
+<p>{{ __("Logos et réseaux s'affichent sur le site dans l'ordre des lignes de l'écran. Pour déplacer une ligne, utilisez sa poignée « ≡ », à gauche :", 'couturier') }}</p>
+<ul>
+    <li><strong>{{ __('à la souris :', 'couturier') }}</strong> {{ __('glissez-la vers le haut ou le bas ;', 'couturier') }}</li>
+    <li><strong>{{ __('en cliquant :', 'couturier') }}</strong> {{ __('un menu propose Monter, Descendre, Mettre en premier ou Mettre en dernier ;', 'couturier') }}</li>
+    <li><strong>{{ __('au clavier :', 'couturier') }}</strong> {{ __('placez-vous sur la poignée avec Tab, puis utilisez les flèches ↑ et ↓.', 'couturier') }}</li>
+</ul>
+<p>{{ __("Le nouvel ordre n'est pris en compte qu'après l'enregistrement.", 'couturier') }}</p>
+
+<h2>{{ __('Copyright', 'couturier') }}</h2>
+<p>{{ __("Le copyright commence toujours par « © » et l'année en cours, mise à jour automatiquement chaque 1er janvier. Le champ « Texte » donne la suite. Laissé vide, il affiche « Groupe Couturier · Sainte-Gemme-Moronval (28) ».", 'couturier') }}</p>
+
+<h2>{{ __('Colonnes de liens et liens légaux', 'couturier') }}</h2>
+<p>
+    {{ __('Ces liens sont des menus WordPress, gérés dans', 'couturier') }}
+    {% if menus_url %}
+        <a href="{{ menus_url }}">{{ __('Apparence › Menus', 'couturier') }}</a>,
+    {% else %}
+        {{ __('Apparence › Menus', 'couturier') }},
+    {% endif %}
+    {{ __('réservés aux administrateurs :', 'couturier') }}
+</p>
+<ul>
+    <li>
+        <strong>{{ __('« Menu pied de page » :', 'couturier') }}</strong>
+        {{ __("chaque élément de premier niveau est une colonne, et son libellé en est le titre ; les éléments placés en dessous, en retrait, sont les liens de la colonne. Un titre qui ne doit mener nulle part est un lien personnalisé dont l'adresse est « # ».", 'couturier') }}
+    </li>
+    <li>
+        <strong>{{ __('« Liens légaux du pied de page » :', 'couturier') }}</strong>
+        {{ __('les liens de la barre du bas, à côté du copyright.', 'couturier') }}
+    </li>
+</ul>
+{% if not menus_url %}
+    <p>{{ __('Pour modifier ces liens, adressez-vous à un administrateur du site.', 'couturier') }}</p>
+{% endif %}
+
+<h2>{{ __('En cas de problème', 'couturier') }}</h2>
+<ul>
+    <li>{{ __("Une adresse qui ne commence pas par http:// ou https:// est retirée à l'enregistrement : un message indique la ligne en cause. Corrigez-la et enregistrez à nouveau.", 'couturier') }}</li>
+    <li>{{ __("Une certification ajoutée sans image est ignorée à l'enregistrement.", 'couturier') }}</li>
+    <li>{{ __("Un logo n'apparaît pas sur le site ? Vérifiez que « Activer » est sur « Oui » et que l'image est toujours dans la médiathèque.", 'couturier') }}</li>
+</ul>

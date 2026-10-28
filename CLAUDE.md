@@ -688,6 +688,9 @@ sous le haut de la carte blanche des certifications, qui chevauche ainsi son bor
   - copyright : texte après « © année », « Groupe Couturier · Sainte-Gemme-Moronval (28) » par défaut ;
   - adresses : http(s) seulement ; une adresse invalide est retirée et signalée par une erreur qui
     nomme la ligne en cause.
+- **Aide** : onglet « Pied de page » de la page d'aide (cf. *Page d'aide*), gabarit
+  `resources/views/admin/help/footer.twig` ; le lien vers Apparence › Menus n'y est donné qu'à qui
+  a `edit_theme_options`.
 - **Cache de page** : chaque enregistrement de l'écran vide tout le cache (`Support\PageCache`), le
   pied de page étant sur toutes les pages.
 - **Menu de l'admin** : sous-menu d'**Apparence** (`add_theme_page()`). Un éditeur, qui n'a pas
@@ -721,6 +724,7 @@ ne pas en ajouter d'office.
 | Slug | Priorité | Déclaré par |
 |------|----------|-------------|
 | `current-offer` | 10 | `CurrentOffer\CurrentOfferSettings::help_tab()` |
+| `footer` | 20 | `Footer\FooterSettings::help_tab()` |
 
 ## Médias : conversion WebP à l'upload
 

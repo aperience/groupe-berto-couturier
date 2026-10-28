@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-28T14:16:10+00:00\n"
+"POT-Creation-Date: 2026-10-28T14:29:23+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -203,7 +203,7 @@ msgid "L'offre a été enregistrée mais désactivée : corrigez les erreurs ci-
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:225
-#: src/Features/Footer/FooterSettings.php:318
+#: src/Features/Footer/FooterSettings.php:346
 msgid "Réglages enregistrés."
 msgstr ""
 
@@ -230,7 +230,7 @@ msgid "Par exemple : Offre du moment"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:272
-#: src/Features/Footer/FooterSettings.php:382
+#: src/Features/Footer/FooterSettings.php:410
 msgid "Texte"
 msgstr ""
 
@@ -299,184 +299,188 @@ msgstr ""
 msgid "Expose aux templates les réglages du pied de page (certifications, réseaux sociaux, copyright)."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:89
+#: src/Features/Footer/FooterSettings.php:92
 msgid "Écran « Pied de page » : logos des certifications et leurs liens, réseaux sociaux, texte du copyright."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:101
-#: src/Features/Footer/FooterSettings.php:102
+#: src/Features/Footer/FooterSettings.php:104
+#: src/Features/Footer/FooterSettings.php:105
+#: src/Features/Footer/FooterSettings.php:124
 #: resources/views/partials/footer/nav.twig:10
 msgid "Pied de page"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:145
+#: src/Features/Footer/FooterSettings.php:173
 msgid "Logo de la certification"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:146
+#: src/Features/Footer/FooterSettings.php:174
 msgid "Utiliser cette image"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:147
-#: src/Features/Footer/FooterSettings.php:468
+#: src/Features/Footer/FooterSettings.php:175
+#: src/Features/Footer/FooterSettings.php:496
 msgid "Changer"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:148
-#: src/Features/Footer/FooterSettings.php:550
+#: src/Features/Footer/FooterSettings.php:176
+#: src/Features/Footer/FooterSettings.php:578
 msgid "Oui"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:149
-#: src/Features/Footer/FooterSettings.php:550
+#: src/Features/Footer/FooterSettings.php:177
+#: src/Features/Footer/FooterSettings.php:578
 msgid "Non"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:150
+#: src/Features/Footer/FooterSettings.php:178
 msgid "Certification ajoutée. Choisissez son image."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:151
+#: src/Features/Footer/FooterSettings.php:179
 msgid "Image choisie."
 msgstr ""
 
 #. translators: %d : numéro de la certification dans la liste.
-#: src/Features/Footer/FooterSettings.php:234
+#: src/Features/Footer/FooterSettings.php:262
 #, php-format
 msgid "Certification %d : aucune image choisie, elle a été ignorée."
 msgstr ""
 
 #. translators: %d : numéro de la certification dans la liste.
-#: src/Features/Footer/FooterSettings.php:249
+#: src/Features/Footer/FooterSettings.php:277
 #, php-format
 msgid "Certification %d : le lien n'est pas une adresse web valide (https://…), il a été retiré."
 msgstr ""
 
 #. translators: %s : nom du réseau social.
-#: src/Features/Footer/FooterSettings.php:282
+#: src/Features/Footer/FooterSettings.php:310
 #, php-format
 msgid "%s : l'adresse n'est pas une adresse web valide (https://…), elle a été retirée."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:327
+#: src/Features/Footer/FooterSettings.php:355
+#: resources/views/admin/help/footer.twig:20
 msgid "Logos de réassurance et certifications"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:328
+#: src/Features/Footer/FooterSettings.php:356
 msgid "Logos affichés en tête du pied de page, dans cet ordre. Le texte alternatif de chaque image, saisi dans la médiathèque, sert d'intitulé au logo : par exemple « Qualiopi, processus certifié »."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:333
+#: src/Features/Footer/FooterSettings.php:361
 msgid "Logo"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:333
-#: src/Features/Footer/FooterSettings.php:483
+#: src/Features/Footer/FooterSettings.php:361
+#: src/Features/Footer/FooterSettings.php:511
 msgid "Lien (facultatif)"
 msgstr ""
 
 #. translators: %d : nouvelle position de la certification.
-#: src/Features/Footer/FooterSettings.php:335
+#: src/Features/Footer/FooterSettings.php:363
 #, php-format
 msgid "Certification déplacée en position %d."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:336
+#: src/Features/Footer/FooterSettings.php:364
 msgid "Certification supprimée."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:352
+#: src/Features/Footer/FooterSettings.php:380
 msgid "Ajouter une certification"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:356
+#: src/Features/Footer/FooterSettings.php:384
+#: resources/views/admin/help/footer.twig:46
 #: resources/views/partials/footer/bottom.twig:13
 msgid "Réseaux sociaux"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:357
+#: src/Features/Footer/FooterSettings.php:385
 msgid "Pastilles affichées en bas du pied de page, dans cet ordre. Adresse complète de chaque page (https://…) : un réseau sans adresse, ou désactivé, n'est pas affiché."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:362
+#: src/Features/Footer/FooterSettings.php:390
 msgid "Réseau"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:362
-#: src/Features/Footer/FooterSettings.php:523
+#: src/Features/Footer/FooterSettings.php:390
+#: src/Features/Footer/FooterSettings.php:551
 msgid "Adresse"
 msgstr ""
 
 #. translators: %d : nouvelle position du réseau social.
-#: src/Features/Footer/FooterSettings.php:364
+#: src/Features/Footer/FooterSettings.php:392
 #, php-format
 msgid "Réseau déplacé en position %d."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:378
+#: src/Features/Footer/FooterSettings.php:406
+#: resources/views/admin/help/footer.twig:65
 msgid "Copyright"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:386
+#: src/Features/Footer/FooterSettings.php:414
 msgid "Affiché après « © » et l'année en cours, mise à jour automatiquement. Facultatif : le texte grisé s'affiche si le champ est vide."
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:409
+#: src/Features/Footer/FooterSettings.php:437
 msgctxt "position dans la liste"
 msgid "N°"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:418
-#: src/Features/Footer/FooterSettings.php:549
+#: src/Features/Footer/FooterSettings.php:446
+#: src/Features/Footer/FooterSettings.php:577
 msgid "Activer"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:419
-#: src/Features/Footer/FooterSettings.php:492
+#: src/Features/Footer/FooterSettings.php:447
+#: src/Features/Footer/FooterSettings.php:520
 msgid "Supprimer"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:448
+#: src/Features/Footer/FooterSettings.php:476
 msgid "Certification"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:457
+#: src/Features/Footer/FooterSettings.php:485
 msgid "Aucune image"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:468
+#: src/Features/Footer/FooterSettings.php:496
 msgid "Choisir"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:475
+#: src/Features/Footer/FooterSettings.php:503
 msgid "Sans texte alternatif :"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:477
+#: src/Features/Footer/FooterSettings.php:505
 msgid "le renseigner"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:566
+#: src/Features/Footer/FooterSettings.php:594
 msgid "Glisser pour déplacer, ou cliquer"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:567
+#: src/Features/Footer/FooterSettings.php:595
 msgid "Déplacer"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:571
+#: src/Features/Footer/FooterSettings.php:599
 msgid "Monter"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:572
+#: src/Features/Footer/FooterSettings.php:600
 msgid "Descendre"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:573
+#: src/Features/Footer/FooterSettings.php:601
 msgid "Mettre en premier"
 msgstr ""
 
-#: src/Features/Footer/FooterSettings.php:574
+#: src/Features/Footer/FooterSettings.php:602
 msgid "Mettre en dernier"
 msgstr ""
 
@@ -673,6 +677,7 @@ msgid "La case « Activation » n'est pas cochée : l'offre n'est pas affichée,
 msgstr ""
 
 #: resources/views/admin/help/current-offer.twig:87
+#: resources/views/admin/help/footer.twig:92
 msgid "En cas de problème"
 msgstr ""
 
@@ -682,6 +687,211 @@ msgstr ""
 
 #: resources/views/admin/help/current-offer.twig:90
 msgid "Pour retirer l'offre du site avant sa date de fin, décochez « Activation » et enregistrez."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:6
+msgid "Que contient le pied de page ?"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:7
+msgid "Le pied de page s'affiche en bas de toutes les pages du site. Il se compose de quatre parties :"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:9
+msgid "les logos de réassurance et de certification"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:9
+msgid "(Qualiopi, label…), dans une carte blanche en haut ;"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:10
+msgid "les colonnes de liens"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:10
+msgid "sur fond orange, chacune avec son titre ;"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:11
+msgid "les réseaux sociaux"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:11
+msgid "sous forme de pastilles ;"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:12
+msgid "la barre du bas"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:12
+msgid "avec le copyright et les liens légaux (mentions légales, confidentialité…)."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:15
+msgid "Les logos, les réseaux sociaux et le copyright se règlent dans l'écran « Pied de page », sous Apparence."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:16
+msgid "Ouvrir l'écran du pied de page"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:18
+msgid "Après chaque modification, cliquez sur « Enregistrer les modifications » : le message « Réglages enregistrés. » confirme l'enregistrement, et le changement est visible aussitôt sur tout le site."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:23
+msgid "Préparez le logo dans la médiathèque"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:24
+msgid "(SVG, PNG ou JPEG) et renseignez son « Texte alternatif » : c'est ce que lisent les personnes malvoyantes à la place du logo. Par exemple : « Qualiopi, processus certifié »."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:25
+msgid "Ouvrir la médiathèque"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:28
+msgid "Cliquez sur « Ajouter une certification »"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:29
+msgid "puis sur « Choisir » pour sélectionner le logo."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:32
+msgid "Facultatif : ajoutez un lien"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:33
+msgid "vers le site de l'organisme ou le certificat, adresse complète commençant par https://."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:36
+msgid "Vérifiez « Activer »"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:37
+msgid "puis enregistrez."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:41
+msgid "Un logo sans texte alternatif est signalé dans l'écran par « Sans texte alternatif : le renseigner ». Le lien ouvre l'image dans la médiathèque."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:42
+msgid "Pour masquer un logo un temps sans le perdre, passez « Activer » sur « Non ». Pour le retirer définitivement, cliquez sur « Supprimer »."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:43
+msgid "Pour remplacer un logo, cliquez sur « Changer » : le lien est conservé."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:48
+msgid "Réseaux proposés :"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:49
+msgid "La liste est fixe : on ne peut ni ajouter ni supprimer de réseau. Il suffit de laisser vide, ou de désactiver, ceux qui ne servent pas."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:52
+msgid "Collez l'adresse complète de la page (https://…), copiée depuis la barre d'adresse du navigateur."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:53
+msgid "Une pastille n'est affichée que si le réseau a une adresse et que « Activer » est sur « Oui »."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:56
+msgid "Changer l'ordre d'affichage"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:57
+msgid "Logos et réseaux s'affichent sur le site dans l'ordre des lignes de l'écran. Pour déplacer une ligne, utilisez sa poignée « ≡ », à gauche :"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:59
+msgid "à la souris :"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:59
+msgid "glissez-la vers le haut ou le bas ;"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:60
+msgid "en cliquant :"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:60
+msgid "un menu propose Monter, Descendre, Mettre en premier ou Mettre en dernier ;"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:61
+msgid "au clavier :"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:61
+msgid "placez-vous sur la poignée avec Tab, puis utilisez les flèches ↑ et ↓."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:63
+msgid "Le nouvel ordre n'est pris en compte qu'après l'enregistrement."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:66
+msgid "Le copyright commence toujours par « © » et l'année en cours, mise à jour automatiquement chaque 1er janvier. Le champ « Texte » donne la suite. Laissé vide, il affiche « Groupe Couturier · Sainte-Gemme-Moronval (28) »."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:68
+msgid "Colonnes de liens et liens légaux"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:70
+msgid "Ces liens sont des menus WordPress, gérés dans"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:72
+#: resources/views/admin/help/footer.twig:74
+msgid "Apparence › Menus"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:76
+msgid "réservés aux administrateurs :"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:80
+msgid "« Menu pied de page » :"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:81
+msgid "chaque élément de premier niveau est une colonne, et son libellé en est le titre ; les éléments placés en dessous, en retrait, sont les liens de la colonne. Un titre qui ne doit mener nulle part est un lien personnalisé dont l'adresse est « # »."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:84
+msgid "« Liens légaux du pied de page » :"
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:85
+msgid "les liens de la barre du bas, à côté du copyright."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:89
+msgid "Pour modifier ces liens, adressez-vous à un administrateur du site."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:94
+msgid "Une adresse qui ne commence pas par http:// ou https:// est retirée à l'enregistrement : un message indique la ligne en cause. Corrigez-la et enregistrez à nouveau."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:95
+msgid "Une certification ajoutée sans image est ignorée à l'enregistrement."
+msgstr ""
+
+#: resources/views/admin/help/footer.twig:96
+msgid "Un logo n'apparaît pas sur le site ? Vérifiez que « Activer » est sur « Oui » et que l'image est toujours dans la médiathèque."
 msgstr ""
 
 #: resources/views/base.twig:13
