@@ -1,0 +1,23 @@
+{#
+    Barre de bas de page : copyright et liens légaux (emplacement de menu `legal`).
+    Données : `legal_menu` (Timber\Menu, `null` si aucun menu n'est affecté).
+
+    Les réseaux sociaux s'y ajouteront en tête, à gauche en desktop.
+#}
+<div class="footer-bottom">
+    <div class="footer-bottom__legal">
+        <p class="footer-bottom__copyright">
+            &copy; {{ "now"|date("Y") }} {{ __('Groupe Couturier · Sainte-Gemme-Moronval (28)', 'couturier') }}
+        </p>
+
+        {% if legal_menu %}
+            <nav aria-label="{{ __('Informations légales', 'couturier') }}">
+                <ul class="footer-bottom__links">
+                    {% for item in legal_menu.items %}
+                        <li>{% include 'partials/footer/link.twig' with { item: item } only %}</li>
+                    {% endfor %}
+                </ul>
+            </nav>
+        {% endif %}
+    </div>
+</div>

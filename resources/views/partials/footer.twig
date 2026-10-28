@@ -5,7 +5,7 @@
                 {% include 'partials/footer/nav.twig' with { menu: footer_menu } %}
             {% endif %}
 
-            <p>&copy; {{ "now"|date("Y") }} {{ site.name }}</p>
+            {% include 'partials/footer/bottom.twig' %}
         </div>
     </div>
 </footer>

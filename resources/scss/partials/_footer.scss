@@ -72,3 +72,49 @@
     // qui satisfait l'exception d'espacement de WCAG 2.5.8 (cercles de 24 px).
     display: inline-block;
 }
+
+// ─── Barre de bas de page ─────────────────────────────────────────────────────
+// Mobile : empilée. Desktop : sur une ligne, copyright et liens légaux à droite
+// (les réseaux sociaux prendront la gauche). Pétrole foncé, comme les liens de
+// la navigation : conforme AA.
+
+.footer-bottom {
+    @include text-style(footer-link);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-24);
+    margin-top: var(--space-48);
+    color: var(--color-text-on-accent);
+
+    @include media-breakpoint-up(lg) {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+}
+
+.footer-bottom__legal {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+
+    @include media-breakpoint-up(lg) {
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-24);
+        margin-left: auto;
+    }
+}
+
+.footer-bottom__copyright {
+    margin: 0;
+}
+
+.footer-bottom__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6) var(--space-24);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
