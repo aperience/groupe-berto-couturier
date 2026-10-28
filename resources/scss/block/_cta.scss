@@ -67,8 +67,10 @@ $cta-image-width: to-rem(432);
         margin-top: var(--space-32);
     }
 
+    // 24 px entre deux boutons côte à côte, 12 px entre deux lignes : boutons
+    // passés à la ligne (`flex-wrap`) ou empilés en mobile.
     > .wp-block-buttons {
-        gap: var(--space-24);
+        gap: var(--space-12) var(--space-24);
     }
 
     // Boutons tous sans libellé : le core les retire du rendu, mais laisse le groupe.
