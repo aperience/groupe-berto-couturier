@@ -1,10 +1,13 @@
 {#
-    Offre du moment : titre, texte, lien vers sa page.
+    Offre du moment : titre, texte et lien vers sa page, sur une seule ligne.
     Données : `current_offer` (feature CurrentOffer\CurrentOfferContext), disponible sur
     toutes les pages, `null` hors des dates. Sans styles : à habiller avec le héros.
 #}
-<section class="current-offer" aria-labelledby="current-offer-title">
-    <h2 id="current-offer-title" class="current-offer__title">{{ current_offer.title }}</h2>
-    <p class="current-offer__text">{{ current_offer.text }}</p>
-    <a class="current-offer__link" href="{{ current_offer.url|e('esc_url')|raw }}">{{ current_offer.link_label ?: __("Découvrir l'offre", 'couturier') }}</a>
-</section>
+<p class="current-offer">
+    <strong class="current-offer__title">{{ current_offer.title }}</strong>
+    <span class="current-offer__separator" aria-hidden="true">&bull;</span>
+    <span class="current-offer__text">{{ current_offer.text }}</span>
+    <a class="current-offer__link" href="{{ current_offer.url|e('esc_url')|raw }}">
+        <strong>{{ current_offer.link_label ?: __("Découvrir l'offre", 'couturier') }}</strong>
+    </a>
+</p>
