@@ -3,8 +3,8 @@
  * imbriqués » dans `blocks/CLAUDE.md`.
  *
  * - `useLockedContent()` rétablit aussitôt le verrou d'un bloc imbriqué levé
- *   (cadenas, menu « Options ») et le niveau fixe d'un titre (collage, éditeur de
- *   code) ;
+ *   (cadenas, menu « Options ») et, s'il est fixe, le niveau d'un titre (collage,
+ *   éditeur de code) ;
  * - `useNonBreakingPunctuation()` rend insécable l'espace avant « ? ! : ; » ;
  * - `hideLockedControls()` masque le cadenas et les variations de niveau quand un
  *   de ces blocs imbriqués est sélectionné.
@@ -47,7 +47,7 @@ export const textOf = ( value ) =>
  *
  * @param {Object[]} blocks          Blocs imbriqués (`getBlocks( clientId )`).
  * @param {Object}   options
- * @param {number}   options.level   Niveau fixe des `core/heading`.
+ * @param {number}   [options.level] Niveau fixe des `core/heading` ; sans lui, le niveau reste au choix.
  * @param {string[]} [options.names] Blocs imbriqués à verrouiller.
  */
 export function useLockedContent( blocks, { level, names = TEXT_BLOCKS } ) {
@@ -63,7 +63,7 @@ export function useLockedContent( blocks, { level, names = TEXT_BLOCKS } ) {
 					changes.lock = LOCKED;
 				}
 
-				if ( 'core/heading' === block.name && level !== block.attributes.level ) {
+				if ( 'core/heading' === block.name && undefined !== level && level !== block.attributes.level ) {
 					changes.level = level;
 				}
 

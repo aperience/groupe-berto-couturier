@@ -17,7 +17,8 @@
  * `<span class="wp-block-couturier-cta__highlight">`, dont la couleur dépend du
  * bloc (orange sur le fond sombre du CTA, orange foncé sur fond clair). Enregistré
  * partout, pour qu'un titre collé ailleurs reste valide, mais proposé dans le seul
- * titre des blocs `HIGHLIGHT_HOSTS`. Ce module est inclus dans le script de chaque
+ * titre des blocs `HIGHLIGHT_HOSTS`, et dans un titre libre (`core/heading` au
+ * premier niveau du contenu). Ce module est inclus dans le script de chaque
  * bloc qui l'importe : le premier chargé enregistre le format.
  *
  * Hors de `blocks/{nom}/` : ce dossier n'a pas de `block.json`, wp-scripts ne le
@@ -34,7 +35,7 @@ import { highlighter } from './icons.js';
 const HIGHLIGHT = 'couturier/highlight';
 
 /** Blocs dont le titre (`core/heading` enfant direct) propose la mise en avant. */
-const HIGHLIGHT_HOSTS = [ 'couturier/cta', 'couturier/faq' ];
+const HIGHLIGHT_HOSTS = [ 'couturier/cta', 'couturier/faq', 'couturier/section-title' ];
 
 /** Formats retirés d'un texte (`core/paragraph`) de bloc custom. */
 export const TEXT_FORMATS_OFF = [
@@ -63,11 +64,14 @@ function selection( registrySelect ) {
 	return { block, parentName: rootClientId ? editor.getBlockName( rootClientId ) : null };
 }
 
-/** Le bloc sélectionné est-il le titre d'un bloc qui propose la mise en avant ? */
+/**
+ * Le bloc sélectionné est-il le titre d'un bloc qui propose la mise en avant, ou un
+ * titre libre (sans parent) ?
+ */
 const isHighlightHeading = ( registrySelect ) => {
 	const { block, parentName } = selection( registrySelect );
 
-	return 'core/heading' === block?.name && HIGHLIGHT_HOSTS.includes( parentName );
+	return 'core/heading' === block?.name && ( null === parentName || HIGHLIGHT_HOSTS.includes( parentName ) );
 };
 
 if ( ! select( richTextStore ).getFormatType( HIGHLIGHT ) ) {

@@ -1,0 +1,31 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/section-title",
+	"title": "Titre de section",
+	"category": "text",
+	"icon": "heading",
+	"description": "Titre centré (H2 ou H3) avec mots mis en avant, et sous-titre facultatif.",
+	"keywords": [ "titre", "sous-titre", "section", "intertitre" ],
+	"textdomain": "couturier",
+	"attributes": {
+		"subtitle": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-section-title__subtitle",
+			"role": "content"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"attributes": { "subtitle": "Plusieurs façons de financer ton permis de conduire !" },
+		"innerBlocks": [
+			{ "name": "core/heading", "attributes": { "level": 2, "content": "Financer son <span class=\"wp-block-couturier-cta__highlight\">permis</span>" } }
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
