@@ -1,0 +1,273 @@
+// ─── Bloc « Questions fréquentes » (couturier/faq) ────────────────────────────
+//
+// Balisage (front : `render.php` des trois blocs ; éditeur : leurs `index.js`) :
+//
+//   section.wp-block-couturier-faq                 ← h2, p, div.wp-block-buttons, liste
+//     div.wp-block-couturier-faq-list              ← questions
+//       div.wp-block-couturier-faq-item            ← carte d'une question
+//         front :   h3.__heading > button.__button ← question (pastille en ::before / ::after)
+//                   div.__collapse.collapse > div.__body > p.__answer
+//         éditeur : div.__header > h3 + span.__icon
+//                   div.__body > p.__answer        ← réponse de la question ouverte seulement
+//
+// Mobile : tout empilé, titre centré. Desktop (`lg`) : titre, texte et bouton à
+// gauche, liste à droite sur toute la hauteur.
+//
+// Question ouverte : fond pêche et icône « − » — front : bouton en
+// `aria-expanded="true"` (tenu à jour par Bootstrap Collapse) ; éditeur :
+// `.is-open`.
+//
+// Dans l'éditeur, les blocs imbriqués reçoivent les marges par défaut du canvas
+// (`html :where(.wp-block)`, spécificité nulle) : les marges sont donc toutes
+// posées ici, pour un rendu identique des deux côtés.
+
+$faq-pastille-size: var(--space-32);
+$faq-icon-size: to-rem(18);
+$faq-padding-x: var(--space-24);
+$faq-padding-y: var(--space-20);
+
+.wp-block-couturier-faq {
+    margin-block: var(--layout-section-gap);
+
+    > * {
+        margin-block: 0;
+    }
+
+    > h2 {
+        @include text-style(faq-title);
+        color: var(--color-text-heading);
+        text-align: center;
+    }
+
+    > p {
+        @include text-style(body-lg);
+        margin-top: var(--space-16);
+    }
+
+    // Spécificité 0,2,0 : l'emporte sur la marge de `.wp-block-buttons`
+    // (`_button.scss`).
+    > .wp-block-buttons,
+    > .wp-block-couturier-faq__add-button {
+        margin-top: var(--space-24);
+    }
+
+    // Bouton sans libellé : le core le retire du rendu, mais laisse le groupe.
+    > .wp-block-buttons:not(:has(.wp-block-button)) {
+        display: none;
+    }
+
+    > .wp-block-couturier-faq-list {
+        margin-top: var(--space-32);
+    }
+
+    // Avertissement de l'éditeur (titre ou questions manquants).
+    > .wp-block-couturier-faq__notice {
+        margin-bottom: var(--space-16);
+    }
+
+    // Desktop : deux colonnes. La liste occupe toutes les lignes de la grille ; la
+    // dernière (`1fr`) absorbe sa hauteur, titre, texte et bouton restent en haut.
+    @include media-breakpoint-up(lg) {
+        display: grid;
+        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+        grid-template-rows: repeat(4, auto) 1fr;
+        column-gap: var(--space-64);
+
+        > * {
+            grid-column: 1;
+        }
+
+        > h2 {
+            margin-top: var(--space-40);
+            text-align: left;
+        }
+
+        > .wp-block-buttons,
+        > .wp-block-couturier-faq__add-button {
+            margin-top: var(--space-48);
+        }
+
+        > .wp-block-couturier-faq-list {
+            grid-column: 2;
+            grid-row: 1 / -1;
+            margin-top: 0;
+        }
+    }
+}
+
+// Éditeur : le core centre chaque bloc du canvas (`margin-inline: auto`, règle
+// `.editor-styles-wrapper :where(…) > .wp-block`, 0,2,0), ce qui, dans la grille
+// de la FAQ et le flex de la liste, le rétrécit à son contenu. Classe doublée
+// (0,3,0) pour l'emporter ; sans effet sur le front, où ces blocs n'ont pas la
+// classe `wp-block`.
+.wp-block-couturier-faq > .wp-block.wp-block,
+.wp-block-couturier-faq-list > .wp-block.wp-block {
+    margin-inline: 0;
+}
+
+// Mots mis en avant dans le titre (format `couturier/highlight`) : orange foncé
+// sur fond clair, 4,99:1 — l'orange de la charte n'y tiendrait que 2,8:1.
+.wp-block-couturier-faq > h2 .wp-block-couturier-cta__highlight {
+    color: var(--color-text-accent);
+}
+
+// Liens du texte et des réponses : couleur du texte et soulignés, la couleur
+// seule ne les distinguerait pas (WCAG 1.4.1).
+.wp-block-couturier-faq > p a,
+.wp-block-couturier-faq-item__answer a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: .15em;
+
+    &:hover {
+        text-decoration-thickness: 2px;
+    }
+
+    &:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+        border-radius: 2px;
+    }
+}
+
+// ─── Liste des questions ──────────────────────────────────────────────────────
+.wp-block-couturier-faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+
+    // Éditeur : « Ajouter une question », dans l'enveloppe que le core pose en
+    // `position: absolute` en bas à droite : remise dans le flux, sous la
+    // dernière question.
+    > .block-list-appender {
+        position: static;
+        align-self: flex-start;
+    }
+}
+
+// ─── Question ─────────────────────────────────────────────────────────────────
+.wp-block-couturier-faq-item {
+    margin: 0;
+    border-radius: var(--bs-border-radius-lg);
+    background-color: var(--color-surface-muted);
+
+    &.is-open,
+    &:has(> .wp-block-couturier-faq-item__heading > [aria-expanded="true"]) {
+        background-color: var(--color-surface-peach-faint);
+    }
+}
+
+// Titre de la question : `h3` du front (contient le bouton) comme de l'éditeur.
+.wp-block-couturier-faq-item h3 {
+    @include text-style(h3);
+    margin: 0;
+    color: var(--color-text-heading);
+}
+
+// Pastille (`::before`) et icône « + » / « − » (`::after`, SVG en masque peint
+// en `currentColor`), à droite de la question, centrées verticalement. Toutes deux
+// décoratives : l'état ouvert est annoncé par `aria-expanded`.
+@mixin faq-pastille {
+    position: relative;
+    padding: $faq-padding-y calc(#{$faq-padding-x} + #{$faq-pastille-size} + var(--space-16)) $faq-padding-y $faq-padding-x;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        pointer-events: none;
+        transform: translateY(-50%);
+    }
+
+    &::before {
+        right: $faq-padding-x;
+        width: $faq-pastille-size;
+        height: $faq-pastille-size;
+        border-radius: 50%;
+        background-color: var(--color-surface-peach-soft);
+    }
+
+    // Orange foncé sur la pastille : 3,93:1 (WCAG 1.4.11).
+    &::after {
+        right: calc(#{$faq-padding-x} + (#{$faq-pastille-size} - #{$faq-icon-size}) / 2);
+        width: $faq-icon-size;
+        height: $faq-icon-size;
+        color: var(--color-text-accent);
+        background-color: currentColor;
+        // Chemin relatif à l'entrée, pas au partial : PhpStorm ne le résout pas.
+        // noinspection CssUnknownTarget
+        mask: url("../images/icons/plus.svg") center / contain no-repeat;
+    }
+}
+
+@mixin faq-icon-open {
+    &::after {
+        // noinspection CssUnknownTarget
+        mask-image: url("../images/icons/minus.svg");
+    }
+}
+
+// Front : toute la ligne de la question est le bouton.
+.wp-block-couturier-faq-item__button {
+    @include faq-pastille;
+    display: block;
+    width: 100%;
+    border: 0;
+    border-radius: var(--bs-border-radius-lg);
+    background: none;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    &[aria-expanded="true"] {
+        @include faq-icon-open;
+    }
+
+    &:hover::before {
+        background-color: var(--color-surface-peach);
+    }
+
+    // Double anneau : blanc puis pétrole foncé, comme les boutons du thème
+    // (WCAG 2.4.7, 1.4.11). Le contour transparent reste affiché en mode de
+    // contraste forcé, où les ombres disparaissent.
+    &:focus-visible {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 2px var(--color-surface-card), 0 0 0 4px var(--color-text-default);
+    }
+}
+
+// Éditeur : même mise en page, pastille sur l'en-tête.
+.wp-block-couturier-faq-item__header {
+    @include faq-pastille;
+
+    .wp-block-couturier-faq-item.is-open > & {
+        @include faq-icon-open;
+    }
+}
+
+// Réponse.
+.wp-block-couturier-faq-item__body {
+    padding: 0 $faq-padding-x $faq-padding-y;
+}
+
+.wp-block-couturier-faq-item__answer {
+    @include text-style(faq-answer);
+    margin: 0;
+    color: var(--color-text-default);
+}
+
+// Éditeur : avertissement d'une question incomplète.
+.wp-block-couturier-faq-item__notice {
+    margin: 0 $faq-padding-x $faq-padding-y;
+}
+
+@include media-breakpoint-up(lg) {
+    .wp-block-couturier-faq-item__button,
+    .wp-block-couturier-faq-item__header {
+        padding-block: var(--space-24);
+    }
+}

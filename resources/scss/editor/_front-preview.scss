@@ -1,0 +1,33 @@
+// ─── Bloc custom non sélectionné : rendu du front (éditeur seulement) ─────────
+//
+// Un bloc custom qui n'est pas en cours d'édition — ni lui ni l'un de ses blocs
+// imbriqués sélectionné (classes `is-selected` / `has-child-selected` posées par
+// le core) — s'affiche dans le canvas exactement comme sur le front (cf.
+// `blocks/CLAUDE.md`). Le front ne rend pas les champs vides : le canvas les
+// masque donc, placeholder compris.
+//
+// Repère d'un champ RichText vide : son placeholder, un enfant
+// `[data-rich-text-placeholder]` posé par le core (titre, texte, attribut,
+// libellé de bouton ; `data-empty`, lui, n'existe que sur certains blocs). Un
+// bouton sans libellé n'est pas rendu sur le front : il est masqué entier, et
+// son groupe avec lui quand le premier et le dernier bouton sont vides (tous,
+// pour les blocs du thème : deux boutons au plus).
+//
+// `:has()` ne s'imbrique pas (un `:has()` dans un `:has()` invaliderait toute la
+// règle) : les conditions sur le groupe s'enchaînent.
+//
+// Les blocs eux-mêmes masquent leurs éléments propres à l'édition
+// (avertissements, boutons d'ajout) et signalent par `is-incomplete` une partie
+// que le front ne rend pas pour une autre raison (ex. question de FAQ sans
+// réponse).
+
+$empty-label: ".wp-block-button__link > [data-rich-text-placeholder]";
+
+.is-root-container > .wp-block[class*="wp-block-couturier-"]:not(.is-selected, .has-child-selected) {
+    [contenteditable]:has(> [data-rich-text-placeholder]),
+    .wp-block-button:has(> #{$empty-label}),
+    .wp-block-buttons:has(> .wp-block-button:first-child > #{$empty-label}):has(> .wp-block-button:last-child > #{$empty-label}),
+    .is-incomplete {
+        display: none;
+    }
+}

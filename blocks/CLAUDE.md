@@ -245,6 +245,16 @@ const isEditing = useSelect(
 );
 ```
 
+**Champs vides : masqués d'office.** Le front ne rend pas un champ vide (texte facultatif,
+libellé de bouton, attribut RichText) ; dans le canvas, un bloc `couturier/*` non sélectionné les
+masque donc, placeholder compris, par une règle générique (`resources/scss/editor/_front-preview.scss`,
+sur l'attribut `data-empty="true"` que le core pose sur tout RichText vide). Rien à écrire par
+bloc. Une partie que le front ne rend pas pour une autre raison (question de FAQ sans réponse)
+reçoit la classe `is-incomplete`, masquée par la même règle.
+
+**À vérifier sur chaque bloc** : bloc désélectionné, chaque champ vide disparaît comme sur le
+front — aucun placeholder visible.
+
 ---
 
 ## Images : toujours le composant `ImageField`

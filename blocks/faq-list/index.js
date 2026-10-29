@@ -9,19 +9,20 @@
  * Le câblage de l'accordéon (identifiants, première question ouverte) est fait
  * au rendu, par `render.php`.
  */
-import { createBlock, registerBlockType } from '@wordpress/blocks';
+import { createBlocksFromInnerBlocksTemplate, registerBlockType } from '@wordpress/blocks';
 import { InnerBlocks, store as blockEditorStore, useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
 import { Button } from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
 import { plus } from '../_shared/icons.js';
+import { QUESTION } from '../faq-item/question.js';
 import metadata from './block.json';
 
 const ITEM = 'couturier/faq-item';
 
 function Edit( { clientId } ) {
-	const { insertBlock } = useDispatch( blockEditorStore );
+	const { insertBlock, selectBlock } = useDispatch( blockEditorStore );
 	// FAQ ou l'un de ses blocs imbriqués sélectionné. Sinon, le canvas montre le
 	// rendu du site : pas de bouton d'ajout.
 	const { isEditing, count } = useSelect(
@@ -37,9 +38,13 @@ function Edit( { clientId } ) {
 		[ clientId ]
 	);
 
+	// Question créée avec son titre, curseur placé dans le titre : sans titre, il
+	// n'arriverait qu'ensuite, par le modèle de la question, et le curseur irait
+	// dans la réponse, seul champ alors présent.
 	const addItem = () => {
-		const item = createBlock( ITEM );
-		insertBlock( item, count, clientId );
+		const [ item ] = createBlocksFromInnerBlocksTemplate( [ [ ITEM, {}, [ QUESTION ] ] ] );
+		insertBlock( item, count, clientId, false );
+		selectBlock( item.innerBlocks[ 0 ].clientId, 0 );
 	};
 
 	const innerBlocksProps = useInnerBlocksProps( useBlockProps(), {

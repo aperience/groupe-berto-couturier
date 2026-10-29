@@ -26,7 +26,6 @@ import { __ } from '@wordpress/i18n';
 
 import { HEADING_FORMATS_OFF, restrictFormats } from '../_shared/formats.js';
 import {
-	LOCKED,
 	hideLockedControls,
 	nonBreaking,
 	textOf,
@@ -34,16 +33,14 @@ import {
 	useNonBreakingPunctuation,
 } from '../_shared/locked-content.js';
 import metadata from './block.json';
+import { LEVEL, QUESTION } from './question.js';
 
-const TEMPLATE = [ [ 'core/heading', { level: 3, lock: LOCKED, placeholder: __( 'Question', 'couturier' ) } ] ];
-
-/** La question est toujours un `<h3>`, sous le `<h2>` de la FAQ. */
-const LEVEL = 3;
+const TEMPLATE = [ QUESTION ];
 
 /** Formats de la réponse. */
 const ANSWER_FORMATS = [ 'core/bold', 'core/italic', 'core/link', 'core/strikethrough', 'core/superscript', 'core/subscript' ];
 
-const QUESTION = [ 'core/heading' ];
+const QUESTION_BLOCKS = [ 'core/heading' ];
 
 function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	const { answer } = attributes;
@@ -66,7 +63,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	const isIncomplete = blocks.length > 0 && ( ! textOf( blocks[ 0 ] ) || ! textOf( answer ) );
 
 	// Question toujours verrouillée, toujours en H3 ; espace insécable avant « ? ! : ; ».
-	useLockedContent( blocks, { level: LEVEL, names: QUESTION } );
+	useLockedContent( blocks, { level: LEVEL, names: QUESTION_BLOCKS } );
 	useNonBreakingPunctuation( blocks );
 
 	// Modèle passé à l'insertion seulement (bloc vide), cf. `blocks/CLAUDE.md`.
@@ -76,7 +73,11 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	);
 
 	return (
-		<div { ...useBlockProps( { className: isOpen ? 'is-open' : undefined } ) }>
+		// `is-incomplete` : question non rendue sur le front, masquée dans le canvas
+		// tant que la FAQ n'est pas en cours d'édition (`editor/_front-preview.scss`).
+		<div { ...useBlockProps( {
+			className: [ isOpen && 'is-open', isIncomplete && 'is-incomplete' ].filter( Boolean ).join( ' ' ) || undefined,
+		} ) }>
 			<div { ...innerBlocksProps }>
 				{ children }
 				<span className="wp-block-couturier-faq-item__icon" aria-hidden="true" />
@@ -121,4 +122,4 @@ restrictFormats( metadata.name, {
 } );
 
 // Question sélectionnée : ni cadenas, ni variations de niveau.
-hideLockedControls( metadata.name, QUESTION );
+hideLockedControls( metadata.name, QUESTION_BLOCKS );

@@ -35,17 +35,27 @@ import {
 	useLockedContent,
 	useNonBreakingPunctuation,
 } from '../_shared/locked-content.js';
+import { QUESTION } from '../faq-item/question.js';
 import metadata from './block.json';
 import './formats.js';
 
 /** Le bouton du modèle : pétrole foncé avec flèche. */
 const BUTTONS = [ [ 'core/button', { className: 'is-style-deep', hasArrow: true, lock: REMOVABLE } ] ];
 
+/** Première question, préremplie à l'insertion (les suivantes sont vides). */
+const FIRST_ITEM = [
+	'couturier/faq-item',
+	{ answer: __( 'Ceci est la réponse', 'couturier' ) },
+	[ [ QUESTION[ 0 ], { ...QUESTION[ 1 ], content: __( 'Ceci est une première question ?', 'couturier' ) } ] ],
+];
+
+// Titre et première question préremplis à l'insertion : le modèle n'est passé
+// qu'à un bloc vide (cf. `Edit`), il ne réécrit jamais un contenu saisi.
 const TEMPLATE = [
-	[ 'core/heading', { level: 2, lock: LOCKED, placeholder: __( 'Titre', 'couturier' ) } ],
+	[ 'core/heading', { level: 2, lock: LOCKED, content: __( 'Questions fréquentes', 'couturier' ), placeholder: __( 'Titre', 'couturier' ) } ],
 	[ 'core/paragraph', { lock: LOCKED, placeholder: __( 'Texte (facultatif)', 'couturier' ) } ],
 	[ 'core/buttons', { lock: REMOVABLE }, BUTTONS ],
-	[ 'couturier/faq-list', { lock: LOCKED }, [ [ 'couturier/faq-item' ] ] ],
+	[ 'couturier/faq-list', { lock: LOCKED }, [ FIRST_ITEM ] ],
 ];
 
 /** Blocs imbriqués verrouillés. */
