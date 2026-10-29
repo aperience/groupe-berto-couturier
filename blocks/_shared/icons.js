@@ -15,6 +15,12 @@ const icon = ( ...paths ) => (
 /** « + » : ajouter. */
 export const plus = icon( 'M11 12.5V17.5H12.5V12.5H17.5V11H12.5V6H11V11H6V12.5H11Z' );
 
+/** Chevron vers la gauche : déplacer avant. */
+export const chevronLeft = icon( 'M14.6 7l-1.2-1L8 12l5.4 6 1.2-1-4.6-5z' );
+
+/** Chevron vers la droite : déplacer après. */
+export const chevronRight = icon( 'M10.6 6L9.4 7l4.6 5-4.6 5 1.2 1 5.4-6z' );
+
 /** Image : cadre, montagne et soleil. */
 export const image = icon(
 	'M5 4.5h14a.5.5 0 0 1 .5.5v14a.5.5 0 0 1-.5.5H5a.5.5 0 0 1-.5-.5V5a.5.5 0 0 1 .5-.5ZM3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5Z',
