@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/faq-list",
+	"title": "Liste des questions",
+	"category": "design",
+	"icon": "list-view",
+	"description": "Questions / réponses du bloc « Questions fréquentes », en accordéon.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/faq" ],
+	"allowedBlocks": [ "couturier/faq-item" ],
+	"supports": {
+		"html": false,
+		"inserter": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

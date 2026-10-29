@@ -22,7 +22,7 @@ import { useDispatch } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-import { REMOVABLE } from './locked-content.js';
+import { REMOVABLE, TEXT_BLOCKS } from './locked-content.js';
 
 /** Style de bloc d'un bouton (`is-style-…`), chaîne vide pour le style par défaut. */
 const styleOf = ( className ) => ( className ?? '' ).split( ' ' ).find( ( name ) => name.startsWith( 'is-style-' ) ) ?? '';
@@ -74,9 +74,12 @@ export function useButtonCount( clientId, blocks, buttons ) {
 			return;
 		}
 
+		// Groupe recréé juste après le dernier titre ou texte, avant le reste
+		// (liste des questions de la FAQ).
 		const [ newGroup ] = createBlocksFromInnerBlocksTemplate( [ [ 'core/buttons', { lock: REMOVABLE } ] ] );
+		const at = others.reduce( ( last, block, index ) => ( TEXT_BLOCKS.includes( block.name ) ? index + 1 : last ), 0 );
 		newGroup.innerBlocks = result;
-		replaceInnerBlocks( clientId, [ ...others, newGroup ], false );
+		replaceInnerBlocks( clientId, [ ...others.slice( 0, at ), newGroup, ...others.slice( at ) ], false );
 	};
 
 	return [ count, setCount ];

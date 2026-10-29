@@ -1,0 +1,49 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/faq",
+	"title": "Questions fréquentes",
+	"category": "design",
+	"icon": "editor-help",
+	"description": "Titre avec mots mis en avant, texte et bouton facultatifs, et une liste de questions / réponses en accordéon.",
+	"keywords": [ "faq", "questions", "réponses", "accordéon" ],
+	"textdomain": "couturier",
+	"supports": {
+		"html": false
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"innerBlocks": [
+			{ "name": "core/heading", "attributes": { "level": 2, "content": "Questions fréquentes" } },
+			{ "name": "core/paragraph", "attributes": { "content": "Une question ? Vous trouverez peut-être la réponse ici, sinon un conseiller vous rappelle." } },
+			{
+				"name": "core/buttons",
+				"innerBlocks": [
+					{ "name": "core/button", "attributes": { "text": "Être rappelé", "className": "is-style-deep", "hasArrow": true } }
+				]
+			},
+			{
+				"name": "couturier/faq-list",
+				"innerBlocks": [
+					{
+						"name": "couturier/faq-item",
+						"attributes": { "answer": "Le nombre d'heures de conduite conseillées dépend de votre niveau." },
+						"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Quelle différence entre les formules ?" } } ]
+					},
+					{
+						"name": "couturier/faq-item",
+						"attributes": { "answer": "Un conseiller vous aide à reprogrammer l'examen." },
+						"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Que se passe-t-il en cas d'échec à l'examen ?" } } ]
+					},
+					{
+						"name": "couturier/faq-item",
+						"attributes": { "answer": "En ligne ou à l'accueil du centre." },
+						"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Comment s'inscrire ?" } } ]
+					}
+				]
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

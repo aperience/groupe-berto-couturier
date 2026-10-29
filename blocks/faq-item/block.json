@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/faq-item",
+	"title": "Question",
+	"category": "design",
+	"icon": "editor-help",
+	"description": "Une question (titre H3) et sa réponse, dans le bloc « Questions fréquentes ».",
+	"textdomain": "couturier",
+	"parent": [ "couturier/faq-list" ],
+	"attributes": {
+		"answer": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-faq-item__answer",
+			"role": "content"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

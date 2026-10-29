@@ -25,13 +25,16 @@ export const REMOVABLE = { remove: false, move: true };
 export const LOCKED = { remove: true, move: true };
 
 /** Blocs imbriqués verrouillés par défaut : le titre et le texte. */
-const TEXT_BLOCKS = [ 'core/heading', 'core/paragraph' ];
+export const TEXT_BLOCKS = [ 'core/heading', 'core/paragraph' ];
 
 /**
  * Espace avant une ponctuation haute, balises intercalées comprises : même motif que
  * les `render.php`, qui la rendent insécable sur le front.
  */
 const SPACE_BEFORE_PUNCTUATION = / +((?:<[^>]*>)*)(?=[?!:;»])/gu;
+
+/** Espace avant « ? ! : ; » d'un HTML rendue insécable (même longueur). */
+export const nonBreaking = ( html ) => String( html ?? '' ).replace( SPACE_BEFORE_PUNCTUATION, '\u00A0$1' );
 
 /** Texte d'un champ RichText (bloc ou chaîne), balises retirées. */
 export const textOf = ( value ) =>
