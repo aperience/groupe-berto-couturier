@@ -692,6 +692,13 @@ avec le héros.
 > minute dans la crontab du serveur (en place en préprod, sous `deefuse`). Procédure complète et branchement d'un autre plugin de cache :
 > `docs/mise-en-prod.md` (racine du dépôt).
 
+## Header et méga menu (à venir)
+
+Pas encore développés : `primary_menu` est rendu à plat par `partials/navigation.twig`. Le plan
+(données, desktop, mobile, accessibilité, architecture, étapes, questions ouvertes) est dans
+`docs/mega-menu.md` (racine du dépôt) ; il est à suivre étape par étape, et sa description rejoindra
+ce fichier une fois le méga menu livré.
+
 ## Pied de page
 
 Gabarit `resources/views/partials/footer.twig`, découpé en `partials/footer/` (`certifications`, `nav`,
