@@ -1,0 +1,167 @@
+// ─── Bloc « Texte repliable » (couturier/collapsible-text) ────────────────────
+//
+// Balisage :
+//
+//   front (`render.php`) :
+//     section.wp-block-couturier-collapsible-text[.is-collapsed]
+//       div.__header > h3 + button.__toggle   ← bouton `hidden` hors desktop
+//       div.__body > div.__content
+//         div.wp-block-couturier-collapsible-text-column > p, ul, ol   (1 ou 2)
+//
+//   éditeur (`blocks/collapsible-text/index.js`) : tout au même niveau,
+//     div.wp-block-couturier-collapsible-text > span.__toggle, h3, colonne, colonne
+//     (mise en page propre au canvas : `editor/_collapsible-text.scss`).
+//
+// Titre au style Titre/H2 de Figma, bien que ce soit un `<h3>` ; texte en Body.
+// Colonnes saisies par le rédacteur (`couturier/collapsible-text-column`),
+// empilées en mobile, côte à côte à partir de `lg` ; une seule colonne rendue
+// (l'autre vide) prend toute la largeur. Repli animé en desktop seulement,
+// jusqu'au titre seul (`is-collapsed`, posé par `resources/js/collapsible-text.js`).
+
+// Desktop : 1060 px centrés (choix d'Aurélien), soit 38 px de retrait de chaque
+// côté du contenu du conteneur (1136 px). En dessous du conteneur maximal, le
+// retrait se réduit au lieu d'écraser les colonnes.
+$collapsible-text-max-width: to-rem(1060);
+
+.wp-block-couturier-collapsible-text {
+    @include text-style(body);
+    margin-block: var(--layout-section-gap);
+    color: var(--color-text-default);
+
+    @include media-breakpoint-up(lg) {
+        margin-inline: auto;
+    }
+
+    h3 {
+        @include text-style(h2);
+        margin: 0;
+        color: var(--color-text-heading);
+    }
+
+    // Texte : paragraphes et listes, front comme éditeur.
+    :is(p, ul, ol) {
+        margin-block: 0;
+    }
+
+    :is(p, ul, ol) + :is(p, ul, ol) {
+        margin-top: var(--space-16);
+
+        @include media-breakpoint-up(lg) {
+            margin-top: var(--space-24);
+        }
+    }
+}
+
+// Classe doublée (0,2,0) : l'emporte dans le canvas sur `.wp-block { max-width:
+// none }` d'`editor-gutenberg.scss`, déclaré après `_content.scss`.
+.wp-block-couturier-collapsible-text.wp-block-couturier-collapsible-text {
+    @include media-breakpoint-up(lg) {
+        max-width: $collapsible-text-max-width;
+    }
+}
+
+// Colonnes : même écart que les paragraphes une fois empilées (mobile).
+.wp-block-couturier-collapsible-text-column {
+    min-width: 0;
+    margin-block: 0; // Marges par défaut des blocs du canvas.
+
+    + .wp-block-couturier-collapsible-text-column {
+        margin-top: var(--space-16);
+    }
+
+    @include media-breakpoint-up(lg) {
+        flex: 1 1 0;
+
+        + .wp-block-couturier-collapsible-text-column {
+            margin-top: 0;
+        }
+    }
+}
+
+.wp-block-couturier-collapsible-text__header {
+    display: flex;
+    gap: var(--space-24);
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+// « Réduire – » / « Lire la suite + » : signe en CSS, sans texte de
+// remplacement (non lu).
+.wp-block-couturier-collapsible-text__toggle {
+    @include text-style(small);
+    display: inline-flex;
+    flex-shrink: 0;
+    gap: var(--space-4);
+    align-items: center;
+    min-height: to-rem(24);
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-text-muted);
+    font-weight: 700;
+    white-space: nowrap;
+    cursor: pointer;
+
+    &[hidden] {
+        display: none;
+    }
+
+    &::after {
+        content: "–" / "";
+    }
+
+    &[aria-expanded="false"]::after {
+        content: "+" / "";
+    }
+
+    &:hover {
+        color: var(--color-text-heading);
+    }
+
+    &:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+        border-radius: 2px;
+    }
+}
+
+.wp-block-couturier-collapsible-text__toggle[aria-expanded="true"] .wp-block-couturier-collapsible-text__toggle-more,
+.wp-block-couturier-collapsible-text__toggle[aria-expanded="false"] .wp-block-couturier-collapsible-text__toggle-less {
+    display: none;
+}
+
+// Corps : hauteur animée (`max-height`, durée de l'accordéon de Bootstrap, coupée
+// sous `prefers-reduced-motion`). Contenu : colonnes, à leur hauteur naturelle ;
+// l'écart avec le titre est son espace intérieur, replié avec lui.
+.wp-block-couturier-collapsible-text__body {
+    @include media-breakpoint-up(lg) {
+        @include transition(max-height .35s ease);
+
+        .is-animating > & {
+            overflow: hidden;
+        }
+
+        // Replié : titre seul. Le texte, invisible, est aussi retiré du parcours
+        // clavier et des lecteurs d'écran une fois l'animation finie
+        // (`visibility`, comme le `.collapse` de Bootstrap).
+        .is-collapsed > & {
+            max-height: 0;
+            overflow: hidden;
+        }
+
+        .is-collapsed:not(.is-animating) > & {
+            visibility: hidden;
+        }
+    }
+}
+
+.wp-block-couturier-collapsible-text__content {
+    padding-top: var(--space-12);
+
+    @include media-breakpoint-up(lg) {
+        display: flex;
+        gap: var(--space-48);
+        align-items: flex-start;
+        padding-top: var(--space-24);
+    }
+}

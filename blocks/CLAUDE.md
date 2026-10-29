@@ -239,6 +239,20 @@ printf( '<hgroup %s>%s</hgroup>', get_block_wrapper_attributes(), $content );
 - Identifiants et relations ARIA (`aria-controls`…) : posés par le `render.php` du conteneur
   (`WP_HTML_Tag_Processor`), avec un préfixe `wp_unique_id()` — jamais enregistrés dans le contenu.
 
+## Plusieurs zones de texte libre (ex. colonnes du texte repliable)
+
+- Un bloc n'a qu'une zone d'imbrication : chaque zone est un **bloc enfant** (`couturier/collapsible-text-column`),
+  présent en nombre fixe dans le modèle du parent (`templateLock: 'all'`, enfants verrouillés),
+  avec son propre `templateLock: false` et ses `allowedBlocks` (paragraphes, listes).
+- Préféré aux colonnes CSS (`column-count`) : la coupure entre colonnes est décidée par le
+  rédacteur, pas par le navigateur (paragraphe coupé, liste reportée, colonne de droite plus
+  longue que la gauche). Contrepartie : l'ordre de lecture est celui des zones (gauche puis droite).
+- Zone vide : son `render.php` ne rend rien, et son `edit()` pose `is-incomplete` (masquée dans le
+  canvas hors édition par `_front-preview.scss`) — le parent n'a rien à calculer.
+- Une fonction partagée par l'enfant et le parent (`hasContent`) vit dans un module à part
+  (`collapsible-text-column/content.js`) : importer l'`index.js` d'un bloc l'enregistrerait une
+  seconde fois.
+
 ## Liste d'éléments répétables en attribut (ex. chiffres clés)
 
 Quand les éléments n'ont **pas de titre** (rien à montrer dans le panneau Structure), un seul bloc

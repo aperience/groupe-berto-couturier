@@ -1,0 +1,57 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/collapsible-text",
+	"title": "Texte repliable",
+	"category": "design",
+	"icon": "editor-justify",
+	"description": "Titre et texte sur deux colonnes (paragraphes, listes), repliable en desktop.",
+	"keywords": [ "texte", "colonnes", "réduire", "lire la suite", "seo" ],
+	"textdomain": "couturier",
+	"allowedBlocks": [ "core/heading", "couturier/collapsible-text-column" ],
+	"supports": {
+		"html": false
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"innerBlocks": [
+			{
+				"name": "core/heading",
+				"attributes": {
+					"level": 3,
+					"content": "L’auto-école du Groupe Couturier"
+				}
+			},
+			{
+				"name": "couturier/collapsible-text-column",
+				"innerBlocks": [
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Depuis 1963, l’auto-école Couturier accompagne les candidats au permis de conduire à Sainte-Gemme-Moronval, près de Dreux. Elle propose le permis B en boîte manuelle ou automatique, le permis moto, le permis remorque et le code de la route."
+						}
+					},
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Les stages s’appuient sur les services du centre : résidence, restauration et navettes. Le permis peut être financé avec le CPF ou le permis à 1 € par jour."
+						}
+					}
+				]
+			},
+			{
+				"name": "couturier/collapsible-text-column",
+				"innerBlocks": [
+					{
+						"name": "core/paragraph",
+						"attributes": {
+							"content": "Chaque candidat choisit la formule qui lui convient : accélérée pour passer son permis en quelques jours, à son rythme pour s’adapter à son emploi du temps, ou conduite accompagnée dès 15 ans."
+						}
+					}
+				]
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
