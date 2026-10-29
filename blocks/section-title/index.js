@@ -37,6 +37,7 @@ import {
 } from '../_shared/locked-content.js';
 import metadata from './block.json';
 import './formats.js';
+import transforms from './transforms.js';
 
 const TEMPLATE = [ [ 'core/heading', { level: 2, lock: LOCKED, placeholder: __( 'Titre', 'couturier' ) } ] ];
 
@@ -109,6 +110,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 
 registerBlockType( metadata.name, {
 	edit: Edit,
+	transforms,
 	save: ( { attributes } ) => (
 		<>
 			<InnerBlocks.Content />
