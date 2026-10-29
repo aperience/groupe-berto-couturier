@@ -32,7 +32,7 @@
         inset: var(--footer-offset) 0 0;
         z-index: -1;
         background-color: var(--color-surface-footer);
-        border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+        border-radius: var(--bs-border-radius-xl) var(--bs-border-radius-xl) 0 0;
     }
 
     // Sans certifications, rien ne dépasse au-dessus du fond.
@@ -61,7 +61,7 @@
         &:focus-visible {
             outline: 2px solid currentColor;
             outline-offset: 2px;
-            border-radius: var(--radius-sm);
+            border-radius: var(--bs-border-radius-sm);
         }
     }
 }
@@ -83,7 +83,7 @@
     margin-inline: var(--layout-page-padding);
     padding: var(--space-16) 0 var(--space-12);
     background-color: var(--color-surface-card);
-    border-radius: 0 0 var(--radius-xl) var(--radius-xl);
+    border-radius: 0 0 var(--bs-border-radius-xl) var(--bs-border-radius-xl);
 
     @include media-breakpoint-up(lg) {
         max-width: calc(#{map.get($container-max-widths, lg)} + 2 * var(--space-48));
@@ -134,7 +134,7 @@
             img {
                 outline: 2px solid var(--color-border-strong);
                 outline-offset: 4px;
-                border-radius: var(--radius-sm);
+                border-radius: var(--bs-border-radius-sm);
             }
         }
     }
@@ -219,16 +219,16 @@
     height: to-rem(40);
     color: var(--color-text-on-accent);
     background-color: var(--color-surface-card);
-    border-radius: var(--radius-full);
+    border-radius: var(--bs-border-radius-pill);
     transition: background-color .15s;
 
     &:hover {
         background-color: var(--color-surface-petrol-faint);
     }
 
-    // La règle commune des liens du footer arrondit le contour à `--radius-sm`.
+    // La règle commune des liens du footer arrondit le contour à `--bs-border-radius-sm`.
     &:focus-visible {
-        border-radius: var(--radius-full);
+        border-radius: var(--bs-border-radius-pill);
     }
 
     @media (prefers-reduced-motion: reduce) {

@@ -2,8 +2,12 @@
 //
 // Émet sur `:root` les tokens de `_brand.scss`, seule interface des
 // composants avec le design system : `var(--color-text-heading)`,
-// `var(--space-24)`, `var(--radius-full)`… Importé par `_content.scss`, il vaut
+// `var(--space-24)`, `var(--fs-h2)`… Importé par `_content.scss`, il vaut
 // pour le front comme pour le canvas de l'éditeur.
+//
+// Rayons et ombres n'y figurent pas : Bootstrap les émet déjà avec les valeurs
+// du design system (`--bs-border-radius-*`, `--bs-box-shadow-*`, cf.
+// `_variables.scss`).
 //
 // Les tokens responsive (`--layout-*`, `--fs-*`, `--lh-*`) portent la valeur
 // mobile, puis la valeur desktop à partir du breakpoint `md`.
@@ -20,16 +24,6 @@
     // Espacements
     @each $step in $ds-spacing {
         --space-#{$step}: #{to-rem($step)};
-    }
-
-    // Rayons
-    @each $name, $px in $ds-radius {
-        --radius-#{$name}: #{to-rem($px)};
-    }
-
-    // Ombres
-    @each $name, $shadow in $ds-shadows {
-        --shadow-#{$name}: #{$shadow};
     }
 
     // Mise en page et styles de texte : valeurs mobiles

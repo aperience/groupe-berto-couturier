@@ -856,14 +856,15 @@ dev server — un e-mail est lu bien après son envoi. Sans build, le nom du sit
 | Fichier | Rôle |
 |---------|------|
 | `_brand.scss` | Valeurs sources, sans sortie CSS — partie 1, design system : primitives (`$ds-palette`, `ds-color()`), rôles sémantiques (`$ds-semantic-colors`, `ds-semantic()`), espacements, rayons, ombres, layout et styles de texte (mobile, desktop), `to-rem()` ; partie 2, couleurs `$brand_*` de l'admin et de la connexion, tirées de la partie 1 |
-| `_tokens.scss` | Émet les custom properties sur `:root` (front et éditeur, via `_content.scss`) |
+| `_tokens.scss` | Émet les custom properties sur `:root` (front et éditeur, via `_content.scss`) — sauf rayons et ombres, déjà émis par Bootstrap (`--bs-border-radius-*`, `--bs-box-shadow-*`) |
 | `_variables.scss` | Overrides Bootstrap tirés du design system (couleurs, polices, tailles, rayons, ombres, conteneur) |
 | `_typography.scss` | Interlignes par style, classes `.text-body-medium` et `.text-eyebrow` |
 | `_mixins.scss` | `text-style($nom)` : applique un style de texte complet |
 
 **Règles d'usage :**
 - Les composants n'emploient **que les tokens** : `var(--color-{rôle})`, `var(--space-{px})`,
-  `var(--radius-{sm|md|lg|xl|full})`, `var(--shadow-{card|floating|nav})`, `var(--layout-…)`,
+  `var(--layout-…)`, rayons `var(--bs-border-radius[-sm|-lg|-xl|-pill])` et ombres
+  `var(--bs-box-shadow[-sm|-lg])` (émis par Bootstrap depuis `$ds-radius` / `$ds-shadows`),
   `@include text-style(…)`. Jamais une primitive (`ds-color()`), jamais un hexadécimal en dur.
   `ds-color()` / `ds-semantic()` ne servent qu'à `_tokens.scss` et aux overrides Bootstrap.
 - Tokens responsive (`--fs-*`, `--lh-*`, `--layout-*`) : valeur mobile, desktop à partir de `md`

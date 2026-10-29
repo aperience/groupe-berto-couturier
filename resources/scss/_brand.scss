@@ -139,6 +139,8 @@ $ds-semantic-colors: (
 $ds-spacing: 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 24, 28, 32, 40, 48, 64, 96;
 
 // ─── Rayons (px) ──────────────────────────────────────────────────────────────
+// Rayons et ombres alimentent les overrides Bootstrap (`_variables.scss`) : les
+// composants les lisent dans les `--bs-border-radius-*` / `--bs-box-shadow-*`.
 $ds-radius: (
     sm:   12,
     md:   20,

@@ -71,13 +71,22 @@ $display-font-sizes: (
 $display-line-height: var(--lh-display);
 
 // Rayons
+// Seule source des rayons pour les composants, via les custom properties que
+// Bootstrap en tire : `var(--bs-border-radius-sm)` (sm), `var(--bs-border-radius)`
+// (md), `-lg`, `-xl`, `var(--bs-border-radius-pill)` (full).
 $border-radius-sm:   to-rem(map.get($ds-radius, sm));
 $border-radius:      to-rem(map.get($ds-radius, md));
 $border-radius-lg:   to-rem(map.get($ds-radius, lg));
 $border-radius-xl:   to-rem(map.get($ds-radius, xl));
+// Pas de xxl dans le design system : aligné sur xl, au lieu des 2rem de
+// Bootstrap (plus petits que xl).
+$border-radius-xxl:  $border-radius-xl;
 $border-radius-pill: to-rem(map.get($ds-radius, full));
 
 // Ombres (cf. `_brand.scss`)
+// Même principe : `var(--bs-box-shadow-sm)` = card (filet des cartes),
+// `var(--bs-box-shadow)` = nav (barre de navigation),
+// `var(--bs-box-shadow-lg)` = floating (badges flottants).
 $box-shadow-sm: map.get($ds-shadows, card);
 $box-shadow:    map.get($ds-shadows, nav);
 $box-shadow-lg: map.get($ds-shadows, floating);
