@@ -8,13 +8,15 @@
 //       li.__item > p.__value + p.__label
 //
 // Mobile : deux chiffres par ligne ; un chiffre seul sur la dernière ligne est
-// centré, à la largeur d'une colonne, texte à gauche. Desktop (`lg`) : tous sur
+// centré (boîte à la largeur de son contenu, texte à gauche). Desktop (`lg`) : tous sur
 // une ligne, en colonnes égales sur toute la largeur. Pas avant `lg` : à `md`,
 // quatre « 4,8 / 5 » en Display ne tiendraient pas.
 //
 // Espacements mesurés sur la maquette (hors échelle pour certains).
 
 $key-figures-column-gap: var(--space-32);
+// Largeur de la carte en desktop (Figma), centrée dans le conteneur de 1136 px.
+$key-figures-max-width: to-rem(1007);
 
 .wp-block-couturier-key-figures {
     margin-block: var(--layout-section-gap);
@@ -24,7 +26,16 @@ $key-figures-column-gap: var(--space-32);
     color: var(--color-text-on-brand);
 
     @include media-breakpoint-up(lg) {
+        margin-inline: auto;
         padding: var(--space-40) var(--space-48);
+    }
+}
+
+// Classe doublée (0,2,0) : l'emporte dans le canvas sur `.wp-block { max-width:
+// none }` d'`editor-gutenberg.scss`, déclaré après `_content.scss`.
+.wp-block-couturier-key-figures.wp-block-couturier-key-figures {
+    @include media-breakpoint-up(lg) {
+        max-width: $key-figures-max-width;
     }
 }
 
@@ -36,6 +47,10 @@ $key-figures-column-gap: var(--space-32);
     padding: 0;
     list-style: none;
 
+    // Colonnes égales, comme la maquette : le vide d'un chiffre court reste à sa
+    // droite (choix d'Aurélien, 2026-10-29). Une répartition `space-between`
+    // égalisait les marges extérieures, mais pas les écarts entre chiffres : la
+    // boîte d'un libellé coupé garde la largeur maximale, pas celle de ses lignes.
     @include media-breakpoint-up(lg) {
         grid-template-columns: none;
         grid-auto-columns: minmax(0, 1fr);
@@ -43,16 +58,14 @@ $key-figures-column-gap: var(--space-32);
     }
 }
 
-// Dernier chiffre seul sur sa ligne (nombre impair) : centré, largeur d'une colonne.
-.wp-block-couturier-key-figures__item:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-    justify-self: center;
-    width: calc((100% - #{$key-figures-column-gap}) / 2);
-
-    @include media-breakpoint-up(lg) {
-        grid-column: auto;
-        justify-self: stretch;
-        width: auto;
+// Mobile : dernier chiffre seul sur sa ligne (nombre impair), centré visuellement.
+// Sa boîte prend la largeur de son contenu (`justify-self: center`), plafonnée à
+// celle d'une colonne ; le texte reste aligné à gauche dans la boîte.
+@include media-breakpoint-down(lg) {
+    .wp-block-couturier-key-figures__item:last-child:nth-child(odd) {
+        grid-column: 1 / -1;
+        justify-self: center;
+        max-width: calc((100% - #{$key-figures-column-gap}) / 2);
     }
 }
 
@@ -69,6 +82,6 @@ $key-figures-column-gap: var(--space-32);
 }
 
 .wp-block-couturier-key-figures__label {
-    @include text-style(body-lg);
+    @include text-style(body);
     margin-top: var(--space-4);
 }
