@@ -646,7 +646,9 @@ titre fait l'écart, sans fusionner avec le `--layout-section-gap` des blocs.
   Un bloc custom qui imbrique un `core/heading` verrouillé (`templateLock: 'all'`) perd le sélecteur de
   variations de la barre d'outils : il pose son propre `HeadingLevelDropdown` (cf. `blocks/CLAUDE.md`)
 - Blocs conteneur / enfant : le parent déclare `allowedBlocks`, l'enfant déclare `parent`
-- Fournir un `example` dans `block.json` pour la prévisualisation de l'inserter
+- Fournir un `example` dans `block.json` pour la prévisualisation de l'inserter, en **largeur
+  desktop** : `"viewportWidth": 1200` (≥ `lg`), sinon l'aperçu montre la mise en page mobile
+  (CTA, FAQ, chiffres clés). Exception : le titre de section (420), illisible réduit en desktop
 - Les blocs core autorisés sont whitelistés par la feature `Admin\DisableBlocks` (core minimal + `couturier/*`)
 - **Boutons : blocs du core habillés**, pas de bloc custom (feature `Blocks\ButtonStyles`, styles
   dans `resources/scss/block/_button.scss`). Les cinq styles de bloc (`primary` par défaut,

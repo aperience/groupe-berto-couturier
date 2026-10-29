@@ -38,7 +38,7 @@
 		"html": false
 	},
 	"example": {
-		"viewportWidth": 420,
+		"viewportWidth": 1200,
 		"attributes": {
 			"items": [
 				{ "value": "1963", "label": "Depuis cette année, l’auto-école accompagne les candidats" },
