@@ -20,8 +20,8 @@
 		"html": false
 	},
 	"example": {
-		"viewportWidth": 1200,
-		"attributes": { "subtitle": "Plusieurs façons de financer ton permis de conduire !" },
+		"viewportWidth": 420,
+		"attributes": { "subtitle": "Plusieurs façons de le financer" },
 		"innerBlocks": [
 			{ "name": "core/heading", "attributes": { "level": 2, "content": "Financer son <span class=\"wp-block-couturier-cta__highlight\">permis</span>" } }
 		]
