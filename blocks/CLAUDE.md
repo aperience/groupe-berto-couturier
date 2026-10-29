@@ -239,6 +239,38 @@ printf( '<hgroup %s>%s</hgroup>', get_block_wrapper_attributes(), $content );
 - Identifiants et relations ARIA (`aria-controls`…) : posés par le `render.php` du conteneur
   (`WP_HTML_Tag_Processor`), avec un préfixe `wp_unique_id()` — jamais enregistrés dans le contenu.
 
+## Liste d'éléments répétables en attribut (ex. chiffres clés)
+
+Quand les éléments n'ont **pas de titre** (rien à montrer dans le panneau Structure), un seul bloc
+suffit : la liste est un attribut tableau, relu depuis le HTML enregistré — textes comptés par le
+compteur de mots, aucun bloc enfant. Exemple complet : `blocks/key-figures/`.
+
+```json
+"items": {
+	"type": "array", "source": "query", "selector": "li.wp-block-couturier-{nom}__item",
+	"query": {
+		"value": { "type": "string", "source": "html", "selector": ".wp-block-couturier-{nom}__value" },
+		"label": { "type": "string", "source": "html", "selector": ".wp-block-couturier-{nom}__label" }
+	},
+	"default": [ … ]
+}
+```
+
+- **`default`** : les éléments vides du bloc inséré. Il ne revient pas sur un bloc enregistré : la
+  liste est toujours relue depuis le HTML.
+- **Tout élément est enregistré, même incomplet** — sinon un champ vide le ferait disparaître au
+  rechargement, avec ce qu'il contenait déjà. `save()` pose `is-incomplete` sur l'élément ; le
+  `render.php` le retire du front (expression régulière sur le balisage de `save()`), et
+  `_front-preview.scss` le masque dans le canvas hors édition.
+- **`render.php` ne voit pas l'attribut** : WordPress ne lit pas les attributs `source` côté
+  serveur. Il travaille sur `$content`.
+- **Ajout, déplacement, suppression** : boutons du canvas, affichés bloc sélectionné seulement
+  (règle « bloc désélectionné = front »), bornés par un minimum et un maximum (`disabled` +
+  `accessibleWhenDisabled`, bouton d'ajout absent au maximum). Les clés React sont les index :
+  sans incidence ici, chaque champ ne tient que sa valeur.
+- Le HTML relu peut différer de la valeur saisie (`&nbsp;` au lieu du caractère) sans invalider
+  le bloc : la comparaison porte sur le balisage.
+
 ## Formats du texte des blocs imbriqués
 
 Le core ne permet pas de restreindre les formats (gras, lien…) d'un bloc qu'il fournit. Comme
