@@ -1,0 +1,110 @@
+// ─── Bloc « Titre de section » (couturier/section-title) ──────────────────────
+//
+// Balisage (front : `render.php` ; éditeur : `blocks/section-title/index.js`) :
+//
+//   hgroup.wp-block-couturier-section-title
+//     h2 | h3                                   ← titre (core/heading imbriqué)
+//     p.__subtitle                              ← sous-titre facultatif
+//
+// Titre centré ; sous-titre à gauche en mobile, centré à partir de `md`.
+//
+// Le même style vaut pour un **titre libre** : `core/heading` H2 posé au premier
+// niveau du contenu (`.container` de `page.twig` au front, `.is-root-container`
+// dans l'éditeur). Les titres imbriqués du CTA et de la FAQ, qui ne sont pas
+// enfants directs du conteneur, gardent les leurs.
+//
+// Dans l'éditeur, les blocs imbriqués reçoivent les marges par défaut du canvas
+// (`html :where(.wp-block)`, spécificité nulle) : les marges sont donc toutes
+// posées ici, pour un rendu identique des deux côtés.
+
+$section-title-root: ":where(.container, .is-root-container) > h2.wp-block-heading";
+
+@mixin section-title-h2 {
+    @include text-style(faq-title);
+    color: var(--color-text-heading);
+    text-align: center;
+}
+
+// Marges : un titre ouvre une section, et introduit le bloc qui le suit.
+@mixin section-title-spacing {
+    margin-block: var(--layout-section-gap) var(--space-32);
+
+    @include media-breakpoint-up(md) {
+        margin-bottom: var(--space-48);
+    }
+}
+
+.wp-block-couturier-section-title {
+    @include section-title-spacing;
+
+    > * {
+        margin-block: 0;
+    }
+
+    > h2 {
+        @include section-title-h2;
+    }
+
+    > h3 {
+        @include text-style(h3);
+        color: var(--color-text-heading);
+        text-align: center;
+    }
+
+    // Avertissement de l'éditeur (titre vide).
+    > .wp-block-couturier-section-title__notice {
+        margin-bottom: var(--space-16);
+    }
+}
+
+.wp-block-couturier-section-title__subtitle {
+    @include text-style(body-lg);
+    margin-top: var(--space-16);
+    color: var(--color-text-default);
+    text-align: left;
+
+    @include media-breakpoint-up(md) {
+        text-align: center;
+    }
+
+    // Liens : couleur du texte et soulignés, la couleur seule ne les distinguerait
+    // pas (WCAG 1.4.1).
+    a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: .15em;
+
+        &:hover {
+            text-decoration-thickness: 2px;
+        }
+
+        &:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
+            border-radius: 2px;
+        }
+    }
+}
+
+// Titre libre : même style que le H2 du bloc.
+#{$section-title-root} {
+    @include section-title-h2;
+    @include section-title-spacing;
+}
+
+// Le bloc qui suit un titre s'en rapproche : sa marge haute (`--layout-section-gap`
+// du CTA, de la FAQ…) l'emporterait sinon sur la marge basse du titre, les deux
+// fusionnant. Classe doublée (0,2,0) pour passer devant la marge des blocs (0,1,0).
+.wp-block-couturier-section-title.wp-block-couturier-section-title,
+#{$section-title-root}.wp-block-heading {
+    + * {
+        margin-top: 0;
+    }
+}
+
+// Mots mis en avant (format `couturier/highlight`) : orange foncé sur fond clair,
+// 4,99:1 — l'orange de la charte n'y tiendrait que 2,8:1.
+.wp-block-couturier-section-title .wp-block-couturier-cta__highlight,
+#{$section-title-root} .wp-block-couturier-cta__highlight {
+    color: var(--color-text-accent);
+}
