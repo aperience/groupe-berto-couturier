@@ -1,0 +1,31 @@
+// ─── Bloc « Chiffres clés » : contrôles d'édition (éditeur seulement) ─────────
+//
+// Boutons de chaque chiffre (déplacer, supprimer), bouton « Ajouter un chiffre
+// clé » et avertissement : affichés bloc sélectionné seulement, posés sur la carte
+// pétrole foncé. Les couleurs par défaut des boutons de WordPress (texte sombre)
+// y seraient illisibles.
+
+.wp-block-couturier-key-figures__notice {
+    margin: 0 0 var(--space-24);
+    color: var(--color-text-default);
+}
+
+.wp-block-couturier-key-figures__controls {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: var(--space-8);
+
+    // « Supprimer » garde le rouge du core (règle plus spécifique), lisible ici.
+    .components-button {
+        color: inherit;
+    }
+
+    .components-button:disabled {
+        opacity: .4;
+    }
+}
+
+.wp-block-couturier-key-figures__add.components-button.is-secondary {
+    margin-top: var(--space-24);
+    background-color: var(--color-surface-card);
+}
