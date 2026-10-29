@@ -222,10 +222,25 @@ printf( '<hgroup %s>%s</hgroup>', get_block_wrapper_attributes(), $content );
 - Un groupe vidé de ses enfants est retiré par un `useEffect`, marqué non persistant pour rester
   dans la même étape d'annulation.
 
+## Liste d'éléments répétables (ex. questions de la FAQ)
+
+- Sous un parent en `templateLock: 'all'`, des éléments à ajouter / retirer / réordonner vivent dans
+  un **bloc conteneur** imbriqué et verrouillé (`couturier/faq-list`), dont le propre
+  `templateLock: false` l'emporte pour ses enfants. Enfant : `"parent": [ conteneur ]`.
+- Bouton d'ajout du conteneur (`renderAppender`, affiché pendant l'édition seulement) : créer
+  l'élément **avec ses blocs imbriqués** et placer le curseur dans le premier
+  (`createBlocksFromInnerBlocksTemplate`, `insertBlock( …, false )`, `selectBlock( id, 0 )`) —
+  sinon ils n'arrivent qu'ensuite, par le modèle, et le curseur va dans le seul champ présent.
+- Un titre imbriqué rendu dans un `<button>` (accordéon) : `render.php` garde la balise ouvrante
+  du titre enregistré et enveloppe son contenu. Aucun format dans ce titre (un lien dans un
+  `<button>` est invalide).
+- Identifiants et relations ARIA (`aria-controls`…) : posés par le `render.php` du conteneur
+  (`WP_HTML_Tag_Processor`), avec un préfixe `wp_unique_id()` — jamais enregistrés dans le contenu.
+
 ## Formats du texte des blocs imbriqués
 
 Le core ne permet pas de restreindre les formats (gras, lien…) d'un bloc qu'il fournit. Comme
-`resources/js/editor/button.js`, `blocks/cta/formats.js` réenregistre chaque format à retirer avec
+`resources/js/editor/button.js`, `restrictFormats()` (`blocks/_shared/formats.js`) réenregistre chaque format à retirer avec
 une interface (bouton, raccourci) qui ne s'affiche pas quand le bloc imbriqué concerné est
 sélectionné. Les formats sont enregistrés par plusieurs scripts, parfois à l'initialisation de
 l'éditeur (`core/footnote`) : les envelopper dès qu'ils apparaissent dans le store (`subscribe`). Un

@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-28T20:14:09+00:00\n"
+"POT-Creation-Date: 2026-10-29T08:37:46+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -227,7 +227,8 @@ msgid "Afficher l'offre en page d'accueil pendant ses dates"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:257
-#: blocks/cta/index.js:74
+#: blocks/cta/index.js:67
+#: blocks/faq/index.js:55
 msgid "Titre"
 msgstr ""
 
@@ -237,7 +238,7 @@ msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:272
 #: src/Features/Footer/FooterSettings.php:410
-#: blocks/cta/index.js:75
+#: blocks/cta/index.js:68
 msgid "Texte"
 msgstr ""
 
@@ -508,40 +509,86 @@ msgstr ""
 msgid "Liens légaux du pied de page"
 msgstr ""
 
-#: blocks/cta/formats.js:44
-msgid "Mise en avant"
-msgstr ""
-
-#: blocks/cta/formats.js:59
-msgid "Mise en avant (orange)"
-msgstr ""
-
-#: blocks/cta/index.js:141
-msgid "Boutons"
-msgstr ""
-
-#: blocks/cta/index.js:146
-msgid "Nombre de boutons"
-msgstr ""
-
-#: blocks/cta/index.js:147
+#: blocks/cta/index.js:131
 msgid "Le premier bouton est orange avec une flèche, le second transparent."
 msgstr ""
 
-#: blocks/cta/index.js:151
-msgid "Aucun"
-msgstr ""
-
-#: blocks/cta/index.js:262
+#: blocks/cta/index.js:137
 msgid "Le titre et le texte sont obligatoires : sans eux, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
-#: blocks/cta/index.js:276
+#: blocks/cta/index.js:151
 msgid "Ajouter des boutons"
 msgstr ""
 
-#: blocks/cta/index.js:288
+#: blocks/cta/index.js:163
 msgid "Image (facultative)"
+msgstr ""
+
+#: blocks/faq-item/index.js:90
+#: blocks/faq-item/index.js:91
+msgid "Réponse"
+msgstr ""
+
+#: blocks/faq-item/index.js:100
+msgid "Question et réponse obligatoires : sans elles, cette question n'est pas affichée sur le site."
+msgstr ""
+
+#: blocks/faq-item/question.js:13
+msgid "Question"
+msgstr ""
+
+#: blocks/faq-list/index.js:62
+msgid "Ajouter une question"
+msgstr ""
+
+#: blocks/faq/index.js:48
+msgid "Ceci est la réponse"
+msgstr ""
+
+#: blocks/faq/index.js:49
+msgid "Ceci est une première question ?"
+msgstr ""
+
+#: blocks/faq/index.js:55
+msgid "Questions fréquentes"
+msgstr ""
+
+#: blocks/faq/index.js:56
+msgid "Texte (facultatif)"
+msgstr ""
+
+#: blocks/faq/index.js:104
+msgid "Bouton pétrole foncé avec une flèche."
+msgstr ""
+
+#: blocks/faq/index.js:109
+msgid "Le titre et au moins une question avec sa réponse sont obligatoires : sans eux, ce bloc n'est pas affiché sur le site."
+msgstr ""
+
+#: blocks/faq/index.js:122
+msgid "Ajouter un bouton"
+msgstr ""
+
+#: blocks/_shared/buttons.js:100
+msgid "Bouton"
+msgstr ""
+
+#: blocks/_shared/buttons.js:100
+msgid "Boutons"
+msgstr ""
+
+#: blocks/_shared/buttons.js:105
+msgid "Nombre de boutons"
+msgstr ""
+
+#: blocks/_shared/buttons.js:110
+msgid "Aucun"
+msgstr ""
+
+#: blocks/_shared/formats.js:75
+#: blocks/_shared/formats.js:90
+msgid "Mise en avant"
 msgstr ""
 
 #: blocks/_shared/image-field.js:52
@@ -605,6 +652,56 @@ msgstr ""
 #: blocks/cta/block.json
 msgctxt "block keyword"
 msgid "rappel"
+msgstr ""
+
+#: blocks/faq-item/block.json
+msgctxt "block title"
+msgid "Question"
+msgstr ""
+
+#: blocks/faq-item/block.json
+msgctxt "block description"
+msgid "Une question (titre H3) et sa réponse, dans le bloc « Questions fréquentes »."
+msgstr ""
+
+#: blocks/faq-list/block.json
+msgctxt "block title"
+msgid "Liste des questions"
+msgstr ""
+
+#: blocks/faq-list/block.json
+msgctxt "block description"
+msgid "Questions / réponses du bloc « Questions fréquentes », en accordéon."
+msgstr ""
+
+#: blocks/faq/block.json
+msgctxt "block title"
+msgid "Questions fréquentes"
+msgstr ""
+
+#: blocks/faq/block.json
+msgctxt "block description"
+msgid "Titre avec mots mis en avant, texte et bouton facultatifs, et une liste de questions / réponses en accordéon."
+msgstr ""
+
+#: blocks/faq/block.json
+msgctxt "block keyword"
+msgid "faq"
+msgstr ""
+
+#: blocks/faq/block.json
+msgctxt "block keyword"
+msgid "questions"
+msgstr ""
+
+#: blocks/faq/block.json
+msgctxt "block keyword"
+msgid "réponses"
+msgstr ""
+
+#: blocks/faq/block.json
+msgctxt "block keyword"
+msgid "accordéon"
 msgstr ""
 
 #: resources/views/404.twig:7

@@ -563,6 +563,11 @@ Ne pas dupliquer ce que Bootstrap fournit déjà (grille, utilitaires, breakpoin
 (un fichier = une responsabilité, ex. `burger.js`, `scrollHeader.js`, `transitions.js`).
 Chaque module s'auto-protège si son élément DOM n'existe pas sur la page.
 
+Plugins JS de Bootstrap : importés un par un depuis `bootstrap/js/dist/` (jamais le bundle
+complet), pour leur seule data-api, déléguée au document — aucun code d'initialisation. En place :
+`collapse` (accordéon du bloc FAQ), avec le module SCSS `transitions` (`.collapse` /
+`.collapsing`, transition coupée sous `prefers-reduced-motion`) dans `_bootstrap-layout.scss`.
+
 ---
 
 ## Blocs Gutenberg (`blocks/`)
@@ -583,13 +588,19 @@ Fichiers par bloc :
 **Code partagé entre blocs** : `blocks/_shared/` (sans `block.json`, wp-scripts ne le compile pas
 seul ; il est inclus dans le script de chaque bloc qui l'importe) — `image-field.js` (image d'un
 bloc : emplacement, boutons « Remplacer » / « Supprimer », panneau d'informations, cf.
-`blocks/CLAUDE.md`), `icons.js` (icônes SVG de l'interface : `@wordpress/icons` n'est pas installé).
+`blocks/CLAUDE.md`), `icons.js` (icônes SVG de l'interface : `@wordpress/icons` n'est pas installé),
+`formats.js` (formats retirés d'un bloc imbriqué, format « Mise en avant »), `locked-content.js`
+(verrou et niveau des blocs imbriqués rétablis, espace insécable avant « ? ! : ; », cadenas masqué),
+`buttons.js` (nombre de boutons facultatifs : hook et panneau). Styles propres au canvas :
+`resources/scss/editor/` — dont `_front-preview.scss`, qui masque les champs vides d'un bloc
+`couturier/*` non sélectionné (cf. `blocks/CLAUDE.md`).
 
 **Blocs du thème :**
 
 | Bloc | Rôle |
 |------|------|
 | `couturier/cta` « Appel à l'action » | Carte pétrole foncé : titre H2 (mots mis en avant en orange, format `couturier/highlight`), texte (`core/paragraph` : gras, italique, lien, barré, exposant, indice), 0 à 2 boutons (orange avec flèche, transparent), image facultative jamais recadrée. Rien n'est rendu si le titre ou le texte est vide. Styles : `block/_cta.scss` ; titre en Red Hat Display Black (900), styles de texte `cta-title` / `cta-text` (`_brand.scss`) |
+| `couturier/faq` « Questions fréquentes » | Titre H2 (mise en avant en orange foncé, `text-accent`), texte facultatif, 0 ou 1 bouton (pétrole foncé avec flèche), à gauche ; à droite la liste `couturier/faq-list` (son propre `templateLock: false` : questions ajoutées, retirées, déplacées) de questions `couturier/faq-item` — titre H3 imbriqué verrouillé (panneau Structure) et réponse en attribut. Accordéon Bootstrap Collapse câblé au rendu par `faq-list/render.php` : 1re question ouverte, une seule à la fois. Contenu par défaut à l'insertion (titre, une question et sa réponse). Rien n'est rendu sans titre ni question complète. Styles : `block/_faq.scss` ; icônes `images/icons/plus.svg` / `minus.svg` ; styles de texte `faq-title` / `faq-answer` (`_brand.scss`) |
 
 **Ajouter un bloc :**
 1. Créer `blocks/{nom}/` avec `block.json`, `index.js`, `render.php`
