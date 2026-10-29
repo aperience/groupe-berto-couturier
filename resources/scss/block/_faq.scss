@@ -186,6 +186,12 @@ $faq-padding-y: var(--space-20);
         height: $faq-pastille-size;
         border-radius: 50%;
         background-color: var(--color-surface-peach-soft);
+        // Survol de la question : même durée que les boutons du thème.
+        transition: background-color .15s ease;
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
     }
 
     // Orange foncé sur la pastille : 3,93:1 (WCAG 1.4.11).
