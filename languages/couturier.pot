@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-29T08:37:46+00:00\n"
+"POT-Creation-Date: 2026-10-29T09:44:14+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -229,6 +229,7 @@ msgstr ""
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:257
 #: blocks/cta/index.js:67
 #: blocks/faq/index.js:55
+#: blocks/section-title/index.js:42
 msgid "Titre"
 msgstr ""
 
@@ -570,6 +571,18 @@ msgstr ""
 msgid "Ajouter un bouton"
 msgstr ""
 
+#: blocks/section-title/index.js:92
+msgid "Le titre est obligatoire : sans lui, ce bloc n'est pas affiché sur le site."
+msgstr ""
+
+#: blocks/section-title/index.js:99
+msgid "Sous-titre"
+msgstr ""
+
+#: blocks/section-title/index.js:100
+msgid "Sous-titre (facultatif)"
+msgstr ""
+
 #: blocks/_shared/buttons.js:100
 msgid "Bouton"
 msgstr ""
@@ -586,8 +599,8 @@ msgstr ""
 msgid "Aucun"
 msgstr ""
 
-#: blocks/_shared/formats.js:75
-#: blocks/_shared/formats.js:90
+#: blocks/_shared/formats.js:79
+#: blocks/_shared/formats.js:94
 msgid "Mise en avant"
 msgstr ""
 
@@ -702,6 +715,36 @@ msgstr ""
 #: blocks/faq/block.json
 msgctxt "block keyword"
 msgid "accordéon"
+msgstr ""
+
+#: blocks/section-title/block.json
+msgctxt "block title"
+msgid "Titre de section"
+msgstr ""
+
+#: blocks/section-title/block.json
+msgctxt "block description"
+msgid "Titre centré (H2 ou H3) avec mots mis en avant, et sous-titre facultatif."
+msgstr ""
+
+#: blocks/section-title/block.json
+msgctxt "block keyword"
+msgid "titre"
+msgstr ""
+
+#: blocks/section-title/block.json
+msgctxt "block keyword"
+msgid "sous-titre"
+msgstr ""
+
+#: blocks/section-title/block.json
+msgctxt "block keyword"
+msgid "section"
+msgstr ""
+
+#: blocks/section-title/block.json
+msgctxt "block keyword"
+msgid "intertitre"
 msgstr ""
 
 #: resources/views/404.twig:7

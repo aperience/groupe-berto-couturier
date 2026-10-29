@@ -75,9 +75,9 @@ Le **nom technique** d'un bloc est **en anglais**, en kebab-case, et se retrouve
 
 Exemple tiré d'un bloc d'essai « Titre avec sur-titre » (`couturier/titre`, supprimé depuis) : un
 sur-titre en attribut, un titre en `core/heading` imbriqué. Il a été validé dans l'éditeur sur les deux
-exigences. Son nom français est antérieur à la règle de nommage ci-dessus : un tel bloc s'appellerait
-aujourd'hui `couturier/section-title`. Remplacer `titre` / `surtitre` par le nom du bloc et de ses
-attributs.
+exigences. Son nom français est antérieur à la règle de nommage ci-dessus. Le bloc
+`couturier/section-title` en est la version en place, avec un sous-titre écrit **après** le titre.
+Remplacer `titre` / `surtitre` par le nom du bloc et de ses attributs.
 
 ```
 blocks/{nom}/
@@ -202,6 +202,8 @@ printf( '<hgroup %s>%s</hgroup>', get_block_wrapper_attributes(), $content );
   		</>;
   	}, 'withHeadingLevel' ) );
   ```
+  Verrou rétabli sans niveau fixe : `useLockedContent( blocks, { names: [ 'core/heading' ] } )`,
+  **sans `level`** — fourni, il écraserait le choix. Exemple complet : `blocks/section-title/index.js`.
 - **L'attribut `levelOptions` d'une instance est ignoré** : ne pas le mettre dans un template.
 - **Niveaux limités à H2 / H3 sur tout le site** par la feature `Theme\Features\Blocks\RestrictHeadingLevels`
   (variations restreintes + garde-fou JS qui corrige Markdown, collage, éditeur de code). Un bloc n'a
@@ -245,7 +247,31 @@ une interface (bouton, raccourci) qui ne s'affiche pas quand le bloc imbriqué c
 sélectionné. Les formats sont enregistrés par plusieurs scripts, parfois à l'initialisation de
 l'éditeur (`core/footnote`) : les envelopper dès qu'ils apparaissent dans le store (`subscribe`). Un
 format propre au bloc (mise en avant orange du titre du CTA) est enregistré pour tout le site — un
-contenu collé ailleurs reste valide — mais son bouton n'est proposé que dans le bloc.
+contenu collé ailleurs reste valide — mais son bouton n'est proposé que dans le titre des blocs
+listés dans `HIGHLIGHT_HOSTS`, et dans un titre libre (`core/heading` sans parent). Sa couleur se
+pose dans le partial de chaque bloc qui le propose.
+
+## Transformations (ex. titre de section)
+
+Déclarées dans `blocks/{nom}/transforms.js`, passé à `registerBlockType` (`transforms`) : tout se
+déclare côté bloc custom, `from` comme `to`.
+
+- **Blocs imbriqués** : la transformation crée le bloc avec ses enfants
+  (`createBlock( nom, attributs, [ createBlock( 'core/heading', … ) ] )`). Poser le verrou
+  (`LOCKED`) sur le titre imbriqué créé, et **le retirer** du titre libre rendu par `to` — sinon
+  il ne pourrait être ni supprimé ni déplacé. Ne reprendre que les attributs utiles (niveau,
+  texte, ancre) : pas de `placeholder` ni de `lock` du modèle.
+- **Rien de perdu au retour** : un attribut texte sans équivalent dans le bloc cible devient un
+  bloc à part (`to` peut renvoyer un tableau : titre + paragraphe du sous-titre).
+- **Sélection de blocs de types différents** (titre + paragraphe) : WordPress ne la propose qu'à
+  une transformation `blocks: [ '*' ]`, `isMultiBlock: true` ; son `isMatch( attributs, blocs )`
+  reçoit alors les blocs (avec leur `name`) et doit n'accepter que la combinaison voulue, dans
+  l'ordre. `transform` ne reçoit que les attributs, dans l'ordre de la sélection.
+- **`content` d'un `core/paragraph` / `core/heading` est un objet `RichTextData`** : le ramener à
+  son HTML (`String( … )`) avant d'en faire un attribut `string` ; un `core/heading` créé l'accepte
+  tel quel.
+- Vérifier dans l'éditeur, par le menu « Transformer en » : aller-retour sans perte, une seule
+  étape d'annulation, verrous attendus (`canRemoveBlock`), blocs valides après rechargement.
 
 ## Le canvas montre le rendu du front
 

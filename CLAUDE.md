@@ -589,8 +589,9 @@ Fichiers par bloc :
 seul ; il est inclus dans le script de chaque bloc qui l'importe) — `image-field.js` (image d'un
 bloc : emplacement, boutons « Remplacer » / « Supprimer », panneau d'informations, cf.
 `blocks/CLAUDE.md`), `icons.js` (icônes SVG de l'interface : `@wordpress/icons` n'est pas installé),
-`formats.js` (formats retirés d'un bloc imbriqué, format « Mise en avant »), `locked-content.js`
-(verrou et niveau des blocs imbriqués rétablis, espace insécable avant « ? ! : ; », cadenas masqué),
+`formats.js` (formats retirés d'un bloc imbriqué, format « Mise en avant » — titres du CTA, de la
+FAQ, du titre de section et titres libres), `locked-content.js`
+(verrou et niveau fixe éventuel des blocs imbriqués rétablis, espace insécable avant « ? ! : ; », cadenas masqué),
 `buttons.js` (nombre de boutons facultatifs : hook et panneau). Styles propres au canvas :
 `resources/scss/editor/` — dont `_front-preview.scss`, qui masque les champs vides d'un bloc
 `couturier/*` non sélectionné (cf. `blocks/CLAUDE.md`).
@@ -601,6 +602,13 @@ bloc : emplacement, boutons « Remplacer » / « Supprimer », panneau d'informa
 |------|------|
 | `couturier/cta` « Appel à l'action » | Carte pétrole foncé : titre H2 (mots mis en avant en orange, format `couturier/highlight`), texte (`core/paragraph` : gras, italique, lien, barré, exposant, indice), 0 à 2 boutons (orange avec flèche, transparent), image facultative jamais recadrée. Rien n'est rendu si le titre ou le texte est vide. Styles : `block/_cta.scss` ; titre en Red Hat Display Black (900), styles de texte `cta-title` / `cta-text` (`_brand.scss`) |
 | `couturier/faq` « Questions fréquentes » | Titre H2 (mise en avant en orange foncé, `text-accent`), texte facultatif, 0 ou 1 bouton (pétrole foncé avec flèche), à gauche ; à droite la liste `couturier/faq-list` (son propre `templateLock: false` : questions ajoutées, retirées, déplacées) de questions `couturier/faq-item` — titre H3 imbriqué verrouillé (panneau Structure) et réponse en attribut. Accordéon Bootstrap Collapse câblé au rendu par `faq-list/render.php` : 1re question ouverte, une seule à la fois. Contenu par défaut à l'insertion (titre, une question et sa réponse). Rien n'est rendu sans titre ni question complète. Styles : `block/_faq.scss` ; icônes `images/icons/plus.svg` / `minus.svg` ; styles de texte `faq-title` / `faq-answer` (`_brand.scss`) |
+| `couturier/section-title` « Titre de section » | `<hgroup>` : titre `core/heading` imbriqué verrouillé, H2 ou H3 au choix (`HeadingLevelDropdown`), mots mis en avant en orange foncé (`text-accent`) ; sous-titre facultatif en attribut (`source: html`, gras, italique, lien). Titre centré ; sous-titre à gauche en mobile, centré à partir de `md`. Rien n'est rendu sans titre. Transformations (`transforms.js`) : titre libre → titre de section, titre + paragraphe sélectionnés ensemble → titre + sous-titre, et retour (titre libre déverrouillé, sous-titre en paragraphe). Styles : `block/_section-title.scss` (H2 au style `faq-title`, H3 au style `h3`, sous-titre `body-lg`) |
+
+**Titres libres** (`core/heading` H2 au premier niveau du contenu) : même style que le H2 du
+titre de section, ciblé par `:where(.container, .is-root-container) > h2.wp-block-heading` — les
+titres imbriqués du CTA et de la FAQ ne sont pas concernés ; mise en avant proposée (orange
+foncé). Le bloc qui suit un titre (libre ou de section) perd sa marge haute : la marge basse du
+titre fait l'écart, sans fusionner avec le `--layout-section-gap` des blocs.
 
 **Ajouter un bloc :**
 1. Créer `blocks/{nom}/` avec `block.json`, `index.js`, `render.php`
