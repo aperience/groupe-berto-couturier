@@ -199,6 +199,9 @@ $ds-text-styles: (
     faq-text:     (family: body,   weight: 400, size: (14, 18),     line: (22.5, 24)),
     faq-question: (family: heading, weight: 700, size: (16, 16),    line: (21.5, 21.5)),
     faq-answer:   (family: body,   weight: 400, size: (14.5, 14.5), line: (24, 24)),
+    // Bloc « Titre de section » : H2 en Black (900), réglé à part du titre de
+    // la FAQ (valeurs confirmées le 2026-11-01).
+    section-title: (family: heading, weight: 900, size: (28, 46),   line: (32, 53)),
 );
 
 // ═══ 2. Admin et page de connexion ═══════════════════════════════════════════

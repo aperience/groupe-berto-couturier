@@ -20,7 +20,7 @@
 $section-title-root: ":where(.container, .is-root-container) > h2.wp-block-heading";
 
 @mixin section-title-h2 {
-    @include text-style(faq-title);
+    @include text-style(section-title);
     color: var(--color-text-heading);
     text-align: center;
 }
