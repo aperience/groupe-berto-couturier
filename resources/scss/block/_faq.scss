@@ -10,8 +10,8 @@
 //         éditeur : div.__header > h3 + span.__icon
 //                   div.__body > p.__answer        ← réponse de la question ouverte seulement
 //
-// Mobile : tout empilé, titre centré. Desktop (`lg`) : titre, texte et bouton à
-// gauche, liste à droite sur toute la hauteur.
+// Mobile : tout empilé, titre centré. Desktop (`lg`) : 940 px centrés, titre,
+// texte et bouton à gauche (2fr), liste à droite sur toute la hauteur (3fr).
 //
 // Question ouverte : icône « − », fond inchangé — front : bouton en
 // `aria-expanded="true"` (tenu à jour par Bootstrap Collapse) ; éditeur :
@@ -25,6 +25,11 @@ $faq-pastille-size: var(--space-32);
 $faq-icon-size: to-rem(18);
 $faq-padding-x: var(--space-24);
 $faq-padding-y: var(--space-20);
+
+// Desktop : 940 px centrés (maquette : 939), soit 98 px de retrait de chaque
+// côté du contenu du conteneur (1136 px). En dessous du conteneur maximal, le
+// retrait se réduit au lieu d'écraser les colonnes.
+$faq-max-width: to-rem(940);
 
 .wp-block-couturier-faq {
     margin-block: var(--layout-section-gap);
@@ -69,9 +74,11 @@ $faq-padding-y: var(--space-20);
     // dernière (`1fr`) absorbe sa hauteur, titre, texte et bouton restent en haut.
     @include media-breakpoint-up(lg) {
         display: grid;
-        grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+        // Maquette : texte 345 px, liste 528 px.
+        grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
         grid-template-rows: repeat(4, auto) 1fr;
         column-gap: var(--space-64);
+        margin-inline: auto;
 
         > * {
             grid-column: 1;
@@ -92,6 +99,14 @@ $faq-padding-y: var(--space-20);
             grid-row: 1 / -1;
             margin-top: 0;
         }
+    }
+}
+
+// Classe doublée (0,2,0) : l'emporte dans le canvas sur `.wp-block { max-width:
+// none }` d'`editor-gutenberg.scss`, déclaré après `_content.scss`.
+.wp-block-couturier-faq.wp-block-couturier-faq {
+    @include media-breakpoint-up(lg) {
+        max-width: $faq-max-width;
     }
 }
 
