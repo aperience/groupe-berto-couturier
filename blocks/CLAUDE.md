@@ -253,11 +253,12 @@ printf( '<hgroup %s>%s</hgroup>', get_block_wrapper_attributes(), $content );
   (`collapsible-text-column/content.js`) : importer l'`index.js` d'un bloc l'enregistrerait une
   seconde fois.
 
-## Liste d'éléments répétables en attribut (ex. chiffres clés)
+## Liste d'éléments répétables en attribut
 
 Quand les éléments n'ont **pas de titre** (rien à montrer dans le panneau Structure), un seul bloc
 suffit : la liste est un attribut tableau, relu depuis le HTML enregistré — textes comptés par le
-compteur de mots, aucun bloc enfant. Exemple complet : `blocks/key-figures/`.
+compteur de mots, aucun bloc enfant. Exemple complet : l'ancien bloc `couturier/key-figures`
+(supprimé, retrouvable dans l'historique git, commit `26547a8`).
 
 ```json
 "items": {

@@ -44,7 +44,6 @@
 // Éléments que seul l'éditeur affiche (boutons sur une image, emplacement d'une
 // image absente) : partiels de `editor/`, jamais importés par `app.scss`.
 @import 'editor/image-field';
-@import 'editor/key-figures';
 @import 'editor/collapsible-text';
 @import 'editor/front-preview';
 
