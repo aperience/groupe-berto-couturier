@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-01T09:55:05+00:00\n"
+"POT-Creation-Date: 2026-11-01T13:46:39+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -40,6 +40,45 @@ msgstr ""
 
 #: blocks/collapsible-text/render.php:55
 msgid "Lire la suite"
+msgstr ""
+
+#. translators: %d: nombre d'étoiles de l'avis, de 1 à 5.
+#: blocks/reviews/render.php:66
+#, php-format
+msgid "Note : %d sur 5"
+msgstr ""
+
+#: blocks/reviews/render.php:89
+msgid "Plus"
+msgstr ""
+
+#: blocks/reviews/render.php:90
+msgid "Moins"
+msgstr ""
+
+#. translators: %s: nom de l'auteur de l'avis.
+#: blocks/reviews/render.php:92
+#, php-format
+msgid "— avis rédigé par %s"
+msgstr ""
+
+#: blocks/reviews/render.php:114
+msgid "Note moyenne des avis Google :"
+msgstr ""
+
+#. translators: %s: note moyenne, ex. « 4,8 ».
+#: blocks/reviews/render.php:127
+#, php-format
+msgid "Note moyenne des avis Google : %s sur 5"
+msgstr ""
+
+#: blocks/reviews/render.php:151
+#: blocks/reviews/index.js:136
+msgid "Lire tous les avis"
+msgstr ""
+
+#: blocks/reviews/render.php:152
+msgid "sur Google (nouvel onglet)"
 msgstr ""
 
 #. translators: %s : commande à exécuter.
@@ -237,7 +276,7 @@ msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:257
 #: blocks/collapsible-text/index.js:40
-#: blocks/cta/index.js:67
+#: blocks/cta/index.js:84
 #: blocks/faq/index.js:55
 #: blocks/section-title/index.js:42
 msgid "Titre"
@@ -249,7 +288,7 @@ msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:272
 #: src/Features/Footer/FooterSettings.php:410
-#: blocks/cta/index.js:68
+#: blocks/cta/index.js:85
 msgid "Texte"
 msgstr ""
 
@@ -529,19 +568,19 @@ msgid "Colonne de droite (facultative)"
 msgstr ""
 
 #: blocks/collapsible-text/index.js:75
-#: blocks/cta/index.js:137
+#: blocks/cta/index.js:154
 msgid "Le titre et le texte sont obligatoires : sans eux, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
-#: blocks/cta/index.js:131
+#: blocks/cta/index.js:148
 msgid "Le premier bouton est orange avec une flèche, le second transparent."
 msgstr ""
 
-#: blocks/cta/index.js:151
+#: blocks/cta/index.js:168
 msgid "Ajouter des boutons"
 msgstr ""
 
-#: blocks/cta/index.js:163
+#: blocks/cta/index.js:180
 msgid "Image (facultative)"
 msgstr ""
 
@@ -588,6 +627,86 @@ msgstr ""
 
 #: blocks/faq/index.js:122
 msgid "Ajouter un bouton"
+msgstr ""
+
+#: blocks/reviews/index.js:67
+msgid "Avis mis en avant"
+msgstr ""
+
+#. translators: %d: position de l'avis secondaire (1 ou 2).
+#: blocks/reviews/index.js:69
+#, js-format
+msgid "Avis secondaire %d"
+msgstr ""
+
+#: blocks/reviews/index.js:86
+msgid "Avis Google"
+msgstr ""
+
+#: blocks/reviews/index.js:90
+msgid "Lien « Lire tous les avis »"
+msgstr ""
+
+#: blocks/reviews/index.js:91
+msgid "Adresse de la fiche Google de l’auto-école. Sans adresse, le lien n’est pas affiché."
+msgstr ""
+
+#. translators: %s: libellé de l'avis (« Avis mis en avant », « Avis secondaire 1 »…).
+#: blocks/reviews/index.js:100
+#, js-format
+msgid "Étoiles — %s"
+msgstr ""
+
+#: blocks/reviews/index.js:111
+msgid "Seuls les avis renseignés (texte et nom) sont affichés sur le site."
+msgstr ""
+
+#: blocks/reviews/index.js:119
+msgid "Note moyenne"
+msgstr ""
+
+#: blocks/reviews/index.js:120
+msgid "4,8 / 5"
+msgstr ""
+
+#. translators: %s: libellé de l'avis.
+#: blocks/reviews/index.js:150
+#, js-format
+msgid "Texte — %s"
+msgstr ""
+
+#: blocks/reviews/index.js:151
+msgid "Texte de l’avis, copié de Google"
+msgstr ""
+
+#. translators: %s: libellé de l'avis.
+#: blocks/reviews/index.js:160
+#, js-format
+msgid "Nom — %s"
+msgstr ""
+
+#: blocks/reviews/index.js:161
+msgid "Prénom Nom"
+msgstr ""
+
+#. translators: %s: libellé de l'avis.
+#: blocks/reviews/index.js:172
+#, js-format
+msgid "Formation — %s"
+msgstr ""
+
+#: blocks/reviews/index.js:173
+msgid "Formation (ex. Permis B)"
+msgstr ""
+
+#. translators: %s: libellé de l'avis.
+#: blocks/reviews/index.js:183
+#, js-format
+msgid "Date — %s"
+msgstr ""
+
+#: blocks/reviews/index.js:184
+msgid "Date (facultative)"
 msgstr ""
 
 #: blocks/section-title/index.js:92
@@ -779,6 +898,51 @@ msgstr ""
 #: blocks/faq/block.json
 msgctxt "block keyword"
 msgid "accordéon"
+msgstr ""
+
+#: blocks/reviews/block.json
+msgctxt "block title"
+msgid "Avis Google"
+msgstr ""
+
+#: blocks/reviews/block.json
+msgctxt "block description"
+msgid "Note moyenne Google, lien vers tous les avis, et trois avis : un mis en avant, deux secondaires."
+msgstr ""
+
+#: blocks/reviews/block.json
+msgctxt "block keyword"
+msgid "avis"
+msgstr ""
+
+#: blocks/reviews/block.json
+msgctxt "block keyword"
+msgid "google"
+msgstr ""
+
+#: blocks/reviews/block.json
+msgctxt "block keyword"
+msgid "témoignages"
+msgstr ""
+
+#: blocks/reviews/block.json
+msgctxt "block keyword"
+msgid "note"
+msgstr ""
+
+#: blocks/reviews/block.json
+msgctxt "block keyword"
+msgid "étoiles"
+msgstr ""
+
+#: blocks/reviews/block.json
+msgctxt "block style label"
+msgid "Rose"
+msgstr ""
+
+#: blocks/reviews/block.json
+msgctxt "block style label"
+msgid "Pétrole clair"
 msgstr ""
 
 #: blocks/section-title/block.json

@@ -286,6 +286,16 @@ compteur de mots, aucun bloc enfant. Exemple complet : l'ancien bloc `couturier/
 - Le HTML relu peut différer de la valeur saisie (`&nbsp;` au lieu du caractère) sans invalider
   le bloc : la comparaison porte sur le balisage.
 
+## Deux champs `RichText` sur une même ligne (ex. formation · date des avis)
+
+Deux `RichText` en `inline` côte à côte (`<span>` dans un `<p>`) : un clic sur le second, vide,
+place le curseur **à la fin du premier**, et le texte tapé y part (constaté sur `couturier/reviews`).
+Les passer en `inline-block` dans le canvas (`> [contenteditable] { display: inline-block }`,
+sans effet sur le front) donne à chacun sa boîte. Un séparateur entre les deux (« · ») se pose en
+CSS, conditionné à leur contenu : sur le front, `save()` n'écrit pas un champ vide ; dans le canvas,
+un champ vide est présent (placeholder) — signaler l'état par une classe posée par `edit()`
+(`is-date-empty`), un `:has()` ne pouvant pas s'imbriquer.
+
 ## Formats du texte des blocs imbriqués
 
 Le core ne permet pas de restreindre les formats (gras, lien…) d'un bloc qu'il fournit. Comme

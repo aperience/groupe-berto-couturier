@@ -1,0 +1,478 @@
+// ─── Bloc « Avis Google » (couturier/reviews) ─────────────────────────────────
+//
+// Balisage (front : `render.php` ; éditeur : `blocks/reviews/index.js`, mêmes
+// classes) :
+//
+//   div.wp-block-couturier-reviews
+//     div.__summary                                  ← en-tête
+//       div.__rating > p.__score + div.__google      ← note, logo et étoiles de la note
+//       p.__all > a.__all-link                       ← « Lire tous les avis » (si URL)
+//     ul.__list
+//       li.__item (× 3, le premier mis en avant)
+//         p.__stars                                  ← étoiles de l'avis (`--stars`)
+//         blockquote.__text, p.__name
+//         p.__meta > span.__context + span.__date    ← « Permis B · 12/09/2026 »
+//
+// Deux maquettes (choix d'Aurélien) : mobile sous `lg` (cartes empilées, avis mis
+// en avant en pétrole), desktop à partir de `lg` (deux colonnes, avis mis en
+// avant en rose pâle — ou pétrole clair, style « Pétrole clair » — avec un grand
+// guillemet, secondaires gris).
+//
+// Couleurs de la maquette appliquées telles quelles, contrastes compris (décision
+// d'Aurélien, 2026-11-01 — rapport de contrastes global à venir) : lien « Lire
+// tous les avis » en orange 500 sur blanc (2,84:1, desktop), date orange 700 sur
+// `surface-accent-soft` (4,31:1).
+//
+// Logo et étoiles : images CSS décoratives, la note étant lue en texte. Étoile :
+// `icons/star.svg` en masque peint en `currentColor`, répétée en largeur.
+
+$reviews-star: url("../images/icons/star.svg");
+$reviews-logo: url("../images/google-logo.svg");
+// Jaune des étoiles Google, hors palette (couleur de marque de Google).
+$reviews-google-yellow: #fbbc04;
+
+// Rangée d'étoiles : `$count` étoiles d'1em, masque répété en largeur.
+@mixin reviews-stars($count) {
+    width: calc(#{$count} * 1em);
+    height: 1em;
+    background-color: currentColor;
+    mask: $reviews-star 0 0 / 1em 1em repeat-x;
+}
+
+.wp-block-couturier-reviews {
+    margin-block: var(--layout-section-gap);
+}
+
+// Marges remises à zéro ici (reboot : `p`, `blockquote`), puis posées par élément.
+.wp-block-couturier-reviews__score,
+.wp-block-couturier-reviews__all,
+.wp-block-couturier-reviews__stars,
+.wp-block-couturier-reviews__text,
+.wp-block-couturier-reviews__name,
+.wp-block-couturier-reviews__meta {
+    margin: 0;
+}
+
+// ─── En-tête : note, logo, lien ──────────────────────────────────────────────
+
+.wp-block-couturier-reviews__summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-12);
+    margin-bottom: var(--space-12);
+
+    @include media-breakpoint-up(lg) {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: var(--space-20);
+        align-items: end;
+        margin-bottom: var(--space-24);
+    }
+}
+
+.wp-block-couturier-reviews__rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-32);
+}
+
+.wp-block-couturier-reviews__score {
+    font-family: $headings-font-family;
+    font-weight: 900;
+    font-size: to-rem(40);
+    line-height: to-rem(44);
+    letter-spacing: to-rem(-.5);
+    color: var(--color-text-heading);
+    white-space: nowrap;
+
+    @include media-breakpoint-up(lg) {
+        font-family: $font-family-sans-serif;
+        font-weight: 700;
+        font-size: to-rem(64);
+        line-height: to-rem(64);
+        letter-spacing: to-rem(-2.5);
+    }
+}
+
+.wp-block-couturier-reviews__google {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.wp-block-couturier-reviews__logo {
+    display: block;
+    width: to-rem(79);
+    aspect-ratio: 272 / 92; // Proportions du SVG (viewBox)
+    background: $reviews-logo center / contain no-repeat;
+
+    @include media-breakpoint-up(lg) {
+        width: to-rem(87);
+    }
+}
+
+// Note : 5 étoiles grises, recouvertes par 5 étoiles jaunes coupées à la note
+// (`--reviews-score`, de 0 à 5 : 4,8 → 4 pleines et la 5e aux 4/5).
+.wp-block-couturier-reviews__score-stars {
+    position: relative;
+    font-size: to-rem(11);
+
+    &::before,
+    &::after {
+        content: "";
+        display: block;
+        @include reviews-stars(5);
+    }
+
+    &::before {
+        color: ds-color(petrol, 200);
+    }
+
+    &::after {
+        position: absolute;
+        inset: 0 auto auto 0;
+        width: calc(var(--reviews-score, 5) * 1em);
+        color: $reviews-google-yellow;
+    }
+}
+
+.wp-block-couturier-reviews__all {
+    @include text-style(body-medium);
+    text-align: center;
+
+    @include media-breakpoint-up(lg) {
+        @include text-style(body);
+        font-size: to-rem(14);
+        line-height: normal;
+        text-align: end;
+    }
+}
+
+.wp-block-couturier-reviews__all-link {
+    color: var(--color-text-accent);
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    @include media-breakpoint-up(lg) {
+        color: ds-color(orange, 500);
+        text-decoration: underline;
+        text-underline-position: from-font;
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+}
+
+// Flèche « → » en mobile seulement.
+.wp-block-couturier-reviews__all-arrow::before {
+    content: "\00a0\2192";
+
+    @include media-breakpoint-up(lg) {
+        content: none;
+    }
+}
+
+// ─── Avis ────────────────────────────────────────────────────────────────────
+
+.wp-block-couturier-reviews__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+    @include media-breakpoint-up(lg) {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-16) var(--space-20);
+    }
+}
+
+// Mobile : carte du composant « Avis » du design system (Standard).
+.wp-block-couturier-reviews__item {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-24);
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--bs-border-radius-lg);
+    background-color: var(--color-surface-card);
+    color: var(--color-text-heading);
+
+    @include media-breakpoint-up(lg) {
+        padding: var(--space-20);
+        border: 0;
+        border-radius: var(--bs-border-radius);
+        background-color: var(--color-surface-muted);
+        color: var(--color-text-default);
+    }
+}
+
+.wp-block-couturier-reviews__stars {
+    @include reviews-stars(var(--stars, 5));
+    flex-shrink: 0;
+    font-size: to-rem(13);
+    color: var(--color-text-accent);
+}
+
+// Texte de l'avis. Sur le front, il est enveloppé (`__body`) avec son bouton
+// « Plus » : l'enveloppe porte la même typographie, que le bouton reprend.
+.wp-block-couturier-reviews__text,
+.wp-block-couturier-reviews__body {
+    @include text-style(body-medium);
+
+    @include media-breakpoint-up(lg) {
+        @include text-style(body);
+        font-size: to-rem(13.5);
+        line-height: to-rem(21);
+    }
+}
+
+// Écart avec les étoiles : sur le texte dans le canvas, sur son enveloppe au
+// front (le texte y est `inline` une fois le script chargé, sans marge).
+.wp-block-couturier-reviews__text,
+.wp-block-couturier-reviews__body {
+    margin-top: var(--space-14);
+
+    @include media-breakpoint-up(lg) {
+        margin-top: var(--space-6);
+    }
+}
+
+.wp-block-couturier-reviews__body > .wp-block-couturier-reviews__text {
+    margin-top: 0;
+}
+
+// ─── Repli « Plus » / « Moins » (front, `resources/js/reviews.js`) ───────────
+//
+// Replié : le script coupe le texte entre deux mots, au plus long début qui
+// tient en `--reviews-lines` lignes (secondaires : 4 en mobile, 3 en desktop ;
+// mis en avant : 7 et 6, cf. plus bas) avec « … Plus » collé derrière, sur la
+// même ligne — texte et bouton sont `inline`. Déplié : texte entier, « Moins » à
+// sa suite. Sans script : texte entier, pas de bouton (`hidden`).
+//
+// Dépli et repli animés sur la hauteur de l'enveloppe (`max-height`, posée en
+// ligne par le script ; durée de l'accordéon de Bootstrap, comme le texte
+// repliable, coupée sous `prefers-reduced-motion`).
+
+.wp-block-couturier-reviews__item {
+    --reviews-lines: 4;
+
+    @include media-breakpoint-up(lg) {
+        --reviews-lines: 3;
+    }
+}
+
+.wp-block-couturier-reviews__body {
+    @include transition(max-height .35s ease);
+
+    &.is-animating {
+        overflow: hidden;
+    }
+}
+
+.wp-block-couturier-reviews__body.is-clamped > .wp-block-couturier-reviews__text {
+    display: inline;
+}
+
+.wp-block-couturier-reviews__more {
+    display: inline;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+
+    // « … » collé au dernier mot puis une espace devant « Plus » (« incididunt…
+    // Plus »), une espace devant « Moins » : décoratifs (texte de remplacement
+    // vide). Insécables : le bouton reste sur la ligne du dernier mot.
+    &::before {
+        content: "\2026\00a0" / "";
+    }
+
+    &[aria-expanded="true"]::before {
+        content: "\00a0" / "";
+    }
+
+    &[hidden] {
+        display: none;
+    }
+
+    // « … Plus » réapparaît en fondu à la fin du repli (`is-appearing`, posée par
+    // le script), pas au chargement.
+    &.is-appearing {
+        animation: reviews-more-appear .25s ease;
+
+        @media (prefers-reduced-motion: reduce) {
+            animation: none;
+        }
+    }
+}
+
+@keyframes reviews-more-appear {
+    from {
+        opacity: 0;
+    }
+}
+
+.wp-block-couturier-reviews__more[aria-expanded="true"] .wp-block-couturier-reviews__more-label,
+.wp-block-couturier-reviews__more[aria-expanded="false"] .wp-block-couturier-reviews__less-label {
+    display: none;
+}
+
+// Libellé : couleur du texte en mobile, orange 500 souligné en desktop (maquette).
+.wp-block-couturier-reviews__more-label,
+.wp-block-couturier-reviews__less-label {
+    @include media-breakpoint-up(lg) {
+        color: ds-color(orange, 500);
+        font-weight: 400;
+        text-decoration: underline;
+        text-underline-position: from-font;
+    }
+}
+
+.wp-block-couturier-reviews__more:hover {
+    .wp-block-couturier-reviews__more-label,
+    .wp-block-couturier-reviews__less-label {
+        text-decoration: underline;
+
+        @include media-breakpoint-up(lg) {
+            text-decoration: none;
+        }
+    }
+}
+
+.wp-block-couturier-reviews__name {
+    @include text-style(body-medium);
+    margin-top: var(--space-14);
+
+    @include media-breakpoint-up(lg) {
+        margin-top: var(--space-6);
+        font-weight: 700;
+        font-size: to-rem(12.5);
+        line-height: normal;
+        color: var(--color-text-heading);
+    }
+}
+
+.wp-block-couturier-reviews__meta {
+    @include text-style(small);
+    margin-top: var(--space-2);
+    color: var(--color-text-default);
+
+    @include media-breakpoint-up(lg) {
+        margin-top: 0;
+        line-height: normal;
+        color: var(--color-text-muted);
+    }
+}
+
+// « Permis B · 12/09/2026 » : séparateur posé après la formation quand une date
+// la suit (`save()` n'écrit pas un champ vide). Sur la formation, il prend la
+// couleur de la ligne, pas celle de la date (orange en desktop). Dans le canvas,
+// une formation vide garde son placeholder, et une date vide son champ : la
+// ligne porte alors `is-date-empty` (posée par `index.js`), pas de séparateur.
+.wp-block-couturier-reviews__meta:not(.is-date-empty)
+    > .wp-block-couturier-reviews__context:not(:has(> [data-rich-text-placeholder])):has(+ .wp-block-couturier-reviews__date)::after {
+    content: "\00a0·\00a0";
+}
+
+// Canvas : formation et date sont deux champs éditables côte à côte. En `inline`,
+// un clic sur la date vide place le curseur à la fin de la formation (texte saisi
+// au mauvais endroit) : chacun a sa boîte, et une date vide reste à distance.
+.wp-block-couturier-reviews__meta > [contenteditable] {
+    display: inline-block;
+}
+
+.wp-block-couturier-reviews__meta.is-date-empty > .wp-block-couturier-reviews__date {
+    margin-inline-start: var(--space-8);
+}
+
+// ─── Avis mis en avant ───────────────────────────────────────────────────────
+
+.wp-block-couturier-reviews__item:first-child {
+    border-color: transparent;
+    background-color: var(--color-surface-brand);
+    color: var(--color-text-on-brand);
+
+    .wp-block-couturier-reviews__stars {
+        color: var(--color-text-accent-on-dark);
+    }
+
+    --reviews-lines: 7;
+
+    .wp-block-couturier-reviews__meta {
+        color: inherit;
+    }
+
+    @include media-breakpoint-up(lg) {
+        --reviews-lines: 6;
+        grid-row: span 2;
+        padding: to-rem(36);
+        border-radius: to-rem(32);
+        background-color: var(--color-surface-accent-soft);
+        color: var(--color-text-heading);
+
+        // Grand guillemet, décoratif (texte de remplacement vide).
+        &::before {
+            content: "\201C" / "";
+            font-family: $font-family-sans-serif;
+            font-weight: 700;
+            font-size: to-rem(64);
+            line-height: to-rem(38.5);
+            margin-bottom: to-rem(-15.5);
+            color: var(--color-text-accent);
+        }
+
+        .wp-block-couturier-reviews__stars {
+            display: none;
+        }
+
+        .wp-block-couturier-reviews__text,
+        .wp-block-couturier-reviews__body {
+            margin-top: 0;
+        }
+
+        .wp-block-couturier-reviews__text,
+        .wp-block-couturier-reviews__body {
+            font-weight: 700;
+            font-size: to-rem(16);
+            line-height: to-rem(25);
+        }
+
+        .wp-block-couturier-reviews__name {
+            margin-top: var(--space-14);
+            font-size: to-rem(14);
+        }
+
+        // Calé en bas de la carte, qui prend la hauteur des deux avis secondaires.
+        .wp-block-couturier-reviews__meta {
+            margin-top: auto;
+            padding-top: var(--space-24);
+            color: var(--color-text-default);
+        }
+
+        .wp-block-couturier-reviews__date {
+            color: var(--color-text-accent);
+        }
+    }
+}
+
+// Style de bloc « Pétrole clair » (`is-style-petrol`, panneau « Styles ») : fond
+// pétrole 100 au lieu d'orange 100 pour l'avis mis en avant, en desktop seulement
+// (le mobile reste en pétrole foncé). Autres couleurs inchangées (choix
+// d'Aurélien) : date et guillemet orange 700 à 4,08:1, « Plus » orange 500 à
+// 2,32:1 — à reprendre dans le rapport de contrastes.
+.wp-block-couturier-reviews.is-style-petrol .wp-block-couturier-reviews__item:first-child {
+    @include media-breakpoint-up(lg) {
+        background-color: var(--color-surface-petrol-soft);
+    }
+}

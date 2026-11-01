@@ -1,0 +1,100 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/reviews",
+	"title": "Avis Google",
+	"category": "design",
+	"icon": "star-filled",
+	"description": "Note moyenne Google, lien vers tous les avis, et trois avis : un mis en avant, deux secondaires.",
+	"keywords": [ "avis", "google", "témoignages", "note", "étoiles" ],
+	"textdomain": "couturier",
+	"attributes": {
+		"score": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-reviews__score",
+			"role": "content"
+		},
+		"url": {
+			"type": "string",
+			"default": ""
+		},
+		"reviews": {
+			"type": "array",
+			"source": "query",
+			"selector": "li.wp-block-couturier-reviews__item",
+			"query": {
+				"stars": {
+					"type": "string",
+					"source": "attribute",
+					"attribute": "data-stars"
+				},
+				"text": {
+					"type": "string",
+					"source": "html",
+					"selector": ".wp-block-couturier-reviews__text"
+				},
+				"name": {
+					"type": "string",
+					"source": "html",
+					"selector": ".wp-block-couturier-reviews__name"
+				},
+				"context": {
+					"type": "string",
+					"source": "html",
+					"selector": ".wp-block-couturier-reviews__context"
+				},
+				"date": {
+					"type": "string",
+					"source": "html",
+					"selector": ".wp-block-couturier-reviews__date"
+				}
+			},
+			"default": [
+				{ "stars": "5", "text": "", "name": "", "context": "", "date": "" },
+				{ "stars": "5", "text": "", "name": "", "context": "", "date": "" },
+				{ "stars": "5", "text": "", "name": "", "context": "", "date": "" }
+			],
+			"role": "content"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"styles": [
+		{ "name": "default", "label": "Rose", "isDefault": true },
+		{ "name": "petrol", "label": "Pétrole clair" }
+	],
+	"example": {
+		"viewportWidth": 1200,
+		"attributes": {
+			"score": "4,8 / 5",
+			"url": "https://www.google.com/maps",
+			"reviews": [
+				{
+					"stars": "5",
+					"text": "Cette auto-école est géniale !<br><br>Toute l’équipe est patiente, disponible et rassurante. Après avoir échoué quatre fois à mon examen de conduite il y a 20 ans, j’ai suivi un stage de remise à niveau cet été, et j’ai réussi l’examen.",
+					"name": "Audrey R.",
+					"context": "Permis B",
+					"date": "12/09/2026"
+				},
+				{
+					"stars": "5",
+					"text": "Excellent !<br>J’ai passé mon test d’estimation de mes heures de conduite le 8 juillet avec un moniteur très pédagogue.",
+					"name": "Quentin L.",
+					"context": "Permis B",
+					"date": ""
+				},
+				{
+					"stars": "5",
+					"text": "Une auto-école fantastique que je recommande sans hésiter !",
+					"name": "Solène B.",
+					"context": "Permis moto",
+					"date": ""
+				}
+			]
+		}
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
