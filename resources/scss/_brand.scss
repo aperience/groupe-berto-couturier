@@ -82,7 +82,7 @@ $ds-semantic-colors: (
     surface-peach-faint: (peach, 100),
     surface-petrol-soft: (petrol, 100),
     surface-petrol-faint:(petrol, 50),
-    surface-muted:       (neutral, 50), // Questions fermées de la FAQ
+    surface-muted:       (neutral, 50), // Questions de la FAQ, ouvertes ou fermées
     surface-danger-soft: (red, 100),
     surface-footer:      (orange, 500),
 
@@ -193,9 +193,12 @@ $ds-text-styles: (
     cta-title:    (family: heading, weight: 900, size: (32, 46),    line: (34, 49)),
     cta-text:     (family: body,   weight: 400, size: (16, 16),     line: (25.5, 25.5)),
     // Bloc « Questions fréquentes » (maquette de la FAQ, hors planche) : titre en
-    // Black (900), réduit en mobile pour tenir sur une ligne ; réponses de 16 px.
-    faq-title:    (family: heading, weight: 900, size: (30, 46),    line: (34, 49)),
-    faq-answer:   (family: body,   weight: 400, size: (16, 16),     line: (25.5, 25.5)),
+    // Black (900), aux tailles du CTA mais réglé à part ; texte d'intro, questions
+    // et réponses à leurs propres tailles (valeurs confirmées le 2026-11-01).
+    faq-title:    (family: heading, weight: 900, size: (32, 46),    line: (34, 49)),
+    faq-text:     (family: body,   weight: 400, size: (14, 18),     line: (22.5, 24)),
+    faq-question: (family: heading, weight: 700, size: (16, 16),    line: (21.5, 21.5)),
+    faq-answer:   (family: body,   weight: 400, size: (14.5, 14.5), line: (24, 24)),
 );
 
 // ═══ 2. Admin et page de connexion ═══════════════════════════════════════════
