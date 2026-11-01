@@ -55,7 +55,24 @@ const GHOST = 'is-style-ghost';
  * Jamais enregistré ; `render.php` n'afficherait d'ailleurs rien.
  */
 const EXAMPLE_IMAGE_ID = -1;
-const EXAMPLE_MEDIA = { source_url: exampleImage, alt_text: '' };
+const EXAMPLE_MEDIA = { source_url: exampleImage, alt_text: '', media_details: { width: 756, height: 504 } };
+
+/**
+ * Cadre de l'image, 432 × 260 (maquette), et format le moins allongé qu'on
+ * recadre pour le remplir (3:2 : 10 % de la hauteur rognés au plus). Une image
+ * moins allongée (4:3, carrée, portrait) n'est jamais recadrée. Mêmes valeurs
+ * dans `render.php`.
+ */
+const FRAME_RATIO = 432 / 260;
+const MIN_CROP_RATIO = 3 / 2;
+
+/** Classe de l'image : `is-cropped` si elle remplit le cadre en étant recadrée. */
+function imageClassName( media ) {
+	const { width, height } = media?.media_details ?? {};
+	const ratio = width && height ? width / height : 0;
+
+	return 'wp-block-couturier-cta__image' + ( ratio >= MIN_CROP_RATIO && ratio < FRAME_RATIO ? ' is-cropped' : '' );
+}
 
 /** Les deux boutons du modèle : orange avec flèche, puis transparent. */
 const BUTTONS = [
@@ -155,7 +172,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 				{ hasMediaColumn && (
 					<ImageField
 						className="wp-block-couturier-cta__media"
-						imageClassName="wp-block-couturier-cta__image"
+						imageClassName={ imageClassName( media ) }
 						media={ media }
 						isEditing={ isEditing }
 						onSelect={ ( selected ) => setAttributes( { imageId: selected?.id } ) }

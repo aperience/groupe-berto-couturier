@@ -36,6 +36,13 @@ if ( in_array( false, $couturier_cta_filled, true ) ) {
 // entre l'espace et le signe (mise en avant, lien…) sont conservées.
 $couturier_cta_content = preg_replace( '/ +((?:<[^>]*>)*)(?=[?!:;»])/u', "\u{00A0}$1", $content ) ?? $content;
 
+// Image facultative, `is-cropped` si elle remplit le cadre 432 × 260 en étant
+// recadrée : format entre 3:2 et celui du cadre (cf. `imageClassName()` dans
+// `index.js`, mêmes valeurs). Une image moins allongée n'est jamais recadrée.
+$couturier_cta_size    = empty( $attributes['imageId'] ) ? false : wp_get_attachment_image_src( (int) $attributes['imageId'], 'large' );
+$couturier_cta_ratio   = $couturier_cta_size && $couturier_cta_size[2] ? $couturier_cta_size[1] / $couturier_cta_size[2] : 0;
+$couturier_cta_cropped = $couturier_cta_ratio >= 3 / 2 && $couturier_cta_ratio < 432 / 260;
+
 // Image facultative. `alt` repris de la médiathèque, vide à défaut (image décorative) ;
 // pièce jointe supprimée : chaîne vide, le bloc s'affiche sans colonne image.
 // `sizes` donne la largeur réelle de l'image ; le `auto` que WordPress y ajoute est
@@ -45,7 +52,7 @@ $couturier_cta_image = empty( $attributes['imageId'] ) ? '' : wp_get_attachment_
     'large',
     false,
     [
-        'class'    => 'wp-block-couturier-cta__image',
+        'class'    => 'wp-block-couturier-cta__image' . ( $couturier_cta_cropped ? ' is-cropped' : '' ),
         'sizes'    => '(min-width: 992px) 432px, 100vw',
         'loading'  => 'lazy',
         'decoding' => 'async',

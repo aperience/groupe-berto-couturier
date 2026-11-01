@@ -113,30 +113,45 @@ $cta-image-width: to-rem(432);
 }
 
 // ─── Image ────────────────────────────────────────────────────────────────────
-// **Jamais recadrée** (décision d'Aurélien, 2026-10-28).
-// Mobile : sous le contenu, dans ses proportions.
-// Desktop : toute la largeur de sa colonne, dans ses proportions, centrée
-// verticalement face au texte ; une image plus haute que le texte agrandit la
-// carte. Elle n'est jamais agrandie au-delà de sa taille réelle.
+// Tenue dans un cadre de proportions 432 × 260 (maquette) : toute la largeur de sa
+// colonne au plus, et une hauteur limitée à 260/432 de cette largeur.
+// - Plus allongée que le cadre : toute la largeur, sans recadrage.
+// - Entre 3:2 et le cadre (`.is-cropped`, posée par `render.php` / `index.js`) :
+//   remplit le cadre, recadrée (10 % de la hauteur au plus, centré).
+// - Moins allongée (4:3, carrée, portrait) : **jamais recadrée** (décision
+//   d'Aurélien, 2026-10-28), toute la hauteur du cadre ; jamais agrandie au-delà
+//   de sa taille réelle.
+// Mobile : sous le contenu, centrée. Desktop : centrée verticalement face au texte,
+// calée à droite contre le bord intérieur de la carte.
 .wp-block-couturier-cta__media {
     min-width: 0;
+    // Largeur de la colonne, pour borner la hauteur de l'image (`cqi`).
+    container-type: inline-size;
 }
 
-// Éditeur : l'emplacement de l'image absente prend le format de l'image.
+// Éditeur : l'emplacement de l'image absente prend le format du cadre.
 .wp-block-couturier-cta__media > .couturier-image-field__placeholder {
-    aspect-ratio: 5 / 3;
+    aspect-ratio: 432 / 260;
     border-radius: var(--bs-border-radius);
 }
 
 .wp-block-couturier-cta__image {
     display: block;
-    width: 100%;
+    width: auto;
+    max-width: 100%;
     height: auto;
+    max-height: calc(100cqi * 260 / 432);
+    margin-inline: auto;
     border-radius: var(--bs-border-radius);
 
     @include media-breakpoint-up(lg) {
-        width: auto;
-        max-width: 100%;
-        margin-inline: auto;
+        margin-right: 0;
+    }
+
+    &.is-cropped {
+        width: 100%;
+        max-height: none;
+        aspect-ratio: 432 / 260;
+        object-fit: cover;
     }
 }
