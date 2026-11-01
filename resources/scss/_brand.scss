@@ -193,9 +193,9 @@ $ds-text-styles: (
     cta-title:    (family: heading, weight: 900, size: (32, 46),    line: (34, 49)),
     cta-text:     (family: body,   weight: 400, size: (16, 16),     line: (25.5, 25.5)),
     // Bloc « Questions fréquentes » (maquette de la FAQ, hors planche) : titre en
-    // Black (900), aux tailles du CTA mais réglé à part ; texte d'intro, questions
+    // Black (900), 28 px en mobile comme les autres H2 ; texte d'intro, questions
     // et réponses à leurs propres tailles (valeurs confirmées le 2026-11-01).
-    faq-title:    (family: heading, weight: 900, size: (32, 46),    line: (34, 49)),
+    faq-title:    (family: heading, weight: 900, size: (28, 46),    line: (32, 49)),
     faq-text:     (family: body,   weight: 400, size: (14, 18),     line: (22.5, 24)),
     faq-question: (family: heading, weight: 700, size: (16, 16),    line: (21.5, 21.5)),
     faq-answer:   (family: body,   weight: 400, size: (14.5, 14.5), line: (24, 24)),
