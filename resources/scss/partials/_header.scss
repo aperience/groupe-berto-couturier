@@ -3,7 +3,7 @@
 // Rendu par `partials/header.twig` (+ `partials/header/`) : bandeau « Offre du
 // moment » (accueil), barre en pilule (logo, navigation, actions), méga menu sous
 // la barre. Mesures des maquettes Figma « Méga-menu · … » (desktop 1280 px), cf.
-// docs/mega-menu.md. Le menu mobile (< xl) viendra à l'étape 4.
+// docs/mega-menu.md. Menu mobile (< xl) en fin de fichier.
 //
 // Icônes peintes en `currentColor` à travers un SVG en masque, comme la flèche
 // des boutons (cf. block/_button.scss) ; chemins relatifs aux feuilles d'entrée.
@@ -405,4 +405,291 @@ $header-offer-overlap: var(--space-24);
 .mega__arrow::before {
     @include header-icon(arrow-right);
     display: block;
+}
+
+// ═══ Mobile et tablette (< xl) ════════════════════════════════════════════════
+// Maquettes « Menu mobile · … » (390 px). Panneau plein écran ouvert par le
+// burger (`mobileMenu.js`), écrans successifs qui glissent horizontalement.
+
+$mobile-menu-top: to-rem(12 + 58 + 4); // Marge haute, barre, écart.
+
+@include media-breakpoint-down(xl) {
+    .site-header__inner {
+        padding-inline: var(--space-12);
+    }
+
+    .site-header__bar {
+        justify-content: space-between;
+        gap: var(--space-8);
+        padding: var(--space-8) var(--space-8) var(--space-8) var(--space-18);
+    }
+
+    .site-header__logo img {
+        width: to-rem(130);
+    }
+}
+
+// La barre reste au-dessus du panneau, qui défile sous elle.
+.site-header__bar {
+    z-index: 2;
+}
+
+.site-header__burger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: to-rem(42);
+    height: to-rem(42);
+    margin-left: auto;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background-color: var(--color-surface-petrol-faint);
+    color: var(--color-text-heading);
+    cursor: pointer;
+
+    &::before {
+        @include header-icon(menu);
+        width: to-rem(18);
+        height: to-rem(18);
+    }
+
+    &[aria-expanded="true"]::before {
+        mask-image: url("../images/icons/close.svg");
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-text-default);
+        outline-offset: 2px;
+    }
+}
+
+// Page figée sous le panneau ouvert.
+html.has-mobile-menu {
+    overflow: hidden;
+}
+
+.mobile-menu {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-top: $mobile-menu-top;
+    background-color: var(--color-surface-card);
+    animation: mega-fade .2s ease-out;
+}
+
+// Les écrans se superposent dans la même cellule : pendant un glissement, celui
+// qui part et celui qui arrive sont affichés ensemble.
+.mobile-menu__screens {
+    display: grid;
+    overflow-x: clip;
+    padding: var(--space-16) var(--space-24) var(--space-40);
+}
+
+.mobile-menu__screen {
+    grid-area: 1 / 1;
+    min-width: 0;
+
+    &.is-entering { animation: mobile-menu-from-right .3s ease both; }
+    &.is-leaving { animation: mobile-menu-to-left .3s ease both; }
+    &.is-back.is-entering { animation-name: mobile-menu-from-left; }
+    &.is-back.is-leaving { animation-name: mobile-menu-to-right; }
+}
+
+@keyframes mobile-menu-from-right { from { transform: translateX(100%); } }
+@keyframes mobile-menu-from-left { from { transform: translateX(-100%); } }
+@keyframes mobile-menu-to-left { to { transform: translateX(-100%); } }
+@keyframes mobile-menu-to-right { to { transform: translateX(100%); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .mobile-menu,
+    .mobile-menu__screen {
+        animation: none !important;
+    }
+}
+
+.mobile-menu p {
+    margin: 0;
+}
+
+.mobile-menu__list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+// ─── Lignes ───────────────────────────────────────────────────────────────────
+// 56 px de haut, filet en dessous.
+.mobile-menu__row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-12);
+    width: 100%;
+    min-height: to-rem(56);
+    padding: var(--space-16) 0;
+    border: 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+    background: none;
+    color: var(--color-text-heading);
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+
+    &::after {
+        flex: 0 0 auto;
+    }
+
+    &:hover {
+        color: var(--color-text-accent);
+    }
+
+    &.is-active,
+    &[aria-current="page"] {
+        color: var(--color-text-accent);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-text-default);
+        outline-offset: -2px;
+    }
+}
+
+// Niveau 1 : rubrique (ouvre son écran) ou lien.
+.mobile-menu__row--rubric {
+    @include text-style(h3);
+
+    &::after {
+        @include header-icon(chevron-right);
+        width: to-rem(20);
+        height: to-rem(20);
+        color: var(--color-text-accent);
+    }
+}
+
+.mobile-menu__row--link {
+    @include text-style(body-lg);
+}
+
+// Niveau 2 : accordéon (+ / −) ou lien, Space Grotesk Medium 16 px.
+.mobile-menu__row--toggle,
+.mobile-menu__row--sublink {
+    @include text-style(body-medium);
+    font-size: to-rem(16);
+}
+
+.mobile-menu__row--toggle {
+    &::after {
+        @include header-icon(plus);
+        width: to-rem(20);
+        height: to-rem(20);
+    }
+
+    &:not(.collapsed) {
+        border-bottom-color: transparent;
+        color: var(--color-text-accent);
+
+        &::after {
+            mask-image: url("../images/icons/minus.svg");
+        }
+    }
+}
+
+.mobile-menu__collapse {
+    border-bottom: 1px solid var(--color-border-subtle);
+}
+
+.mobile-menu__sublist {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0 0 var(--space-16) var(--space-16);
+    list-style: none;
+
+    .mega__all {
+        margin-top: 0;
+    }
+}
+
+// ─── Écran d'une rubrique ─────────────────────────────────────────────────────
+.mobile-menu__back {
+    @include text-style(body-medium);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-6);
+    padding: var(--space-8) 0;
+    border: 0;
+    background: none;
+    color: var(--color-text-accent);
+    cursor: pointer;
+
+    &::before {
+        @include header-icon(chevron-left);
+        width: to-rem(18);
+        height: to-rem(18);
+    }
+
+    @include header-focus;
+}
+
+.mobile-menu__intro {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-6);
+    padding: var(--space-8) 0 var(--space-12);
+}
+
+.mobile-menu__title {
+    @include text-style(h2);
+    color: var(--color-text-heading);
+
+    // Focus posé par le script à l'arrivée sur l'écran : pas d'anneau à la souris.
+    &:focus:not(:focus-visible) {
+        outline: 0;
+    }
+}
+
+.mobile-menu__description {
+    @include text-style(small);
+    color: var(--color-text-muted);
+}
+
+.mobile-menu__buttons.wp-block-buttons {
+    gap: var(--space-12);
+    margin: var(--space-10) 0 0;
+}
+
+.mobile-menu__heading {
+    @include text-style(small);
+    padding: var(--space-16) 0 var(--space-4);
+    color: var(--color-text-muted);
+}
+
+// ─── Accès rapides ────────────────────────────────────────────────────────────
+.mobile-menu__quick {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin-top: var(--space-24);
+    padding: var(--space-16);
+    border-radius: to-rem(16);
+    background-color: var(--color-surface-muted);
+}
+
+.mobile-menu__quick-title {
+    @include text-style(small);
+    color: var(--color-text-muted);
+}
+
+.mobile-menu__quick-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
 }

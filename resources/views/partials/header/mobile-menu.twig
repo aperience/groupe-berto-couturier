@@ -1,0 +1,122 @@
+{#
+    Menu mobile et tablette (< xl) : panneau plein écran, ouvert par le bouton burger de
+    la barre, navigation par écrans successifs (`resources/js/mobileMenu.js`).
+    Données : `items` = `navigation.primary`, `quick_access` = `navigation.quick_access`
+    (structure : Navigation\MegaMenu).
+
+    - Écran de niveau 1 : rubriques avec enfants (boutons qui ouvrent leur écran),
+      autres éléments (liens), bloc « Accès rapides ».
+    - Écran d'une rubrique : retour « Menu », titre, texte et boutons de l'encart (pas
+      de surtitre en mobile, boutons toujours orange), niveaux 2 avec enfants en
+      accordéons (Collapse de Bootstrap, plusieurs ouverts à la fois, celui de la page
+      courante déplié à l'arrivée), sans enfant en liens, intertitres.
+
+    Masqué (`hidden`) sans JS, comme le bouton qui l'ouvre.
+#}
+<div id="mobile-menu" class="mobile-menu d-xl-none" hidden>
+    <div class="mobile-menu__screens">
+        <nav class="mobile-menu__screen" data-mobile-screen="root" aria-label="{{ __('Menu principal', 'couturier') }}">
+            <ul class="mobile-menu__list">
+                {% for item in items %}
+                    <li>
+                        {% if item.has_mega %}
+                            <button type="button" class="mobile-menu__row mobile-menu__row--rubric{{ item.active ? ' is-active' }}"
+                                    aria-controls="mobile-menu-{{ item.id }}" data-mobile-open="mobile-menu-{{ item.id }}">
+                                {{- item.title -}}
+                            </button>
+                        {% else %}
+                            {% include 'partials/header/link.twig' with {
+                                link: item,
+                                class: 'mobile-menu__row mobile-menu__row--link' ~ (item.active ? ' is-active'),
+                            } only %}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+
+            {% if quick_access %}
+                <div class="mobile-menu__quick">
+                    <p id="mobile-menu-quick-title" class="mobile-menu__quick-title">{{ __('Accès rapides', 'couturier') }}</p>
+                    <ul class="mobile-menu__quick-list" aria-labelledby="mobile-menu-quick-title">
+                        {% for link in quick_access %}
+                            <li>{% include 'partials/header/link.twig' with { link: link, class: 'mega__link' } only %}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </nav>
+
+        {% for item in items|filter(item => item.has_mega) %}
+            <nav id="mobile-menu-{{ item.id }}" class="mobile-menu__screen" data-mobile-screen="{{ item.id }}"
+                 aria-labelledby="mobile-menu-{{ item.id }}-title" hidden>
+                {# Nom accessible « Revenir au Menu » : il contient le libellé visible (WCAG 2.5.3). #}
+                <button type="button" class="mobile-menu__back" data-mobile-back>
+                    <span class="visually-hidden">{{ __('Revenir au', 'couturier') }} </span>
+                    {{- __('Menu', 'couturier') -}}
+                </button>
+
+                <div class="mobile-menu__intro">
+                    <p id="mobile-menu-{{ item.id }}-title" class="mobile-menu__title" tabindex="-1">{{ item.title }}</p>
+                    {% if item.description %}<p class="mobile-menu__description">{{ item.description|nl2br }}</p>{% endif %}
+
+                    {% if item.buttons %}
+                        <div class="wp-block-buttons mobile-menu__buttons">
+                            {% for button in item.buttons %}
+                                <div class="wp-block-button has-arrow">
+                                    {% include 'partials/header/link.twig' with {
+                                        link: { title: button.label, url: button.url, new_tab: button.new_tab },
+                                        class: 'wp-block-button__link',
+                                    } only %}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% for group in item.groups %}
+                    {% set heading_id = group.heading ? 'mobile-menu-' ~ item.id ~ '-group-' ~ loop.index %}
+                    {% if group.heading %}
+                        <p id="{{ heading_id }}" class="mobile-menu__heading">{{ group.heading }}</p>
+                    {% endif %}
+
+                    <ul class="mobile-menu__list"{% if heading_id %} aria-labelledby="{{ heading_id }}"{% endif %}>
+                        {% for rubric in group.items %}
+                            <li>
+                                {% if rubric.children %}
+                                    {% set collapse_id = 'mobile-menu-' ~ item.id ~ '-' ~ rubric.id %}
+                                    <button type="button" class="mobile-menu__row mobile-menu__row--toggle{{ rubric.active ? '' : ' collapsed' }}"
+                                            data-bs-toggle="collapse" data-bs-target="#{{ collapse_id }}"
+                                            aria-controls="{{ collapse_id }}" aria-expanded="{{ rubric.active ? 'true' : 'false' }}">
+                                        {{- rubric.title -}}
+                                    </button>
+                                    <div id="{{ collapse_id }}" class="mobile-menu__collapse collapse{{ rubric.active ? ' show' }}">
+                                        <ul class="mobile-menu__sublist">
+                                            {% for child in rubric.children %}
+                                                <li>{% include 'partials/header/link.twig' with { link: child, class: 'mega__link' } only %}</li>
+                                            {% endfor %}
+                                            {% if rubric.all_label %}
+                                                <li>
+                                                    {% include 'partials/header/link.twig' with {
+                                                        link: rubric,
+                                                        label: rubric.all_label,
+                                                        class: 'mega__all',
+                                                        arrow: true,
+                                                    } only %}
+                                                </li>
+                                            {% endif %}
+                                        </ul>
+                                    </div>
+                                {% else %}
+                                    {% include 'partials/header/link.twig' with {
+                                        link: rubric,
+                                        class: 'mobile-menu__row mobile-menu__row--sublink',
+                                    } only %}
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            </nav>
+        {% endfor %}
+    </div>
+</div>

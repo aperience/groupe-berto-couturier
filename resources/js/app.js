@@ -12,6 +12,8 @@ import './collapsible-text.js';
 import './reviews.js';
 // Méga menu du header (desktop).
 import './megaMenu.js';
+// Menu mobile du header (sous xl).
+import './mobileMenu.js';
 
 
 printCredits()

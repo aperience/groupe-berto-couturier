@@ -4,8 +4,9 @@
     Données : `navigation` (feature Navigation\NavigationContext), `current_offer`
     (feature CurrentOffer\CurrentOfferContext). Plan : docs/mega-menu.md.
 
-    Les actions « Se connecter » / « Être rappelé » (étape 5) et le menu mobile
-    (étape 4) ne sont pas encore rendus.
+    Les actions « Se connecter » / « Être rappelé » (étape 5) ne sont pas encore
+    rendues. Sous `xl`, le bouton burger ouvre le menu mobile
+    (`partials/header/mobile-menu.twig`, `resources/js/mobileMenu.js`) ; masqué sans JS.
 
     Voile : affiché sous le méga menu ouvert par `megaMenu.js`, masqué sans lui.
 #}
@@ -29,7 +30,19 @@
 
             {% if navigation.primary %}
                 {% include 'partials/header/nav.twig' with { items: navigation.primary } %}
+
+                <button type="button" class="site-header__burger d-xl-none" aria-controls="mobile-menu" aria-expanded="false" hidden>
+                    <span class="visually-hidden" data-label-open>{{ __('Ouvrir le menu', 'couturier') }}</span>
+                    <span class="visually-hidden" data-label-close hidden>{{ __('Fermer le menu', 'couturier') }}</span>
+                </button>
             {% endif %}
         </div>
+
+        {% if navigation.primary %}
+            {% include 'partials/header/mobile-menu.twig' with {
+                items: navigation.primary,
+                quick_access: navigation.quick_access,
+            } %}
+        {% endif %}
     </div>
 </header>
