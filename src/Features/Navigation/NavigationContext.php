@@ -30,7 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 final class NavigationContext implements FeatureInterface {
 
     /** Source du logo, telle que référencée dans le manifest Vite. */
-    private const LOGO = 'resources/images/login-logo.svg';
+    private const LOGO = 'resources/images/logo-couturier-permis.svg';
 
     /**
      * @param ViteManifest $manifest Résolution des fichiers buildés.
