@@ -20,6 +20,7 @@ use Deefuse\ThemeCore\Features\Front\DisableFunctionalities\DisableHeartbeat;
 use Deefuse\ThemeCore\Features\Front\Favicons;
 use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\Footer\FooterContext;
+use Theme\Features\Fonts\FontPreload;
 use Theme\Features\Footer\FooterSettings;
 use Theme\Features\Navigation\HeaderSettings;
 use Theme\Features\Navigation\MegaMenuFields;
@@ -55,6 +56,16 @@ final class FrontServiceProvider implements ServiceProviderInterface {
                 // les trois se modifient ensemble à l'étape charte.
                 theme_color_light: '#004e63',
                 theme_color_dark: '#004e63',
+            ),
+            // Polices du header, donc en haut de toutes les pages : texte (400), menu
+            // (500), « Être rappelé » (700). À revoir si le haut des pages change
+            // (titre du héros en Red Hat Display, par exemple).
+            new FontPreload(
+                fonts: [
+                    'resources/fonts/space-grotesk-400.woff2',
+                    'resources/fonts/space-grotesk-500.woff2',
+                    'resources/fonts/space-grotesk-700.woff2',
+                ],
             ),
             new FooterSettings( $context ),
             new FooterContext(),
