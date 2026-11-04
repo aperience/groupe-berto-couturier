@@ -148,10 +148,46 @@ $header-offer-overlap: var(--space-24);
     @include header-focus;
 }
 
+// ─── Voile ────────────────────────────────────────────────────────────────────
+// Toute la fenêtre, sous le header (`z-index: -1` dans le contexte d'empilement du
+// header) mais au-dessus de la page : un clic dessus referme le méga menu
+// (`megaMenu.js`). Le défilement de la page n'est pas bloqué.
+.mega-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-color: rgba(ds-semantic(action-dark), .4);
+    animation: mega-fade .2s ease-out;
+}
+
+// ─── Animations ───────────────────────────────────────────────────────────────
+// Rejouées à chaque fois que l'élément quitte `hidden` (une animation CSS repart
+// quand l'élément passe de `display: none` à affiché) : fondu et légère descente
+// à l'ouverture du méga menu, fondu court au changement de panneau de niveau 3.
+@keyframes mega-fade {
+    from { opacity: 0; }
+}
+
+@keyframes mega-open {
+    from {
+        opacity: 0;
+        transform: translateY(calc(var(--space-8) * -1));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .mega-backdrop,
+    .mega,
+    .mega__panel {
+        animation: none !important;
+    }
+}
+
 // ─── Méga menu ────────────────────────────────────────────────────────────────
 // Sous la barre, sur toute sa largeur. `hidden` l'emporte (`[hidden]` du reboot de
 // Bootstrap est en `!important`).
 .mega {
+    animation: mega-open .2s ease-out;
     position: absolute;
     top: calc(100% + var(--space-10));
     left: 0;
@@ -295,6 +331,10 @@ $header-offer-overlap: var(--space-24);
     min-width: 0;
     padding-left: var(--space-40);
     border-left: 1px solid var(--color-border-subtle);
+}
+
+.mega__panel {
+    animation: mega-fade .15s ease-out;
 }
 
 .mega__panel-title {

@@ -10,6 +10,8 @@ import 'bootstrap/js/dist/collapse';
 import './collapsible-text.js';
 // Repli « Plus » / « Moins » des avis du bloc Avis Google.
 import './reviews.js';
+// Méga menu du header (desktop).
+import './megaMenu.js';
 
 
 printCredits()
