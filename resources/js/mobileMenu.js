@@ -1,7 +1,7 @@
 /**
  * Menu mobile et tablette (sous `xl`) : panneau plein écran ouvert par le bouton
  * burger de la barre, navigation par écrans successifs. Balisage rendu par
- * `partials/header/mobile-menu.twig`, plan dans docs/mega-menu.md.
+ * `partials/header/mobile-menu.twig` ; cf. CLAUDE.md du thème, « Header et méga menu ».
  *
  * - Le burger (`aria-expanded`, `aria-controls`) ouvre et ferme le panneau ;
  *   l'ouverture affiche toujours l'écran de niveau 1. Panneau ouvert : le reste de

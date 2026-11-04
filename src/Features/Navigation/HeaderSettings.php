@@ -11,6 +11,7 @@ namespace Theme\Features\Navigation;
 
 use Deefuse\ThemeCore\Contracts\FeatureInterface;
 use Deefuse\ThemeCore\ThemeContext;
+use Theme\Features\Admin\HelpScreen;
 use Theme\Support\PageCache;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -58,11 +59,13 @@ final class HeaderSettings implements FeatureInterface {
         add_action( 'add_option_' . Header::OPTION, [ PageCache::class, 'purge' ], 10, 0 );
         add_action( 'update_option_' . Header::OPTION, [ PageCache::class, 'purge' ], 10, 0 );
         add_filter( 'option_page_capability_' . self::GROUP, static fn(): string => self::CAPABILITY );
+
+        add_filter( HelpScreen::TABS_FILTER, [ $this, 'help_tab' ] );
     }
 
     /** Courte description affichée sur la page « Fonctionnalités du thème ». */
     public function description(): string {
-        return __( 'Écran « En-tête » : boutons « Se connecter » (espace élève) et « Être rappelé » (page du formulaire) de la barre du header.', 'couturier' );
+        return __( 'Écran « En-tête » : boutons « Se connecter » (espace élève) et « Être rappelé » (page du formulaire) de la barre du header ; onglet « Menu et en-tête » de la page d\'aide.', 'couturier' );
     }
 
     /**
@@ -77,6 +80,28 @@ final class HeaderSettings implements FeatureInterface {
             $this->context->handle( Header::MENU_SLUG ),
             [ $this, 'render' ]
         );
+    }
+
+    /**
+     * Déclare l'onglet « Menu et en-tête » de la page d'aide (gabarit
+     * `resources/views/admin/help/menu.twig`) : menu principal, méga menu, accès
+     * rapides et cet écran. Le lien vers Apparence › Menus n'est donné qu'à qui
+     * peut modifier les menus (`edit_theme_options`).
+     *
+     * @param array<string, array<string, mixed>> $tabs Onglets déjà déclarés.
+     * @return array<string, array<string, mixed>>
+     */
+    public function help_tab( array $tabs ): array {
+        $tabs['menu'] = [
+            'label'    => __( 'Menu et en-tête', 'couturier' ),
+            'priority' => 15,
+            'context'  => [
+                'header_url' => admin_url( 'themes.php?page=' . $this->context->handle( Header::MENU_SLUG ) ),
+                'menus_url'  => current_user_can( 'edit_theme_options' ) ? admin_url( 'nav-menus.php' ) : '',
+            ],
+        ];
+
+        return $tabs;
     }
 
     /** Déclare l'option, autoloadée, et son nettoyage. */

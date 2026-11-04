@@ -1,0 +1,78 @@
+{#
+    Aide de l'admin, onglet « Menu et en-tête » (feature Admin\HelpScreen, déclaré par
+    Navigation\HeaderSettings).
+    Données : `header_url` (URL de l'écran En-tête), `menus_url` (vide si l'utilisateur ne
+    peut pas modifier les menus).
+#}
+<h2>{{ __("Que contient l'en-tête ?", 'couturier') }}</h2>
+<p>{{ __("L'en-tête s'affiche en haut de toutes les pages. Il se masque quand on descend dans la page et réapparaît dès qu'on remonte. Il se compose :", 'couturier') }}</p>
+<ul>
+    <li><strong>{{ __('du logo', 'couturier') }}</strong> {{ __("(lien vers la page d'accueil) ;", 'couturier') }}</li>
+    <li><strong>{{ __('du menu principal', 'couturier') }}</strong> {{ __('(Apparence › Menus, emplacement « Menu principal ») : sur ordinateur, chaque rubrique qui a des sous-pages ouvre un grand menu déroulant ; sur mobile, le bouton ☰ ouvre un menu plein écran ;', 'couturier') }}</li>
+    <li><strong>{{ __('des boutons « Se connecter » et « Être rappelé »', 'couturier') }}</strong> {{ __("(écran « En-tête », sous Apparence) ;", 'couturier') }}</li>
+    <li><strong>{{ __("du bandeau « Offre du moment »", 'couturier') }}</strong> {{ __("au-dessus, sur la page d'accueil et sur ordinateur seulement (voir l'onglet « Offre du moment »).", 'couturier') }}</li>
+</ul>
+{% if menus_url %}
+    <p><a href="{{ menus_url }}">{{ __('Ouvrir Apparence › Menus', 'couturier') }}</a></p>
+{% else %}
+    <p>{{ __("Les menus ne sont modifiables que par un administrateur.", 'couturier') }}</p>
+{% endif %}
+
+<h2>{{ __('Organiser le menu principal', 'couturier') }}</h2>
+<p>{{ __('Le menu principal se construit par glisser-déposer, sur trois niveaux au plus :', 'couturier') }}</p>
+<ol>
+    <li>
+        <strong>{{ __('Niveau 1 : les rubriques', 'couturier') }}</strong>
+        {{ __('(Auto-école, Formation Pro…). Une rubrique qui a des sous-éléments ouvre un grand menu ; sans sous-élément, c’est un simple lien (Avis, Contact).', 'couturier') }}
+    </li>
+    <li>
+        <strong>{{ __('Niveau 2 : les sous-rubriques', 'couturier') }}</strong>
+        {{ __('(Permis B, CACES…), dans la colonne du milieu du grand menu, ou en accordéons sur mobile.', 'couturier') }}
+    </li>
+    <li>
+        <strong>{{ __('Niveau 3 : les pages', 'couturier') }}</strong>
+        {{ __('de chaque sous-rubrique, affichées à droite sur deux colonnes. Les éléments placés plus profond ne sont pas affichés.', 'couturier') }}
+    </li>
+</ol>
+<p>{{ __("Les libellés du menu sont ceux saisis dans le champ « Titre de la navigation » de chaque élément : ils sont identiques sur ordinateur et sur mobile.", 'couturier') }}</p>
+
+<h2>{{ __('Réglages du grand menu', 'couturier') }}</h2>
+<p>{{ __("Dépliez un élément du menu principal pour voir ses réglages. Ils dépendent de son niveau, et suivent l'élément quand on le déplace.", 'couturier') }}</p>
+<ul>
+    <li>
+        <strong>{{ __('Rubrique (niveau 1) : l’encart', 'couturier') }}</strong>
+        {{ __("affiché à gauche du grand menu (et en tête de l'écran de la rubrique sur mobile) : couleur (orange ou pétrole, sur ordinateur), surtitre (ordinateur seulement), texte court et jusqu'à deux boutons (libellé, adresse, nouvel onglet). Le titre de l'encart est le libellé de la rubrique. Sans surtitre, texte ni bouton, il n'y a pas d'encart.", 'couturier') }}
+    </li>
+    <li>
+        <strong>{{ __('Sous-rubrique (niveau 2) : le lien « Tout voir »', 'couturier') }}</strong>
+        {{ __("en bas de la liste de ses pages (par exemple « Toutes les formules permis B »), vers la page de la sous-rubrique. Laissez le libellé vide pour ne pas l'afficher.", 'couturier') }}
+    </li>
+    <li>
+        <strong>{{ __('Sous-rubrique (niveau 2) : le sous-titre', 'couturier') }}</strong>
+        {{ __("affiché sous son nom, au-dessus de ses pages : c'est le champ « Description » de l'élément. S'il n'apparaît pas, cochez « Description » dans les « Options de l'écran », en haut à droite.", 'couturier') }}
+    </li>
+    <li>
+        <strong>{{ __('Intertitre', 'couturier') }}</strong>
+        {{ __("(par exemple « Explorer autrement ») : ajoutez un « Lien personnalisé » avec l'adresse # au niveau 2, et cochez « Intertitre ». Il devient un texte non cliquable, au-dessus des sous-rubriques qui le suivent.", 'couturier') }}
+    </li>
+</ul>
+
+<h2>{{ __('Accès rapides (mobile)', 'couturier') }}</h2>
+<p>{{ __("Les liens « Accès rapides » (Espace élèves, E-learning…) s'affichent en bas du menu mobile seulement. Ils forment un menu à part, sur un seul niveau, à affecter à l'emplacement « Accès rapides (menu mobile) » dans Apparence › Menus. Sans menu affecté, le bloc n'est pas affiché.", 'couturier') }}</p>
+
+<h2>{{ __('Boutons « Se connecter » et « Être rappelé »', 'couturier') }}</h2>
+<ul>
+    <li>
+        <strong>{{ __('Se connecter', 'couturier') }}</strong>
+        {{ __("mène à l'espace élève : saisissez son adresse complète (https://…). Le bouton a un libellé sur ordinateur (dans l'en-tête) et un autre sur mobile (en bas du menu).", 'couturier') }}
+    </li>
+    <li>
+        <strong>{{ __('Être rappelé', 'couturier') }}</strong>
+        {{ __('mène à la page du formulaire de rappel : choisissez-la dans la liste (pages publiées seulement).', 'couturier') }}
+    </li>
+</ul>
+<p>
+    {{ __("Un bouton sans adresse, ou sans page, n'est pas affiché. Un libellé laissé vide affiche le texte grisé du champ.", 'couturier') }}
+    <a href="{{ header_url }}">{{ __("Ouvrir l'écran de l'en-tête", 'couturier') }}</a>
+</p>
+<p>{{ __('Chaque enregistrement (menu ou écran « En-tête ») est visible aussitôt sur tout le site.', 'couturier') }}</p>

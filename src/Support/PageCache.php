@@ -18,7 +18,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Ces plugins se purgent quand un contenu change (page, article), pas quand une
  * option change : les écrans de réglages du thème qui modifient ce qu'affichent
- * toutes les pages (offre du moment, pied de page) les purgent donc eux-mêmes.
+ * toutes les pages (offre du moment, pied de page, en-tête, menus) les purgent donc eux-mêmes.
  *
  * **Tout le cache est vidé, pas une seule URL** : ce que ces écrans règlent
  * s'affiche sur toutes les pages.

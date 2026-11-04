@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-01T13:46:39+00:00\n"
+"POT-Creation-Date: 2026-11-04T12:31:15+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -121,6 +121,7 @@ msgid "Propose les boutons du design system (cinq styles, flèche optionnelle) �
 msgstr ""
 
 #: src/Features/Blocks/ButtonStyles.php:99
+#: src/Features/Navigation/MegaMenu.php:88
 msgid "Orange"
 msgstr ""
 
@@ -129,6 +130,7 @@ msgid "Contour"
 msgstr ""
 
 #: src/Features/Blocks/ButtonStyles.php:101
+#: src/Features/Navigation/MegaMenu.php:89
 msgid "Pétrole"
 msgstr ""
 
@@ -208,18 +210,20 @@ msgstr ""
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:98
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:99
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:195
+#: resources/views/partials/current-offer.twig:9
 msgid "Offre du moment"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferDashboard.php:65
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:313
-#: resources/views/partials/current-offer.twig:11
-msgid "Découvrir l'offre"
+#: resources/views/partials/current-offer.twig:15
+msgid "Voir l'offre"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferDashboard.php:78
 #: resources/views/partials/footer/bottom.twig:18
 #: resources/views/partials/footer/link.twig:14
+#: resources/views/partials/header/link.twig:16
 msgid "(nouvel onglet)"
 msgstr ""
 
@@ -257,6 +261,7 @@ msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:225
 #: src/Features/Footer/FooterSettings.php:346
+#: src/Features/Navigation/HeaderSettings.php:184
 msgid "Réglages enregistrés."
 msgstr ""
 
@@ -288,6 +293,7 @@ msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:272
 #: src/Features/Footer/FooterSettings.php:410
+#: src/Features/Navigation/MegaMenuFields.php:97
 #: blocks/cta/index.js:85
 msgid "Texte"
 msgstr ""
@@ -313,7 +319,7 @@ msgid "Intitulé du lien"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:316
-msgid "Facultatif. « Découvrir l'offre » si le champ est vide."
+msgid "Facultatif. « Voir l'offre » si le champ est vide."
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:322
@@ -465,6 +471,7 @@ msgstr ""
 
 #: src/Features/Footer/FooterSettings.php:390
 #: src/Features/Footer/FooterSettings.php:551
+#: src/Features/Navigation/MegaMenuFields.php:108
 msgid "Adresse"
 msgstr ""
 
@@ -547,7 +554,145 @@ msgstr ""
 msgid "Envoie tous les e-mails du site en HTML, dans un gabarit aux couleurs du thème, avec une version texte en alternative."
 msgstr ""
 
+#: src/Features/Navigation/Header.php:62
+#: src/Features/Navigation/HeaderSettings.php:194
+#: resources/views/admin/help/menu.twig:66
+msgid "Se connecter"
+msgstr ""
+
+#: src/Features/Navigation/Header.php:63
+msgid "Se connecter à son espace"
+msgstr ""
+
+#: src/Features/Navigation/Header.php:64
+#: src/Features/Navigation/HeaderSettings.php:202
+#: resources/views/admin/help/menu.twig:70
+msgid "Être rappelé"
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:68
+msgid "Écran « En-tête » : boutons « Se connecter » (espace élève) et « Être rappelé » (page du formulaire) de la barre du header ; onglet « Menu et en-tête » de la page d'aide."
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:77
+#: src/Features/Navigation/HeaderSettings.php:78
+msgid "En-tête"
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:96
+msgid "Menu et en-tête"
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:145
+msgid "Se connecter : l'adresse n'est pas une adresse web valide (https://…), elle a été retirée."
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:156
+msgid "Être rappelé : la page choisie n'est pas publiée, elle a été retirée."
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:189
+msgid "Boutons affichés à droite de la barre du header, sur toutes les pages. Un bouton sans adresse (ou sans page) n'est pas affiché ; un libellé vide prend le texte grisé."
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:196
+msgid "Adresse de l'espace élève"
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:196
+msgid "Adresse complète de la plateforme (https://…)."
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:197
+msgid "Libellé (ordinateur)"
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:197
+msgid "Bouton de la barre du header, sur ordinateur."
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:198
+msgid "Libellé (mobile)"
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:198
+msgid "Bouton en bas du menu mobile."
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:206
+msgid "Page du formulaire de rappel"
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:212
+msgid "— Aucune —"
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:218
+msgid "Page publiée qui contient le formulaire de rappel."
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:220
+#: src/Features/Navigation/MegaMenuFields.php:107
+msgid "Libellé"
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:220
+msgid "Bouton de la barre du header, sur ordinateur et mobile."
+msgstr ""
+
+#: src/Features/Navigation/MegaMenuFields.php:67
+msgid "Ajoute aux éléments du menu principal les réglages du méga menu (encart, intertitres, lien « Tout voir ») et vide le cache de page à l'enregistrement des menus."
+msgstr ""
+
+#: src/Features/Navigation/MegaMenuFields.php:84
+msgid "Méga menu — encart"
+msgstr ""
+
+#: src/Features/Navigation/MegaMenuFields.php:87
+msgid "Affiché si cet élément a des sous-éléments. Le titre de l’encart est le libellé de l’élément."
+msgstr ""
+
+#: src/Features/Navigation/MegaMenuFields.php:92
+msgid "Couleur"
+msgstr ""
+
+#: src/Features/Navigation/MegaMenuFields.php:96
+msgid "Surtitre (ordinateur seulement)"
+msgstr ""
+
+#. translators: %d : numéro du bouton.
+#: src/Features/Navigation/MegaMenuFields.php:106
+#, php-format
+msgid "Bouton %d"
+msgstr ""
+
+#: src/Features/Navigation/MegaMenuFields.php:109
+msgid "Ouvrir dans un nouvel onglet"
+msgstr ""
+
+#: src/Features/Navigation/MegaMenuFields.php:116
+msgid "Méga menu"
+msgstr ""
+
+#: src/Features/Navigation/MegaMenuFields.php:120
+msgid "Intertitre : texte non cliquable qui ouvre un groupe (utiliser un lien personnalisé « # »)"
+msgstr ""
+
+#: src/Features/Navigation/MegaMenuFields.php:123
+msgid "Libellé du lien « Tout voir » (vide : pas de lien)"
+msgstr ""
+
+#: src/Features/Navigation/MegaMenuFields.php:126
+msgid "Le sous-titre du panneau est le champ « Description » de l’élément (à activer dans les Options de l’écran)."
+msgstr ""
+
+#: src/Features/Navigation/NavigationContext.php:50
+msgid "Expose aux templates le menu principal (méga menu), les accès rapides et les boutons du header."
+msgstr ""
+
 #: src/Providers/SetupServiceProvider.php:47
+#: resources/views/partials/header/mobile-menu.twig:20
+#: resources/views/partials/header/nav.twig:11
 msgid "Menu principal"
 msgstr ""
 
@@ -557,6 +702,10 @@ msgstr ""
 
 #: src/Providers/SetupServiceProvider.php:49
 msgid "Liens légaux du pied de page"
+msgstr ""
+
+#: src/Providers/SetupServiceProvider.php:51
+msgid "Accès rapides (menu mobile)"
 msgstr ""
 
 #: blocks/collapsible-text/index.js:41
@@ -988,7 +1137,7 @@ msgid "À quoi sert l'offre du moment ?"
 msgstr ""
 
 #: resources/views/admin/help/current-offer.twig:6
-msgid "L'offre du moment met en avant une offre commerciale sur une seule ligne, en page d'accueil : un titre, un court texte et un lien vers une page qui détaille l'offre. Par exemple : « Offre du moment • Vacances de la Toussaint – Je me lance. Découvrir l'offre »."
+msgid "L'offre du moment met en avant une offre commerciale sur une seule ligne, dans un bandeau au-dessus du menu de la page d'accueil (sur ordinateur seulement) : un titre, un court texte et un lien vers une page qui détaille l'offre. Par exemple : « Offre du moment · Vacances de la Toussaint · dès 990 € · jusqu'au 15 novembre · Voir l'offre »."
 msgstr ""
 
 #: resources/views/admin/help/current-offer.twig:7
@@ -1036,7 +1185,7 @@ msgid "Facultatif : personnalisez le lien."
 msgstr ""
 
 #: resources/views/admin/help/current-offer.twig:27
-msgid "Si le champ « Intitulé du lien » reste vide, le lien affiche « Découvrir l'offre »."
+msgid "Si le champ « Intitulé du lien » reste vide, le lien affiche « Voir l'offre »."
 msgstr ""
 
 #: resources/views/admin/help/current-offer.twig:30
@@ -1361,6 +1510,162 @@ msgstr ""
 msgid "Un logo n'apparaît pas sur le site ? Vérifiez que « Activer » est sur « Oui » et que l'image est toujours dans la médiathèque."
 msgstr ""
 
+#: resources/views/admin/help/menu.twig:7
+msgid "Que contient l'en-tête ?"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:8
+msgid "L'en-tête s'affiche en haut de toutes les pages. Il se masque quand on descend dans la page et réapparaît dès qu'on remonte. Il se compose :"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:10
+msgid "du logo"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:10
+msgid "(lien vers la page d'accueil) ;"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:11
+msgid "du menu principal"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:11
+msgid "(Apparence › Menus, emplacement « Menu principal ») : sur ordinateur, chaque rubrique qui a des sous-pages ouvre un grand menu déroulant ; sur mobile, le bouton ☰ ouvre un menu plein écran ;"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:12
+msgid "des boutons « Se connecter » et « Être rappelé »"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:12
+msgid "(écran « En-tête », sous Apparence) ;"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:13
+msgid "du bandeau « Offre du moment »"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:13
+msgid "au-dessus, sur la page d'accueil et sur ordinateur seulement (voir l'onglet « Offre du moment »)."
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:16
+msgid "Ouvrir Apparence › Menus"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:18
+msgid "Les menus ne sont modifiables que par un administrateur."
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:21
+msgid "Organiser le menu principal"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:22
+msgid "Le menu principal se construit par glisser-déposer, sur trois niveaux au plus :"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:25
+msgid "Niveau 1 : les rubriques"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:26
+msgid "(Auto-école, Formation Pro…). Une rubrique qui a des sous-éléments ouvre un grand menu ; sans sous-élément, c’est un simple lien (Avis, Contact)."
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:29
+msgid "Niveau 2 : les sous-rubriques"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:30
+msgid "(Permis B, CACES…), dans la colonne du milieu du grand menu, ou en accordéons sur mobile."
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:33
+msgid "Niveau 3 : les pages"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:34
+msgid "de chaque sous-rubrique, affichées à droite sur deux colonnes. Les éléments placés plus profond ne sont pas affichés."
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:37
+msgid "Les libellés du menu sont ceux saisis dans le champ « Titre de la navigation » de chaque élément : ils sont identiques sur ordinateur et sur mobile."
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:39
+msgid "Réglages du grand menu"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:40
+msgid "Dépliez un élément du menu principal pour voir ses réglages. Ils dépendent de son niveau, et suivent l'élément quand on le déplace."
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:43
+msgid "Rubrique (niveau 1) : l’encart"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:44
+msgid "affiché à gauche du grand menu (et en tête de l'écran de la rubrique sur mobile) : couleur (orange ou pétrole, sur ordinateur), surtitre (ordinateur seulement), texte court et jusqu'à deux boutons (libellé, adresse, nouvel onglet). Le titre de l'encart est le libellé de la rubrique. Sans surtitre, texte ni bouton, il n'y a pas d'encart."
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:47
+msgid "Sous-rubrique (niveau 2) : le lien « Tout voir »"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:48
+msgid "en bas de la liste de ses pages (par exemple « Toutes les formules permis B »), vers la page de la sous-rubrique. Laissez le libellé vide pour ne pas l'afficher."
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:51
+msgid "Sous-rubrique (niveau 2) : le sous-titre"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:52
+msgid "affiché sous son nom, au-dessus de ses pages : c'est le champ « Description » de l'élément. S'il n'apparaît pas, cochez « Description » dans les « Options de l'écran », en haut à droite."
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:55
+msgid "Intertitre"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:56
+msgid "(par exemple « Explorer autrement ») : ajoutez un « Lien personnalisé » avec l'adresse # au niveau 2, et cochez « Intertitre ». Il devient un texte non cliquable, au-dessus des sous-rubriques qui le suivent."
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:60
+msgid "Accès rapides (mobile)"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:61
+msgid "Les liens « Accès rapides » (Espace élèves, E-learning…) s'affichent en bas du menu mobile seulement. Ils forment un menu à part, sur un seul niveau, à affecter à l'emplacement « Accès rapides (menu mobile) » dans Apparence › Menus. Sans menu affecté, le bloc n'est pas affiché."
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:63
+msgid "Boutons « Se connecter » et « Être rappelé »"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:67
+msgid "mène à l'espace élève : saisissez son adresse complète (https://…). Le bouton a un libellé sur ordinateur (dans l'en-tête) et un autre sur mobile (en bas du menu)."
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:71
+msgid "mène à la page du formulaire de rappel : choisissez-la dans la liste (pages publiées seulement)."
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:75
+msgid "Un bouton sans adresse, ou sans page, n'est pas affiché. Un libellé laissé vide affiche le texte grisé du champ."
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:76
+msgid "Ouvrir l'écran de l'en-tête"
+msgstr ""
+
+#: resources/views/admin/help/menu.twig:78
+msgid "Chaque enregistrement (menu ou écran « En-tête ») est visible aussitôt sur tout le site."
+msgstr ""
+
 #: resources/views/base.twig:13
 msgid "Aller au contenu"
 msgstr ""
@@ -1389,4 +1694,28 @@ msgstr ""
 
 #: resources/views/partials/footer/certifications.twig:11
 msgid "Nos certifications"
+msgstr ""
+
+#: resources/views/partials/header.twig:29
+msgid "Couturier Permis & Formations, accueil"
+msgstr ""
+
+#: resources/views/partials/header.twig:56
+msgid "Ouvrir le menu"
+msgstr ""
+
+#: resources/views/partials/header.twig:57
+msgid "Fermer le menu"
+msgstr ""
+
+#: resources/views/partials/header/mobile-menu.twig:41
+msgid "Accès rapides"
+msgstr ""
+
+#: resources/views/partials/header/mobile-menu.twig:67
+msgid "Revenir au"
+msgstr ""
+
+#: resources/views/partials/header/mobile-menu.twig:68
+msgid "Menu"
 msgstr ""

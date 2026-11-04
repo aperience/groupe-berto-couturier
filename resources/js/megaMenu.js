@@ -2,7 +2,7 @@
  * Méga menu du header, desktop (à partir de `xl`) : ouverture et fermeture des
  * panneaux de niveau 1, choix du panneau de niveau 3, voile. Modèle WAI-ARIA
  * « Disclosure navigation » (pas de `role="menu"`) ; balisage rendu par
- * `partials/header/nav.twig` et `mega-panel.twig`, plan dans docs/mega-menu.md.
+ * `partials/header/nav.twig` et `mega-panel.twig` ; cf. CLAUDE.md du thème, « Header et méga menu ».
  *
  * Niveau 1 :
  * - ouverture au clic (Entrée / Espace : bouton natif) et au survol après

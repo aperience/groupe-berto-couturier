@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Theme\Features\Navigation;
 
 use Deefuse\ThemeCore\Contracts\FeatureInterface;
+use Theme\Support\PageCache;
 use WP_Post;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -39,6 +40,11 @@ if ( ! defined( 'ABSPATH' ) ) {
  * (`update-nav_menu`) puis d'enregistrer chaque élément. Les champs sont nommés
  * `couturier-mega[{id}][…]` ; une case décochée n'étant pas envoyée, chacune est
  * doublée d'un champ caché à `0`.
+ *
+ * **Cache de page** : la navigation est sur toutes les pages, donc tout le cache
+ * est vidé (`Support\PageCache`) à l'enregistrement ou à la suppression d'un menu,
+ * et quand les emplacements changent (affectation d'un menu, stockée dans les
+ * `theme_mods` du thème). Les menus du pied de page en profitent aussi.
  */
 final class MegaMenuFields implements FeatureInterface {
 
@@ -50,11 +56,15 @@ final class MegaMenuFields implements FeatureInterface {
         add_action( 'wp_nav_menu_item_custom_fields', [ $this, 'render' ], 10, 2 );
         add_action( 'wp_update_nav_menu_item', [ $this, 'save' ], 10, 2 );
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ] );
+
+        add_action( 'wp_update_nav_menu', [ PageCache::class, 'purge' ], 10, 0 );
+        add_action( 'wp_delete_nav_menu', [ PageCache::class, 'purge' ], 10, 0 );
+        add_action( 'update_option_theme_mods_' . get_stylesheet(), [ PageCache::class, 'purge' ], 10, 0 );
     }
 
     /** Courte description affichée sur la page « Fonctionnalités du thème ». */
     public function description(): string {
-        return __( 'Ajoute aux éléments du menu principal les réglages du méga menu (encart, intertitres, lien « Tout voir »).', 'couturier' );
+        return __( 'Ajoute aux éléments du menu principal les réglages du méga menu (encart, intertitres, lien « Tout voir ») et vide le cache de page à l\'enregistrement des menus.', 'couturier' );
     }
 
     /**

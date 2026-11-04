@@ -245,7 +245,7 @@ l'offre du moment et par le pied de page. Un autre plugin de cache s'ajoute là,
 |----------|------|-----------------------------------|
 | `SetupServiceProvider` | Initialisation du thème, chargé en premier | `Setup/` — `ThemeSupport`, `Menus`, `TwigDump` |
 | `SecurityServiceProvider` | Durcissement : surface d'attaque et informations publiées | `Security/` — `DisableApplicationPasswords`, `DisableUserEnumeration`, `DisableXmlRpc`, `HideLoginErrors`, `SecurityHeaders` |
-| `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat<br>`Footer/` (thème) — `FooterSettings` (écran « Pied de page »), `FooterContext` (`footer` dans le contexte Timber), cf. *Pied de page* |
+| `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat<br>`Footer/` (thème) — `FooterSettings` (écran « Pied de page »), `FooterContext` (`footer` dans le contexte Timber), cf. *Pied de page*<br>`Navigation/` (thème) — `MegaMenuFields` (champs des éléments du menu principal), `HeaderSettings` (écran « En-tête »), `NavigationContext` (`navigation` dans le contexte Timber), cf. *Header et méga menu* |
 | `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue et lien « Politique de confidentialité » du login (page de connexion réservée à l'équipe ; à revoir si l'inscription est ouverte), icône du site, mises à jour, commentaires, publication par e-mail, services de mise à jour, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Admin/` (thème) — `NestedPagesLinks` (lien « Pages publiées » du tableau de bord et bouton de retour de l'éditeur des pages vers Nested Pages, si l'extension est active), `HelpScreen` (menu « Aide », cf. *Page d'aide*)<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout), `DisableDropCap` (pas de lettrine sur les paragraphes), `ButtonStyles` (boutons du design system sur `core/button`, cf. *Blocs Gutenberg*), `BlockImageSizes` (retire le `auto` de l'attribut `sizes` des images `wp-block-couturier-{nom}__image` : sans lui, une image en `width: auto` s'afficherait en 300 px)<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
 | `MailServiceProvider` | Forme des e-mails envoyés par `wp_mail()` | `Mail/` (thème) — `HtmlEmails` (cf. *E-mails* plus bas) |
 | `MarketingServiceProvider` | Mise en avant commerciale | `CurrentOffer/` (thème) — `CurrentOfferSettings` (écran « Offre du moment »), `CurrentOfferDashboard` (widget du tableau de bord), `CurrentOfferContext` (`current_offer` dans le contexte Timber), `CurrentOfferPageCache` (purge W3 Total Cache / WP Super Cache), cf. *Offre du moment* |
@@ -568,7 +568,7 @@ complet), pour leur seule data-api, déléguée au document — aucun code d'ini
 `collapse` (accordéon du bloc FAQ), avec le module SCSS `transitions` (`.collapse` /
 `.collapsing`, transition coupée sous `prefers-reduced-motion`) dans `_bootstrap-layout.scss`.
 
-Modules du thème : `collapsible-text.js` (repli du bloc Texte repliable, desktop seulement). Il
+Modules du thème : `megaMenu.js`, `mobileMenu.js`, `scrollHeader.js` (header, cf. *Header et méga menu*), `collapsible-text.js` (repli du bloc Texte repliable, desktop seulement). Il
 n'utilise pas Collapse de Bootstrap, dont le bouton doit être rendu par le serveur avec la data-api
 et qui ne se limite pas à un point de rupture : il anime lui-même `max-height`.
 `reviews.js` (repli « Plus » / « Moins » des avis du bloc Avis Google) : coupe le texte de chaque
@@ -707,12 +707,92 @@ dans `partials/_header.scss`.
 > minute dans la crontab du serveur (en place en préprod, sous `deefuse`). Procédure complète et branchement d'un autre plugin de cache :
 > `docs/mise-en-prod.md` (racine du dépôt).
 
-## Header et méga menu (à venir)
+## Header et méga menu
 
-Pas encore développés : `primary_menu` est rendu à plat par `partials/navigation.twig`. Le plan
-(données, desktop, mobile, accessibilité, architecture, étapes, questions ouvertes) est dans
-`docs/mega-menu.md` (racine du dépôt) ; il est à suivre étape par étape, et sa description rejoindra
-ce fichier une fois le méga menu livré.
+Gabarit `resources/views/partials/header.twig`, découpé en `partials/header/` (`nav`, `mega-panel`,
+`mobile-menu`, `link` — lien de menu avec `aria-current` et nouvel onglet annoncé), bandeau
+`partials/current-offer.twig`, styles `resources/scss/partials/_header.scss`, modules JS
+`megaMenu.js`, `mobileMenu.js`, `scrollHeader.js`. Maquettes Figma (fichier
+`CmEKbzTaMLwJhFUxjEGeER`) : desktop `488-191` (Auto-école), `488-643` (Formation Pro), `495-5043`
+(Tarifs), `495-4576` (Le centre) ; mobile `489-795` (niveau 1), `489-848`, `489-923` (rubriques).
+Code PHP dans `src/Features/Navigation/`, déclaré dans `FrontServiceProvider` :
+
+| Classe | Rôle |
+|--------|------|
+| `MegaMenu` | Logique sans hook : clés des métas, variantes, arbre du menu principal (`tree()`), liens des accès rapides (`links()`) |
+| `MegaMenuFields` | Champs des éléments du menu principal (Apparence › Menus), enregistrement, purge du cache de page à l'enregistrement des menus et des emplacements |
+| `Header` | Logique sans hook : option `couturier_header`, actions « Se connecter » / « Être rappelé » prêtes à afficher |
+| `HeaderSettings` | Écran Apparence › « En-tête » (Settings API, `edit_others_pages`), onglet « Menu et en-tête » de la page d'aide |
+| `NavigationContext` | `navigation` dans le contexte Timber : `{ primary, quick_access, actions, logo_url }` |
+
+**Données.**
+- **Un seul menu** pour desktop et mobile : emplacement `primary`, **trois niveaux au plus** (au-delà,
+  ignorés sans erreur). Un niveau 1 qui a des enfants ouvre un méga menu ; sans enfant, c'est un lien.
+  Un seul libellé par élément, le même partout.
+- **Champs natifs des éléments** (`wp_nav_menu_item_custom_fields` / `wp_update_nav_menu_item`, métas
+  `_couturier_mega_*`), rendus pour le **seul menu affecté à `primary`** ; les deux groupes de champs sont
+  toujours dans le DOM et affichés selon la classe `menu-item-depth-{n}` (CSS) que WordPress tient à
+  jour au glisser-déposer. Cases à cocher doublées d'un champ caché à `0` (l'écran sérialise le
+  formulaire dans `nav-menu-data`).
+  - Niveau 1 : **variante** Orange (défaut) / Pétrole, choisie par rubrique ; **surtitre** (desktop
+    seulement) ; **texte** ; **deux boutons** (libellé, adresse, nouvel onglet). Le titre de l'encart est
+    toujours le libellé de l'élément. Sans surtitre, texte ni bouton : pas d'encart.
+  - Niveau 2 : **intertitre** (case ; « Lien personnalisé » `#` ; ouvre un groupe des niveaux 2
+    suivants, ex. « Explorer autrement ») ; **libellé du lien « Tout voir »** (vers l'URL de l'élément,
+    vide = pas de lien). Sous-titre du panneau de niveau 3 = champ natif « Description » (à activer
+    dans les Options de l'écran).
+- L'URL d'un niveau 1 qui a des enfants n'est utilisée nulle part (c'est un bouton) : la page de la
+  rubrique s'atteint par les boutons de l'encart.
+- **Accès rapides** : emplacement `quick_access`, un niveau, **mobile seulement**.
+- **Actions** (écran Apparence › En-tête, option autoloadée `couturier_header`) : « Se connecter »
+  (adresse de l'espace élève externe, http(s) ; libellés desktop et mobile) et « Être rappelé » (page
+  publiée, choisie dans une liste ; libellé). Sans adresse ou sans page : non affichée ; libellé vide :
+  valeur par défaut.
+- **Cache de page** : tout le cache est vidé (`Support\PageCache`) à l'enregistrement de l'écran
+  En-tête, à l'enregistrement ou la suppression d'un menu et au changement des emplacements
+  (`theme_mods`).
+
+**Desktop (≥ `xl`).**
+- Barre en pilule (logo, niveaux 1, « Se connecter », « Être rappelé »). Niveau 1 avec méga menu =
+  `<button aria-expanded aria-controls>` (motif *disclosure navigation*, pas de `role="menu"`) suivi de
+  son panneau dans le DOM ; rubrique de la page courante en orange.
+- Panneau : **encart** (couleurs de la variante ; boutons = balisage du bloc Bouton, style
+  `secondary` en pétrole avec pastille blanche), **colonne de niveau 2** (avec enfants = bouton à chevron
+  qui choisit le panneau ; sans enfant = lien ; intertitres = `<p>` qui étiquette la liste suivante),
+  **panneaux de niveau 3** (tous dans le HTML, un seul visible : celui de la page courante, sinon le
+  premier ; liste sur deux colonnes remplies colonne par colonne, puis « Tout voir → »). Sans niveau 3
+  (ex. « Le centre ») : ni filet ni panneau.
+- `megaMenu.js` : ouverture au clic (reste ouvert jusqu'au clic suivant) ou au survol après 150 ms
+  (refermé 300 ms après la sortie de la souris ; un clic le garde ouvert) ; un seul ouvert. Rubrique
+  choisie au clic ou au survol (100 ms, pour traverser la colonne en diagonale). Clavier : flèches
+  haut / bas, Début / Fin dans la colonne, flèche droite pour entrer dans le panneau, gauche pour en
+  revenir. Fermeture : Échap (focus rendu au niveau 1), clic hors du header ou sur le voile, focus
+  sorti du méga menu. **Voile** pétrole 40 % (`.mega-backdrop`), défilement non bloqué. Animations
+  CSS (fondu + descente, fondu du panneau) rejouées au retrait de `hidden`. Sans JS : panneaux masqués.
+- **Bandeau « Offre du moment »** au-dessus de la barre : accueil seulement (`is_front_page()`),
+  desktop seulement, offre en ligne (cf. *Offre du moment*).
+
+**Mobile et tablette (< `xl`).** Barre : logo (compressible, pour tenir à 320 px), « Être rappelé »,
+burger. `mobileMenu.js` : panneau plein écran (`#mobile-menu`) ouvert sur l'écran de niveau 1 (rubriques
+à chevron, liens, accès rapides, « Se connecter à son espace ») ; reste de la page `inert` et figé
+(`html.has-mobile-menu`). Une rubrique ouvre son écran en glissant de droite à gauche (« ‹ Menu » :
+sens inverse, focus rendu à la rubrique ; à l'arrivée, focus sur le titre de l'écran) : titre, texte et
+boutons de l'encart (sans surtitre, toujours orange), niveaux 2 en accordéons (Collapse de Bootstrap,
+plusieurs ouverts, celui de la page courante déplié), intertitres. Échap ferme (focus au burger). Sans
+JS : burger et panneau masqués. Écarts assumés avec la maquette mobile : pas de lien « Voir toute
+l'auto-école → », boutons de l'encart sous le texte.
+
+**Au défilement** (`scrollHeader.js`) : header collant (`position: sticky`), `top` négatif
+(`--header-stick`) égal à la hauteur du bandeau, qui part avec la page (`is-stuck` masque ce qui en
+dépasserait) ; masqué en descendant (`is-hidden`), réaffiché en remontant, sauf méga menu ou menu mobile
+ouvert ou focus clavier dans le header. `transform` reste à `none` hors masquage : sinon le voile et le
+menu mobile, en `position: fixed`, se placeraient par rapport au header.
+
+**Animations** coupées sous `prefers-reduced-motion` (changement d'écran mobile immédiat).
+
+> ⚠️ **Accessibilité** (couleurs de la maquette, cf. *Accessibilité*) : texte de l'encart pétrole
+> (`text-muted` sur `surface-petrol-soft`, 4,11:1), boutons orange de l'encart (blanc sur
+> `action-primary`, 2,84:1), « Être rappelé » (blanc sur `action-primary-hover`, 3,61:1) sont sous l'AA.
 
 ## Pied de page
 
@@ -782,6 +862,7 @@ ne pas en ajouter d'office.
 | Slug | Priorité | Déclaré par |
 |------|----------|-------------|
 | `current-offer` | 10 | `CurrentOffer\CurrentOfferSettings::help_tab()` |
+| `menu` | 15 | `Navigation\HeaderSettings::help_tab()` |
 | `footer` | 20 | `Footer\FooterSettings::help_tab()` |
 
 ## Médias : conversion WebP à l'upload
