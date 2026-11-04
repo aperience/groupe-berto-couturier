@@ -1,0 +1,18 @@
+{#
+    Lien du menu principal (niveaux 1 à 3, liens « Tout voir », boutons de l'encart).
+    Données : `link` = `{ title, url, new_tab, current }` (Navigation\MegaMenu),
+    `class` (facultatif), `label` (facultatif, remplace `link.title`), `arrow`
+    (facultatif : flèche décorative après le libellé).
+
+    Même conventions que partials/footer/link.twig : esc_url sur l'adresse saisie,
+    `aria-current` sur le lien courant, nouvel onglet annoncé en texte masqué
+    (WCAG 2.4.4).
+#}
+<a href="{{ link.url|e('esc_url')|raw }}"
+    {%- if class is defined and class %} class="{{ class }}"{% endif %}
+    {%- if link.current|default(false) %} aria-current="page"{% endif %}
+    {%- if link.new_tab %} target="_blank" rel="noopener"{% endif %}>
+    {{- label is defined and label ? label : link.title -}}
+    {%- if link.new_tab %}<span class="visually-hidden"> {{ __('(nouvel onglet)', 'couturier') }}</span>{% endif -%}
+    {%- if arrow is defined and arrow %}<span class="mega__arrow" aria-hidden="true"></span>{% endif -%}
+</a>

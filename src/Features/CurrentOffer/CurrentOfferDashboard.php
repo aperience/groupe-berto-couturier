@@ -62,7 +62,7 @@ final class CurrentOfferDashboard implements FeatureInterface {
 
         if ( '' !== $settings['title'] ) {
             $page_id = (int) $settings['page_id'];
-            $label   = '' !== $settings['link_label'] ? $settings['link_label'] : __( 'Découvrir l\'offre', 'couturier' );
+            $label   = '' !== $settings['link_label'] ? $settings['link_label'] : __( 'Voir l\'offre', 'couturier' );
 
             // Aperçu de l'offre : « Titre • Texte Intitulé du lien », le lien seulement si la page est publiée.
             printf(

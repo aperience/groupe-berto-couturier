@@ -1,0 +1,91 @@
+{#
+    Méga menu d'un élément de niveau 1 (desktop) : encart, colonne de niveau 2, panneaux
+    de niveau 3. Données : `item` (élément de niveau 1, structure : Navigation\MegaMenu).
+
+    - Niveau 2 avec enfants : bouton qui affiche son panneau de niveau 3 ; sa page est
+      atteinte par le lien « Tout voir » du panneau. Sans enfant : lien.
+    - Intertitre : texte qui nomme le groupe suivant (liste étiquetée par lui).
+    - Panneaux de niveau 3 : tous dans le HTML, un seul visible (`item.open_id`).
+    - Boutons de l'encart : balisage du bloc Bouton du core, pour en reprendre les
+      styles (cf. block/_button.scss) ; pétrole = style `secondary`.
+#}
+{% set has_encart = item.eyebrow or item.description or item.buttons %}
+
+<div id="mega-{{ item.id }}" class="mega mega--{{ item.variant }}{{ item.has_panels ? ' has-panels' }}" hidden>
+    {% if has_encart %}
+        <div class="mega__encart">
+            {% if item.eyebrow %}<p class="mega__eyebrow">{{ item.eyebrow }}</p>{% endif %}
+            <p class="mega__title">{{ item.title }}</p>
+            {% if item.description %}<p class="mega__description">{{ item.description|nl2br }}</p>{% endif %}
+
+            {% if item.buttons %}
+                <div class="wp-block-buttons is-vertical mega__buttons">
+                    {% for button in item.buttons %}
+                        <div class="wp-block-button has-arrow{{ item.variant == 'petrol' ? ' is-style-secondary' }}">
+                            {% include 'partials/header/link.twig' with {
+                                link: { title: button.label, url: button.url, new_tab: button.new_tab },
+                                class: 'wp-block-button__link',
+                            } only %}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+    {% endif %}
+
+    <div class="mega__rail">
+        {% for group in item.groups %}
+            {% set heading_id = group.heading ? 'mega-' ~ item.id ~ '-group-' ~ loop.index %}
+            {% if group.heading %}
+                <p id="{{ heading_id }}" class="mega__heading">{{ group.heading }}</p>
+            {% endif %}
+
+            <ul class="mega__rubrics"{% if heading_id %} aria-labelledby="{{ heading_id }}"{% endif %}>
+                {% for rubric in group.items %}
+                    <li>
+                        {% if rubric.children %}
+                            {% set open = rubric.id == item.open_id %}
+                            <button type="button" class="mega__rubric{{ open ? ' is-open' }}{{ rubric.active ? ' is-active' }}"
+                                    aria-expanded="{{ open ? 'true' : 'false' }}" aria-controls="mega-{{ item.id }}-{{ rubric.id }}">
+                                {{- rubric.title -}}
+                            </button>
+                        {% else %}
+                            {% include 'partials/header/link.twig' with {
+                                link: rubric,
+                                class: 'mega__rubric' ~ (rubric.active ? ' is-active'),
+                            } only %}
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endfor %}
+    </div>
+
+    {% if item.has_panels %}
+        <div class="mega__panels">
+            {% for group in item.groups %}
+                {% for rubric in group.items|filter(rubric => rubric.children) %}
+                    <div id="mega-{{ item.id }}-{{ rubric.id }}" class="mega__panel"{% if rubric.id != item.open_id %} hidden{% endif %}>
+                        <p class="mega__panel-title">{{ rubric.title }}</p>
+                        {% if rubric.description %}<p class="mega__panel-description">{{ rubric.description }}</p>{% endif %}
+
+                        <ul class="mega__links">
+                            {% for child in rubric.children %}
+                                <li>{% include 'partials/header/link.twig' with { link: child, class: 'mega__link' } only %}</li>
+                            {% endfor %}
+                        </ul>
+
+                        {% if rubric.all_label %}
+                            {% include 'partials/header/link.twig' with {
+                                link: rubric,
+                                label: rubric.all_label,
+                                class: 'mega__all',
+                                arrow: true,
+                            } only %}
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>

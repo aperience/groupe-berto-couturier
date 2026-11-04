@@ -1,11 +1,31 @@
-<header id="masthead">
-    <div class="container-fluid d-flex justify-content-between align-items-center">
-        <div class="site-branding">
-            <a id="site-title" href="{{ site.url }}">{{ site.name }}</a>
-        </div>
+{#
+    Header : bandeau « Offre du moment » (accueil, desktop), puis barre — logo,
+    navigation principale (méga menu, desktop) et actions.
+    Données : `navigation` (feature Navigation\NavigationContext), `current_offer`
+    (feature CurrentOffer\CurrentOfferContext). Plan : docs/mega-menu.md.
 
-        {% if primary_menu %}
-            {% include 'partials/navigation.twig' with { menu: primary_menu } %}
+    Les actions « Se connecter » / « Être rappelé » (étape 5) et le menu mobile
+    (étape 4) ne sont pas encore rendus.
+#}
+{% set show_offer = current_offer and function('is_front_page') %}
+
+<header id="masthead" class="site-header">
+    <div class="site-header__inner container">
+        {% if show_offer %}
+            <div class="site-header__offer d-none d-xl-block">
+                {% include 'partials/current-offer.twig' %}
+            </div>
         {% endif %}
+
+        <div class="site-header__bar">
+            <a class="site-header__logo" href="{{ site.url|e('esc_url')|raw }}"{% if function('is_front_page') %} aria-current="page"{% endif %}>
+                <img src="{{ navigation.logo_url|e('esc_url')|raw }}" width="146" height="37"
+                     alt="{{ __('Couturier Permis & Formations, accueil', 'couturier') }}">
+            </a>
+
+            {% if navigation.primary %}
+                {% include 'partials/header/nav.twig' with { items: navigation.primary } %}
+            {% endif %}
+        </div>
     </div>
 </header>

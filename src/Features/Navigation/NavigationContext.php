@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Theme\Features\Navigation;
 
 use Deefuse\ThemeCore\Contracts\FeatureInterface;
+use Deefuse\ThemeCore\Support\ViteManifest;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -17,13 +18,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Ajoute `navigation` au contexte Timber de toutes les pages :
- * `{ primary: [arbre du menu principal], quick_access: [liens] }` — structure
- * détaillée dans `MegaMenu`. Listes vides si aucun menu n'est affecté.
+ * `{ primary: [arbre du menu principal], quick_access: [liens], logo_url }` —
+ * structure détaillée dans `MegaMenu`. Listes vides si aucun menu n'est affecté.
+ *
+ * `logo_url` : logo du header, émis par Vite (importé par `resources/js/app.js`) et
+ * résolu par le manifest — chaîne vide sans build.
  *
  * Calculé une seule fois par requête (`MegaMenu` mémorise l'arbre), même si le
  * contexte est construit plusieurs fois.
  */
 final class NavigationContext implements FeatureInterface {
+
+    /** Source du logo, telle que référencée dans le manifest Vite. */
+    private const LOGO = 'resources/images/login-logo.svg';
+
+    /**
+     * @param ViteManifest $manifest Résolution des fichiers buildés.
+     */
+    public function __construct(
+        private readonly ViteManifest $manifest = new ViteManifest(),
+    ) {}
 
     /** Enregistre l'ajout au contexte. */
     public function register(): void {
@@ -45,6 +59,7 @@ final class NavigationContext implements FeatureInterface {
         $context['navigation'] = [
             'primary'      => MegaMenu::tree(),
             'quick_access' => MegaMenu::links(),
+            'logo_url'     => $this->manifest->entry_url( self::LOGO ),
         ];
 
         return $context;

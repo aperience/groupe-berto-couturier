@@ -1,0 +1,30 @@
+{#
+    Navigation principale, desktop (≥ xl) : un élément de niveau 1 avec enfants est un
+    bouton qui ouvre son méga menu (motif « disclosure navigation » du W3C, pas de
+    role="menu") ; sans enfant, c'est un lien. Le panneau suit son bouton dans le DOM,
+    donc dans l'ordre de tabulation.
+    Données : `items` = `navigation.primary` (structure : Navigation\MegaMenu).
+
+    Sans JS, tous les panneaux restent masqués (`hidden`) : ils sont ouverts par
+    `megaMenu.js` (étape 3).
+#}
+<nav class="site-nav d-none d-xl-block" aria-label="{{ __('Menu principal', 'couturier') }}">
+    <ul class="site-nav__list">
+        {% for item in items %}
+            <li class="site-nav__item">
+                {% if item.has_mega %}
+                    <button type="button" class="site-nav__link{{ item.active ? ' is-active' }}"
+                            aria-expanded="false" aria-controls="mega-{{ item.id }}">
+                        {{- item.title -}}
+                    </button>
+                    {% include 'partials/header/mega-panel.twig' %}
+                {% else %}
+                    {% include 'partials/header/link.twig' with {
+                        link: item,
+                        class: 'site-nav__link' ~ (item.active ? ' is-active'),
+                    } only %}
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</nav>

@@ -1,13 +1,18 @@
 {#
-    Offre du moment : titre, texte et lien vers sa page, sur une seule ligne.
-    Données : `current_offer` (feature CurrentOffer\CurrentOfferContext), disponible sur
-    toutes les pages, `null` hors des dates. Sans styles : à habiller avec le héros.
+    Bandeau « Offre du moment », au-dessus de la barre du header : libellé fixe, titre,
+    texte (prix, échéance) et lien vers la page de l'offre, sur une ligne.
+    Données : `current_offer` (feature CurrentOffer\CurrentOfferContext), `null` hors des
+    dates. Inclus par `partials/header.twig` sur la page d'accueil seulement, et masqué
+    sous le point de rupture `xl` (desktop seulement, cf. docs/mega-menu.md).
 #}
 <p class="current-offer">
-    <strong class="current-offer__title">{{ current_offer.title }}</strong>
-    <span class="current-offer__separator" aria-hidden="true">&bull;</span>
-    <span class="current-offer__text">{{ current_offer.text }}</span>
+    <strong class="current-offer__label">{{ __('Offre du moment', 'couturier') }}</strong>
+    <span class="current-offer__text">
+        {{- current_offer.title -}}
+        {%- if current_offer.text %}<span class="current-offer__separator" aria-hidden="true"> · </span>{{ current_offer.text }}{% endif -%}
+    </span>
     <a class="current-offer__link" href="{{ current_offer.url|e('esc_url')|raw }}">
-        <strong>{{ current_offer.link_label ?: __("Découvrir l'offre", 'couturier') }}</strong>
+        {{- current_offer.link_label ?: __("Voir l'offre", 'couturier') -}}
+        <span class="current-offer__arrow" aria-hidden="true"> →</span>
     </a>
 </p>

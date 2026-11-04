@@ -1,0 +1,368 @@
+// ─── Header et méga menu (desktop) ────────────────────────────────────────────
+//
+// Rendu par `partials/header.twig` (+ `partials/header/`) : bandeau « Offre du
+// moment » (accueil), barre en pilule (logo, navigation, actions), méga menu sous
+// la barre. Mesures des maquettes Figma « Méga-menu · … » (desktop 1280 px), cf.
+// docs/mega-menu.md. Le menu mobile (< xl) viendra à l'étape 4.
+//
+// Icônes peintes en `currentColor` à travers un SVG en masque, comme la flèche
+// des boutons (cf. block/_button.scss) ; chemins relatifs aux feuilles d'entrée.
+
+$header-icon-size: to-rem(16);
+
+@mixin header-icon($file) {
+    content: "";
+    flex: 0 0 auto;
+    width: $header-icon-size;
+    height: $header-icon-size;
+    background-color: currentColor;
+    // Chemin relatif à l'entrée, pas au partial : PhpStorm ne le résout pas.
+    // noinspection CssUnknownTarget
+    mask: url("../images/icons/#{$file}.svg") center / contain no-repeat;
+}
+
+@mixin header-focus {
+    &:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+        border-radius: var(--bs-border-radius-sm);
+    }
+}
+
+// ─── Conteneur ────────────────────────────────────────────────────────────────
+.site-header {
+    position: relative;
+    z-index: 1030; // Au-dessus du contenu, comme `$zindex-fixed` de Bootstrap.
+    padding-top: var(--space-12);
+}
+
+// La barre et le méga menu débordent de 10 px de chaque côté du contenu
+// (1156 px pour 1136 sur la maquette).
+.site-header__inner {
+    @include media-breakpoint-up(xl) {
+        --header-bleed: var(--space-10);
+    }
+}
+
+// ─── Bandeau « Offre du moment » ──────────────────────────────────────────────
+// Bande pétrole foncé à coins supérieurs arrondis, dont le bas passe sous la barre.
+$header-offer-overlap: var(--space-24);
+
+.site-header__offer {
+    margin-inline: calc(var(--header-bleed, 0px) * -1);
+    padding: var(--space-6) var(--space-24) calc(#{$header-offer-overlap} + var(--space-6));
+    border-radius: var(--bs-border-radius-lg) var(--bs-border-radius-lg) 0 0;
+    background-color: var(--color-surface-brand-deep);
+    color: var(--color-text-on-brand);
+    text-align: center;
+
+    + .site-header__bar {
+        margin-top: calc(#{$header-offer-overlap} * -1);
+    }
+}
+
+.current-offer {
+    @include text-style(small);
+    margin: 0;
+}
+
+.current-offer__label {
+    margin-right: var(--space-10);
+    color: var(--color-text-accent-on-dark);
+}
+
+.current-offer__link {
+    margin-left: var(--space-12);
+    color: var(--color-text-accent-on-dark);
+    font-weight: 700;
+    text-underline-offset: .2em;
+
+    &:hover {
+        color: var(--color-text-accent-on-dark);
+        text-decoration-thickness: 2px;
+    }
+
+    @include header-focus;
+}
+
+// ─── Barre ────────────────────────────────────────────────────────────────────
+.site-header__bar {
+    position: relative; // Repère du méga menu.
+    display: flex;
+    align-items: center;
+    gap: to-rem(34);
+    min-height: to-rem(58);
+    margin-inline: calc(var(--header-bleed, 0px) * -1);
+    padding: var(--space-6) var(--space-8) var(--space-6) var(--space-40);
+    border-radius: var(--bs-border-radius-pill);
+    background-color: var(--color-surface-card);
+    box-shadow: var(--bs-box-shadow);
+}
+
+.site-header__logo {
+    flex: 0 0 auto;
+    display: block;
+
+    img {
+        display: block;
+        width: to-rem(146);
+        height: auto;
+    }
+
+    @include header-focus;
+}
+
+// ─── Niveau 1 ─────────────────────────────────────────────────────────────────
+.site-nav__list {
+    display: flex;
+    align-items: center;
+    gap: var(--space-18);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+// `position: static` : le méga menu se place par rapport à la barre, pas à l'élément.
+.site-nav__item {
+    position: static;
+}
+
+.site-nav__link {
+    @include text-style(body-medium);
+    display: block;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: var(--color-text-heading);
+    text-decoration: none;
+    white-space: nowrap;
+    cursor: pointer;
+
+    // Rubrique de la page courante, ou méga menu ouvert.
+    &.is-active,
+    &[aria-expanded="true"],
+    &:hover {
+        color: var(--color-text-accent);
+    }
+
+    @include header-focus;
+}
+
+// ─── Méga menu ────────────────────────────────────────────────────────────────
+// Sous la barre, sur toute sa largeur. `hidden` l'emporte (`[hidden]` du reboot de
+// Bootstrap est en `!important`).
+.mega {
+    position: absolute;
+    top: calc(100% + var(--space-10));
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-40);
+    padding: var(--space-32);
+    border-radius: var(--bs-border-radius-xl);
+    background-color: var(--color-surface-card);
+    box-shadow: var(--bs-box-shadow-lg);
+
+    p {
+        margin: 0;
+    }
+}
+
+// ─── Encart ───────────────────────────────────────────────────────────────────
+.mega__encart {
+    flex: 0 0 to-rem(280);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-12);
+    padding: var(--space-28);
+    border-radius: var(--bs-border-radius-lg);
+    background-color: var(--mega-encart-bg);
+}
+
+.mega--orange {
+    --mega-encart-bg: var(--color-surface-peach-faint);
+}
+
+.mega--petrol {
+    --mega-encart-bg: var(--color-surface-petrol-soft);
+
+    // Pastille blanche et flèche foncée, comme les boutons orange (le style
+    // `secondary` a une pastille orange ailleurs).
+    .wp-block-button.is-style-secondary {
+        --button-pastille: var(--color-surface-card);
+        --button-arrow:    var(--color-text-default);
+    }
+}
+
+.mega__eyebrow {
+    @include text-style(eyebrow);
+    color: var(--color-text-heading);
+}
+
+.mega__title {
+    @include text-style(h3);
+    color: var(--color-text-heading);
+}
+
+.mega__description {
+    @include text-style(body);
+    color: var(--color-text-muted);
+}
+
+// Boutons du bloc Bouton (cf. block/_button.scss), empilés : 4 px d'écart de plus
+// au-dessus d'eux, 12 px entre eux.
+.mega__buttons.wp-block-buttons {
+    gap: var(--space-12);
+    margin: var(--space-4) 0 0;
+}
+
+// ─── Colonne de niveau 2 ──────────────────────────────────────────────────────
+.mega__rail {
+    flex: 0 0 to-rem(264);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.mega__rubrics {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.mega__heading {
+    @include text-style(small);
+    padding: var(--space-16) 0 var(--space-4) var(--space-16);
+    color: var(--color-text-muted);
+}
+
+// 44 px de haut : 24 px d'interligne et 10 px de marge interne.
+.mega__rubric {
+    @include text-style(body);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+    width: 100%;
+    min-height: to-rem(44);
+    padding: var(--space-10) var(--space-16);
+    border: 0;
+    border-radius: var(--bs-border-radius);
+    background: none;
+    color: var(--color-text-default);
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+
+    // Chevron : niveaux 2 qui ont un panneau seulement (des boutons).
+    @at-root button#{&}::after {
+        @include header-icon(chevron-right);
+        color: var(--color-text-muted);
+    }
+
+    &:hover,
+    &.is-open {
+        background-color: var(--color-surface-peach-faint);
+        color: var(--color-text-heading);
+        font-weight: 500;
+
+        &::after {
+            color: var(--color-text-accent);
+        }
+    }
+
+    &[aria-current="page"] {
+        color: var(--color-text-accent);
+        font-weight: 500;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-text-default);
+        outline-offset: -2px;
+    }
+}
+
+// ─── Panneaux de niveau 3 ─────────────────────────────────────────────────────
+// Séparés de la colonne par un filet, 40 px d'écart de part et d'autre.
+.mega__panels {
+    flex: 1 1 auto;
+    align-self: stretch;
+    min-width: 0;
+    padding-left: var(--space-40);
+    border-left: 1px solid var(--color-border-subtle);
+}
+
+.mega__panel-title {
+    @include text-style(h3);
+    color: var(--color-text-heading);
+}
+
+.mega .mega__panel-description {
+    @include text-style(small);
+    margin-top: var(--space-4);
+    color: var(--color-text-muted);
+}
+
+// Deux colonnes remplies colonne par colonne : l'ordre de lecture reste vertical.
+.mega__links {
+    margin: var(--space-16) 0 0;
+    padding: 0;
+    list-style: none;
+    column-count: 2;
+    column-gap: var(--space-40);
+
+    li {
+        break-inside: avoid;
+        margin-bottom: var(--space-2);
+    }
+}
+
+.mega__link {
+    @include text-style(body);
+    display: inline-block;
+    padding-block: var(--space-6);
+    color: var(--color-text-default);
+    text-decoration: none;
+    text-underline-offset: .2em;
+
+    &:hover {
+        color: var(--color-text-default);
+        text-decoration: underline;
+    }
+
+    &[aria-current="page"] {
+        color: var(--color-text-accent);
+        font-weight: 500;
+    }
+
+    @include header-focus;
+}
+
+.mega__all {
+    @include text-style(body-medium);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-6);
+    margin-top: var(--space-16);
+    padding-block: var(--space-6);
+    color: var(--color-text-accent);
+    text-decoration: none;
+    text-underline-offset: .2em;
+
+    &:hover {
+        color: var(--color-text-accent);
+        text-decoration: underline;
+    }
+
+    @include header-focus;
+}
+
+.mega__arrow::before {
+    @include header-icon(arrow-right);
+    display: block;
+}

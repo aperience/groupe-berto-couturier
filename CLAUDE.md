@@ -685,7 +685,7 @@ titre fait l'écart, sans fusionner avec le `--layout-section-gap` des blocs.
 
 Une seule offre mise en avant (ex. « Vacances de la Toussaint – Je me lance »), gérée par les
 éditeurs dans l'admin (menu **Offre du moment**, sous Pages) : titre, texte, page dédiée (obligatoires
-pour activer l'offre), intitulé du lien (défaut « Découvrir l'offre »), dates et heures de début et de fin
+pour activer l'offre), intitulé du lien (défaut « Voir l'offre »), dates et heures de début et de fin
 (fuseau du site, heure à 00:00 par défaut, instant de fin exclu : une fin au 5 novembre à 00:00
 arrête l'offre à la fin du 4), interrupteur. Code dans `src/Features/CurrentOffer/` :
 
@@ -697,8 +697,9 @@ arrête l'offre à la fin du 4), interrupteur. Code dans `src/Features/CurrentOf
 | `CurrentOfferContext` | Marketing | `current_offer` dans le contexte Timber de toutes les pages (`null` hors ligne), mis en cache dans `wp_cache` jusqu'à la prochaine date |
 | `CurrentOfferPageCache` | Marketing | Purge du cache de page (`Support\PageCache`) à l'enregistrement et aux dates (tâches WP-Cron) : W3 Total Cache, WP Super Cache |
 
-Rendu : `resources/views/partials/current-offer.twig`, inclus par `page.twig` ; sans styles, à habiller
-avec le héros.
+Rendu : `resources/views/partials/current-offer.twig`, bandeau au-dessus de la barre du header, inclus
+par `partials/header.twig` sur la page d'accueil seulement, et en desktop seulement (≥ `xl`) ; styles
+dans `partials/_header.scss`.
 
 > ⚠️ **Production avec cache de page : vrai cron obligatoire.** Les visites servies par le cache
 > n'exécutent pas WordPress, donc pas WP-Cron : la fin de l'offre ne serait purgée qu'à la visite non

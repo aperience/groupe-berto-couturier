@@ -310,10 +310,10 @@ final class CurrentOfferSettings implements FeatureInterface {
                 '<input type="text" class="regular-text" id="current-offer-link_label" name="%1$s" value="%2$s" placeholder="%3$s"%4$s>',
                 esc_attr( $name( 'link_label' ) ),
                 esc_attr( $settings['link_label'] ),
-                esc_attr__( 'Découvrir l\'offre', 'couturier' ),
+                esc_attr__( 'Voir l\'offre', 'couturier' ),
                 $this->field_attributes( 'link_label', $errors )
             ),
-            __( 'Facultatif. « Découvrir l\'offre » si le champ est vide.', 'couturier' ),
+            __( 'Facultatif. « Voir l\'offre » si le champ est vide.', 'couturier' ),
             $errors
         );
 
