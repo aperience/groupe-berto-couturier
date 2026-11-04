@@ -44,9 +44,11 @@ final class SetupServiceProvider implements ServiceProviderInterface {
             ),
             new Menus(
                 locations: static fn(): array => [
-                    'primary' => __( 'Menu principal', 'couturier' ),
-                    'footer'  => __( 'Menu pied de page', 'couturier' ),
-                    'legal'   => __( 'Liens légaux du pied de page', 'couturier' ),
+                    'primary'      => __( 'Menu principal', 'couturier' ),
+                    'footer'       => __( 'Menu pied de page', 'couturier' ),
+                    'legal'        => __( 'Liens légaux du pied de page', 'couturier' ),
+                    // Mobile seulement, cf. Navigation\MegaMenu::QUICK_ACCESS.
+                    'quick_access' => __( 'Accès rapides (menu mobile)', 'couturier' ),
                 ],
             ),
             new TwigDump(),

@@ -21,6 +21,8 @@ use Deefuse\ThemeCore\Features\Front\Favicons;
 use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\Footer\FooterContext;
 use Theme\Features\Footer\FooterSettings;
+use Theme\Features\Navigation\MegaMenuFields;
+use Theme\Features\Navigation\NavigationContext;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -28,8 +30,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Regroupe les features front-end : assets, nettoyage du <head>,
- * optimisations et désactivations côté public, pied de page (son écran d'admin
- * n'existe que pour lui : la feature reste entière ici).
+ * optimisations et désactivations côté public, pied de page et méga menu (leurs
+ * réglages d'admin n'existent que pour eux : chaque feature reste entière ici).
  */
 final class FrontServiceProvider implements ServiceProviderInterface {
 
@@ -55,6 +57,8 @@ final class FrontServiceProvider implements ServiceProviderInterface {
             ),
             new FooterSettings( $context ),
             new FooterContext(),
+            new MegaMenuFields(),
+            new NavigationContext(),
         ];
     }
 }
