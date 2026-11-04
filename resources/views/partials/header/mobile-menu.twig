@@ -2,10 +2,12 @@
     Menu mobile et tablette (< xl) : panneau plein écran, ouvert par le bouton burger de
     la barre, navigation par écrans successifs (`resources/js/mobileMenu.js`).
     Données : `items` = `navigation.primary`, `quick_access` = `navigation.quick_access`
-    (structure : Navigation\MegaMenu).
+    (structure : Navigation\MegaMenu), `login` = `navigation.actions.login`
+    (Navigation\Header, `null` si non réglé).
 
     - Écran de niveau 1 : rubriques avec enfants (boutons qui ouvrent leur écran),
-      autres éléments (liens), bloc « Accès rapides ».
+      autres éléments (liens), bloc « Accès rapides », bouton « Se connecter à son
+      espace ».
     - Écran d'une rubrique : retour « Menu », titre, texte et boutons de l'encart (pas
       de surtitre en mobile, boutons toujours orange), niveaux 2 avec enfants en
       accordéons (Collapse de Bootstrap, plusieurs ouverts à la fois, celui de la page
@@ -42,6 +44,17 @@
                             <li>{% include 'partials/header/link.twig' with { link: link, class: 'mega__link' } only %}</li>
                         {% endfor %}
                     </ul>
+                </div>
+            {% endif %}
+
+            {% if login %}
+                <div class="wp-block-buttons mobile-menu__login">
+                    <div class="wp-block-button is-style-outline has-arrow">
+                        {% include 'partials/header/link.twig' with {
+                            link: { title: login.mobile_label, url: login.url, new_tab: false },
+                            class: 'wp-block-button__link',
+                        } only %}
+                    </div>
                 </div>
             {% endif %}
         </nav>

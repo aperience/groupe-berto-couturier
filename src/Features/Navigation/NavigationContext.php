@@ -18,8 +18,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Ajoute `navigation` au contexte Timber de toutes les pages :
- * `{ primary: [arbre du menu principal], quick_access: [liens], logo_url }` —
- * structure détaillée dans `MegaMenu`. Listes vides si aucun menu n'est affecté.
+ * `{ primary: [arbre du menu principal], quick_access: [liens], actions, logo_url }` —
+ * structure détaillée dans `MegaMenu` (menus) et `Header::actions()` (boutons
+ * « Se connecter » / « Être rappelé »). Listes vides si aucun menu n'est affecté.
  *
  * `logo_url` : logo du header, émis par Vite (importé par `resources/js/app.js`) et
  * résolu par le manifest — chaîne vide sans build.
@@ -46,7 +47,7 @@ final class NavigationContext implements FeatureInterface {
 
     /** Courte description affichée sur la page « Fonctionnalités du thème ». */
     public function description(): string {
-        return __( 'Expose aux templates le menu principal (méga menu) et les accès rapides.', 'couturier' );
+        return __( 'Expose aux templates le menu principal (méga menu), les accès rapides et les boutons du header.', 'couturier' );
     }
 
     /**
@@ -59,6 +60,7 @@ final class NavigationContext implements FeatureInterface {
         $context['navigation'] = [
             'primary'      => MegaMenu::tree(),
             'quick_access' => MegaMenu::links(),
+            'actions'      => Header::actions(),
             'logo_url'     => $this->manifest->entry_url( self::LOGO ),
         ];
 

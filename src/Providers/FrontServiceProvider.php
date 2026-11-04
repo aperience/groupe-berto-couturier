@@ -21,6 +21,7 @@ use Deefuse\ThemeCore\Features\Front\Favicons;
 use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\Footer\FooterContext;
 use Theme\Features\Footer\FooterSettings;
+use Theme\Features\Navigation\HeaderSettings;
 use Theme\Features\Navigation\MegaMenuFields;
 use Theme\Features\Navigation\NavigationContext;
 
@@ -58,6 +59,7 @@ final class FrontServiceProvider implements ServiceProviderInterface {
             new FooterSettings( $context ),
             new FooterContext(),
             new MegaMenuFields(),
+            new HeaderSettings( $context ),
             new NavigationContext(),
         ];
     }

@@ -30,10 +30,25 @@ $header-icon-size: to-rem(16);
 }
 
 // ─── Conteneur ────────────────────────────────────────────────────────────────
+// Collant : `--header-stick` (posé par `scrollHeader.js`) est la hauteur de ce qui
+// précède la barre (bandeau « Offre du moment »), qui part ainsi avec la page.
+// `is-hidden` le fait sortir par le haut, ombre comprise, quand on descend.
+// `transform` reste à `none` hors masquage : sinon, le voile et le menu mobile,
+// en `position: fixed`, se placeraient par rapport au header et non à la fenêtre.
 .site-header {
-    position: relative;
+    position: sticky;
+    top: var(--header-stick, 0px);
     z-index: 1030; // Au-dessus du contenu, comme `$zindex-fixed` de Bootstrap.
     padding-top: var(--space-12);
+    transition: transform .3s ease;
+
+    &.is-hidden {
+        transform: translateY(calc(-100% - var(--space-40)));
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
 }
 
 // La barre et le méga menu débordent de 10 px de chaque côté du contenu
@@ -56,8 +71,17 @@ $header-offer-overlap: var(--space-24);
     color: var(--color-text-on-brand);
     text-align: center;
 
+    // Desktop seulement : en dessous, le bandeau est masqué (`d-none d-xl-block`).
     + .site-header__bar {
-        margin-top: calc(#{$header-offer-overlap} * -1);
+        @include media-breakpoint-up(xl) {
+            margin-top: calc(#{$header-offer-overlap} * -1);
+        }
+    }
+
+    // Barre collée en haut de la fenêtre (`scrollHeader.js`) : le bandeau, parti
+    // avec la page, ne dépasse plus au-dessus d'elle.
+    .is-stuck & {
+        visibility: hidden;
     }
 }
 
@@ -692,4 +716,83 @@ html.has-mobile-menu {
     margin: 0;
     padding: 0;
     list-style: none;
+}
+
+// ═══ Actions de la barre ══════════════════════════════════════════════════════
+// « Se connecter » (desktop) et « Être rappelé » : boutons compacts de 40 px
+// (maquette « Bouton compact »). Réglages : Apparence › En-tête.
+//
+// ⚠️ Accessibilité : texte blanc sur l'orange `action-primary-hover` (3,6:1), comme
+// la maquette et comme les autres boutons orange du thème, sous l'AA (WCAG 1.4.3) —
+// même dérogation, validation reportée (cf. block/_button.scss).
+.site-header__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+    margin-left: auto;
+
+    + .site-header__burger {
+        margin-left: 0;
+    }
+}
+
+.header-button {
+    @include text-style(body-medium);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-4);
+    min-height: to-rem(40);
+    padding: var(--space-8) var(--space-18);
+    border-radius: var(--bs-border-radius-pill);
+    text-decoration: none;
+    white-space: nowrap;
+    transition: background-color .15s ease;
+
+    &:focus-visible {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 2px var(--color-surface-card), 0 0 0 4px var(--color-text-default);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
+
+.header-button--login {
+    background-color: var(--color-surface-peach-faint);
+    color: var(--color-text-heading);
+
+    &::before {
+        @include header-icon(user);
+    }
+
+    &:hover {
+        background-color: var(--color-surface-peach-soft);
+        color: var(--color-text-heading);
+    }
+}
+
+.header-button--callback {
+    background-color: var(--color-action-primary-hover);
+    color: var(--color-text-on-brand);
+    font-weight: 700;
+
+    // Survol : orange plus foncé (orange/700, porté par `text-accent`), blanc à 4,99:1.
+    &:hover {
+        background-color: var(--color-text-accent);
+        color: var(--color-text-on-brand);
+    }
+}
+
+// Bouton « Se connecter à son espace », en bas du menu mobile : bouton contour du
+// bloc Bouton, sur toute la largeur.
+.mobile-menu__login.wp-block-buttons {
+    margin: var(--space-16) 0 0;
+
+    .wp-block-button,
+    .wp-block-button__link {
+        width: 100%;
+    }
 }

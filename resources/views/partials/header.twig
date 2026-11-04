@@ -4,9 +4,10 @@
     Données : `navigation` (feature Navigation\NavigationContext), `current_offer`
     (feature CurrentOffer\CurrentOfferContext). Plan : docs/mega-menu.md.
 
-    Les actions « Se connecter » / « Être rappelé » (étape 5) ne sont pas encore
-    rendues. Sous `xl`, le bouton burger ouvre le menu mobile
-    (`partials/header/mobile-menu.twig`, `resources/js/mobileMenu.js`) ; masqué sans JS.
+    Actions (Apparence › En-tête, `navigation.actions`) : « Se connecter » dans la barre
+    en desktop, en bas du menu mobile sinon ; « Être rappelé » dans la barre partout.
+    Sous `xl`, le bouton burger ouvre le menu mobile (`partials/header/mobile-menu.twig`,
+    `resources/js/mobileMenu.js`) ; masqué sans JS.
 
     Voile : affiché sous le méga menu ouvert par `megaMenu.js`, masqué sans lui.
 #}
@@ -30,7 +31,27 @@
 
             {% if navigation.primary %}
                 {% include 'partials/header/nav.twig' with { items: navigation.primary } %}
+            {% endif %}
 
+            {% set actions = navigation.actions %}
+            {% if actions.login or actions.callback %}
+                <div class="site-header__actions">
+                    {% if actions.login %}
+                        {% include 'partials/header/link.twig' with {
+                            link: { title: actions.login.label, url: actions.login.url, new_tab: false },
+                            class: 'header-button header-button--login d-none d-xl-inline-flex',
+                        } only %}
+                    {% endif %}
+                    {% if actions.callback %}
+                        {% include 'partials/header/link.twig' with {
+                            link: { title: actions.callback.label, url: actions.callback.url, new_tab: false, current: actions.callback.current },
+                            class: 'header-button header-button--callback',
+                        } only %}
+                    {% endif %}
+                </div>
+            {% endif %}
+
+            {% if navigation.primary %}
                 <button type="button" class="site-header__burger d-xl-none" aria-controls="mobile-menu" aria-expanded="false" hidden>
                     <span class="visually-hidden" data-label-open>{{ __('Ouvrir le menu', 'couturier') }}</span>
                     <span class="visually-hidden" data-label-close hidden>{{ __('Fermer le menu', 'couturier') }}</span>
@@ -42,6 +63,7 @@
             {% include 'partials/header/mobile-menu.twig' with {
                 items: navigation.primary,
                 quick_access: navigation.quick_access,
+                login: navigation.actions.login,
             } %}
         {% endif %}
     </div>

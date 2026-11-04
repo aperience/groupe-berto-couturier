@@ -14,6 +14,8 @@ import './reviews.js';
 import './megaMenu.js';
 // Menu mobile du header (sous xl).
 import './mobileMenu.js';
+// Header masqué au défilement vers le bas, réaffiché en remontant.
+import './scrollHeader.js';
 
 
 printCredits()
