@@ -758,7 +758,9 @@ Code PHP dans `src/Features/Navigation/`, déclaré dans `FrontServiceProvider` 
   son panneau dans le DOM ; rubrique de la page courante en orange.
 - Panneau : **encart** (couleurs de la variante ; boutons = balisage du bloc Bouton, style
   `secondary` en pétrole avec pastille blanche), **colonne de niveau 2** (avec enfants = bouton à chevron
-  qui choisit le panneau ; sans enfant = lien ; intertitres = `<p>` qui étiquette la liste suivante),
+  qui choisit le panneau ; sans enfant = lien ; intertitres = `<p>` qui étiquette la liste suivante ;
+  niveau 1 pointant sur la **page des articles** — Blog — : niveaux 2 sur deux colonnes remplies
+  colonne par colonne sous l'intertitre, `has-columns`),
   **panneaux de niveau 3** (tous dans le HTML, un seul visible : celui de la page courante, sinon le
   premier ; liste sur deux colonnes remplies colonne par colonne, puis « Tout voir → »). Sans niveau 3
   (ex. « Le centre ») : ni filet ni panneau.

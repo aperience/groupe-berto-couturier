@@ -30,6 +30,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *     variant, eyebrow, description, buttons: [{ label, url, new_tab }],
  *     has_panels,               // au moins un niveau 2 a des enfants
  *     open_id,                  // niveau 2 dont le panneau est affiché à l'ouverture
+ *     columns,                  // pointe sur la page des articles : niveaux 2 sur deux colonnes (desktop)
  *     groups: [{ heading, items: [niveau 2] }],
  * }
  * ```
@@ -221,8 +222,19 @@ final class MegaMenu {
             'buttons'     => $has_mega ? self::buttons( $item ) : [],
             'has_panels'  => null !== $first,
             'open_id'     => $open_id ?? $first,
+            'columns'     => $has_mega && self::is_posts_page( $item ),
             'groups'      => $groups,
         ];
+    }
+
+    /** L'élément pointe sur la page des articles (Réglages › Lecture). */
+    private static function is_posts_page( WP_Post $item ): bool {
+        $posts_page = (int) get_option( 'page_for_posts' );
+
+        return 0 !== $posts_page
+            && 'post_type' === $item->type
+            && 'page' === $item->object
+            && $posts_page === (int) $item->object_id;
     }
 
     /**

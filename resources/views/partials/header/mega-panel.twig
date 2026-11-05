@@ -6,12 +6,14 @@
       atteinte par le lien « Tout voir » du panneau. Sans enfant : lien.
     - Intertitre : texte qui nomme le groupe suivant (liste étiquetée par lui).
     - Panneaux de niveau 3 : tous dans le HTML, un seul visible (`item.open_id`).
+    - `item.columns` (niveau 1 de la page des articles) : niveaux 2 sur deux colonnes
+      (`has-columns`), intertitres au-dessus.
     - Boutons de l'encart : balisage du bloc Bouton du core, pour en reprendre les
       styles (cf. block/_button.scss) ; pétrole = style `secondary`.
 #}
 {% set has_encart = item.eyebrow or item.description or item.buttons %}
 
-<div id="mega-{{ item.id }}" class="mega mega--{{ item.variant }}{{ item.has_panels ? ' has-panels' }}" hidden>
+<div id="mega-{{ item.id }}" class="mega mega--{{ item.variant }}{{ item.has_panels ? ' has-panels' }}{{ item.columns ? ' has-columns' }}" hidden>
     {% if has_encart %}
         <div class="mega__encart">
             {% if item.eyebrow %}<p class="mega__eyebrow">{{ item.eyebrow }}</p>{% endif %}

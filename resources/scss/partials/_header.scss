@@ -295,6 +295,26 @@ $header-offer-overlap: var(--space-24);
     list-style: none;
 }
 
+// Niveau 1 de la page des articles (catégories du blog) : deux colonnes de 264 px
+// remplies colonne par colonne, sous l'intertitre — l'ordre de lecture et celui des
+// flèches haut / bas restent verticaux.
+.mega.has-columns {
+    .mega__rail {
+        flex-basis: to-rem(568);
+    }
+
+    .mega__rubrics {
+        display: block;
+        column-count: 2;
+        column-gap: var(--space-40);
+
+        li {
+            break-inside: avoid;
+            margin-bottom: var(--space-4);
+        }
+    }
+}
+
 .mega__heading {
     @include text-style(small);
     padding: var(--space-16) 0 var(--space-4) var(--space-16);
