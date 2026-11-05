@@ -867,6 +867,37 @@ ne pas en ajouter d'office.
 | `menu` | 15 | `Navigation\HeaderSettings::help_tab()` |
 | `footer` | 20 | `Footer\FooterSettings::help_tab()` |
 
+## Blog : permaliens
+
+Tout le blog est rangé sous le slug de la page des articles (`blog`, Réglages › Lecture), **par
+réglage, sans code** : Réglages › Permaliens, options en base (elles partent en préprod avec la
+synchro de la BDD de `bin/deploy-preprod`, sinon à refaire là-bas).
+
+- Structure personnalisée : `/blog/%category%/%postname%/` ; préfixe des catégories : `blog/categorie`
+  (WordPress n'y ajoute pas le début de la structure quand il est renseigné, d'où le `blog/` en entier) ;
+  préfixe des étiquettes vide.
+- En WP-CLI : `docker compose exec cli wp rewrite structure '/blog/%category%/%postname%/' --category-base=blog/categorie`.
+
+| URL | Contenu |
+|-----|---------|
+| `/blog/`, `/blog/page/2/` | page des articles (les règles de page passent avant celles des billets) |
+| `/blog/{catégorie}/{billet}/` | billet |
+| `/blog/categorie/{catégorie}/` (+ `page/N/`, `feed/`) | archive de catégorie (ses règles passent avant celles des billets) |
+| `/blog/tag/…`, `/blog/author/…`, `/blog/{année}/…` | étiquettes, auteurs, dates : héritent du préfixe `/blog/` |
+
+**Contraintes.**
+- Le slug `blog` est **écrit en dur** dans les deux réglages : à mettre à jour si la page des articles
+  change de slug.
+- Aucune catégorie au slug `categorie` : ses billets seraient pris pour une archive de catégorie.
+- Billet dans plusieurs catégories : l'URL prend celle au plus petit ID (filtre `post_link_category`
+  pour une catégorie principale).
+- **Futurs CPT** (`PostTypes/`) : `'rewrite' => [ 'with_front' => false, … ]`, sinon ils sont préfixés
+  par `/blog/`. Idem pour une taxonomie custom.
+- `/blog/{catégorie}/` répond aussi (effet de bord de `%category%`), mais pas sa pagination ni son flux
+  (lus comme un billet → 404) : aucun lien n'y mène, ne pas en créer.
+- Les anciennes URL `/{billet}/` et `/categorie/{catégorie}/` donnent 404, sans redirection : prévoir des
+  301 si des billets sont publiés et indexés avant la mise en prod.
+
 ## Médias : conversion WebP à l'upload
 
 `Admin\ConvertUploadsToWebp` du socle (≥ 1.10.0, déclarée dans `AdminServiceProvider`) convertit chaque
