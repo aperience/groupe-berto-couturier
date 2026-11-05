@@ -520,16 +520,20 @@ html.has-mobile-menu {
 }
 
 // Les écrans se superposent dans la même cellule : pendant un glissement, celui
-// qui part et celui qui arrive sont affichés ensemble.
+// qui part et celui qui arrive sont affichés ensemble. Les marges latérales sont
+// sur les écrans : un écran fait toute la largeur, et `translateX(±100%)` le sort
+// entièrement (posées sur le conteneur, elles laissaient voir le bord de l'écran
+// qui part, chevrons compris, dans la marge).
 .mobile-menu__screens {
     display: grid;
     overflow-x: clip;
-    padding: var(--space-16) var(--space-24) var(--space-40);
+    padding: var(--space-16) 0 var(--space-40);
 }
 
 .mobile-menu__screen {
     grid-area: 1 / 1;
     min-width: 0;
+    padding-inline: var(--space-24);
 
     &.is-entering { animation: mobile-menu-from-right .3s ease both; }
     &.is-leaving { animation: mobile-menu-to-left .3s ease both; }
@@ -698,9 +702,19 @@ html.has-mobile-menu {
     color: var(--color-text-muted);
 }
 
-.mobile-menu__buttons.wp-block-buttons {
-    gap: var(--space-12);
+// Boutons de l'encart rendus en liens fléchés (maquette « Voir toute l'auto-école → »).
+.mobile-menu__links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
     margin: var(--space-10) 0 0;
+    padding: 0;
+    list-style: none;
+
+    .mega__all {
+        margin-top: 0;
+    }
 }
 
 .mobile-menu__heading {
@@ -725,7 +739,12 @@ html.has-mobile-menu {
     color: var(--color-text-muted);
 }
 
+// Liens de 36 px espacés de 4 px (maquette) ; zone cliquable = largeur du libellé.
 .mobile-menu__quick-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
     margin: 0;
     padding: 0;
     list-style: none;

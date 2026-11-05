@@ -776,11 +776,11 @@ Code PHP dans `src/Features/Navigation/`, déclaré dans `FrontServiceProvider` 
 burger. `mobileMenu.js` : panneau plein écran (`#mobile-menu`) ouvert sur l'écran de niveau 1 (rubriques
 à chevron, liens, accès rapides, « Se connecter à son espace ») ; reste de la page `inert` et figé
 (`html.has-mobile-menu`). Une rubrique ouvre son écran en glissant de droite à gauche (« ‹ Menu » :
-sens inverse, focus rendu à la rubrique ; à l'arrivée, focus sur le titre de l'écran) : titre, texte et
-boutons de l'encart (sans surtitre, toujours orange), niveaux 2 en accordéons (Collapse de Bootstrap,
-plusieurs ouverts, celui de la page courante déplié), intertitres. Échap ferme (focus au burger). Sans
-JS : burger et panneau masqués. Écarts assumés avec la maquette mobile : pas de lien « Voir toute
-l'auto-école → », boutons de l'encart sous le texte.
+sens inverse, focus rendu à la rubrique ; à l'arrivée, focus sur le titre de l'écran) : titre, texte de
+l'encart (sans surtitre) et ses boutons rendus en **liens fléchés** (`.mega__all`, comme « Voir toute
+l'auto-école → » de la maquette), niveaux 2 en accordéons (Collapse de Bootstrap, plusieurs ouverts,
+celui de la page courante déplié), intertitres. Échap ferme (focus au burger). Sans JS : burger et
+panneau masqués.
 
 **Au défilement** (`scrollHeader.js`) : header collant (`position: sticky`), `top` négatif
 (`--header-stick`) égal à la hauteur du bandeau, qui part avec la page (`is-stuck` masque ce qui en

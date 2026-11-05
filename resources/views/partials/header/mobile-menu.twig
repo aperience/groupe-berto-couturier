@@ -8,8 +8,8 @@
     - Écran de niveau 1 : rubriques avec enfants (boutons qui ouvrent leur écran),
       autres éléments (liens), bloc « Accès rapides », bouton « Se connecter à son
       espace ».
-    - Écran d'une rubrique : retour « Menu », titre, texte et boutons de l'encart (pas
-      de surtitre en mobile, boutons toujours orange), niveaux 2 avec enfants en
+    - Écran d'une rubrique : retour « Menu », titre, texte de l'encart (pas de surtitre
+      en mobile) et ses boutons rendus en liens fléchés (maquette), niveaux 2 avec enfants en
       accordéons (Collapse de Bootstrap, plusieurs ouverts à la fois, celui de la page
       courante déplié à l'arrivée), sans enfant en liens, intertitres.
 
@@ -73,16 +73,17 @@
                     {% if item.description %}<p class="mobile-menu__description">{{ item.description|nl2br }}</p>{% endif %}
 
                     {% if item.buttons %}
-                        <div class="wp-block-buttons mobile-menu__buttons">
+                        <ul class="mobile-menu__links">
                             {% for button in item.buttons %}
-                                <div class="wp-block-button has-arrow">
+                                <li>
                                     {% include 'partials/header/link.twig' with {
                                         link: { title: button.label, url: button.url, new_tab: button.new_tab },
-                                        class: 'wp-block-button__link',
+                                        class: 'mega__all',
+                                        arrow: true,
                                     } only %}
-                                </div>
+                                </li>
                             {% endfor %}
-                        </div>
+                        </ul>
                     {% endif %}
                 </div>
 
