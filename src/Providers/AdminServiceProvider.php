@@ -33,6 +33,7 @@ use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableUpdateService
 use Deefuse\ThemeCore\Features\Admin\DisableFunctionalities\DisableUpdates;
 use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\Admin\HelpScreen;
+use Theme\Features\Admin\NavMenuDropdowns;
 use Theme\Features\Admin\NestedPagesLinks;
 use Theme\Features\Blocks\BlockImageSizes;
 use Theme\Features\Blocks\BlockLoader;
@@ -77,6 +78,7 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new DisableConnectors(),
             new DisableDefaultDashboardWidgets(),
             new NestedPagesLinks($context),
+            new NavMenuDropdowns($context),
             new HelpScreen($context),
             new DisableLockAppearanceTools(),
             new DisableLoginLanguageDropdown(),
