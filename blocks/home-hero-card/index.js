@@ -180,6 +180,8 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	const { media: contactMedia, isMissing: isContactMissing } = useMedia( contactImageId );
 
 	const isImageLoading = !! imageId && ! media && ! isMissing;
+	// Photo (ou son emplacement) affichée : condition de rendu de l'`ImageField` ci-dessous.
+	const hasMedia = ! isImageLoading && ( !! media || isEditing );
 	const isContactImageLoading = !! contactImageId && ! contactMedia && ! isContactMissing;
 	// Contact rendu sur le site : un texte.
 	const hasContact = !! textOf( contactTitle );
@@ -209,7 +211,8 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 			</InspectorControls>
 			<ImageInfoPanel media={ media } isMissing={ isMissing } />
 			{ isSelected && <CardLinkToolbar cardId={ clientId } /> }
-			<div className="wp-block-couturier-home-hero-card__body">
+			{ /* `has-media` : photo ou emplacement affiché (cf. `render.php`). */ }
+			<div className={ 'wp-block-couturier-home-hero-card__body' + ( hasMedia ? ' has-media' : '' ) }>
 				<RichText
 					tagName="p"
 					className="wp-block-couturier-home-hero-card__eyebrow"
@@ -220,7 +223,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 					allowedFormats={ [] }
 					disableLineBreaks
 				/>
-				{ ! isImageLoading && ( media || isEditing ) && (
+				{ hasMedia && (
 					<ImageField
 						className="wp-block-couturier-home-hero-card__media"
 						imageClassName="wp-block-couturier-home-hero-card__image"
@@ -271,7 +274,8 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 						isEditing={ isEditing }
 						onSelect={ ( selected ) => setAttributes( { contactImageId: selected?.id } ) }
 						onRemove={ () => setAttributes( { contactImageId: undefined } ) }
-						label={ __( 'Photo', 'couturier' ) }
+						label={ __( 'Choisir la photo du contact', 'couturier' ) }
+						compact
 					/>
 				) }
 				<div className="wp-block-couturier-home-hero-card__contact-body">

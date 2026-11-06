@@ -53,3 +53,17 @@
         font-size: 0;
     }
 }
+
+// Emplacements des photos (carte, contact) : le cadre de l'emplacement (ombre
+// intérieure du core) suit l'arrondi au lieu d'être coupé par l'enveloppe.
+.wp-block-couturier-home-hero-card__media > .couturier-image-field__placeholder {
+    height: 100%;
+    border-radius: inherit;
+}
+
+// Photo du contact absente : bouton rond de la médiathèque (`ImageField` compact),
+// à la taille de la photo.
+.wp-block-couturier-home-hero-card__contact-photo > .couturier-image-field__compact {
+    width: to-rem(66);
+    height: to-rem(66);
+}

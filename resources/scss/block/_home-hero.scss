@@ -194,8 +194,14 @@ $home-hero-height: to-rem(703); // Hauteur du fond (desktop)
 // suffisant en desktop (20 px gras = grand texte, 3:1), sous les 4,5:1 en mobile
 // (13 px). Couleurs de la maquette appliquées.
 
+// `width` / `max-width` : dans l'éditeur, le canvas pose des marges automatiques
+// sur les blocs imbriqués (`.editor-styles-wrapper … > .wp-block`, plus spécifique),
+// qui réduiraient la carte à son contenu dans sa colonne. Pleine largeur, elles
+// valent 0.
 .wp-block-couturier-home-hero__content > .wp-block-couturier-home-hero-card {
     grid-column: auto;
+    width: 100%;
+    max-width: none;
 }
 
 .wp-block-couturier-home-hero-card {
@@ -396,8 +402,13 @@ $home-hero-height: to-rem(703); // Hauteur du fond (desktop)
         z-index: 1;
         width: min(100%, #{to-rem(443)});
         min-height: to-rem(63);
-        // À cheval sur le bas de la photo : 37 px dessus (maquette).
-        margin: to-rem(-37) auto 0;
+        // 14 px sous le sur-titre ; avec une photo, à cheval sur son bas : 37 px
+        // dessus (maquette).
+        margin: var(--space-14) auto 0;
+
+        .has-media > & {
+            margin-top: to-rem(-37);
+        }
         padding-right: calc(var(--pastille-inset) + var(--pastille) + var(--space-12));
         padding-left: var(--space-24);
         @include text-style(h3);
@@ -472,11 +483,6 @@ $home-hero-height: to-rem(703); // Hauteur du fond (desktop)
         height: to-rem(19);
         // noinspection CssUnknownTarget
         background: url("../images/icons/envelope.svg") center / 100% 100% no-repeat;
-    }
-
-    > .couturier-image-field__placeholder {
-        width: to-rem(66);
-        min-height: 0;
     }
 }
 

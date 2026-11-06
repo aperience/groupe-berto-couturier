@@ -8,6 +8,9 @@
  * - Pas d'image, bloc en cours d'édition : un emplacement (`MediaPlaceholder` :
  *   téléversement, médiathèque, glisser-déposer) à la place de l'image.
  * - Pas d'image, bloc non sélectionné : rien, comme sur le front.
+ * - Petite image (`compact`, ex. photo ronde du contact du héros, 66 px) : sans
+ *   image, un bouton rond (icône) ouvre la médiathèque à la place de l'emplacement,
+ *   trop grand pour elle ; « Remplacer » / « Supprimer » inchangés.
  *
  * Pas d'autre contrôle de l'image (ni barre d'outils, ni boutons dans la barre
  * latérale) : la barre latérale ne porte que `ImageInfoPanel`, des informations
@@ -40,8 +43,31 @@ export const imageUrl = ( media ) => media.media_details?.sizes?.large?.source_u
  * @param {string}   props.className      Classe de l'enveloppe (dimensions de l'emplacement).
  * @param {string}   props.imageClassName Classe de l'`<img>`, identique au front.
  * @param {string}   props.label          Titre de l'emplacement.
+ * @param {boolean}  [props.compact]      Petite image : bouton de la médiathèque au lieu de l'emplacement.
  */
-export default function ImageField( { media, isEditing, onSelect, onRemove, className, imageClassName, label } ) {
+export default function ImageField( { media, isEditing, onSelect, onRemove, className, imageClassName, label, compact } ) {
+	if ( ! media && compact ) {
+		return isEditing ? (
+			<div className={ `couturier-image-field ${ className ?? '' }` }>
+				<MediaUploadCheck>
+					<MediaUpload
+						allowedTypes={ IMAGE_TYPES }
+						onSelect={ onSelect }
+						render={ ( { open } ) => (
+							<Button
+								className="couturier-image-field__compact"
+								icon={ image }
+								label={ label ?? __( 'Choisir une image', 'couturier' ) }
+								showTooltip
+								onClick={ open }
+							/>
+						) }
+					/>
+				</MediaUploadCheck>
+			</div>
+		) : null;
+	}
+
 	if ( ! media ) {
 		return isEditing ? (
 			<div className={ `couturier-image-field ${ className ?? '' }` }>

@@ -159,8 +159,11 @@ if ( '' !== trim( wp_strip_all_tags( $couturier_hero_card_ctitle ) ) ) {
 }
 
 printf(
-    '<div %s><div class="wp-block-couturier-home-hero-card__body">%s%s%s%s</div>%s</div>',
+    '<div %s><div class="wp-block-couturier-home-hero-card__body%s">%s%s%s%s</div>%s</div>',
     get_block_wrapper_attributes(), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
+    // `has-media` : le bouton chevauche le bas de la photo (desktop) ; sans elle, il
+    // reste sous le sur-titre.
+    $couturier_hero_card_image ? ' has-media' : '',
     $couturier_hero_card_eyebrow, // phpcs:ignore WordPress.Security.EscapeOutput -- contenu enregistré.
     $couturier_hero_card_image ? '<div class="wp-block-couturier-home-hero-card__media">' . $couturier_hero_card_image . '</div>' : '', // phpcs:ignore WordPress.Security.EscapeOutput -- produit par WordPress.
     trim( $couturier_hero_card_content ), // phpcs:ignore WordPress.Security.EscapeOutput -- contenu enregistré.
