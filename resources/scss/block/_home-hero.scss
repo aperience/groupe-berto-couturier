@@ -5,8 +5,8 @@
 //
 //   section.wp-block-couturier-home-hero
 //     div.__background (--focal)   ← pétrole 700, puis calques ci-dessous
-//       div.__media > img.__image  ← image décorative ; ::after : mesh gradient (desktop)
-//       ::after                    ← fondu blanc en bas, voile orangé
+//       div.__media > img.__image  ← image décorative
+//       ::after                    ← fondu blanc en bas
 //     div.__content                ← h1, h2, p, deux cartes (grille, cf. plus bas)
 //
 // Maquettes Figma : desktop 536:7444 (fond), 536:7447 / 536:7448 (textes) ; mobile
@@ -14,8 +14,9 @@
 // du bloc. Desktop (`lg`) : fond à 30 px des bords de la fenêtre, 703 px de haut,
 // contenu aligné sur le container.
 //
-// Le « mesh gradient » de Figma (shader WebGPU statique, 20 %) est précalculé en
-// image (`resources/images/home-hero-mesh.webp`, mêmes formules que le shader).
+// Le « mesh gradient » de la maquette (shader en fusion « Incrustation » à 20 %) n'est
+// pas un calque du bloc : il est compris dans l'image de fond choisie dans la
+// médiathèque (export de la maquette, photo recadrée et shader appliqués).
 //
 // Remontée derrière l'en-tête collant (front seulement) : `partials/_layout.scss`.
 
@@ -47,15 +48,15 @@ $home-hero-height: to-rem(703); // Hauteur du fond (desktop)
     border-radius: 0 0 var(--bs-border-radius-lg) var(--bs-border-radius-lg);
     background-color: var(--color-action-dark-hover);
 
-    // Dégradés de la maquette : fondu vers le blanc de la page en bas, voile orangé.
+    // Fondu vers le blanc de la page en bas (maquette). Le voile orangé de la
+    // maquette (10 %) est retiré : il ternissait la photo (2026-11-06).
     &::after {
         content: "";
         position: absolute;
         inset: 0;
         pointer-events: none;
         background-image:
-            linear-gradient(180deg, rgba(0, 0, 0, 0) 70.32%, rgba(139, 139, 139, .547) 78.61%, var(--color-surface-page) 85.92%),
-            linear-gradient(180deg, rgba(53, 53, 53, .1) 0%, rgba(255, 107, 53, .1) 100%);
+            linear-gradient(180deg, rgba(0, 0, 0, 0) 70.32%, rgba(139, 139, 139, .547) 78.61%, var(--color-surface-page) 85.92%);
     }
 
     @include media-breakpoint-up(lg) {
@@ -65,8 +66,7 @@ $home-hero-height: to-rem(703); // Hauteur du fond (desktop)
 
         &::after {
             background-image:
-                linear-gradient(180deg, rgba(0, 0, 0, 0) 52.37%, var(--color-surface-page) 91.9%),
-                linear-gradient(180deg, rgba(53, 53, 53, .1) 0%, rgba(255, 107, 53, .1) 100%);
+                linear-gradient(180deg, rgba(0, 0, 0, 0) 52.37%, var(--color-surface-page) 91.9%);
         }
     }
 }
@@ -75,18 +75,6 @@ $home-hero-height: to-rem(703); // Hauteur du fond (desktop)
 .wp-block-couturier-home-hero__background > .wp-block-couturier-home-hero__media {
     position: absolute;
     inset: 0;
-
-    // Mesh gradient (desktop seulement : absent de la maquette mobile).
-    @include media-breakpoint-up(lg) {
-        &::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            pointer-events: none;
-            background: url("../images/home-hero-mesh.webp") center / 100% 100% no-repeat;
-            opacity: .2;
-        }
-    }
 }
 
 .wp-block-couturier-home-hero__image {
