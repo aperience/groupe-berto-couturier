@@ -17,13 +17,15 @@ body {
 // Sous `xl` (menu mobile), le contenu prend la largeur de la pilule du header :
 // 12 px de chaque côté (cf. `.site-header__inner`, `partials/_header.scss`), au
 // lieu des deux gouttières de 24 px de `main.container-fluid` et du `.container`.
-// Même règle dans le canvas : `editor-gutenberg.scss`.
+// Même règle dans le canvas : `editor-gutenberg.scss`. `--page-gutter` permet à un
+// bloc pleine largeur d'en sortir (héros de l'accueil).
 @include media-breakpoint-down(xl) {
     #main {
         padding-inline: 0;
 
         .container {
-            padding-inline: var(--space-12);
+            --page-gutter: var(--space-12);
+            padding-inline: var(--page-gutter);
         }
     }
 }

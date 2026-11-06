@@ -9,7 +9,7 @@
 // contenu, à la largeur du container.
 
 .editor-styles-wrapper .is-root-container > .wp-block-couturier-home-hero {
-    margin-inline: calc(50% - 50vw);
+    margin-inline: calc(-1 * var(--page-gutter, 0px));
 
     @include media-breakpoint-up(lg) {
         margin-inline: calc(50% - 50vw + #{$home-hero-gutter});

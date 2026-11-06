@@ -26,8 +26,10 @@ $home-hero-height: to-rem(703); // Hauteur du fond (desktop)
 .wp-block-couturier-home-hero {
     position: relative;
     margin-block: var(--layout-section-gap);
-    // Sort du container : pleine largeur de la fenêtre en mobile.
-    margin-inline: calc(50% - 50vw);
+    // Sort du container : pleine largeur de la fenêtre en mobile, de la marge du
+    // container (`--page-gutter`, `partials/_layout.scss`) et non de `50vw`, qui
+    // compte la barre de défilement et ferait déborder la page de sa demi-largeur.
+    margin-inline: calc(-1 * var(--page-gutter, 0px));
     // 110 px : valeur de la maquette, hors de l'échelle des espacements.
     padding: to-rem(110) var(--space-16) var(--space-8);
     color: var(--color-text-on-brand);
