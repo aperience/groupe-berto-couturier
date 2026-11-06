@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/image-text-icons",
+	"title": "Icônes",
+	"category": "design",
+	"icon": "grid-view",
+	"description": "Rangée d'icônes du bloc « Image et texte » : pictogramme, libellé et lien facultatif.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/image-text" ],
+	"allowedBlocks": [ "couturier/image-text-icon" ],
+	"supports": {
+		"html": false,
+		"inserter": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

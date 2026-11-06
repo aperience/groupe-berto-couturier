@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-06T07:21:10+00:00\n"
+"POT-Creation-Date: 2026-11-06T08:49:08+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -42,18 +42,28 @@ msgstr ""
 msgid "Lire la suite"
 msgstr ""
 
-#. translators: %d: nombre d'étoiles de l'avis, de 1 à 5.
-#: blocks/reviews/render.php:66
-#, php-format
-msgid "Note : %d sur 5"
-msgstr ""
-
+#: blocks/image-text-body/render.php:39
 #: blocks/reviews/render.php:89
 msgid "Plus"
 msgstr ""
 
+#: blocks/image-text-body/render.php:40
 #: blocks/reviews/render.php:90
 msgid "Moins"
+msgstr ""
+
+#: blocks/image-text-icon/render.php:57
+#: src/Features/CurrentOffer/CurrentOfferDashboard.php:78
+#: resources/views/partials/footer/bottom.twig:18
+#: resources/views/partials/footer/link.twig:14
+#: resources/views/partials/header/link.twig:16
+msgid "(nouvel onglet)"
+msgstr ""
+
+#. translators: %d: nombre d'étoiles de l'avis, de 1 à 5.
+#: blocks/reviews/render.php:66
+#, php-format
+msgid "Note : %d sur 5"
 msgstr ""
 
 #. translators: %s: nom de l'auteur de l'avis.
@@ -222,13 +232,6 @@ msgstr ""
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:313
 #: resources/views/partials/current-offer.twig:15
 msgid "Voir l'offre"
-msgstr ""
-
-#: src/Features/CurrentOffer/CurrentOfferDashboard.php:78
-#: resources/views/partials/footer/bottom.twig:18
-#: resources/views/partials/footer/link.twig:14
-#: resources/views/partials/header/link.twig:16
-msgid "(nouvel onglet)"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferDashboard.php:87
@@ -654,6 +657,7 @@ msgstr ""
 
 #: src/Features/Navigation/HeaderSettings.php:268
 #: src/Features/Navigation/MegaMenuFields.php:107
+#: blocks/image-text-icon/index.js:148
 msgid "Libellé"
 msgstr ""
 
@@ -747,10 +751,12 @@ msgid "Le premier bouton est orange avec une flèche, le second transparent."
 msgstr ""
 
 #: blocks/cta/index.js:168
+#: blocks/image-text/index.js:205
 msgid "Ajouter des boutons"
 msgstr ""
 
 #: blocks/cta/index.js:180
+#: blocks/image-text/index.js:181
 msgid "Image (facultative)"
 msgstr ""
 
@@ -784,6 +790,7 @@ msgid "Questions fréquentes"
 msgstr ""
 
 #: blocks/faq/index.js:56
+#: blocks/image-text/index.js:86
 msgid "Texte (facultatif)"
 msgstr ""
 
@@ -797,6 +804,80 @@ msgstr ""
 
 #: blocks/faq/index.js:122
 msgid "Ajouter un bouton"
+msgstr ""
+
+#: blocks/image-text-icon/index.js:96
+msgid "Pictogramme"
+msgstr ""
+
+#: blocks/image-text-icon/index.js:98
+msgid "Le pictogramme est décoratif : son texte alternatif dans la médiathèque n'est pas utilisé, c'est le libellé qui est lu par les lecteurs d'écran."
+msgstr ""
+
+#: blocks/image-text-icon/index.js:107
+msgid "Modifier le lien"
+msgstr ""
+
+#: blocks/image-text-icon/index.js:107
+msgid "Ajouter un lien"
+msgstr ""
+
+#: blocks/image-text-icon/index.js:129
+msgid "Remplacer l'icône"
+msgstr ""
+
+#: blocks/image-text-icon/index.js:140
+msgid "Choisir une icône (SVG de préférence)"
+msgstr ""
+
+#: blocks/image-text-icon/index.js:147
+msgid "Libellé de l'icône"
+msgstr ""
+
+#: blocks/image-text-icons/index.js:64
+msgid "Ajouter une icône"
+msgstr ""
+
+#: blocks/image-text/index.js:85
+msgid "Titre (facultatif)"
+msgstr ""
+
+#: blocks/image-text/index.js:145
+#: blocks/_shared/image-field.js:52
+#: blocks/_shared/image-field.js:108
+msgid "Image"
+msgstr ""
+
+#: blocks/image-text/index.js:150
+msgid "Position de l'image"
+msgstr ""
+
+#: blocks/image-text/index.js:151
+msgid "En desktop seulement : en mobile, l'image est toujours au-dessus du texte."
+msgstr ""
+
+#: blocks/image-text/index.js:155
+msgid "À gauche"
+msgstr ""
+
+#: blocks/image-text/index.js:156
+msgid "À droite"
+msgstr ""
+
+#: blocks/image-text/index.js:164
+msgid "Le premier bouton est pétrole foncé avec une flèche, le second à contour."
+msgstr ""
+
+#: blocks/image-text/index.js:170
+msgid "Saisissez au moins un surtitre, un titre ou un texte : sans eux, ce bloc n'est pas affiché sur le site."
+msgstr ""
+
+#: blocks/image-text/index.js:188
+msgid "Surtitre"
+msgstr ""
+
+#: blocks/image-text/index.js:189
+msgid "Surtitre (facultatif)"
 msgstr ""
 
 #: blocks/reviews/index.js:67
@@ -891,30 +972,25 @@ msgstr ""
 msgid "Sous-titre (facultatif)"
 msgstr ""
 
-#: blocks/_shared/buttons.js:100
+#: blocks/_shared/buttons.js:102
 msgid "Bouton"
 msgstr ""
 
-#: blocks/_shared/buttons.js:100
+#: blocks/_shared/buttons.js:102
 msgid "Boutons"
 msgstr ""
 
-#: blocks/_shared/buttons.js:105
+#: blocks/_shared/buttons.js:107
 msgid "Nombre de boutons"
 msgstr ""
 
-#: blocks/_shared/buttons.js:110
+#: blocks/_shared/buttons.js:112
 msgid "Aucun"
 msgstr ""
 
 #: blocks/_shared/formats.js:79
 #: blocks/_shared/formats.js:94
 msgid "Mise en avant"
-msgstr ""
-
-#: blocks/_shared/image-field.js:52
-#: blocks/_shared/image-field.js:108
-msgid "Image"
 msgstr ""
 
 #: blocks/_shared/image-field.js:53
@@ -966,6 +1042,7 @@ msgid "Titre et texte sur deux colonnes (paragraphes, listes), repliable en desk
 msgstr ""
 
 #: blocks/collapsible-text/block.json
+#: blocks/image-text/block.json
 msgctxt "block keyword"
 msgid "texte"
 msgstr ""
@@ -1068,6 +1145,66 @@ msgstr ""
 #: blocks/faq/block.json
 msgctxt "block keyword"
 msgid "accordéon"
+msgstr ""
+
+#: blocks/image-text-body/block.json
+msgctxt "block title"
+msgid "Texte"
+msgstr ""
+
+#: blocks/image-text-body/block.json
+msgctxt "block description"
+msgid "Texte du bloc « Image et texte » : paragraphes et listes."
+msgstr ""
+
+#: blocks/image-text-icon/block.json
+msgctxt "block title"
+msgid "Icône"
+msgstr ""
+
+#: blocks/image-text-icon/block.json
+msgctxt "block description"
+msgid "Pictogramme (SVG de la médiathèque, peint en pétrole), libellé et lien facultatif."
+msgstr ""
+
+#: blocks/image-text-icons/block.json
+msgctxt "block title"
+msgid "Icônes"
+msgstr ""
+
+#: blocks/image-text-icons/block.json
+msgctxt "block description"
+msgid "Rangée d'icônes du bloc « Image et texte » : pictogramme, libellé et lien facultatif."
+msgstr ""
+
+#: blocks/image-text/block.json
+msgctxt "block title"
+msgid "Image et texte"
+msgstr ""
+
+#: blocks/image-text/block.json
+msgctxt "block description"
+msgid "Image à gauche ou à droite, et à côté : surtitre, titre avec mots mis en avant, texte libre, icônes avec lien, un ou deux boutons."
+msgstr ""
+
+#: blocks/image-text/block.json
+msgctxt "block keyword"
+msgid "image"
+msgstr ""
+
+#: blocks/image-text/block.json
+msgctxt "block keyword"
+msgid "photo"
+msgstr ""
+
+#: blocks/image-text/block.json
+msgctxt "block keyword"
+msgid "présentation"
+msgstr ""
+
+#: blocks/image-text/block.json
+msgctxt "block keyword"
+msgid "média"
 msgstr ""
 
 #: blocks/reviews/block.json

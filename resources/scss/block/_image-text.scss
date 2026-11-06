@@ -1,0 +1,358 @@
+// ─── Bloc « Image et texte » (couturier/image-text) ───────────────────────────
+//
+// Balisage (front : `render.php` ; éditeur : `blocks/image-text/index.js`, mêmes
+// classes) :
+//
+//   section.wp-block-couturier-image-text.is-image-{left|right}[.has-image]
+//     div.__media > img.__image                  ← image facultative, toujours en premier
+//     div.__content
+//       p.__surtitre                             ← facultatif
+//       h2.wp-block-heading                      ← facultatif, mots mis en avant
+//       div.wp-block-couturier-image-text-body   ← paragraphes et listes (front :
+//         div.__text + button.__more, repli « … Plus » / « Moins » en desktop)
+//       div.wp-block-buttons                     ← 0 à 2 boutons
+//
+// Mobile : tout empilé, image au-dessus. Desktop (`lg`) : deux colonnes égales,
+// image à gauche ou à droite, **alignée en haut** à ratio fixe (555 × 409 de la
+// maquette) : un texte plus long passe sous la hauteur de l'image, rien n'est
+// étiré. Sans image, le texte prend toute la largeur. Typographie desktop à
+// partir de `md`, comme les tokens (`--fs-*`).
+//
+// Dans l'éditeur, les blocs imbriqués reçoivent les marges par défaut du canvas
+// (`html :where(.wp-block)`, spécificité nulle) : les marges sont donc toutes
+// posées ici, pour un rendu identique des deux côtés.
+
+.wp-block-couturier-image-text {
+    display: grid;
+    gap: var(--space-14);
+    margin-block: var(--layout-section-gap);
+
+    @include media-breakpoint-up(lg) {
+        align-items: start;
+        gap: var(--space-24);
+
+        &.has-image {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        &.is-image-right > .wp-block-couturier-image-text__media {
+            order: 2;
+        }
+    }
+
+    // Avertissement de l'éditeur (bloc vide) : sur toute la largeur.
+    > .wp-block-couturier-image-text__notice {
+        grid-column: 1 / -1;
+        margin: 0;
+    }
+}
+
+// ─── Image ────────────────────────────────────────────────────────────────────
+// Format fixe de la maquette, recadrée au centre (`object-fit: cover`). Rayon de
+// 20 px en mobile, 32 px en desktop (valeur de la maquette, hors de l'échelle des
+// rayons).
+.wp-block-couturier-image-text__media {
+    min-width: 0;
+}
+
+.wp-block-couturier-image-text__image,
+.wp-block-couturier-image-text__media > .couturier-image-field__placeholder {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 555 / 409;
+    border-radius: var(--bs-border-radius);
+
+    @include media-breakpoint-up(lg) {
+        border-radius: to-rem(32);
+    }
+}
+
+.wp-block-couturier-image-text__image {
+    object-fit: cover;
+}
+
+// ─── Contenu ──────────────────────────────────────────────────────────────────
+// Écarts de la maquette : 14 px entre chaque élément en mobile ; 8 px en
+// desktop, 28 px avant les boutons.
+.wp-block-couturier-image-text__content {
+    min-width: 0;
+
+    > * {
+        margin-block: 0;
+    }
+
+    > * + * {
+        margin-top: var(--space-14);
+
+        @include media-breakpoint-up(md) {
+            margin-top: var(--space-8);
+        }
+    }
+
+    > h2 {
+        @include text-style(section-title);
+        color: var(--color-text-heading);
+
+        // 46 / 49 px, interlettrage −1 px (maquette desktop) ; 28 / 32 px en mobile.
+        @include media-breakpoint-up(md) {
+            line-height: to-rem(49);
+            letter-spacing: to-rem(-1);
+        }
+    }
+
+    // Spécificité 0,2,0 : l'emporte sur la marge et l'écart de `.wp-block-buttons`
+    // (`_button.scss`).
+    > .wp-block-buttons,
+    > .wp-block-couturier-image-text__add-buttons {
+        margin-top: var(--space-14);
+
+        @include media-breakpoint-up(md) {
+            margin-top: var(--space-28);
+        }
+    }
+
+    // 10 px entre deux boutons en mobile, 24 px en desktop (maquette).
+    > .wp-block-buttons {
+        gap: var(--space-10);
+
+        @include media-breakpoint-up(md) {
+            gap: var(--space-12) var(--space-24);
+        }
+    }
+
+    // Boutons tous sans libellé : le core les retire du rendu, mais laisse le groupe.
+    > .wp-block-buttons:not(:has(.wp-block-button)) {
+        display: none;
+    }
+}
+
+// Surtitre : Body Medium atténué en mobile, Body L en desktop (deux maquettes).
+.wp-block-couturier-image-text__surtitre {
+    @include text-style(body-medium);
+    color: var(--color-text-muted);
+
+    @include media-breakpoint-up(md) {
+        @include text-style(body-lg);
+        color: var(--color-text-default);
+    }
+}
+
+// Mots mis en avant (format `couturier/highlight`) : orange foncé sur fond clair,
+// 4,99:1.
+.wp-block-couturier-image-text__content > h2 .wp-block-couturier-cta__highlight {
+    color: var(--color-text-accent);
+}
+
+// ─── Texte (couturier/image-text-body) ────────────────────────────────────────
+// Body en mobile, Body L en desktop.
+.wp-block-couturier-image-text-body {
+    @include text-style(body);
+    color: var(--color-text-default);
+
+    @include media-breakpoint-up(md) {
+        @include text-style(body-lg);
+    }
+
+    // Paragraphes et listes : enfants directs dans l'éditeur, dans `__text` sur le
+    // front (enveloppe du repli).
+    &,
+    > .wp-block-couturier-image-text-body__text {
+        > * {
+            margin-block: 0;
+        }
+
+        > * + * {
+            margin-top: var(--space-12);
+        }
+    }
+
+    ul,
+    ol {
+        padding-left: var(--space-20);
+    }
+
+    // Liens : couleur du texte et soulignés, la couleur seule ne les distinguerait
+    // pas (WCAG 1.4.1).
+    a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: .15em;
+
+        &:hover {
+            text-decoration-thickness: 2px;
+        }
+
+        &:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
+            border-radius: 2px;
+        }
+    }
+}
+
+// ─── Icônes (couturier/image-text-icons, couturier/image-text-icon) ──────────
+// Rangée de pictogrammes (24 px en mobile, 28 px en desktop) et libellés centrés,
+// en pétrole. Le pictogramme est le SVG choisi dans la médiathèque, utilisé en
+// masque (`--icon`, posé par `render.php`) et peint en `currentColor` : sa couleur
+// d'origine est ignorée. Écarts de la maquette : 24 px entre icônes en mobile,
+// 40 px en desktop ; 6 px puis 8 px entre pictogramme et libellé.
+.wp-block-couturier-image-text-icons {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    gap: var(--space-16) var(--space-24);
+    padding: 0;
+    list-style: none;
+
+    @include media-breakpoint-up(md) {
+        gap: var(--space-16) var(--space-40);
+    }
+}
+
+// Éditeur : le core centre chaque bloc du canvas (`margin-inline: auto`, règle
+// `.editor-styles-wrapper :where(…) > .wp-block`, 0,2,0), ce qui, dans le flex de
+// la rangée, écarte les icônes. Classe doublée (0,3,0) pour l'emporter (cf. FAQ) ;
+// sans effet sur le front, où ces blocs n'ont pas la classe `wp-block`.
+.wp-block-couturier-image-text-icons > .wp-block.wp-block,
+.wp-block-couturier-image-text__content > .wp-block.wp-block {
+    margin-inline: 0;
+}
+
+.wp-block-couturier-image-text-icon__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-6);
+    min-width: var(--space-24);
+    color: var(--color-text-heading);
+    text-align: center;
+    text-decoration: none;
+
+    @include media-breakpoint-up(md) {
+        gap: var(--space-8);
+    }
+}
+
+a.wp-block-couturier-image-text-icon__link {
+    &:hover .wp-block-couturier-image-text-icon__label {
+        text-decoration: underline;
+        text-underline-offset: .15em;
+    }
+
+    &:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 4px;
+        border-radius: 2px;
+    }
+}
+
+.wp-block-couturier-image-text-icon__icon {
+    display: block;
+    width: var(--space-24);
+    height: var(--space-24);
+    background-color: currentColor;
+    mask: var(--icon) center / contain no-repeat;
+
+    @include media-breakpoint-up(md) {
+        width: var(--space-28);
+        height: var(--space-28);
+    }
+}
+
+// Small Medium en mobile, Body Medium en desktop.
+.wp-block-couturier-image-text-icon__label {
+    @include text-style(small);
+    font-weight: 500;
+
+    @include media-breakpoint-up(md) {
+        @include text-style(body-medium);
+    }
+}
+
+// ─── Repli « … Plus » / « Moins » du texte (desktop) ──────────────────────────
+// Replié : le script (`resources/js/image-text.js`, module `read-more.js`) coupe
+// le texte entre deux mots, au plus long début qui tient en `--image-text-lines`
+// lignes, et pose « … Plus » à la fin du dernier paragraphe ou élément de liste
+// affiché, sur la même ligne. Déplié : texte entier, « Moins » à sa suite. Sans
+// script, et sous `lg` : texte entier, pas de bouton (`hidden`).
+//
+// Dépli et repli animés sur la hauteur de l'enveloppe (`max-height`, posée en
+// ligne par le script ; même durée que les avis et le texte repliable, coupée
+// sous `prefers-reduced-motion`).
+.wp-block-couturier-image-text-body {
+    --image-text-lines: 4;
+    @include transition(max-height .35s ease);
+
+    &.is-animating {
+        overflow: hidden;
+    }
+}
+
+.wp-block-couturier-image-text-body__more {
+    display: inline;
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+
+    // « … » collé au dernier mot puis une espace devant « Plus », une espace
+    // devant « Moins » : décoratifs (texte de remplacement vide). Insécables : le
+    // bouton reste sur la ligne du dernier mot.
+    &::before {
+        content: "\2026\00a0" / "";
+    }
+
+    &[aria-expanded="true"]::before {
+        content: "\00a0" / "";
+    }
+
+    &[hidden] {
+        display: none;
+    }
+
+    &:focus-visible {
+        outline: 2px solid currentColor;
+        outline-offset: 2px;
+        border-radius: 2px;
+    }
+
+    // « … Plus » réapparaît en fondu à la fin du repli (`is-appearing`, posée par
+    // le script), pas au chargement.
+    &.is-appearing {
+        animation: image-text-more-appear .25s ease;
+
+        @media (prefers-reduced-motion: reduce) {
+            animation: none;
+        }
+    }
+}
+
+@keyframes image-text-more-appear {
+    from {
+        opacity: 0;
+    }
+}
+
+.wp-block-couturier-image-text-body__more[aria-expanded="true"] .wp-block-couturier-image-text-body__more-label,
+.wp-block-couturier-image-text-body__more[aria-expanded="false"] .wp-block-couturier-image-text-body__less-label {
+    display: none;
+}
+
+// Libellé en orange foncé souligné (4,99:1 sur blanc) : l'orange 500 des avis
+// n'y tiendrait que 2,8:1. Pas de maquette pour ce bloc.
+.wp-block-couturier-image-text-body__more-label,
+.wp-block-couturier-image-text-body__less-label {
+    color: var(--color-text-accent);
+    text-decoration: underline;
+    text-underline-offset: .15em;
+}
+
+.wp-block-couturier-image-text-body__more:hover {
+    .wp-block-couturier-image-text-body__more-label,
+    .wp-block-couturier-image-text-body__less-label {
+        text-decoration-thickness: 2px;
+    }
+}

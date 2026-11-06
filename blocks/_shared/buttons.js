@@ -36,9 +36,11 @@ const styleOf = ( className ) => ( className ?? '' ).split( ' ' ).find( ( name )
  * @param {string}   clientId Bloc custom.
  * @param {Object[]} blocks   Ses blocs imbriqués (`getBlocks( clientId )`).
  * @param {Array[]}  buttons  Modèle des boutons, dans l'ordre (`[ 'core/button', { … } ]`).
+ * @param {Object}   options
+ * @param {string[]} [options.after] Blocs imbriqués après le dernier desquels un groupe recréé est placé.
  * @return {[number, Function]} Nombre actuel, fonction qui le change.
  */
-export function useButtonCount( clientId, blocks, buttons ) {
+export function useButtonCount( clientId, blocks, buttons, { after = TEXT_BLOCKS } = {} ) {
 	const { replaceInnerBlocks, __unstableMarkNextChangeAsNotPersistent } = useDispatch( blockEditorStore );
 	const group = blocks.find( ( block ) => block.name === 'core/buttons' );
 	const count = group?.innerBlocks.length ?? 0;
@@ -74,10 +76,10 @@ export function useButtonCount( clientId, blocks, buttons ) {
 			return;
 		}
 
-		// Groupe recréé juste après le dernier titre ou texte, avant le reste
-		// (liste des questions de la FAQ).
+		// Groupe recréé juste après le dernier titre ou texte (`after`), avant le
+		// reste (liste des questions de la FAQ).
 		const [ newGroup ] = createBlocksFromInnerBlocksTemplate( [ [ 'core/buttons', { lock: REMOVABLE } ] ] );
-		const at = others.reduce( ( last, block, index ) => ( TEXT_BLOCKS.includes( block.name ) ? index + 1 : last ), 0 );
+		const at = others.reduce( ( last, block, index ) => ( after.includes( block.name ) ? index + 1 : last ), 0 );
 		newGroup.innerBlocks = result;
 		replaceInnerBlocks( clientId, [ ...others.slice( 0, at ), newGroup, ...others.slice( at ) ], false );
 	};

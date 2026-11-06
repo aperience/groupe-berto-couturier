@@ -35,7 +35,7 @@ import { highlighter } from './icons.js';
 const HIGHLIGHT = 'couturier/highlight';
 
 /** Blocs dont le titre (`core/heading` enfant direct) propose la mise en avant. */
-const HIGHLIGHT_HOSTS = [ 'couturier/cta', 'couturier/faq', 'couturier/section-title' ];
+const HIGHLIGHT_HOSTS = [ 'couturier/cta', 'couturier/faq', 'couturier/section-title', 'couturier/image-text' ];
 
 /** Formats retirés d'un texte (`core/paragraph`) de bloc custom. */
 export const TEXT_FORMATS_OFF = [

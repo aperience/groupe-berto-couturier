@@ -1,0 +1,37 @@
+// ─── Bloc « Image et texte » : icônes (éditeur seulement) ─────────────────────
+//
+// Emplacement d'un pictogramme non choisi (bouton « + » en pointillés, à la
+// taille du pictogramme), pictogramme cliquable pour le remplacer, et bouton
+// « Ajouter une icône » de la rangée. Ces éléments n'existent que dans le canvas.
+
+.wp-block-couturier-image-text-icon__choose.components-button,
+.wp-block-couturier-image-text-icon__replace.components-button {
+    justify-content: center;
+    width: auto;
+    min-width: 0;
+    height: auto;
+    padding: 0;
+    color: inherit;
+}
+
+.wp-block-couturier-image-text-icon__choose.components-button {
+    width: var(--space-28);
+    height: var(--space-28);
+    border: 1px dashed currentColor;
+    border-radius: var(--bs-border-radius-sm);
+
+    svg {
+        width: var(--space-20);
+        height: var(--space-20);
+    }
+}
+
+// Libellé vide en cours d'édition : une largeur pour pouvoir cliquer dedans.
+.wp-block-couturier-image-text-icon__label[contenteditable] {
+    min-width: 4em;
+}
+
+.wp-block-couturier-image-text-icons__add {
+    align-self: center;
+    list-style: none;
+}

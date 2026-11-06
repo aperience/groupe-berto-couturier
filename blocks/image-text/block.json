@@ -1,0 +1,53 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/image-text",
+	"title": "Image et texte",
+	"category": "design",
+	"icon": "align-pull-left",
+	"description": "Image à gauche ou à droite, et à côté : surtitre, titre avec mots mis en avant, texte libre, icônes avec lien, un ou deux boutons.",
+	"keywords": [ "image", "texte", "photo", "présentation", "média" ],
+	"textdomain": "couturier",
+	"allowedBlocks": [ "core/heading", "couturier/image-text-body", "couturier/image-text-icons", "core/buttons" ],
+	"attributes": {
+		"imageId": {
+			"type": "number"
+		},
+		"imagePosition": {
+			"type": "string",
+			"enum": [ "left", "right" ],
+			"default": "left"
+		},
+		"surtitre": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-image-text__surtitre",
+			"role": "content"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"attributes": { "surtitre": "Bien plus qu’un centre de formation" },
+		"innerBlocks": [
+			{ "name": "core/heading", "attributes": { "level": 2, "content": "<span class=\"wp-block-couturier-cta__highlight\">Un lieu pour apprendre.</span> Une équipe pour grandir." } },
+			{
+				"name": "couturier/image-text-body",
+				"innerBlocks": [
+					{ "name": "core/paragraph", "attributes": { "content": "À Dreux, nous avons pensé un cadre où vous pouvez vous concentrer sur l’essentiel : votre réussite. Des formateurs passionnés, de la pratique et un accompagnement qui fait la différence." } }
+				]
+			},
+			{
+				"name": "core/buttons",
+				"innerBlocks": [
+					{ "name": "core/button", "attributes": { "text": "Découvrir le centre", "className": "is-style-deep", "hasArrow": true } },
+					{ "name": "core/button", "attributes": { "text": "Comment venir ?", "className": "is-style-outline" } }
+				]
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
