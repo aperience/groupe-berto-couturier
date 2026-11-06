@@ -7,7 +7,7 @@
 //     div.__background (--focal)   ← pétrole 700, puis calques ci-dessous
 //       div.__media > img.__image  ← image décorative ; ::after : mesh gradient (desktop)
 //       ::after                    ← fondu blanc en bas, voile orangé
-//     div.__content                ← h1, h2, p (grille : cartes de l'étape suivante)
+//     div.__content                ← h1, h2, p, deux cartes (grille, cf. plus bas)
 //
 // Maquettes Figma : desktop 536:7444 (fond), 536:7447 / 536:7448 (textes) ; mobile
 // 595:1342. Mobile : fond pleine largeur, coins bas arrondis, sur toute la hauteur
@@ -154,6 +154,11 @@ $home-hero-height: to-rem(703); // Hauteur du fond (desktop)
     @include media-breakpoint-up(lg) {
         column-gap: to-rem(22);
 
+        // 82 px entre le texte et les cartes (14 + 68).
+        > .wp-block-couturier-home-hero-card {
+            margin-top: to-rem(68);
+        }
+
         > h1 {
             font-size: var(--fs-button);
             letter-spacing: 0;
@@ -177,4 +182,233 @@ $home-hero-height: to-rem(703); // Hauteur du fond (desktop)
             text-shadow: 0 4px 4px rgba(0, 0, 0, .4);
         }
     }
+}
+
+// ─── Cartes univers (couturier/home-hero-card) ────────────────────────────────
+//
+//   div.wp-block-couturier-home-hero-card[.is-style-petrol]
+//     p.__eyebrow
+//     div.__media > img.__image
+//     h3.wp-block-heading
+//     p.__text
+//     a.__button (éditeur : p.__button, libellé)
+//
+// Maquettes : desktop 536:7487 / 536:7469, mobile 610:10469 / 610:10477. Une carte
+// par colonne de la grille du héros, côte à côte dès le mobile. Mobile : contenu
+// centré, bouton en bas de carte. Desktop : bouton à cheval sur le bas de la photo
+// (`order` : il reste dernier dans le balisage, donc lu après le texte).
+//
+// ⚠️ Accessibilité : libellé blanc sur orange/600 (`action-primary-hover`) ≈ 3,4:1 —
+// suffisant en desktop (20 px gras = grand texte, 3:1), sous les 4,5:1 en mobile
+// (13 px). Couleurs de la maquette appliquées.
+
+.wp-block-couturier-home-hero__content > .wp-block-couturier-home-hero-card {
+    grid-column: auto;
+}
+
+.wp-block-couturier-home-hero-card {
+    --card-bg: var(--color-surface-peach-soft);
+    --card-button-bg: var(--color-action-primary-hover);
+    --card-button-hover: #{ds-color(orange, 700)};
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    min-width: 0;
+    padding: var(--space-16) var(--space-8);
+    border-radius: var(--bs-border-radius-sm);
+    background-color: var(--card-bg);
+    color: var(--color-text-default);
+    text-align: center;
+
+    &.is-style-petrol {
+        --card-bg: var(--color-surface-petrol-soft);
+        --card-button-bg: var(--color-surface-brand);
+        --card-button-hover: var(--color-action-dark-hover);
+    }
+
+    // `width` / `max-width` : dans l'éditeur, le titre imbriqué reçoit la largeur
+    // maximale et les marges automatiques du canvas (`.editor-styles-wrapper … >
+    // .wp-block`, plus spécifique), qui le rétréciraient et le centreraient dans
+    // la colonne flex. Pleine largeur, les marges automatiques valent 0.
+    > * {
+        width: 100%;
+        max-width: none;
+        margin: 0;
+    }
+
+    @include media-breakpoint-up(lg) {
+        gap: 0;
+        // Valeurs de la maquette (26, 24, 32 px), hors de l'échelle pour 26.
+        padding: to-rem(26) var(--space-24) var(--space-32);
+        border-radius: to-rem(36);
+        text-align: start;
+    }
+}
+
+.wp-block-couturier-home-hero-card__eyebrow {
+    @include text-style(eyebrow);
+    line-height: 1.3;
+    color: var(--color-text-heading);
+}
+
+.wp-block-couturier-home-hero-card__media {
+    overflow: hidden;
+    height: to-rem(92);
+    border-radius: var(--bs-border-radius-sm);
+    background-color: var(--color-surface-card);
+
+    > .couturier-image-field__placeholder {
+        min-height: to-rem(92);
+    }
+
+    @include media-breakpoint-up(lg) {
+        order: 1;
+        // 14 px sous le sur-titre (56 − 26 − 16 de la maquette).
+        margin-top: var(--space-14);
+        height: to-rem(188);
+        border-radius: to-rem(26);
+    }
+}
+
+.wp-block-couturier-home-hero-card__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.wp-block-couturier-home-hero-card > h3 {
+    font-family: $headings-font-family;
+    font-weight: 700;
+    font-size: to-rem(16);
+    line-height: to-rem(18);
+    color: var(--color-text-heading);
+
+    @include media-breakpoint-up(lg) {
+        order: 3;
+        margin-top: to-rem(22);
+        padding-inline: to-rem(9);
+        font-size: to-rem(28);
+        line-height: to-rem(32);
+        color: var(--color-text-default);
+    }
+}
+
+.wp-block-couturier-home-hero-card__text {
+    font-size: var(--fs-body);
+    line-height: to-rem(18);
+
+    @include media-breakpoint-up(lg) {
+        order: 4;
+        padding-inline: to-rem(9);
+        font-size: to-rem(18);
+        line-height: to-rem(29);
+    }
+}
+
+// ─── Bouton ───────────────────────────────────────────────────────────────────
+// Pilule pleine avec pastille blanche et flèche orange (`::before` / `::after`,
+// décoratifs). Mobile : en bas de carte, il dépasse de 8 px sous elle (maquette) ;
+// libellé en 13 px et pastille de 28 px (34 sur la maquette) pour qu'un libellé
+// long tienne dans la pilule de 160 px — à revoir si le client retient des
+// libellés courts en mobile (« L'auto-école », « Formation Pro »).
+.wp-block-couturier-home-hero-card__button {
+    --pastille: #{to-rem(28)};
+    --pastille-inset: var(--space-6);
+    --arrow: #{to-rem(14)};
+
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: to-rem(48);
+    margin-top: auto;
+    margin-bottom: calc(-1 * var(--space-24));
+    padding: var(--space-6) calc(var(--pastille-inset) + var(--pastille) + var(--space-6)) var(--space-6) var(--space-10);
+    border-radius: var(--bs-border-radius-pill);
+    background-color: var(--card-button-bg);
+    @include text-style(button);
+    font-size: to-rem(13);
+    line-height: 1.2;
+    color: var(--color-text-on-brand);
+    text-align: center;
+    text-decoration: none;
+    // Pilule étroite en mobile (160 px) : un mot long (« Professionnelles ») est
+    // coupé plutôt que de passer sous la pastille.
+    hyphens: auto;
+    overflow-wrap: anywhere;
+    transition: background-color .2s ease;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        pointer-events: none;
+        transform: translateY(-50%);
+    }
+
+    &::before {
+        right: var(--pastille-inset);
+        width: var(--pastille);
+        height: var(--pastille);
+        border-radius: 50%;
+        background-color: var(--color-surface-card);
+    }
+
+    &::after {
+        right: calc(var(--pastille-inset) + (var(--pastille) - var(--arrow)) / 2);
+        width: var(--arrow);
+        height: var(--arrow);
+        background-color: var(--color-action-primary);
+        // Chemin relatif à l'entrée, pas au partial : PhpStorm ne le résout pas.
+        // noinspection CssUnknownTarget
+        mask: url("../images/icons/arrow-right.svg") center / contain no-repeat;
+    }
+
+    &:is(a):hover {
+        background-color: var(--card-button-hover);
+        color: var(--color-text-on-brand);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-text-heading);
+        outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+
+    @include media-breakpoint-up(lg) {
+        --pastille: #{to-rem(34)};
+        --pastille-inset: #{to-rem(19)};
+        --arrow: var(--space-16);
+
+        order: 2;
+        z-index: 1;
+        width: min(100%, #{to-rem(443)});
+        min-height: to-rem(63);
+        // À cheval sur le bas de la photo : 37 px dessus (maquette).
+        margin: to-rem(-37) auto 0;
+        padding-right: calc(var(--pastille-inset) + var(--pastille) + var(--space-12));
+        padding-left: var(--space-24);
+        @include text-style(h3);
+        hyphens: manual;
+        overflow-wrap: normal;
+    }
+}
+
+// Indications de l'éditeur (titre manquant, lien absent).
+.wp-block-couturier-home-hero-card__notice,
+.wp-block-couturier-home-hero-card__hint {
+    order: 5;
+    text-align: start;
+}
+
+.wp-block-couturier-home-hero-card__hint {
+    font-size: var(--fs-small);
+    line-height: var(--lh-small);
+    color: var(--color-text-muted);
 }

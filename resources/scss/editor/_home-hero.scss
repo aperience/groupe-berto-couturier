@@ -1,8 +1,20 @@
 // ─── Bloc « Héros de l'accueil » : canvas de l'éditeur ────────────────────────
 //
+// Sortie du container, comme sur le front : le canvas pose `margin-inline: auto`
+// sur les blocs de premier niveau (`.editor-styles-wrapper :where(…) > .wp-block`),
+// plus spécifique que la règle du bloc (`block/_home-hero.scss`).
+//
 // Boutons « Remplacer » / « Supprimer » de l'image de fond : au-dessus du contenu,
 // qui la recouvre. Sans image, l'emplacement est dans le flux, au-dessus du
 // contenu, à la largeur du container.
+
+.editor-styles-wrapper .is-root-container > .wp-block-couturier-home-hero {
+    margin-inline: calc(50% - 50vw);
+
+    @include media-breakpoint-up(lg) {
+        margin-inline: calc(50% - 50vw + #{$home-hero-gutter});
+    }
+}
 
 .wp-block-couturier-home-hero__media .couturier-image-field__actions {
     z-index: 2;

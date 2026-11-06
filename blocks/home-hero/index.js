@@ -4,8 +4,9 @@
  *
  * Seul bloc du thème à porter un `<h1>` : un seul par page (`supports.multiple:
  * false`). Les deux titres sont des `core/heading` imbriqués (panneau Structure),
- * le texte un `core/paragraph` imbriqué (il se place entre les titres et les cartes
- * de la suite), tous verrouillés (`templateLock: 'all'`). Niveaux fixes : le premier
+ * le texte un `core/paragraph` imbriqué (il se place entre les titres et les
+ * cartes), suivis des deux cartes `couturier/home-hero-card` (auto-école en
+ * « Pêche », formation pro en « Pétrole »), tous verrouillés (`templateLock: 'all'`). Niveaux fixes : le premier
  * titre en H1, le second en H2 — le garde-fou de `Blocks\RestrictHeadingLevels`
  * ignore les titres de ce bloc (`exempt_parents`).
  *
@@ -30,6 +31,7 @@ import { __ } from '@wordpress/i18n';
 import ImageField, { imageUrl } from '../_shared/image-field.js';
 import {
 	LOCKED,
+	TEXT_BLOCKS,
 	hideLockedControls,
 	textOf,
 	useLockedContent,
@@ -38,11 +40,18 @@ import {
 import metadata from './block.json';
 import './formats.js';
 
+const CARD = 'couturier/home-hero-card';
+
 const TEMPLATE = [
 	[ 'core/heading', { level: 1, lock: LOCKED, placeholder: __( 'Titre principal de la page (H1)', 'couturier' ) } ],
 	[ 'core/heading', { level: 2, lock: LOCKED, placeholder: __( 'Accroche', 'couturier' ) } ],
 	[ 'core/paragraph', { lock: LOCKED, placeholder: __( 'Texte', 'couturier' ) } ],
+	[ CARD, { lock: LOCKED } ],
+	[ CARD, { lock: LOCKED, className: 'is-style-petrol' } ],
 ];
+
+/** Blocs imbriqués verrouillés : titres, texte et les deux cartes. */
+const LOCKED_BLOCKS = [ ...TEXT_BLOCKS, CARD ];
 
 /** Premier titre en H1, le suivant en H2. */
 const headingLevel = ( heading, index ) => ( 0 === index ? 1 : 2 );
@@ -81,7 +90,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	const isIncomplete = blocks.length > 0 && ! textOf( title );
 	const isImageLoading = !! imageId && ! media && ! isMissing;
 
-	useLockedContent( blocks, { level: headingLevel } );
+	useLockedContent( blocks, { level: headingLevel, names: LOCKED_BLOCKS } );
 	useNonBreakingPunctuation( blocks );
 
 	// Modèle passé à l'insertion seulement (cf. `blocks/CLAUDE.md`).
