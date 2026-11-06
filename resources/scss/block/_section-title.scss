@@ -62,11 +62,8 @@ $section-title-root: ":where(.container, .is-root-container) > h2.wp-block-headi
     // Collé au titre, comme sur la maquette : l'interligne fait seul l'écart.
     margin-top: 0;
     color: var(--color-text-default);
-    text-align: left;
+    text-align: center;
 
-    @include media-breakpoint-up(md) {
-        text-align: center;
-    }
 
     // Liens : couleur du texte et soulignés, la couleur seule ne les distinguerait
     // pas (WCAG 1.4.1).
