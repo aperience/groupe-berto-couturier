@@ -13,7 +13,7 @@
 // Mobile : tout empilé, titre centré. Desktop (`lg`) : 940 px centrés, titre,
 // texte et bouton à gauche (2fr), liste à droite sur toute la hauteur (3fr).
 //
-// Question ouverte : icône « − », fond inchangé — front : bouton en
+// Question ouverte : icône « − », fond peach/100 — front : bouton en
 // `aria-expanded="true"` (tenu à jour par Bootstrap Collapse) ; éditeur :
 // `.is-open`.
 //
@@ -164,8 +164,18 @@ $faq-max-width: to-rem(940);
 .wp-block-couturier-faq-item {
     margin: 0;
     border-radius: var(--bs-border-radius-lg);
-    // Même fond ouverte ou fermée : seule l'icône change.
     background-color: var(--color-surface-muted);
+    transition: background-color .15s ease;
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+
+    // Question ouverte : fond pêche (peach/100), icône « − ».
+    &:has(> h3 > [aria-expanded="true"]),
+    &.is-open {
+        background-color: var(--color-surface-peach-faint);
+    }
 }
 
 // Titre de la question : `h3` du front (contient le bouton) comme de l'éditeur.
