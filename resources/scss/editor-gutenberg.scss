@@ -89,3 +89,17 @@ body,
         }
     }
 }
+
+// Sous `xl`, largeur de la pilule du header : 12 px de chaque côté au total
+// (cf. `partials/_layout.scss`).
+@include media-breakpoint-down(xl) {
+    body,
+    .editor-styles-wrapper {
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .is-root-container {
+        padding-inline: var(--space-12);
+    }
+}

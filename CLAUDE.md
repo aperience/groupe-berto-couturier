@@ -1068,8 +1068,9 @@ dev server — un e-mail est lu bien après son envoi. Sans build, le nom du sit
 - `$spacers` de Bootstrap inchangés (4, 8, 16, 24, 48 px, tous dans l'échelle du design system) ;
   les autres pas n'existent qu'en `--space-*`.
 - Conteneur : 1136 px de contenu (1040 sur la planche, élargi le 2026-10-28) + 24 px de marge de chaque côté, gouttière 16 px (valeurs
-  desktop). Les valeurs mobiles (marge 12 px, gouttière 14 px) sont à poser à l'intégration du
-  layout, via `--layout-*`.
+  desktop). Sous `xl` (menu mobile), le contenu prend la largeur de la pilule du header : 12 px de
+  chaque côté au total (`partials/_layout.scss`, repris dans `editor-gutenberg.scss`). La gouttière
+  mobile (14 px) reste à poser via `--layout-*`.
 
 > **Back-office et page de connexion** : aux couleurs du design system (partie 2 de
 > `resources/scss/_brand.scss`, doublée dans `AdminServiceProvider` → `AdminColorScheme`) — menu

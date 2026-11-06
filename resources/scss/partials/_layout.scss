@@ -14,6 +14,20 @@ body {
     flex: 1 0 auto;
 }
 
+// Sous `xl` (menu mobile), le contenu prend la largeur de la pilule du header :
+// 12 px de chaque côté (cf. `.site-header__inner`, `partials/_header.scss`), au
+// lieu des deux gouttières de 24 px de `main.container-fluid` et du `.container`.
+// Même règle dans le canvas : `editor-gutenberg.scss`.
+@include media-breakpoint-down(xl) {
+    #main {
+        padding-inline: 0;
+
+        .container {
+            padding-inline: var(--space-12);
+        }
+    }
+}
+
 // Héros de l'accueil en tête de page : il remonte derrière l'en-tête collant, comme
 // sur la maquette — jusqu'en haut de la fenêtre en mobile, à 30 px sous le haut de
 // la barre en desktop. Hauteurs posées par `scrollHeader.js` (`--header-height`,
