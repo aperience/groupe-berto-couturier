@@ -38,7 +38,16 @@ import {
 	useNonBreakingPunctuation,
 } from '../_shared/locked-content.js';
 import metadata from './block.json';
+import exampleImage from './example.webp';
 import './formats.js';
+
+/**
+ * `imageId` réservé à l'aperçu de l'inserteur (`example` du `block.json`) : l'image
+ * de fond de la maquette, fournie avec le bloc. Jamais enregistré ; `render.php`
+ * n'en trouverait pas de pièce jointe. Images des cartes : `home-hero-card/example-images.js`.
+ */
+const EXAMPLE_IMAGE_ID = -1;
+const EXAMPLE_MEDIA = { source_url: exampleImage, alt_text: '', media_details: { width: 1200, height: 750 } };
 
 const CARD = 'couturier/home-hero-card';
 
@@ -70,6 +79,10 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 		( select ) => {
 			if ( ! imageId ) {
 				return { media: null, isMissing: false };
+			}
+
+			if ( EXAMPLE_IMAGE_ID === imageId ) {
+				return { media: EXAMPLE_MEDIA, isMissing: false };
 			}
 
 			const attachment = select( coreStore ).getMedia( imageId, { context: 'view' } );

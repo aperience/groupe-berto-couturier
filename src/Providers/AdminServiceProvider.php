@@ -40,6 +40,7 @@ use Theme\Features\Blocks\BlockLoader;
 use Theme\Features\Blocks\AttachedBlocks;
 use Theme\Features\Blocks\ButtonStyles;
 use Theme\Features\Blocks\DisableDropCap;
+use Theme\Features\Blocks\FrontPageOnlyBlocks;
 use Theme\Features\Blocks\RestrictHeadingLevels;
 
 if (!defined('ABSPATH')) {
@@ -91,6 +92,10 @@ final class AdminServiceProvider implements ServiceProviderInterface
                 $context,
                 // Le héros de l'accueil porte le <h1> de la page (titre imbriqué niveau 1).
                 exempt_parents: [ $context->block_namespace . '/home-hero' ],
+            ),
+            // Le héros (et son <h1>) n'est proposé que dans la page d'accueil.
+            new FrontPageOnlyBlocks(
+                blocks: [ $context->block_namespace . '/home-hero' ],
             ),
             new ButtonStyles($context),
             new AttachedBlocks($context),

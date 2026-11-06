@@ -207,8 +207,9 @@ printf( '<hgroup %s>%s</hgroup>', get_block_wrapper_attributes(), $content );
 - **L'attribut `levelOptions` d'une instance est ignoré** : ne pas le mettre dans un template.
 - **Niveaux limités à H2 / H3 sur tout le site** par la feature `Theme\Features\Blocks\RestrictHeadingLevels`
   (variations restreintes + garde-fou JS qui corrige Markdown, collage, éditeur de code). Un bloc n'a
-  donc pas à corriger lui-même un niveau hors plage. Un futur H1 (bloc héro) devra être exclu de cette
-  feature.
+  donc pas à corriger lui-même un niveau hors plage. Seule exception : le héros de l'accueil
+  (`couturier/home-hero`), déclaré dans `exempt_parents:` de la feature, dont le premier titre est
+  un H1 — le bloc fixe ses niveaux par `useLockedContent( blocks, { level: ( titre, rang ) => … } )`.
 - Le titre reste un `core/heading` : classes `wp-block-heading`, ancres automatiques, variations.
 
 ---

@@ -56,6 +56,7 @@ import {
 	useLockedContent,
 	useNonBreakingPunctuation,
 } from '../_shared/locked-content.js';
+import { exampleMedia } from './example-images.js';
 import metadata from './block.json';
 
 /** Le titre d'une carte est toujours un `<h3>`. */
@@ -79,6 +80,11 @@ function useMedia( imageId ) {
 		( select ) => {
 			if ( ! imageId ) {
 				return { media: null, isMissing: false };
+			}
+
+			// `imageId` négatif : image de l'aperçu de l'inserteur (`example-images.js`).
+			if ( imageId < 0 ) {
+				return { media: exampleMedia( imageId ) ?? null, isMissing: false };
 			}
 
 			const attachment = select( coreStore ).getMedia( imageId, { context: 'view' } );

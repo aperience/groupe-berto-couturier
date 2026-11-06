@@ -5,8 +5,14 @@
 	"title": "Héros de l'accueil",
 	"category": "design",
 	"icon": "cover-image",
-	"description": "En-tête de la page d'accueil : image de fond, titre principal de la page (H1), accroche (H2) et texte.",
-	"keywords": [ "héros", "hero", "accueil", "bannière", "h1" ],
+	"description": "En-tête de la page d'accueil : image de fond, titre principal de la page (H1), accroche (H2), texte et deux cartes (auto-école, formation pro).",
+	"keywords": [
+		"héros",
+		"hero",
+		"accueil",
+		"bannière",
+		"h1"
+	],
 	"textdomain": "couturier",
 	"attributes": {
 		"imageId": {
@@ -19,6 +25,85 @@
 	"supports": {
 		"html": false,
 		"multiple": false
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"attributes": {
+			"imageId": -1
+		},
+		"innerBlocks": [
+			{
+				"name": "core/heading",
+				"attributes": {
+					"level": 1,
+					"content": "Auto-école et centre de formation à Dreux"
+				}
+			},
+			{
+				"name": "core/heading",
+				"attributes": {
+					"level": 2,
+					"content": "Vous avez un objectif.<br>On a le chemin pour y arriver."
+				}
+			},
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "Un premier permis. Un nouveau métier. Un nouveau départ.<br><strong>Deux expertises, la même envie : vous faire réussir.</strong>"
+				}
+			},
+			{
+				"name": "couturier/home-hero-card",
+				"attributes": {
+					"imageId": -1,
+					"contactImageId": -3,
+					"link": {
+						"url": "#"
+					},
+					"eyebrow": "Pour les particuliers",
+					"text": "Permis auto, moto, code de la route… Apprenez à votre rythme, avec une équipe qui croit en vous.",
+					"buttonLabel": "Les permis de l’auto-école",
+					"contactTitle": "Une question ?<br>Eloim vous aide à choisir la formule adaptée",
+					"contactPhone": "02 37 42 42 69",
+					"contactEmail": "contact@couturier-permis.com"
+				},
+				"innerBlocks": [
+					{
+						"name": "core/heading",
+						"attributes": {
+							"level": 3,
+							"content": "En route vers la liberté."
+						}
+					}
+				]
+			},
+			{
+				"name": "couturier/home-hero-card",
+				"attributes": {
+					"className": "is-style-petrol",
+					"imageId": -2,
+					"contactImageId": -4,
+					"link": {
+						"url": "#"
+					},
+					"eyebrow": "Pour les professionnels &amp; entreprises",
+					"text": "Transport, CACES, habilitations… Les bonnes compétences pour passer à la vitesse supérieure.",
+					"buttonLabel": "Les Formations Professionnelles",
+					"contactTitle": "Une question ?<br>Martin, Responsable de l’offre Entreprise",
+					"contactPhone": "02 37 42 42 69",
+					"contactEmail": "contact@couturier-formapro.fr"
+				},
+				"innerBlocks": [
+					{
+						"name": "core/heading",
+						"attributes": {
+							"level": 3,
+							"content": "Un métier. Des possibilités."
+						}
+					}
+				]
+			}
+		]
 	},
 	"editorScript": "file:./index.js",
 	"render": "file:./render.php"
