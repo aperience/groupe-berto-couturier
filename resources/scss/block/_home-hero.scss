@@ -4,7 +4,7 @@
 // classes) :
 //
 //   section.wp-block-couturier-home-hero
-//     div.__background (--focal)   ← pétrole 700, puis calques ci-dessous
+//     div.__background (--focal)   ← gris foncé, puis calques ci-dessous
 //       div.__media > img.__image  ← image décorative
 //       ::after                    ← fondu blanc en bas
 //     div.__content                ← h1, h2, p, deux cartes (grille, cf. plus bas)
@@ -46,7 +46,11 @@ $home-hero-height: to-rem(703); // Hauteur du fond (desktop)
     inset: 0;
     overflow: hidden;
     border-radius: 0 0 var(--bs-border-radius-lg) var(--bs-border-radius-lg);
-    background-color: var(--color-action-dark-hover);
+    // Gris foncé neutre (pétrole 700 sur la maquette), visible avant le chargement de
+    // la photo ou sans photo : le texte blanc reste lisible, sans teinte bleue
+    // (choix d'Aurélien, 2026-11-06). Gris de l'interface de WordPress (gray-80),
+    // hors charte.
+    background-color: #3c434a;
 
     // Fondu vers le blanc de la page en bas (maquette). Le voile orangé de la
     // maquette (10 %) est retiré : il ternissait la photo (2026-11-06).
