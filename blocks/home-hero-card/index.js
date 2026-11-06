@@ -17,8 +17,14 @@
  * Ordre du balisage : sur-titre, photo, titre, texte, bouton (ordre de lecture). En
  * desktop, le bouton est affiché à cheval sur le bas de la photo (`order`, CSS).
  *
+ * Encart contact (desktop seulement) : photo ronde (`contactImageId`), texte,
+ * téléphone et e-mail, en attributs écrits après le bouton. `render.php` sépare la
+ * carte (`div.__body`, fond coloré) de l'encart (`div.__contact`), placé dessous ;
+ * le canvas reproduit la même enveloppe.
+ *
  * Sans titre, la carte n'est pas rendue ; sans lien ou sans libellé, le bouton non
- * plus. Les autres champs sont facultatifs.
+ * plus ; sans texte de contact, l'encart non plus. Les autres champs sont
+ * facultatifs.
  */
 import { registerBlockType } from '@wordpress/blocks';
 import {
@@ -61,8 +67,28 @@ const TITLE_BLOCKS = [ 'core/heading' ];
 
 const ROOT = 'couturier/home-hero';
 
+/** Classe (suffixe) du `<p>` enregistré de chaque champ du contact. */
+const CONTACT_CLASSES = { contactTitle: 'contact-title', contactPhone: 'contact-phone', contactEmail: 'contact-email' };
+
 /** Formats du texte : gras, italique, lien (saut de ligne par Maj+Entrée). */
 const TEXT_FORMATS = [ 'core/bold', 'core/italic', 'core/link' ];
+
+/** Pièce jointe d'une image (`getMedia()`) ; `isMissing` si elle a été supprimée. */
+function useMedia( imageId ) {
+	return useSelect(
+		( select ) => {
+			if ( ! imageId ) {
+				return { media: null, isMissing: false };
+			}
+
+			const attachment = select( coreStore ).getMedia( imageId, { context: 'view' } );
+			const isResolved = select( coreStore ).hasFinishedResolution( 'getMedia', [ imageId, { context: 'view' } ] );
+
+			return { media: attachment ?? null, isMissing: isResolved && ! attachment };
+		},
+		[ imageId ]
+	);
+}
 
 /** Valeur du `LinkControl` réduite à ce que `render.php` utilise. */
 const toLink = ( value ) =>
@@ -123,7 +149,7 @@ function CardLinkToolbar( { cardId } ) {
 }
 
 function Edit( { attributes, setAttributes, clientId, isSelected } ) {
-	const { imageId, eyebrow, text, buttonLabel, link } = attributes;
+	const { imageId, eyebrow, text, buttonLabel, link, contactImageId, contactTitle, contactPhone, contactEmail } = attributes;
 
 	const { blocks, isEditing } = useSelect(
 		( select ) => {
@@ -144,22 +170,13 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 		[ clientId, isSelected ]
 	);
 
-	// Pièce jointe de la photo ; `isMissing` si elle a été supprimée de la médiathèque.
-	const { media, isMissing } = useSelect(
-		( select ) => {
-			if ( ! imageId ) {
-				return { media: null, isMissing: false };
-			}
-
-			const attachment = select( coreStore ).getMedia( imageId, { context: 'view' } );
-			const isResolved = select( coreStore ).hasFinishedResolution( 'getMedia', [ imageId, { context: 'view' } ] );
-
-			return { media: attachment ?? null, isMissing: isResolved && ! attachment };
-		},
-		[ imageId ]
-	);
+	const { media, isMissing } = useMedia( imageId );
+	const { media: contactMedia, isMissing: isContactMissing } = useMedia( contactImageId );
 
 	const isImageLoading = !! imageId && ! media && ! isMissing;
+	const isContactImageLoading = !! contactImageId && ! contactMedia && ! isContactMissing;
+	// Contact rendu sur le site : un texte.
+	const hasContact = !! textOf( contactTitle );
 	const isIncomplete = blocks.length > 0 && ! textOf( blocks[ 0 ] );
 	// Bouton rendu sur le site : un lien et un libellé.
 	const hasButton = !! link?.url && !! textOf( buttonLabel );
@@ -186,57 +203,105 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 			</InspectorControls>
 			<ImageInfoPanel media={ media } isMissing={ isMissing } />
 			{ isSelected && <CardLinkToolbar cardId={ clientId } /> }
-			<RichText
-				tagName="p"
-				className="wp-block-couturier-home-hero-card__eyebrow"
-				aria-label={ __( 'Sur-titre de la carte', 'couturier' ) }
-				placeholder={ __( 'Sur-titre', 'couturier' ) }
-				value={ eyebrow }
-				onChange={ ( value ) => setAttributes( { eyebrow: nonBreaking( value ) } ) }
-				allowedFormats={ [] }
-				disableLineBreaks
-			/>
-			{ ! isImageLoading && ( media || isEditing ) && (
-				<ImageField
-					className="wp-block-couturier-home-hero-card__media"
-					imageClassName="wp-block-couturier-home-hero-card__image"
-					media={ media }
-					isEditing={ isEditing }
-					onSelect={ ( selected ) => setAttributes( { imageId: selected?.id } ) }
-					onRemove={ () => setAttributes( { imageId: undefined } ) }
-					label={ __( 'Photo', 'couturier' ) }
+			<div className="wp-block-couturier-home-hero-card__body">
+				<RichText
+					tagName="p"
+					className="wp-block-couturier-home-hero-card__eyebrow"
+					aria-label={ __( 'Sur-titre de la carte', 'couturier' ) }
+					placeholder={ __( 'Sur-titre', 'couturier' ) }
+					value={ eyebrow }
+					onChange={ ( value ) => setAttributes( { eyebrow: nonBreaking( value ) } ) }
+					allowedFormats={ [] }
+					disableLineBreaks
 				/>
-			) }
-			{ children }
-			<RichText
-				tagName="p"
-				className="wp-block-couturier-home-hero-card__text"
-				aria-label={ __( 'Texte de la carte', 'couturier' ) }
-				placeholder={ __( 'Texte', 'couturier' ) }
-				value={ text }
-				onChange={ ( value ) => setAttributes( { text: nonBreaking( value ) } ) }
-				allowedFormats={ TEXT_FORMATS }
-			/>
-			<RichText
-				tagName="p"
-				className={ 'wp-block-couturier-home-hero-card__button' + ( hasButton ? '' : ' is-incomplete' ) }
-				aria-label={ __( 'Libellé du bouton', 'couturier' ) }
-				placeholder={ __( 'Libellé du bouton', 'couturier' ) }
-				value={ buttonLabel }
-				onChange={ ( value ) => setAttributes( { buttonLabel: nonBreaking( value ) } ) }
-				allowedFormats={ [] }
-				disableLineBreaks
-			/>
-			{ isEditing && isIncomplete && (
-				<Notice status="warning" isDismissible={ false } className="wp-block-couturier-home-hero-card__notice">
-					{ __( 'Titre obligatoire : sans lui, cette carte n\'est pas affichée sur le site.', 'couturier' ) }
-				</Notice>
-			) }
-			{ isEditing && ! isIncomplete && ! link?.url && (
-				<p className="wp-block-couturier-home-hero-card__hint">
-					{ __( 'Pas de lien : le bouton n\'est pas affiché (bouton « Lien » de la barre d\'outils).', 'couturier' ) }
-				</p>
-			) }
+				{ ! isImageLoading && ( media || isEditing ) && (
+					<ImageField
+						className="wp-block-couturier-home-hero-card__media"
+						imageClassName="wp-block-couturier-home-hero-card__image"
+						media={ media }
+						isEditing={ isEditing }
+						onSelect={ ( selected ) => setAttributes( { imageId: selected?.id } ) }
+						onRemove={ () => setAttributes( { imageId: undefined } ) }
+						label={ __( 'Photo', 'couturier' ) }
+					/>
+				) }
+				{ children }
+				<RichText
+					tagName="p"
+					className="wp-block-couturier-home-hero-card__text"
+					aria-label={ __( 'Texte de la carte', 'couturier' ) }
+					placeholder={ __( 'Texte', 'couturier' ) }
+					value={ text }
+					onChange={ ( value ) => setAttributes( { text: nonBreaking( value ) } ) }
+					allowedFormats={ TEXT_FORMATS }
+				/>
+				<RichText
+					tagName="p"
+					className={ 'wp-block-couturier-home-hero-card__button' + ( hasButton ? '' : ' is-incomplete' ) }
+					aria-label={ __( 'Libellé du bouton', 'couturier' ) }
+					placeholder={ __( 'Libellé du bouton', 'couturier' ) }
+					value={ buttonLabel }
+					onChange={ ( value ) => setAttributes( { buttonLabel: nonBreaking( value ) } ) }
+					allowedFormats={ [] }
+					disableLineBreaks
+				/>
+				{ isEditing && isIncomplete && (
+					<Notice status="warning" isDismissible={ false } className="wp-block-couturier-home-hero-card__notice">
+						{ __( 'Titre obligatoire : sans lui, cette carte n\'est pas affichée sur le site.', 'couturier' ) }
+					</Notice>
+				) }
+				{ isEditing && ! isIncomplete && ! link?.url && (
+					<p className="wp-block-couturier-home-hero-card__hint">
+						{ __( 'Pas de lien : le bouton n\'est pas affiché (bouton « Lien » de la barre d\'outils).', 'couturier' ) }
+					</p>
+				) }
+			</div>
+			<div className={ 'wp-block-couturier-home-hero-card__contact' + ( hasContact ? '' : ' is-incomplete' ) }>
+				{ ! isContactImageLoading && ( contactMedia || isEditing ) && (
+					<ImageField
+						className="wp-block-couturier-home-hero-card__contact-photo"
+						imageClassName="wp-block-couturier-home-hero-card__contact-image"
+						media={ contactMedia }
+						isEditing={ isEditing }
+						onSelect={ ( selected ) => setAttributes( { contactImageId: selected?.id } ) }
+						onRemove={ () => setAttributes( { contactImageId: undefined } ) }
+						label={ __( 'Photo', 'couturier' ) }
+					/>
+				) }
+				<div className="wp-block-couturier-home-hero-card__contact-body">
+					<RichText
+						tagName="p"
+						className="wp-block-couturier-home-hero-card__contact-title"
+						aria-label={ __( 'Texte du contact', 'couturier' ) }
+						placeholder={ __( 'Une question ? Prénom vous aide… (contact facultatif, affiché en desktop)', 'couturier' ) }
+						value={ contactTitle }
+						onChange={ ( value ) => setAttributes( { contactTitle: nonBreaking( value ) } ) }
+						allowedFormats={ [] }
+					/>
+					<div className="wp-block-couturier-home-hero-card__contact-details">
+						<RichText
+							tagName="p"
+							className="wp-block-couturier-home-hero-card__contact-phone"
+							aria-label={ __( 'Téléphone du contact', 'couturier' ) }
+							placeholder={ __( 'Téléphone', 'couturier' ) }
+							value={ contactPhone }
+							onChange={ ( value ) => setAttributes( { contactPhone: value } ) }
+							allowedFormats={ [] }
+							disableLineBreaks
+						/>
+						<RichText
+							tagName="p"
+							className="wp-block-couturier-home-hero-card__contact-email"
+							aria-label={ __( 'E-mail du contact', 'couturier' ) }
+							placeholder={ __( 'E-mail', 'couturier' ) }
+							value={ contactEmail }
+							onChange={ ( value ) => setAttributes( { contactEmail: value } ) }
+							allowedFormats={ [] }
+							disableLineBreaks
+						/>
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 }
@@ -254,6 +319,17 @@ registerBlockType( metadata.name, {
 			) }
 			{ ! RichText.isEmpty( attributes.buttonLabel ) && (
 				<RichText.Content tagName="p" className="wp-block-couturier-home-hero-card__button" value={ attributes.buttonLabel } />
+			) }
+			{ [ 'contactTitle', 'contactPhone', 'contactEmail' ].map(
+				( key ) =>
+					! RichText.isEmpty( attributes[ key ] ) && (
+						<RichText.Content
+							key={ key }
+							tagName="p"
+							className={ `wp-block-couturier-home-hero-card__${ CONTACT_CLASSES[ key ] }` }
+							value={ attributes[ key ] }
+						/>
+					)
 			) }
 		</>
 	),

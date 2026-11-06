@@ -27,3 +27,29 @@
     margin: 0 auto var(--space-24);
     text-align: start;
 }
+
+// Coordonnées du contact : séparateur « - » entre téléphone et e-mail, posé par
+// `render.php` sur le front ; ici, entre les deux champs quand ils sont remplis.
+.wp-block-couturier-home-hero-card__contact-details > .wp-block-couturier-home-hero-card__contact-phone:not(:has([data-rich-text-placeholder])) + .wp-block-couturier-home-hero-card__contact-email:not(:has([data-rich-text-placeholder]))::before {
+    content: "–";
+    margin-right: var(--space-6);
+}
+
+// Photo du contact (66 px) : boutons « Remplacer » / « Supprimer » réduits à leur
+// icône (libellé gardé pour les lecteurs d'écran) et posés au-dessus de la photo,
+// pour ne pas recouvrir le texte.
+.wp-block-couturier-home-hero-card__contact-photo .couturier-image-field__actions {
+    top: auto;
+    right: auto;
+    bottom: calc(100% + var(--space-4));
+    left: 0;
+    z-index: 2;
+    gap: var(--space-4);
+
+    .components-button {
+        gap: 0;
+        min-width: 0;
+        padding: var(--space-6);
+        font-size: 0;
+    }
+}

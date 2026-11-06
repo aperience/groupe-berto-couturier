@@ -5,9 +5,11 @@
 	"title": "Carte univers",
 	"category": "design",
 	"icon": "id",
-	"description": "Carte du héros de l'accueil : sur-titre, photo, titre H3, texte et bouton vers la rubrique.",
+	"description": "Carte du héros de l'accueil : sur-titre, photo, titre H3, texte, bouton vers la rubrique et encart contact (desktop).",
 	"textdomain": "couturier",
-	"parent": [ "couturier/home-hero" ],
+	"parent": [
+		"couturier/home-hero"
+	],
 	"attributes": {
 		"imageId": {
 			"type": "number"
@@ -32,6 +34,27 @@
 			"source": "html",
 			"selector": "p.wp-block-couturier-home-hero-card__button",
 			"role": "content"
+		},
+		"contactImageId": {
+			"type": "number"
+		},
+		"contactTitle": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-home-hero-card__contact-title",
+			"role": "content"
+		},
+		"contactPhone": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-home-hero-card__contact-phone",
+			"role": "content"
+		},
+		"contactEmail": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-home-hero-card__contact-email",
+			"role": "content"
 		}
 	},
 	"supports": {
@@ -40,8 +63,15 @@
 		"inserter": false
 	},
 	"styles": [
-		{ "name": "default", "label": "Pêche", "isDefault": true },
-		{ "name": "petrol", "label": "Pétrole" }
+		{
+			"name": "default",
+			"label": "Pêche",
+			"isDefault": true
+		},
+		{
+			"name": "petrol",
+			"label": "Pétrole"
+		}
 	],
 	"editorScript": "file:./index.js",
 	"render": "file:./render.php"

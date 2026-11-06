@@ -165,5 +165,5 @@ registerBlockType( metadata.name, {
 	save: () => <InnerBlocks.Content />,
 } );
 
-// Titre ou texte du héros sélectionné : ni cadenas, ni variations de niveau.
-hideLockedControls( metadata.name );
+// Titre, texte ou carte du héros sélectionné : ni cadenas, ni variations de niveau.
+hideLockedControls( metadata.name, LOCKED_BLOCKS );
