@@ -12,6 +12,7 @@ namespace Theme\Features\Navigation;
 use Deefuse\ThemeCore\Contracts\FeatureInterface;
 use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\Admin\HelpScreen;
+use Theme\Features\CurrentOffer\CurrentOffer;
 use Theme\Support\PageCache;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -96,8 +97,10 @@ final class HeaderSettings implements FeatureInterface {
             'label'    => __( 'Menu et en-tête', 'couturier' ),
             'priority' => 15,
             'context'  => [
-                'header_url' => admin_url( 'themes.php?page=' . $this->context->handle( Header::MENU_SLUG ) ),
-                'menus_url'  => current_user_can( 'edit_theme_options' ) ? admin_url( 'nav-menus.php' ) : '',
+                'header_url'        => admin_url( 'themes.php?page=' . $this->context->handle( Header::MENU_SLUG ) ),
+                // Vide si l'écran n'est pas enregistré (provider Marketing retiré) : l'aide ne pointe pas sur un lien mort.
+                'current_offer_url' => menu_page_url( $this->context->handle( CurrentOffer::MENU_SLUG ), false ),
+                'menus_url'         => current_user_can( 'edit_theme_options' ) ? admin_url( 'nav-menus.php' ) : '',
             ],
         ];
 
