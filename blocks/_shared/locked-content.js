@@ -47,24 +47,30 @@ export const textOf = ( value ) =>
  *
  * @param {Object[]} blocks          Blocs imbriqués (`getBlocks( clientId )`).
  * @param {Object}   options
- * @param {number}   [options.level] Niveau fixe des `core/heading` ; sans lui, le niveau reste au choix.
+ * @param {number|Function} [options.level] Niveau fixe des `core/heading` — ou fonction
+ *                                         `( titre, rang parmi les titres ) => niveau`, pour
+ *                                         un bloc à plusieurs titres (héros : H1 puis H2) ;
+ *                                         sans lui, le niveau reste au choix.
  * @param {string[]} [options.names] Blocs imbriqués à verrouiller.
  */
 export function useLockedContent( blocks, { level, names = TEXT_BLOCKS } ) {
 	const { updateBlockAttributes, __unstableMarkNextChangeAsNotPersistent } = useDispatch( blockEditorStore );
 
 	useEffect( () => {
+		const headings = blocks.filter( ( block ) => 'core/heading' === block.name );
+
 		blocks
 			.filter( ( block ) => names.includes( block.name ) )
 			.forEach( ( block ) => {
 				const changes = {};
+				const fixedLevel = 'function' === typeof level ? level( block, headings.indexOf( block ) ) : level;
 
 				if ( ! block.attributes.lock?.remove || ! block.attributes.lock?.move ) {
 					changes.lock = LOCKED;
 				}
 
-				if ( 'core/heading' === block.name && undefined !== level && level !== block.attributes.level ) {
-					changes.level = level;
+				if ( 'core/heading' === block.name && undefined !== fixedLevel && fixedLevel !== block.attributes.level ) {
+					changes.level = fixedLevel;
 				}
 
 				if ( Object.keys( changes ).length ) {

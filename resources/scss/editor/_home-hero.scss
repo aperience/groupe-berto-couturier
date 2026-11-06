@@ -1,0 +1,17 @@
+// ─── Bloc « Héros de l'accueil » : canvas de l'éditeur ────────────────────────
+//
+// Boutons « Remplacer » / « Supprimer » de l'image de fond : au-dessus du contenu,
+// qui la recouvre. Sans image, l'emplacement est dans le flux, au-dessus du
+// contenu, à la largeur du container.
+
+.wp-block-couturier-home-hero__media .couturier-image-field__actions {
+    z-index: 2;
+}
+
+.wp-block-couturier-home-hero__placeholder {
+    position: relative;
+    max-width: var(--layout-container);
+    height: to-rem(240);
+    margin: 0 auto var(--space-24);
+    text-align: start;
+}

@@ -87,7 +87,11 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new DisableNativeBlockSupports(),
             new DisableDropCap(),
             new DisablePostByEmail(),
-            new RestrictHeadingLevels($context),
+            new RestrictHeadingLevels(
+                $context,
+                // Le héros de l'accueil porte le <h1> de la page (titre imbriqué niveau 1).
+                exempt_parents: [ $context->block_namespace . '/home-hero' ],
+            ),
             new ButtonStyles($context),
             new AttachedBlocks($context),
             new BlockImageSizes(),

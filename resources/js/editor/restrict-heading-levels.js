@@ -10,6 +10,10 @@
  * (`#### `), collage de HTML, éditeur de code, transformation de bloc. Ce script
  * surveille donc l'arbre des blocs et ramène tout niveau hors de `levelOptions` au
  * niveau autorisé le plus proche — pour tout bloc qui déclare cet attribut.
+ *
+ * Les enfants directs des blocs `exemptParents` (configuration posée par la feature
+ * dans `window.couturierHeadingGuard`) sont ignorés : le héros de l'accueil fixe
+ * lui-même le niveau 1 de son titre principal.
  */
 ( function ( wp ) {
 	'use strict';
@@ -19,6 +23,7 @@
 	}
 
 	var STORE = 'core/block-editor';
+	var EXEMPT = ( window.couturierHeadingGuard && window.couturierHeadingGuard.exemptParents ) || [];
 	var lastBlocks = null;
 
 	/**
@@ -37,13 +42,15 @@
 		}, candidates[ 0 ] );
 	}
 
-	function check( blocks ) {
+	function check( blocks, parentName ) {
+		var isExempt = EXEMPT.indexOf( parentName ) !== -1;
+
 		blocks.forEach( function ( block ) {
 			var type = wp.blocks.getBlockType( block.name );
 			var allowed = type && type.attributes && type.attributes.levelOptions && type.attributes.levelOptions.default;
 			var level = block.attributes.level;
 
-			if ( Array.isArray( allowed ) && allowed.length && typeof level === 'number' && allowed.indexOf( level ) === -1 ) {
+			if ( ! isExempt && Array.isArray( allowed ) && allowed.length && typeof level === 'number' && allowed.indexOf( level ) === -1 ) {
 				// Pas d'étape d'historique propre : « Annuler » revient à l'état
 				// d'avant le titre fautif, au lieu de rejouer le niveau interdit
 				// aussitôt recorrigé.
@@ -52,7 +59,7 @@
 			}
 
 			if ( block.innerBlocks && block.innerBlocks.length ) {
-				check( block.innerBlocks );
+				check( block.innerBlocks, block.name );
 			}
 		} );
 	}
@@ -66,6 +73,6 @@
 		}
 
 		lastBlocks = blocks;
-		check( blocks );
+		check( blocks, null );
 	} );
 } )( window.wp );

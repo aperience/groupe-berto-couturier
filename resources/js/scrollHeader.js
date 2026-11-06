@@ -8,6 +8,10 @@
  * quand la taille du header change. Barre collée : `is-stuck` masque le bas du
  * bandeau, qui dépasserait au-dessus d'elle (sans changer la hauteur du header).
  *
+ * Hauteur du header et position de la barre exposées aussi sur `:root`
+ * (`--header-height`, `--header-bar-top`) : le héros de l'accueil s'en sert pour
+ * remonter derrière lui (`partials/_layout.scss`).
+ *
  * Pas de masquage tant qu'un méga menu ou le menu mobile est ouvert, ni tant que
  * le focus clavier est dans le header (il y revient en se réaffichant).
  * Transition coupée sous `prefers-reduced-motion` (CSS).
@@ -35,6 +39,8 @@ function init( header ) {
 
 		stick = Math.max( 0, bar.offsetTop - gap );
 		header.style.setProperty( '--header-stick', `${ -stick }px` );
+		document.documentElement.style.setProperty( '--header-height', `${ header.offsetHeight }px` );
+		document.documentElement.style.setProperty( '--header-bar-top', `${ bar.offsetTop }px` );
 		header.classList.toggle( STUCK, stick > 0 && window.scrollY >= stick );
 	};
 

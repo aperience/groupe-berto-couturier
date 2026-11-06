@@ -1,0 +1,180 @@
+// ─── Bloc « Héros de l'accueil » (couturier/home-hero) ────────────────────────
+//
+// Balisage (front : `render.php` ; éditeur : `blocks/home-hero/index.js`, mêmes
+// classes) :
+//
+//   section.wp-block-couturier-home-hero
+//     div.__background (--focal)   ← pétrole 700, puis calques ci-dessous
+//       div.__media > img.__image  ← image décorative ; ::after : mesh gradient (desktop)
+//       ::after                    ← fondu blanc en bas, voile orangé
+//     div.__content                ← h1, h2, p (grille : cartes de l'étape suivante)
+//
+// Maquettes Figma : desktop 536:7444 (fond), 536:7447 / 536:7448 (textes) ; mobile
+// 595:1342. Mobile : fond pleine largeur, coins bas arrondis, sur toute la hauteur
+// du bloc. Desktop (`lg`) : fond à 30 px des bords de la fenêtre, 703 px de haut,
+// contenu aligné sur le container.
+//
+// Le « mesh gradient » de Figma (shader WebGPU statique, 20 %) est précalculé en
+// image (`resources/images/home-hero-mesh.webp`, mêmes formules que le shader).
+//
+// Remontée derrière l'en-tête collant (front seulement) : `partials/_layout.scss`.
+
+$home-hero-gutter: to-rem(30); // Écart entre le fond et le bord de la fenêtre (desktop)
+$home-hero-height: to-rem(703); // Hauteur du fond (desktop)
+
+.wp-block-couturier-home-hero {
+    position: relative;
+    margin-block: var(--layout-section-gap);
+    // Sort du container : pleine largeur de la fenêtre en mobile.
+    margin-inline: calc(50% - 50vw);
+    // 110 px : valeur de la maquette, hors de l'échelle des espacements.
+    padding: to-rem(110) var(--space-16) var(--space-8);
+    color: var(--color-text-on-brand);
+    text-align: center;
+
+    @include media-breakpoint-up(lg) {
+        min-height: $home-hero-height;
+        margin-inline: calc(50% - 50vw + #{$home-hero-gutter});
+        padding: to-rem(85) 0 0;
+    }
+}
+
+// ─── Fond ─────────────────────────────────────────────────────────────────────
+.wp-block-couturier-home-hero__background {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border-radius: 0 0 var(--bs-border-radius-lg) var(--bs-border-radius-lg);
+    background-color: var(--color-action-dark-hover);
+
+    // Dégradés de la maquette : fondu vers le blanc de la page en bas, voile orangé.
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image:
+            linear-gradient(180deg, rgba(0, 0, 0, 0) 70.32%, rgba(139, 139, 139, .547) 78.61%, var(--color-surface-page) 85.92%),
+            linear-gradient(180deg, rgba(53, 53, 53, .1) 0%, rgba(255, 107, 53, .1) 100%);
+    }
+
+    @include media-breakpoint-up(lg) {
+        bottom: auto;
+        height: $home-hero-height;
+        border-radius: var(--bs-border-radius);
+
+        &::after {
+            background-image:
+                linear-gradient(180deg, rgba(0, 0, 0, 0) 52.37%, var(--color-surface-page) 91.9%),
+                linear-gradient(180deg, rgba(53, 53, 53, .1) 0%, rgba(255, 107, 53, .1) 100%);
+        }
+    }
+}
+
+// Sélecteur doublé : l'emporte sur `.couturier-image-field` (relatif) dans l'éditeur.
+.wp-block-couturier-home-hero__background > .wp-block-couturier-home-hero__media {
+    position: absolute;
+    inset: 0;
+
+    // Mesh gradient (desktop seulement : absent de la maquette mobile).
+    @include media-breakpoint-up(lg) {
+        &::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background: url("../images/home-hero-mesh.webp") center / 100% 100% no-repeat;
+            opacity: .2;
+        }
+    }
+}
+
+.wp-block-couturier-home-hero__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--focal, 50% 50%);
+}
+
+// ─── Contenu ──────────────────────────────────────────────────────────────────
+// Grille à deux colonnes (mobile compris) : titres et texte sur toute la largeur,
+// une carte par colonne. Dans l'éditeur, les blocs imbriqués reçoivent les marges
+// par défaut du canvas (`html :where(.wp-block)`, spécificité nulle) : toutes les
+// marges sont posées ici.
+.wp-block-couturier-home-hero__content {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-14) var(--space-6);
+    max-width: var(--layout-container);
+    margin-inline: auto;
+
+    > * {
+        grid-column: 1 / -1;
+        margin: 0;
+    }
+
+    // H1 : petite ligne en capitales au-dessus de l'accroche. Ombre portée absente
+    // de la maquette, ajoutée pour la lisibilité du blanc sur le ciel clair de la
+    // photo (même ombre resserrée que le texte en mobile, plus efficace qu'un flou
+    // large sur un texte de 11,5 à 15 px).
+    > h1 {
+        @include text-style(eyebrow);
+        line-height: 1.3;
+        color: inherit;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, .6), 0 0 12px rgba(0, 0, 0, .35);
+    }
+
+    > h2 {
+        font-family: $headings-font-family;
+        font-weight: 900;
+        font-size: to-rem(32);
+        line-height: to-rem(32);
+        letter-spacing: to-rem(-.5);
+        color: inherit;
+        text-shadow: 0 4px 11.9px rgba(0, 0, 0, .4);
+    }
+
+    > p {
+        font-size: to-rem(16);
+        line-height: to-rem(18);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, .6);
+
+        strong {
+            font-weight: 700;
+        }
+    }
+
+    // Avertissement de l'éditeur (H1 vide).
+    > .wp-block-couturier-home-hero__notice {
+        text-align: start;
+    }
+
+    @include media-breakpoint-up(lg) {
+        column-gap: to-rem(22);
+
+        > h1 {
+            font-size: var(--fs-button);
+            letter-spacing: 0;
+        }
+
+        > h2 {
+            max-width: to-rem(896);
+            margin-inline: auto;
+            font-size: to-rem(64);
+            line-height: to-rem(59);
+            letter-spacing: to-rem(-1.5);
+            text-shadow: 0 3px 15.9px rgba(0, 0, 0, .4);
+        }
+
+        // 22 px sous l'accroche (14 + 8).
+        > p {
+            max-width: to-rem(909);
+            margin: var(--space-8) auto 0;
+            font-size: to-rem(24);
+            line-height: to-rem(29);
+            text-shadow: 0 4px 4px rgba(0, 0, 0, .4);
+        }
+    }
+}

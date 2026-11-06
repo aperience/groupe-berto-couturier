@@ -41,6 +41,12 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Un titre d'un autre niveau déjà présent dans un contenu est corrigé à la prochaine
  * ouverture de ce contenu dans l'éditeur, et enregistré avec lui ; le front, lui, rend
  * le contenu tel qu'il est en base.
+ *
+ * **Exception : les blocs de `exempt_parents`** (le héros de l'accueil, seul à porter le
+ * `<h1>` de la page). Le garde-fou ignore les titres qui sont leurs enfants directs : le
+ * bloc parent fixe lui-même leur niveau (cf. `useLockedContent()`,
+ * `blocks/_shared/locked-content.js`). Les variations H1 restant désenregistrées, un
+ * rédacteur ne peut toujours pas créer de H1 ailleurs.
  */
 final class RestrictHeadingLevels implements FeatureInterface {
 
@@ -52,11 +58,13 @@ final class RestrictHeadingLevels implements FeatureInterface {
 
     /**
      * @param ThemeContext $context Identité du thème, pour le handle du script.
-     * @param int[]        $levels  Niveaux de titre proposés dans l'éditeur.
+     * @param int[]        $levels         Niveaux de titre proposés dans l'éditeur.
+     * @param string[]     $exempt_parents Blocs dont les titres enfants directs échappent au garde-fou.
      */
     public function __construct(
         private readonly ThemeContext $context,
         private readonly array $levels = self::DEFAULT_LEVELS,
+        private readonly array $exempt_parents = [],
     ) {}
 
     /** Enregistre la restriction des blocs et le garde-fou de l'éditeur. */
@@ -76,7 +84,10 @@ final class RestrictHeadingLevels implements FeatureInterface {
         );
     }
 
-    /** Injecte le garde-fou dans l'éditeur, sur un handle sans source. */
+    /**
+     * Injecte le garde-fou dans l'éditeur, sur un handle sans source, précédé de sa
+     * configuration (`window.couturierHeadingGuard`).
+     */
     public function enqueue_guard(): void {
         $path = get_theme_file_path( self::SCRIPT );
 
@@ -88,6 +99,10 @@ final class RestrictHeadingLevels implements FeatureInterface {
 
         wp_register_script( $handle, false, [ 'wp-data', 'wp-blocks', 'wp-block-editor' ], null, true );
         wp_enqueue_script( $handle );
+        wp_add_inline_script(
+            $handle,
+            'window.couturierHeadingGuard = ' . wp_json_encode( [ 'exemptParents' => array_values( $this->exempt_parents ) ] ) . ';'
+        );
         wp_add_inline_script( $handle, (string) file_get_contents( $path ) );
     }
 

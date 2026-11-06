@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/home-hero",
+	"title": "Héros de l'accueil",
+	"category": "design",
+	"icon": "cover-image",
+	"description": "En-tête de la page d'accueil : image de fond, titre principal de la page (H1), accroche (H2) et texte.",
+	"keywords": [ "héros", "hero", "accueil", "bannière", "h1" ],
+	"textdomain": "couturier",
+	"attributes": {
+		"imageId": {
+			"type": "number"
+		},
+		"focalPoint": {
+			"type": "object"
+		}
+	},
+	"supports": {
+		"html": false,
+		"multiple": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
