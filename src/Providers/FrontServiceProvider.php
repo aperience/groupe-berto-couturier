@@ -67,11 +67,13 @@ final class FrontServiceProvider implements ServiceProviderInterface {
                     'resources/fonts/space-grotesk-700.woff2',
                 ],
             ),
-            new FooterSettings( $context ),
-            new FooterContext(),
+            // Header avant pied de page : leurs écrans s'ajoutent à Apparence dans cet
+            // ordre (« En-tête », puis « Pied de page »).
             new MegaMenuFields(),
             new HeaderSettings( $context ),
             new NavigationContext(),
+            new FooterSettings( $context ),
+            new FooterContext(),
         ];
     }
 }
