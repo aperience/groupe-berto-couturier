@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-06T07:14:52+00:00\n"
+"POT-Creation-Date: 2026-11-06T07:21:10+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -265,7 +265,7 @@ msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:225
 #: src/Features/Footer/FooterSettings.php:346
-#: src/Features/Navigation/HeaderSettings.php:187
+#: src/Features/Navigation/HeaderSettings.php:228
 msgid "Réglages enregistrés."
 msgstr ""
 
@@ -563,7 +563,7 @@ msgid "Envoie tous les e-mails du site en HTML, dans un gabarit aux couleurs du 
 msgstr ""
 
 #: src/Features/Navigation/Header.php:62
-#: src/Features/Navigation/HeaderSettings.php:197
+#: src/Features/Navigation/HeaderSettings.php:238
 #: resources/views/admin/help/menu.twig:77
 msgid "Se connecter"
 msgstr ""
@@ -573,78 +573,91 @@ msgid "Se connecter à son espace"
 msgstr ""
 
 #: src/Features/Navigation/Header.php:64
-#: src/Features/Navigation/HeaderSettings.php:205
+#: src/Features/Navigation/HeaderSettings.php:246
 #: resources/views/admin/help/menu.twig:81
 msgid "Être rappelé"
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:69
+#: src/Features/Navigation/HeaderSettings.php:76
 msgid "Écran « En-tête » : boutons « Se connecter » (espace élève) et « Être rappelé » (page du formulaire) de la barre du header ; onglet « Menu et en-tête » de la page d'aide."
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:78
-#: src/Features/Navigation/HeaderSettings.php:79
+#: src/Features/Navigation/HeaderSettings.php:85
+#: src/Features/Navigation/HeaderSettings.php:86
 msgid "En-tête"
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:97
+#: src/Features/Navigation/HeaderSettings.php:110
+msgid "Aucune page publiée ne correspond."
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:111
+#: src/Features/Navigation/HeaderSettings.php:263
+msgid "Page choisie :"
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:112
+msgid "Aucune page : le bouton « Être rappelé » ne sera pas affiché."
+msgstr ""
+
+#: src/Features/Navigation/HeaderSettings.php:138
 msgid "Menu et en-tête"
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:148
+#: src/Features/Navigation/HeaderSettings.php:189
 msgid "Se connecter : l'adresse n'est pas une adresse web valide (https://…), elle a été retirée."
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:159
+#: src/Features/Navigation/HeaderSettings.php:200
 msgid "Être rappelé : la page choisie n'est pas publiée, elle a été retirée."
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:192
+#: src/Features/Navigation/HeaderSettings.php:233
 msgid "Boutons affichés à droite de la barre du header, sur toutes les pages. Un bouton sans adresse (ou sans page) n'est pas affiché ; un libellé vide prend le texte grisé."
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:199
+#: src/Features/Navigation/HeaderSettings.php:240
 msgid "Adresse de l'espace élève"
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:199
+#: src/Features/Navigation/HeaderSettings.php:240
 msgid "Adresse complète de la plateforme (https://…)."
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:200
+#: src/Features/Navigation/HeaderSettings.php:241
 msgid "Libellé (ordinateur)"
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:200
+#: src/Features/Navigation/HeaderSettings.php:241
 msgid "Bouton de la barre du header, sur ordinateur."
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:201
+#: src/Features/Navigation/HeaderSettings.php:242
 msgid "Libellé (mobile)"
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:201
+#: src/Features/Navigation/HeaderSettings.php:242
 msgid "Bouton en bas du menu mobile."
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:209
+#: src/Features/Navigation/HeaderSettings.php:254
 msgid "Page du formulaire de rappel"
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:215
-msgid "— Aucune —"
+#: src/Features/Navigation/HeaderSettings.php:258
+msgid "Rechercher une page par son titre…"
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:221
-msgid "Page publiée qui contient le formulaire de rappel."
+#: src/Features/Navigation/HeaderSettings.php:259
+msgid "Page publiée qui contient le formulaire de rappel : tapez quelques lettres de son titre, puis choisissez-la dans la liste. Videz le champ pour ne plus afficher le bouton."
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:223
+#: src/Features/Navigation/HeaderSettings.php:268
 #: src/Features/Navigation/MegaMenuFields.php:107
 msgid "Libellé"
 msgstr ""
 
-#: src/Features/Navigation/HeaderSettings.php:223
+#: src/Features/Navigation/HeaderSettings.php:268
 msgid "Bouton de la barre du header, sur ordinateur et mobile."
 msgstr ""
 

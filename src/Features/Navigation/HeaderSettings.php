@@ -37,6 +37,12 @@ final class HeaderSettings implements FeatureInterface {
     /** Groupe de réglages, transmis par le formulaire à `options.php`. */
     private const GROUP = 'couturier_header';
 
+    /** Script de l'écran, relatif à la racine du thème. */
+    private const SCRIPT = 'resources/js/editor/header-settings.js';
+
+    /** Suffixe de hook de l'écran, pour n'y charger le script qu'à lui. */
+    private string $hook_suffix = '';
+
     /**
      * Réglages déjà nettoyés pendant la requête : à la première sauvegarde,
      * WordPress appelle le nettoyage deux fois (`update_option()` puis
@@ -55,6 +61,7 @@ final class HeaderSettings implements FeatureInterface {
     public function register(): void {
         add_action( 'admin_menu', [ $this, 'add_page' ] );
         add_action( 'admin_init', [ $this, 'register_setting' ] );
+        add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ] );
 
         // Le header est sur toutes les pages : son enregistrement vide le cache de page.
         add_action( 'add_option_' . Header::OPTION, [ PageCache::class, 'purge' ], 10, 0 );
@@ -74,13 +81,47 @@ final class HeaderSettings implements FeatureInterface {
      * `FooterSettings::add_page()`).
      */
     public function add_page(): void {
-        add_theme_page(
+        $this->hook_suffix = (string) add_theme_page(
             __( 'En-tête', 'couturier' ),
             __( 'En-tête', 'couturier' ),
             self::CAPABILITY,
             $this->context->handle( Header::MENU_SLUG ),
             [ $this, 'render' ]
         );
+    }
+
+    /**
+     * Charge le script de recherche de la page « Être rappelé », sur cet écran
+     * seulement — injecté en ligne, sans build, comme celui du pied de page.
+     */
+    public function enqueue( string $hook_suffix ): void {
+        if ( '' === $this->hook_suffix || $hook_suffix !== $this->hook_suffix ) {
+            return;
+        }
+
+        $path = get_theme_file_path( self::SCRIPT );
+
+        if ( ! is_readable( $path ) ) {
+            return;
+        }
+
+        $handle = $this->context->handle( 'header-settings' );
+        $l10n   = [
+            'noResult' => __( 'Aucune page publiée ne correspond.', 'couturier' ),
+            'chosen'   => __( 'Page choisie :', 'couturier' ),
+            'cleared'  => __( 'Aucune page : le bouton « Être rappelé » ne sera pas affiché.', 'couturier' ),
+        ];
+
+        wp_register_script( $handle, false, [ 'jquery-ui-autocomplete', 'wp-api-fetch', 'wp-url', 'wp-a11y' ], null, true );
+        wp_enqueue_script( $handle );
+        wp_add_inline_script( $handle, 'window.couturierHeaderSettings = ' . wp_json_encode( $l10n ) . ';', 'before' );
+        wp_add_inline_script( $handle, (string) file_get_contents( $path ) );
+
+        // Liste des suggestions : au-dessus du menu de l'admin, défilante si longue.
+        wp_add_inline_style( 'common', '
+            .couturier-page-search.ui-autocomplete { z-index: 100000; max-height: 20rem; overflow-y: auto; }
+            .couturier-page-search .ui-menu-item-wrapper small { color: #646970; }
+        ' );
     }
 
     /**
@@ -204,21 +245,25 @@ final class HeaderSettings implements FeatureInterface {
         // Être rappelé.
         echo '<h2>' . esc_html__( 'Être rappelé', 'couturier' ) . '</h2>';
         echo '<table class="form-table" role="presentation"><tbody>';
+        $page_id = Header::is_valid_page( (int) $settings['callback_page_id'] ) ? (int) $settings['callback_page_id'] : 0;
         printf(
-            '<tr><th scope="row"><label for="couturier-header-callback_page_id">%1$s</label></th><td>%2$s<p class="description" id="couturier-header-callback_page_id-description">%3$s</p></td></tr>',
+            '<tr><th scope="row"><label for="couturier-header-callback_page_search">%1$s</label></th><td>'
+            . '<input type="hidden" id="couturier-header-callback_page_id" name="%2$s" value="%3$d">'
+            . '<input type="search" class="regular-text" id="couturier-header-callback_page_search" value="%4$s" placeholder="%5$s" autocomplete="off" spellcheck="false" aria-describedby="couturier-header-callback_page_id-description">'
+            . '<p class="description" id="couturier-header-callback_page_id-description">%6$s %7$s</p></td></tr>',
             esc_html__( 'Page du formulaire de rappel', 'couturier' ),
-            wp_dropdown_pages( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- HTML échappé par WordPress.
-                [
-                    'name'              => esc_attr( $name( 'callback_page_id' ) ),
-                    'id'                => 'couturier-header-callback_page_id',
-                    'selected'          => (int) $settings['callback_page_id'],
-                    'show_option_none'  => esc_html__( '— Aucune —', 'couturier' ),
-                    'option_none_value' => '0',
-                    'post_status'       => 'publish',
-                    'echo'              => 0,
-                ]
-            ),
-            esc_html__( 'Page publiée qui contient le formulaire de rappel.', 'couturier' )
+            esc_attr( $name( 'callback_page_id' ) ),
+            $page_id,
+            esc_attr( $page_id ? get_the_title( $page_id ) : '' ),
+            esc_attr__( 'Rechercher une page par son titre…', 'couturier' ),
+            esc_html__( 'Page publiée qui contient le formulaire de rappel : tapez quelques lettres de son titre, puis choisissez-la dans la liste. Videz le champ pour ne plus afficher le bouton.', 'couturier' ),
+            sprintf(
+                '<span id="couturier-header-callback_page_link"%1$s>%2$s <a href="%3$s" target="_blank">%4$s</a></span>',
+                $page_id ? '' : ' hidden',
+                esc_html__( 'Page choisie :', 'couturier' ),
+                esc_url( $page_id ? (string) get_permalink( $page_id ) : '' ),
+                esc_html( $page_id ? wp_make_link_relative( (string) get_permalink( $page_id ) ) : '' )
+            )
         );
         $this->text_row( 'callback_label', __( 'Libellé', 'couturier' ), $name( 'callback_label' ), $settings['callback_label'], $defaults['callback_label'], __( 'Bouton de la barre du header, sur ordinateur et mobile.', 'couturier' ) );
         echo '</tbody></table>';

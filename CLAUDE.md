@@ -722,7 +722,7 @@ Code PHP dans `src/Features/Navigation/`, déclaré dans `FrontServiceProvider` 
 | `MegaMenu` | Logique sans hook : clés des métas, variantes, arbre du menu principal (`tree()`), liens des accès rapides (`links()`) |
 | `MegaMenuFields` | Champs des éléments du menu principal (Apparence › Menus), enregistrement, purge du cache de page à l'enregistrement des menus et des emplacements |
 | `Header` | Logique sans hook : option `couturier_header`, actions « Se connecter » / « Être rappelé » prêtes à afficher |
-| `HeaderSettings` | Écran Apparence › « En-tête » (Settings API, `edit_others_pages`), onglet « Menu et en-tête » de la page d'aide |
+| `HeaderSettings` | Écran Apparence › « En-tête » (Settings API, `edit_others_pages`), onglet « Menu et en-tête » de la page d'aide ; recherche de la page « Être rappelé » (`resources/js/editor/header-settings.js`, inline, sans build : jQuery UI Autocomplete sur `/wp/v2/pages`, pages publiées, titre seulement ; seul un champ caché porte l'ID posté) |
 | `NavigationContext` | `navigation` dans le contexte Timber : `{ primary, quick_access, actions, logo_url }` |
 
 **Données.**
@@ -753,7 +753,7 @@ Code PHP dans `src/Features/Navigation/`, déclaré dans `FrontServiceProvider` 
 - **Accès rapides** : emplacement `quick_access`, un niveau, **mobile seulement**.
 - **Actions** (écran Apparence › En-tête, option autoloadée `couturier_header`) : « Se connecter »
   (adresse de l'espace élève externe, http(s) ; libellés desktop et mobile) et « Être rappelé » (page
-  publiée, choisie dans une liste ; libellé). Sans adresse ou sans page : non affichée ; libellé vide :
+  publiée, cherchée par son titre ; libellé). Sans adresse ou sans page : non affichée ; libellé vide :
   valeur par défaut.
 - **Cache de page** : tout le cache est vidé (`Support\PageCache`) à l'enregistrement de l'écran
   En-tête, à l'enregistrement ou la suppression d'un menu et au changement des emplacements
