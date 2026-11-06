@@ -59,7 +59,8 @@ $section-title-root: ":where(.container, .is-root-container) > h2.wp-block-headi
 
 .wp-block-couturier-section-title__subtitle {
     @include text-style(body-lg);
-    margin-top: var(--space-16);
+    // Collé au titre, comme sur la maquette : l'interligne fait seul l'écart.
+    margin-top: 0;
     color: var(--color-text-default);
     text-align: left;
 
