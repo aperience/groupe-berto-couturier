@@ -440,11 +440,13 @@ $home-hero-height: to-rem(703); // Hauteur du fond (desktop)
 
     @include media-breakpoint-up(lg) {
         display: flex;
-        align-items: center;
+        // Photo et texte alignés par le haut, à 57 px du haut de l'encart (19 px
+        // sous le bas de la carte), comme sur la maquette.
+        align-items: flex-start;
         gap: var(--space-16);
         min-height: to-rem(173);
         margin-top: to-rem(-38);
-        padding: var(--space-12) var(--space-20);
+        padding: to-rem(57) var(--space-20) var(--space-20);
         border-radius: 0 0 var(--bs-border-radius) var(--bs-border-radius);
         background-color: var(--card-contact-bg);
         color: var(--card-contact-color);
@@ -458,7 +460,6 @@ $home-hero-height: to-rem(703); // Hauteur du fond (desktop)
     flex: 0 0 auto;
     width: to-rem(98);
     height: to-rem(66);
-    margin-top: var(--space-6);
 
     // Pastille blanche : rayons et inclinaison de la maquette.
     &::before {
