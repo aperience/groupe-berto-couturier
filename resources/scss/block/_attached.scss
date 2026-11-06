@@ -1,0 +1,23 @@
+// ─── Réglage « Rapprocher du bloc précédent » (blocs du thème) ────────────────
+//
+// Chaque bloc du thème est séparé de ses voisins par l'espace entre sections
+// (`margin-block: var(--layout-section-gap)`, 48 px puis 96 px), les marges de
+// deux blocs voisins fusionnant. Coché (`is-attached`, posé par
+// `Theme\Features\Blocks\AttachedBlocks`), l'écart au-dessus du bloc tombe à
+// 32 px, mobile comme desktop : deux blocs d'une même section (maquette : cartes
+// « valeurs » sous « Image et texte »).
+//
+// Les marges fusionnent : réduire la marge haute du bloc ne suffit pas, celle du
+// bloc précédent (96 px) l'emporterait. Elle est donc annulée.
+//
+// Classe doublée (0,2,0) : passe devant la marge des blocs (0,1,0), et devant
+// l'exception du titre (`block/_section-title.scss`, même spécificité) par
+// l'ordre — ce partial est importé après ceux des blocs.
+
+.is-attached.is-attached {
+    margin-top: var(--space-32);
+}
+
+:has(+ .is-attached.is-attached) {
+    margin-bottom: 0;
+}

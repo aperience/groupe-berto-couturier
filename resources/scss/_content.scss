@@ -47,3 +47,5 @@ body {
 @import 'block/reviews';
 @import 'block/image-text';
 @import 'block/icon-cards';
+// En dernier : l'emporte sur les marges des blocs ci-dessus.
+@import 'block/attached';

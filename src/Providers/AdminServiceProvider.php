@@ -37,6 +37,7 @@ use Theme\Features\Admin\NavMenuDropdowns;
 use Theme\Features\Admin\NestedPagesLinks;
 use Theme\Features\Blocks\BlockImageSizes;
 use Theme\Features\Blocks\BlockLoader;
+use Theme\Features\Blocks\AttachedBlocks;
 use Theme\Features\Blocks\ButtonStyles;
 use Theme\Features\Blocks\DisableDropCap;
 use Theme\Features\Blocks\RestrictHeadingLevels;
@@ -88,6 +89,7 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new DisablePostByEmail(),
             new RestrictHeadingLevels($context),
             new ButtonStyles($context),
+            new AttachedBlocks($context),
             new BlockImageSizes(),
             new DisableSiteIcon(),
             new DisableUpdateServices(),
