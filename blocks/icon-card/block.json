@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/icon-card",
+	"title": "Carte à pictogramme",
+	"category": "design",
+	"icon": "id",
+	"description": "Une carte : pictogramme (SVG de la médiathèque, peint en pétrole), titre H3 et texte.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/icon-cards" ],
+	"attributes": {
+		"iconId": {
+			"type": "number"
+		},
+		"text": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-icon-card__text",
+			"role": "content"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

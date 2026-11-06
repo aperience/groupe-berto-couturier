@@ -1,0 +1,37 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/icon-cards",
+	"title": "Cartes à pictogramme",
+	"category": "design",
+	"icon": "screenoptions",
+	"description": "Cartes avec pictogramme, titre et texte : trois par ligne en desktop, les suivantes réparties sur la ligne suivante.",
+	"keywords": [ "valeurs", "atouts", "engagements", "points forts", "icônes" ],
+	"textdomain": "couturier",
+	"allowedBlocks": [ "couturier/icon-card" ],
+	"supports": {
+		"html": false
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"innerBlocks": [
+			{
+				"name": "couturier/icon-card",
+				"attributes": { "iconId": -1, "text": "On prend le temps de vous connaître. Parce que chaque parcours est différent, notre accompagnement l’est aussi." },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "L’humain, avant tout." } } ]
+			},
+			{
+				"name": "couturier/icon-card",
+				"attributes": { "iconId": -2, "text": "Des compétences concrètes, de la pratique et des formateurs qui transmettent leur expérience avec passion." },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Apprendre pour de vrai." } } ]
+			},
+			{
+				"name": "couturier/icon-card",
+				"attributes": { "iconId": -3, "text": "Un cadre rassurant, des étapes claires et une équipe à vos côtés, du premier échange jusqu’à votre objectif." },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Avancer en confiance." } } ]
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

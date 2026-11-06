@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-06T08:49:08+00:00\n"
+"POT-Creation-Date: 2026-11-06T09:29:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -302,6 +302,7 @@ msgstr ""
 #: src/Features/Footer/FooterSettings.php:410
 #: src/Features/Navigation/MegaMenuFields.php:97
 #: blocks/cta/index.js:85
+#: blocks/icon-card/index.js:174
 msgid "Texte"
 msgstr ""
 
@@ -806,8 +807,42 @@ msgstr ""
 msgid "Ajouter un bouton"
 msgstr ""
 
+#: blocks/icon-card/index.js:123
+#: blocks/icon-card/index.js:129
+msgid "Remplacer le pictogramme"
+msgstr ""
+
+#: blocks/icon-card/index.js:135
+msgid "Supprimer le pictogramme"
+msgstr ""
+
+#: blocks/icon-card/index.js:151
+msgid "Choisir un pictogramme (SVG de préférence)"
+msgstr ""
+
+#: blocks/icon-card/index.js:162
 #: blocks/image-text-icon/index.js:96
 msgid "Pictogramme"
+msgstr ""
+
+#: blocks/icon-card/index.js:164
+msgid "Le pictogramme est peint en pétrole quelles que soient ses couleurs d'origine. Il est décoratif : son texte alternatif n'est pas utilisé."
+msgstr ""
+
+#: blocks/icon-card/index.js:173
+msgid "Texte de la carte"
+msgstr ""
+
+#: blocks/icon-card/index.js:181
+msgid "Titre obligatoire : sans lui, cette carte n'est pas affichée sur le site."
+msgstr ""
+
+#: blocks/icon-card/title.js:13
+msgid "Titre de la carte"
+msgstr ""
+
+#: blocks/icon-cards/index.js:70
+msgid "Ajouter une carte"
 msgstr ""
 
 #: blocks/image-text-icon/index.js:98
@@ -1145,6 +1180,51 @@ msgstr ""
 #: blocks/faq/block.json
 msgctxt "block keyword"
 msgid "accordéon"
+msgstr ""
+
+#: blocks/icon-card/block.json
+msgctxt "block title"
+msgid "Carte à pictogramme"
+msgstr ""
+
+#: blocks/icon-card/block.json
+msgctxt "block description"
+msgid "Une carte : pictogramme (SVG de la médiathèque, peint en pétrole), titre H3 et texte."
+msgstr ""
+
+#: blocks/icon-cards/block.json
+msgctxt "block title"
+msgid "Cartes à pictogramme"
+msgstr ""
+
+#: blocks/icon-cards/block.json
+msgctxt "block description"
+msgid "Cartes avec pictogramme, titre et texte : trois par ligne en desktop, les suivantes réparties sur la ligne suivante."
+msgstr ""
+
+#: blocks/icon-cards/block.json
+msgctxt "block keyword"
+msgid "valeurs"
+msgstr ""
+
+#: blocks/icon-cards/block.json
+msgctxt "block keyword"
+msgid "atouts"
+msgstr ""
+
+#: blocks/icon-cards/block.json
+msgctxt "block keyword"
+msgid "engagements"
+msgstr ""
+
+#: blocks/icon-cards/block.json
+msgctxt "block keyword"
+msgid "points forts"
+msgstr ""
+
+#: blocks/icon-cards/block.json
+msgctxt "block keyword"
+msgid "icônes"
 msgstr ""
 
 #: blocks/image-text-body/block.json

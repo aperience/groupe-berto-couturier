@@ -1,0 +1,51 @@
+// ─── Bloc « Cartes à pictogramme » (éditeur seulement) ────────────────────────
+//
+// Emplacement d'un pictogramme non choisi (bouton « + » dans la pastille),
+// pictogramme cliquable pour le remplacer, avertissement d'une carte sans titre.
+// Ces éléments n'existent que dans le canvas.
+
+.wp-block-couturier-icon-card__choose.components-button,
+.wp-block-couturier-icon-card__replace.components-button {
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    border-radius: inherit;
+    color: inherit;
+}
+
+.wp-block-couturier-icon-card__choose.components-button {
+    border: 1px dashed currentColor;
+
+    svg {
+        width: var(--space-24);
+        height: var(--space-24);
+    }
+}
+
+.wp-block-couturier-icon-card__notice {
+    align-self: stretch;
+}
+
+// Boutons « Remplacer » / « Supprimer » du pictogramme, carte en cours
+// d'édition : dans le coin supérieur droit, hors de la barre d'outils du titre,
+// centrés sur la hauteur de la pastille (48 px) et alignés sur le padding de la
+// carte (24 px, 32 px en desktop) : bouton compact de 32 px, soit 8 px plus bas
+// que le haut de la pastille.
+.wp-block-couturier-icon-card:has(> .wp-block-couturier-icon-card__icon-actions) {
+    position: relative;
+}
+
+.wp-block-couturier-icon-card__icon-actions {
+    position: absolute;
+    top: calc(var(--space-24) + (var(--space-48) - var(--space-32)) / 2);
+    right: var(--space-24);
+    display: flex;
+    gap: var(--space-4);
+
+    @include media-breakpoint-up(md) {
+        top: calc(var(--space-32) + (var(--space-48) - var(--space-32)) / 2);
+        right: var(--space-32);
+    }
+}
