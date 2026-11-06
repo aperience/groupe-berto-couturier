@@ -1,0 +1,81 @@
+// ─── Bloc « Cartes photo » (éditeur seulement) ────────────────────────────────
+//
+// Emplacement et boutons de la photo à l'échelle d'une carte de 212 px,
+// avertissement d'une carte sans titre, mention d'une carte sans lien. Ces
+// éléments n'existent que dans le canvas.
+
+// Emplacement de la photo : la hauteur de la photo, sans les instructions (trop
+// longues pour la carte) — téléversement, médiathèque et dépôt restent offerts.
+.wp-block-couturier-photo-card__media > .couturier-image-field__placeholder {
+    height: 100%;
+    padding: var(--space-12);
+    // Coins de la photo : le cadre de l'emplacement (ombre intérieure du core) suit
+    // l'arrondi au lieu d'être coupé par l'enveloppe.
+    border-radius: inherit;
+
+    .components-placeholder__instructions {
+        display: none;
+    }
+
+    // « Téléverser » et « Médiathèque » rapprochés (16 px par défaut) : les deux
+    // boutons de 40 px tiennent mieux dans les 150 px de la zone photo.
+    .components-placeholder__fieldset {
+        gap: var(--space-8);
+    }
+}
+
+// « Remplacer » / « Supprimer » : icônes seules, la carte est trop étroite pour
+// leurs libellés (nom accessible conservé par le texte, masqué visuellement).
+.wp-block-couturier-photo-card__media .couturier-image-field__actions {
+    top: var(--space-8);
+    right: var(--space-8);
+    gap: var(--space-4);
+
+    .components-button {
+        gap: 0;
+        width: var(--space-40);
+        padding: 0;
+        justify-content: center;
+        font-size: 0;
+    }
+}
+
+.wp-block-couturier-photo-card__notice {
+    margin-top: var(--space-12) !important;
+}
+
+.wp-block-couturier-photo-card__hint {
+    @include text-style(small);
+    margin-top: var(--space-8) !important;
+    color: var(--color-text-muted);
+    font-style: italic;
+}
+
+// Bloc en cours d'édition (lui ou l'une de ses cartes sélectionné) : les cartes
+// passent à la ligne au lieu de défiler, pour que toutes et le bouton « Ajouter
+// une carte » restent à portée. Non sélectionné : ruban, comme sur le front.
+.wp-block-couturier-photo-cards:is(.is-selected, .has-child-selected) > .wp-block-couturier-photo-cards__track {
+    flex-wrap: wrap;
+    row-gap: var(--space-32);
+    overflow-x: visible;
+}
+
+// Le core pose `white-space: pre-wrap` (style en ligne) sur tout champ RichText :
+// le badge passerait sur deux lignes, quand le front le garde sur une.
+.wp-block-couturier-photo-card__badge[contenteditable] {
+    white-space: nowrap !important;
+}
+
+// Flèches du canvas : simple aperçu du front (`<span>`, sans clic), cf.
+// `photo-cards/index.js`.
+span.wp-block-couturier-photo-cards__arrow {
+    display: block;
+    cursor: default;
+}
+
+// Bloc non sélectionné : le core laisse dans la piste l'enveloppe vide du bouton
+// d'ajout (`.block-list-appender`, 0 px). Élément flex, elle ajoutait un écart
+// et faisait dépasser la piste de 18 px : flèches affichées avec 5 cartes.
+.wp-block-couturier-photo-cards__track > .block-list-appender:empty {
+    display: none;
+}

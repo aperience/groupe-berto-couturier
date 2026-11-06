@@ -1,0 +1,47 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/photo-card",
+	"title": "Carte photo",
+	"category": "design",
+	"icon": "format-image",
+	"description": "Une carte : photo, badge facultatif, sur-titre, titre H3, texte court et lien vers une page.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/photo-cards" ],
+	"attributes": {
+		"imageId": {
+			"type": "number"
+		},
+		"link": {
+			"type": "object"
+		},
+		"hasBadge": {
+			"type": "boolean",
+			"default": false
+		},
+		"badge": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-photo-card__badge",
+			"role": "content"
+		},
+		"eyebrow": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-photo-card__eyebrow",
+			"role": "content"
+		},
+		"text": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-photo-card__text",
+			"role": "content"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

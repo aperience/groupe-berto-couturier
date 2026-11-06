@@ -1,0 +1,59 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/photo-cards",
+	"title": "Cartes photo",
+	"category": "design",
+	"icon": "images-alt2",
+	"description": "Rangée de cartes cliquables avec photo, sur-titre, titre et texte court : 5 petites ou 4 grandes par ligne en desktop, flèches au-delà ; défilement au doigt en mobile.",
+	"keywords": [ "formations", "permis", "offres", "liens", "carrousel" ],
+	"textdomain": "couturier",
+	"allowedBlocks": [ "couturier/photo-card" ],
+	"attributes": {
+		"size": {
+			"type": "string",
+			"enum": [ "small", "large" ],
+			"default": "small"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"styles": [
+		{ "name": "default", "label": "Gris clair", "isDefault": true },
+		{ "name": "petrol", "label": "Pétrole clair" }
+	],
+	"example": {
+		"viewportWidth": 1200,
+		"attributes": { "size": "small" },
+		"innerBlocks": [
+			{
+				"name": "couturier/photo-card",
+				"attributes": { "imageId": -1, "eyebrow": "Auto-école", "text": "Boîte manuelle ou automatique." },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Permis B" } } ]
+			},
+			{
+				"name": "couturier/photo-card",
+				"attributes": { "imageId": -2, "hasBadge": true, "badge": "Le + choisi", "eyebrow": "Auto-école", "text": "Méthode accélérée" },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Permis de conduire en accéléré" } } ]
+			},
+			{
+				"name": "couturier/photo-card",
+				"attributes": { "imageId": -3, "eyebrow": "Auto-école", "text": "A2 puis A." },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Permis moto" } } ]
+			},
+			{
+				"name": "couturier/photo-card",
+				"attributes": { "imageId": -4, "eyebrow": "Auto-école", "text": "À votre rythme." },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Code de la route" } } ]
+			},
+			{
+				"name": "couturier/photo-card",
+				"attributes": { "imageId": -1, "eyebrow": "Auto-école", "text": "À partir de 15 ans" },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Conduite accompagnée" } } ]
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

@@ -1,0 +1,281 @@
+// ─── Bloc « Cartes photo » (couturier/photo-cards, couturier/photo-card) ──────
+//
+// Balisage (front : `render.php` ; éditeur : `index.js`) :
+//
+//   div.wp-block-couturier-photo-cards.is-size-{small|large}
+//     ul.__track                                  ← piste défilante
+//       li.wp-block-couturier-photo-card(.has-link)
+//         div.__media > img.__image               ← photo, coins hauts arrondis
+//         p.__badge                               ← à cheval sur le bord haut
+//         p.__eyebrow
+//         h3 (> a.__link)                         ← lien étendu à la carte (::after)
+//         p.__text
+//     div.__nav > button.__arrow.is-{prev|next}   ← front seulement, cf. photo-cards.js
+//
+// Maquettes (Figma 536:7506 petites, 301:6187 grandes) : petites cartes de
+// 212 px (5 par ligne dans 1136 px), grandes de 252 px (4 par ligne), écart de
+// 18-19 px ; photo de 150 px, texte à 20 px (petites) / 27 px (grandes) des
+// bords ; badge centré à cheval sur le bord haut.
+//
+// Sous `lg` : ruban à largeur de carte fixe, la suivante dépasse, défilement au
+// doigt aimanté. À partir de `lg` : 5 ou 4 cartes dans la largeur, flèches
+// au-delà (`resources/js/photo-cards.js`).
+//
+// La piste défile : elle coupe tout ce qui dépasse d'elle. Ses marges
+// intérieures laissent la place au badge (haut), à l'ombre et au contour de
+// focus des cartes (côtés, bas), compensées par des marges négatives.
+
+$photo-cards-gap: var(--space-18);
+$photo-cards-bleed: var(--space-12);
+$photo-cards-media-height: to-rem(150);
+
+.wp-block-couturier-photo-cards {
+    margin-block: var(--layout-section-gap);
+}
+
+.wp-block-couturier-photo-cards__track {
+    display: flex;
+    gap: $photo-cards-gap;
+    margin: 0 calc(-1 * #{$photo-cards-bleed});
+    padding: var(--space-14) $photo-cards-bleed var(--space-16);
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-padding-inline: $photo-cards-bleed;
+    scroll-snap-type: x mandatory;
+    // Ruban tactile : pas de barre de défilement. En desktop, elle reste visible
+    // tant que les flèches ne sont pas en place (sans JS).
+    scrollbar-width: none;
+
+    @include media-breakpoint-up(lg) {
+        scrollbar-width: thin;
+
+        .wp-block-couturier-photo-cards.has-nav & {
+            scrollbar-width: none;
+        }
+    }
+
+    // Éditeur : « Ajouter une carte », dans l'enveloppe que le core pose en
+    // `position: absolute` : remis dans le flux.
+    > .block-list-appender,
+    > .wp-block-couturier-photo-cards__add {
+        position: static;
+        flex: 0 0 auto;
+        align-self: center;
+        list-style: none;
+    }
+}
+
+// Éditeur : le core centre chaque bloc du canvas (`margin-inline: auto`, règle
+// `.editor-styles-wrapper :where(…) > .wp-block`, 0,2,0). Classe doublée (0,3,0)
+// pour l'emporter ; sans effet sur le front, où ces blocs n'ont pas la classe
+// `wp-block`.
+.wp-block-couturier-photo-cards__track > .wp-block.wp-block,
+.wp-block-couturier-photo-card > .wp-block.wp-block {
+    margin-inline: 0;
+}
+
+// ─── Carte ────────────────────────────────────────────────────────────────────
+.wp-block-couturier-photo-card {
+    --photo-card-padding: var(--space-20);
+
+    position: relative;
+    display: flex;
+    flex: 0 0 to-rem(212);
+    flex-direction: column;
+    min-width: 0;
+    margin: 0;
+    padding-bottom: var(--photo-card-padding);
+    border-radius: var(--bs-border-radius-lg);
+    background-color: var(--color-surface-muted);
+    box-shadow: var(--bs-box-shadow-sm);
+    scroll-snap-align: start;
+    transition: box-shadow .25s ease;
+
+    .is-size-large & {
+        --photo-card-padding: var(--space-28);
+
+        flex-basis: to-rem(252);
+    }
+
+    @include media-breakpoint-up(lg) {
+        flex-basis: calc((100% - 4 * #{$photo-cards-gap}) / 5);
+
+        .is-size-large & {
+            flex-basis: calc((100% - 3 * #{$photo-cards-gap}) / 4);
+        }
+    }
+
+    > * {
+        margin: 0;
+    }
+
+    > :not(.wp-block-couturier-photo-card__media, .wp-block-couturier-photo-card__badge) {
+        padding-inline: var(--photo-card-padding);
+    }
+
+    > h3 {
+        @include text-style(photo-card-title);
+        margin-bottom: var(--space-6);
+        color: var(--color-text-heading);
+    }
+}
+
+// Photo : seul élément coupé aux coins de la carte — la carte elle-même ne coupe
+// rien, sinon le badge serait masqué.
+.wp-block-couturier-photo-card__media {
+    flex-shrink: 0;
+    height: $photo-cards-media-height;
+    margin-bottom: var(--space-18);
+    overflow: hidden;
+    border-radius: var(--bs-border-radius-lg) var(--bs-border-radius-lg) 0 0;
+    background-color: var(--color-surface-petrol-faint);
+}
+
+.wp-block-couturier-photo-card__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform .35s ease;
+}
+
+.wp-block-couturier-photo-card__badge {
+    @include text-style(eyebrow);
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 50%;
+    padding: var(--space-4) var(--space-12);
+    border-radius: var(--bs-border-radius-pill);
+    background-color: var(--color-action-primary);
+    color: var(--color-text-on-accent);
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+}
+
+.wp-block-couturier-photo-card__eyebrow {
+    @include text-style(photo-card-eyebrow);
+    margin-bottom: var(--space-4);
+    color: var(--color-text-accent);
+}
+
+.wp-block-couturier-photo-card__text {
+    @include text-style(photo-card-text);
+    color: var(--color-text-default);
+}
+
+// Style de bloc « Pétrole clair » (`is-style-petrol`, panneau « Styles ») :
+// cartes de la rangée « Formation Pro » (Figma 536:7544) — fond pétrole 50,
+// sur-titre pétrole 400 (4,56:1 sur #F0F4F6). La zone d'une photo absente passe
+// en pétrole 100, sinon elle se confondrait avec la carte.
+.wp-block-couturier-photo-cards.is-style-petrol {
+    .wp-block-couturier-photo-card {
+        background-color: var(--color-surface-petrol-faint);
+    }
+
+    .wp-block-couturier-photo-card__media {
+        background-color: var(--color-surface-petrol-soft);
+    }
+
+    .wp-block-couturier-photo-card__eyebrow {
+        color: var(--color-text-muted);
+    }
+}
+
+// ─── Lien étendu à la carte ───────────────────────────────────────────────────
+// Le texte du titre est le lien ; son `::after` couvre la carte (positionnée) :
+// toute la carte est cliquable, une seule cible nommée par le titre. Le contour
+// de focus est porté par ce calque, aux coins de la carte : c'est lui
+// l'indicateur de focus (pétrole, 8,5:1 sur blanc ; 2.4.7, 1.4.11), l'ombre et
+// le zoom ne font que l'accompagner.
+.wp-block-couturier-photo-card__link {
+    color: inherit;
+    text-decoration: none;
+
+    &::after {
+        content: "";
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        border-radius: var(--bs-border-radius-lg);
+    }
+
+    &:focus-visible {
+        outline: none;
+
+        &::after {
+            outline: 2px solid var(--color-text-heading);
+            outline-offset: 3px;
+        }
+    }
+}
+
+.wp-block-couturier-photo-card.has-link {
+    &:hover,
+    &:focus-within {
+        box-shadow: 0 4px 12px 0 rgba(ds-color(petrol, 500), .14);
+
+        .wp-block-couturier-photo-card__image {
+            transform: scale(1.05);
+        }
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wp-block-couturier-photo-card,
+    .wp-block-couturier-photo-card__image {
+        transition: none;
+    }
+
+    .wp-block-couturier-photo-card.has-link:is(:hover, :focus-within) .wp-block-couturier-photo-card__image {
+        transform: none;
+    }
+}
+
+// ─── Flèches (front) ──────────────────────────────────────────────────────────
+// Pastille orange de la maquette (Figma 536:7586), retournée pour « précédent ».
+// ⚠️ Flèche #E0EAEC sur #FF6B35 : sous les 3:1 d'un composant d'interface
+// (1.4.11) — couleurs de la maquette appliquées, cf. rapport de contrastes.
+.wp-block-couturier-photo-cards__nav {
+    display: none;
+
+    @include media-breakpoint-up(lg) {
+        display: flex;
+        justify-content: flex-end;
+        gap: var(--space-10);
+    }
+}
+
+.wp-block-couturier-photo-cards__arrow {
+    width: to-rem(56);
+    height: to-rem(30);
+    padding: 0;
+    border: 0;
+    border-radius: var(--bs-border-radius-pill);
+    background: url("../images/icons/photo-cards-arrow.svg") center / 100% 100% no-repeat;
+    cursor: pointer;
+    transition: opacity .2s ease;
+
+    &[hidden] {
+        display: none;
+    }
+
+    &.is-prev {
+        transform: scaleX(-1);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-text-heading);
+        outline-offset: 3px;
+    }
+
+    &[aria-disabled="true"] {
+        cursor: default;
+        opacity: .4;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
