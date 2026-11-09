@@ -56,16 +56,13 @@
 				"name": "couturier/home-hero-card",
 				"attributes": {
 					"imageId": -1,
-					"contactImageId": -3,
+					"contactId": -1,
 					"link": {
 						"url": "#"
 					},
 					"eyebrow": "Pour les particuliers",
 					"text": "Permis auto, moto, code de la route… Apprenez à votre rythme, avec une équipe qui croit en vous.",
-					"buttonLabel": "Les permis de l’auto-école",
-					"contactTitle": "Une question ?<br>Eloim vous aide à choisir la formule adaptée",
-					"contactPhone": "02 37 42 42 69",
-					"contactEmail": "contact@couturier-permis.com"
+					"buttonLabel": "Les permis de l’auto-école"
 				},
 				"innerBlocks": [
 					{
@@ -82,16 +79,13 @@
 				"attributes": {
 					"className": "is-style-petrol",
 					"imageId": -2,
-					"contactImageId": -4,
+					"contactId": -2,
 					"link": {
 						"url": "#"
 					},
 					"eyebrow": "Pour les professionnels &amp; entreprises",
 					"text": "Transport, CACES, habilitations… Les bonnes compétences pour passer à la vitesse supérieure.",
-					"buttonLabel": "Les Formations Professionnelles",
-					"contactTitle": "Une question ?<br>Martin, Responsable de l’offre Entreprise",
-					"contactPhone": "02 37 42 42 69",
-					"contactEmail": "contact@couturier-formapro.fr"
+					"buttonLabel": "Les Formations Professionnelles"
 				},
 				"innerBlocks": [
 					{

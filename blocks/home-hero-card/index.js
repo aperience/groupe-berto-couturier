@@ -17,13 +17,15 @@
  * Ordre du balisage : sur-titre, photo, titre, texte, bouton (ordre de lecture). En
  * desktop, le bouton est affiché à cheval sur le bas de la photo (`order`, CSS).
  *
- * Encart contact (desktop seulement) : photo ronde (`contactImageId`), texte,
- * téléphone et e-mail, en attributs écrits après le bouton. `render.php` sépare la
- * carte (`div.__body`, fond coloré) de l'encart (`div.__contact`), placé dessous ;
- * le canvas reproduit la même enveloppe.
+ * Encart contact (desktop seulement) : un contact prédéfini (menu « Contacts »),
+ * choisi dans la barre latérale (`contactId`, `blocks/_shared/contacts.js`) ; seul
+ * son ID est enregistré. `render.php` sépare la carte (`div.__body`, fond coloré)
+ * de l'encart (`div.__contact`), placé dessous ; le canvas reproduit la même
+ * enveloppe. Les anciens champs du contact (photo, texte, téléphone, e-mail saisis
+ * dans la carte) sont repris par l'entrée `deprecated`, qui les retire.
  *
  * Sans titre, la carte n'est pas rendue ; sans lien ou sans libellé, le bouton non
- * plus ; sans texte de contact, l'encart non plus. Les autres champs sont
+ * plus ; sans contact publié, l'encart non plus. Les autres champs sont
  * facultatifs.
  */
 import { registerBlockType } from '@wordpress/blocks';
@@ -56,7 +58,8 @@ import {
 	useLockedContent,
 	useNonBreakingPunctuation,
 } from '../_shared/locked-content.js';
-import { exampleMedia } from './example-images.js';
+import { ContactPanel, ContactPreview, useContact } from '../_shared/contacts.js';
+import { exampleContact, exampleMedia } from './example-images.js';
 import metadata from './block.json';
 
 /** Le titre d'une carte est toujours un `<h3>`. */
@@ -68,7 +71,7 @@ const TITLE_BLOCKS = [ 'core/heading' ];
 
 const ROOT = 'couturier/home-hero';
 
-/** Classe (suffixe) du `<p>` enregistré de chaque champ du contact. */
+/** Classe (suffixe) du `<p>` enregistré de chaque champ de l'ancien contact (`deprecated`). */
 const CONTACT_CLASSES = { contactTitle: 'contact-title', contactPhone: 'contact-phone', contactEmail: 'contact-email' };
 
 /** Formats du texte : gras, italique, lien (saut de ligne par Maj+Entrée). */
@@ -155,7 +158,7 @@ function CardLinkToolbar( { cardId } ) {
 }
 
 function Edit( { attributes, setAttributes, clientId, isSelected } ) {
-	const { imageId, eyebrow, text, buttonLabel, link, contactImageId, contactTitle, contactPhone, contactEmail } = attributes;
+	const { imageId, eyebrow, text, buttonLabel, link, contactId } = attributes;
 
 	const { blocks, isEditing } = useSelect(
 		( select ) => {
@@ -177,14 +180,13 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	);
 
 	const { media, isMissing } = useMedia( imageId );
-	const { media: contactMedia, isMissing: isContactMissing } = useMedia( contactImageId );
+	const { contact, isMissing: isContactMissing } = useContact( contactId, exampleContact );
 
 	const isImageLoading = !! imageId && ! media && ! isMissing;
 	// Photo (ou son emplacement) affichée : condition de rendu de l'`ImageField` ci-dessous.
 	const hasMedia = ! isImageLoading && ( !! media || isEditing );
-	const isContactImageLoading = !! contactImageId && ! contactMedia && ! isContactMissing;
-	// Contact rendu sur le site : un texte.
-	const hasContact = !! textOf( contactTitle );
+	// Contact rendu sur le site : un contact publié, avec un texte.
+	const hasContact = !! contact?.text?.trim();
 	const isIncomplete = blocks.length > 0 && ! textOf( blocks[ 0 ] );
 	// Bouton rendu sur le site : un lien et un libellé.
 	const hasButton = !! link?.url && !! textOf( buttonLabel );
@@ -210,6 +212,12 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 				</PanelBody>
 			</InspectorControls>
 			<ImageInfoPanel media={ media } isMissing={ isMissing } />
+			<ContactPanel
+				contactId={ contactId }
+				isMissing={ isContactMissing }
+				onChange={ ( value ) => setAttributes( { contactId: value } ) }
+				help={ __( 'Encart affiché sous la carte, en desktop seulement.', 'couturier' ) }
+			/>
 			{ isSelected && <CardLinkToolbar cardId={ clientId } /> }
 			{ /* `has-media` : photo ou emplacement affiché (cf. `render.php`). */ }
 			<div className={ 'wp-block-couturier-home-hero-card__body' + ( hasMedia ? ' has-media' : '' ) }>
@@ -265,71 +273,58 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 					</p>
 				) }
 			</div>
-			<div className={ 'wp-block-couturier-home-hero-card__contact' + ( hasContact ? '' : ' is-incomplete' ) }>
-				{ ! isContactImageLoading && ( contactMedia || isEditing ) && (
-					<ImageField
-						className="wp-block-couturier-home-hero-card__contact-photo"
-						imageClassName="wp-block-couturier-home-hero-card__contact-image"
-						media={ contactMedia }
-						isEditing={ isEditing }
-						onSelect={ ( selected ) => setAttributes( { contactImageId: selected?.id } ) }
-						onRemove={ () => setAttributes( { contactImageId: undefined } ) }
-						label={ __( 'Choisir la photo du contact', 'couturier' ) }
-						compact
-					/>
-				) }
-				<div className="wp-block-couturier-home-hero-card__contact-body">
-					<RichText
-						tagName="p"
-						className="wp-block-couturier-home-hero-card__contact-title"
-						aria-label={ __( 'Texte du contact', 'couturier' ) }
-						placeholder={ __( 'Une question ? Prénom vous aide… (contact facultatif, affiché en desktop)', 'couturier' ) }
-						value={ contactTitle }
-						onChange={ ( value ) => setAttributes( { contactTitle: nonBreaking( value ) } ) }
-						allowedFormats={ [] }
-					/>
-					<div className="wp-block-couturier-home-hero-card__contact-details">
-						<RichText
-							tagName="p"
-							className="wp-block-couturier-home-hero-card__contact-phone"
-							aria-label={ __( 'Téléphone du contact', 'couturier' ) }
-							placeholder={ __( 'Téléphone', 'couturier' ) }
-							value={ contactPhone }
-							onChange={ ( value ) => setAttributes( { contactPhone: value } ) }
-							allowedFormats={ [] }
-							disableLineBreaks
-						/>
-						<RichText
-							tagName="p"
-							className="wp-block-couturier-home-hero-card__contact-email"
-							aria-label={ __( 'E-mail du contact', 'couturier' ) }
-							placeholder={ __( 'E-mail', 'couturier' ) }
-							value={ contactEmail }
-							onChange={ ( value ) => setAttributes( { contactEmail: value } ) }
-							allowedFormats={ [] }
-							disableLineBreaks
-						/>
-					</div>
+			{ hasContact ? (
+				<div className="wp-block-couturier-home-hero-card__contact hero-contact">
+					<ContactPreview contact={ contact } />
 				</div>
-			</div>
+			) : (
+				isEditing && (
+					<div className="wp-block-couturier-home-hero-card__contact hero-contact is-placeholder">
+						<p className="wp-block-couturier-home-hero-card__hint">
+							{ isContactMissing
+								? __( 'Contact introuvable (supprimé ou dépublié) : choisissez-en un autre dans la barre latérale.', 'couturier' )
+								: __( 'Pas de contact : choisissez-en un dans la barre latérale (panneau « Contact », affiché en desktop).', 'couturier' ) }
+						</p>
+					</div>
+				)
+			) }
 		</div>
 	);
 }
 
-registerBlockType( metadata.name, {
-	edit: Edit,
+/** Texte de la carte, sans le contact (enregistré depuis les contacts prédéfinis). */
+const saveCard = ( attributes ) => (
+	<>
+		{ ! RichText.isEmpty( attributes.eyebrow ) && (
+			<RichText.Content tagName="p" className="wp-block-couturier-home-hero-card__eyebrow" value={ attributes.eyebrow } />
+		) }
+		<InnerBlocks.Content />
+		{ ! RichText.isEmpty( attributes.text ) && (
+			<RichText.Content tagName="p" className="wp-block-couturier-home-hero-card__text" value={ attributes.text } />
+		) }
+		{ ! RichText.isEmpty( attributes.buttonLabel ) && (
+			<RichText.Content tagName="p" className="wp-block-couturier-home-hero-card__button" value={ attributes.buttonLabel } />
+		) }
+	</>
+);
+
+/**
+ * Version 1 : contact saisi dans la carte (photo, texte, téléphone, e-mail écrits
+ * après le bouton). Les champs sont retirés à la migration : le contact se choisit
+ * désormais parmi les contacts prédéfinis.
+ */
+const v1 = {
+	attributes: {
+		...metadata.attributes,
+		contactImageId: { type: 'number' },
+		contactTitle: { type: 'string', source: 'html', selector: 'p.wp-block-couturier-home-hero-card__contact-title', role: 'content' },
+		contactPhone: { type: 'string', source: 'html', selector: 'p.wp-block-couturier-home-hero-card__contact-phone', role: 'content' },
+		contactEmail: { type: 'string', source: 'html', selector: 'p.wp-block-couturier-home-hero-card__contact-email', role: 'content' },
+	},
+	supports: metadata.supports,
 	save: ( { attributes } ) => (
 		<>
-			{ ! RichText.isEmpty( attributes.eyebrow ) && (
-				<RichText.Content tagName="p" className="wp-block-couturier-home-hero-card__eyebrow" value={ attributes.eyebrow } />
-			) }
-			<InnerBlocks.Content />
-			{ ! RichText.isEmpty( attributes.text ) && (
-				<RichText.Content tagName="p" className="wp-block-couturier-home-hero-card__text" value={ attributes.text } />
-			) }
-			{ ! RichText.isEmpty( attributes.buttonLabel ) && (
-				<RichText.Content tagName="p" className="wp-block-couturier-home-hero-card__button" value={ attributes.buttonLabel } />
-			) }
+			{ saveCard( attributes ) }
 			{ [ 'contactTitle', 'contactPhone', 'contactEmail' ].map(
 				( key ) =>
 					! RichText.isEmpty( attributes[ key ] ) && (
@@ -343,6 +338,17 @@ registerBlockType( metadata.name, {
 			) }
 		</>
 	),
+	migrate: ( attributes, innerBlocks ) => {
+		const { contactImageId, contactTitle, contactPhone, contactEmail, ...rest } = attributes; // eslint-disable-line no-unused-vars
+
+		return [ rest, innerBlocks ];
+	},
+};
+
+registerBlockType( metadata.name, {
+	edit: Edit,
+	save: ( { attributes } ) => saveCard( attributes ),
+	deprecated: [ v1 ],
 } );
 
 // Aucun format dans le titre.

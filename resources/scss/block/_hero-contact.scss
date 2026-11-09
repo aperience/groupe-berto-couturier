@@ -1,0 +1,104 @@
+// Contenu de l'encart d'un contact prédéfini (CPT `couturier_contact`), commun aux
+// héros (accueil, pages) : gabarit `resources/views/partials/hero-contact.twig`,
+// aperçu `blocks/_shared/contacts.js`. Le bloc fournit l'enveloppe
+// (`div.hero-contact` + sa classe : fond, marges, affichage desktop seulement) et
+// la couleur du texte.
+//
+//   div.hero-contact
+//     div.__photo > img.__image        ← photo ronde, pastille enveloppe
+//     div.__body > p.__title, p.__details > a.__phone, a.__email
+//
+// Maquettes : 536:7455 / 536:7462 (accueil), 301:6747 (pages).
+
+// Photo et texte alignés par le haut (l'enveloppe décide de son `display`).
+.hero-contact {
+    align-items: flex-start;
+    gap: var(--space-16);
+    text-align: start;
+}
+
+// Photo (66 px) et pastille de l'enveloppe, posée à cheval sur son coin bas droit.
+.hero-contact__photo {
+    position: relative;
+    flex: 0 0 auto;
+    width: to-rem(98);
+    height: to-rem(66);
+
+    // Pastille blanche : rayons et inclinaison de la maquette.
+    &::before {
+        content: "";
+        position: absolute;
+        top: to-rem(38);
+        left: to-rem(49);
+        width: to-rem(47.8);
+        height: to-rem(47.8);
+        border-radius: to-rem(33.5) to-rem(24.5) to-rem(30) to-rem(28);
+        background-color: var(--color-surface-card);
+        transform: rotate(-8deg);
+    }
+
+    // Enveloppe (`images/icons/envelope.svg`, maquette), décorative.
+    &::after {
+        content: "";
+        position: absolute;
+        top: to-rem(50);
+        left: to-rem(62);
+        width: to-rem(20);
+        height: to-rem(19);
+        // noinspection CssUnknownTarget
+        background: url("../images/icons/envelope.svg") center / 100% 100% no-repeat;
+    }
+}
+
+// Noir et blanc, comme sur la maquette (fusion « luminosité » sur blanc).
+.hero-contact__image {
+    filter: grayscale(1);
+    display: block;
+    width: to-rem(66);
+    height: to-rem(66);
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.hero-contact__body {
+    flex: 1 1 auto;
+    min-width: 0;
+
+    > * {
+        margin: 0;
+    }
+}
+
+.hero-contact__title {
+    font-weight: 700;
+    font-size: to-rem(18);
+    line-height: 1.28;
+}
+
+// Coordonnées : téléphone - e-mail (séparateur posé par le gabarit).
+.hero-contact__details {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-6);
+    // 2 lignes vides de 12,5 px dans la maquette.
+    margin-top: var(--space-16);
+    font-weight: 700;
+    font-size: to-rem(12.5);
+    line-height: 1.28;
+
+    > * {
+        margin: 0;
+    }
+
+    a {
+        color: inherit;
+    }
+
+    .hero-contact__phone {
+        text-decoration: none;
+    }
+
+    .hero-contact__email {
+        text-decoration: underline;
+    }
+}

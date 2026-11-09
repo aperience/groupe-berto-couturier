@@ -3,20 +3,20 @@
  * Rendu d'une carte du héros de l'accueil (`couturier/home-hero-card`).
  *
  * Contenu enregistré : sur-titre (`p.__eyebrow`), titre (`core/heading`, `<h3>`),
- * texte (`p.__text`), libellé du bouton (`p.__button`), puis le contact : texte
- * (`p.__contact-title`), téléphone (`p.__contact-phone`), e-mail
- * (`p.__contact-email`).
+ * texte (`p.__text`), libellé du bouton (`p.__button`). Un contenu enregistré avant
+ * les contacts prédéfinis porte encore, après le bouton, les champs de l'ancien
+ * contact (`p.__contact-title`, `-phone`, `-email`) : ils sont retirés, jamais
+ * affichés.
  *
  * Rendu : `div.__body` (fond de la carte) — sur-titre, photo, titre, texte, puis le
  * bouton : le libellé devient un lien (`a.__button`) vers l'URL choisie ; puis
- * `div.__contact` (desktop seulement, CSS) — photo ronde (`contactImageId`), texte,
- * téléphone et e-mail en liens `tel:` / `mailto:`. L'URL d'un contenu (page, article, catégorie…) est recalculée à
+ * `div.__contact` (desktop seulement, CSS) — le contact prédéfini choisi (`contactId`),
+ * rendu par `Theme\Features\Contacts\Contact::render()`. L'URL d'un contenu (page, article, catégorie…) est recalculée à
  * partir de son ID et suit ainsi un changement de permalien ; à défaut (contenu
  * supprimé, URL saisie), l'URL enregistrée. Nouvel onglet annoncé en texte masqué.
  *
  * Sans titre : rien n'est rendu. Sans lien ou sans libellé : pas de bouton. Sans
- * texte de contact : pas de contact ; téléphone, e-mail et photo sont facultatifs
- * (un e-mail invalide n'est pas rendu).
+ * contact publié (aucun, supprimé, dépublié) : pas d'encart.
  *
  * @package Couturier
  *
@@ -40,8 +40,9 @@ if ( ! preg_match( '#<h([2-6])\b[^>]*>(.*?)</h\1>#s', $content, $couturier_hero_
 // Espace avant une ponctuation haute rendue insécable (cf. `render.php` du CTA).
 $couturier_hero_card_content = preg_replace( '/ +((?:<[^>]*>)*)(?=[?!:;»])/u', "\u{00A0}$1", $content ) ?? $content;
 
-// Sur-titre, libellé du bouton et champs du contact retirés du contenu, pour être
-// replacés : `$couturier_hero_card_parts[ champ ]` = HTML intérieur du `<p>`.
+// Sur-titre et libellé du bouton retirés du contenu, pour être replacés
+// (`$couturier_hero_card_parts[ champ ]` = HTML intérieur du `<p>`) ; champs de
+// l'ancien contact retirés.
 $couturier_hero_card_eyebrow = '';
 $couturier_hero_card_parts   = [];
 
@@ -105,58 +106,10 @@ $couturier_hero_card_image = empty( $attributes['imageId'] ) ? '' : wp_get_attac
 );
 
 // ─── Contact ──────────────────────────────────────────────────────────────────
-$couturier_hero_card_contact = '';
-$couturier_hero_card_ctitle  = $couturier_hero_card_parts['contact-title'] ?? '';
-
-if ( '' !== trim( wp_strip_all_tags( $couturier_hero_card_ctitle ) ) ) {
-    $couturier_hero_card_details = [];
-
-    // Téléphone : lien `tel:` sur les chiffres, numéro français (0X…) au format
-    // international ; texte affiché tel que saisi.
-    $couturier_hero_card_phone  = trim( wp_strip_all_tags( $couturier_hero_card_parts['contact-phone'] ?? '' ) );
-    $couturier_hero_card_digits = preg_replace( '/[^\d+]/', '', $couturier_hero_card_phone ) ?? '';
-
-    if ( '' !== $couturier_hero_card_digits ) {
-        $couturier_hero_card_digits    = preg_match( '/^0\d{9}$/', $couturier_hero_card_digits ) ? '+33' . substr( $couturier_hero_card_digits, 1 ) : $couturier_hero_card_digits;
-        $couturier_hero_card_details[] = sprintf(
-            '<a class="wp-block-couturier-home-hero-card__contact-phone" href="%s">%s</a>',
-            esc_url( 'tel:' . $couturier_hero_card_digits, [ 'tel' ] ),
-            esc_html( $couturier_hero_card_phone )
-        );
-    }
-
-    $couturier_hero_card_email = trim( wp_strip_all_tags( html_entity_decode( $couturier_hero_card_parts['contact-email'] ?? '', ENT_QUOTES | ENT_HTML5, 'UTF-8' ) ) );
-
-    if ( is_email( $couturier_hero_card_email ) ) {
-        $couturier_hero_card_details[] = sprintf(
-            '<a class="wp-block-couturier-home-hero-card__contact-email" href="%s">%s</a>',
-            esc_url( 'mailto:' . $couturier_hero_card_email, [ 'mailto' ] ),
-            esc_html( $couturier_hero_card_email )
-        );
-    }
-
-    // Photo ronde (66 px), `alt` de la médiathèque. Masquée en mobile avec le
-    // contact : chargement différé, elle n'y est pas téléchargée.
-    $couturier_hero_card_cphoto = empty( $attributes['contactImageId'] ) ? '' : wp_get_attachment_image(
-        (int) $attributes['contactImageId'],
-        'thumbnail',
-        false,
-        [
-            'class'   => 'wp-block-couturier-home-hero-card__contact-image',
-            'sizes'   => '66px',
-            'loading' => 'lazy',
-        ]
-    );
-
-    $couturier_hero_card_contact = sprintf(
-        '<div class="wp-block-couturier-home-hero-card__contact">%s<div class="wp-block-couturier-home-hero-card__contact-body"><p class="wp-block-couturier-home-hero-card__contact-title">%s</p>%s</div></div>',
-        $couturier_hero_card_cphoto ? '<div class="wp-block-couturier-home-hero-card__contact-photo">' . $couturier_hero_card_cphoto . '</div>' : '',
-        $couturier_hero_card_ctitle,
-        $couturier_hero_card_details
-            ? '<p class="wp-block-couturier-home-hero-card__contact-details">' . implode( '<span aria-hidden="true"> - </span>', $couturier_hero_card_details ) . '</p>'
-            : ''
-    );
-}
+$couturier_hero_card_contact = \Theme\Features\Contacts\Contact::render( (int) ( $attributes['contactId'] ?? 0 ) );
+$couturier_hero_card_contact = '' === $couturier_hero_card_contact
+    ? ''
+    : '<div class="wp-block-couturier-home-hero-card__contact hero-contact">' . $couturier_hero_card_contact . '</div>';
 
 printf(
     '<div %s><div class="wp-block-couturier-home-hero-card__body%s">%s%s%s%s</div>%s</div>',
@@ -168,5 +121,5 @@ printf(
     $couturier_hero_card_image ? '<div class="wp-block-couturier-home-hero-card__media">' . $couturier_hero_card_image . '</div>' : '', // phpcs:ignore WordPress.Security.EscapeOutput -- produit par WordPress.
     trim( $couturier_hero_card_content ), // phpcs:ignore WordPress.Security.EscapeOutput -- contenu enregistré.
     $couturier_hero_card_button, // phpcs:ignore WordPress.Security.EscapeOutput -- URL échappée, libellé enregistré.
-    $couturier_hero_card_contact // phpcs:ignore WordPress.Security.EscapeOutput -- échappé ci-dessus, texte enregistré.
+    $couturier_hero_card_contact // phpcs:ignore WordPress.Security.EscapeOutput -- gabarit Twig, échappement automatique.
 );

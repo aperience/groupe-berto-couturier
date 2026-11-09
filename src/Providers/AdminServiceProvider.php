@@ -42,6 +42,10 @@ use Theme\Features\Blocks\ButtonStyles;
 use Theme\Features\Blocks\DisableDropCap;
 use Theme\Features\Blocks\FrontPageOnlyBlocks;
 use Theme\Features\Blocks\RestrictHeadingLevels;
+use Theme\Features\Contacts\ContactEditorData;
+use Theme\Features\Contacts\ContactMetaBox;
+use Theme\Features\Contacts\ContactPageCache;
+use Theme\Features\Contacts\ContactPostType;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -100,6 +104,11 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new ButtonStyles($context),
             new AttachedBlocks($context),
             new BlockImageSizes(),
+            // Contacts prédéfinis, choisis dans les héros (menu « Contacts »).
+            new ContactPostType(),
+            new ContactMetaBox(),
+            new ContactEditorData($context),
+            new ContactPageCache(),
             new DisableSiteIcon(),
             new DisableUpdateServices(),
             new DisableUpdates(allow_minor_core: true),

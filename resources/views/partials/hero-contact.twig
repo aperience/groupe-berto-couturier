@@ -1,0 +1,33 @@
+{#
+    Encart d'un contact prédéfini (CPT `couturier_contact`), rendu par
+    `Theme\Features\Contacts\Contact::render()` pour les héros (accueil, pages).
+    Contenu seul : l'appelant l'enveloppe dans un `div.hero-contact` à sa classe.
+
+    image : <img> de la photo (déjà produit par WordPress), ou vide
+    lines : lignes du texte affiché
+    phone : numéro tel que saisi ; tel : lien `tel:` (vide sans chiffre)
+    email : adresse valide, ou vide
+#}
+{% if image %}
+    <div class="hero-contact__photo">{{ image|raw }}</div>
+{% endif %}
+<div class="hero-contact__body">
+    <p class="hero-contact__title">
+        {%- for line in lines -%}
+            {{ line }}{% if not loop.last %}<br>{% endif %}
+        {%- endfor -%}
+    </p>
+    {% if tel or email %}
+        <p class="hero-contact__details">
+            {%- if tel -%}
+                <a class="hero-contact__phone" href="{{ tel|e('esc_url')|raw }}">{{ phone }}</a>
+            {%- endif -%}
+            {%- if tel and email -%}
+                <span aria-hidden="true"> - </span>
+            {%- endif -%}
+            {%- if email -%}
+                <a class="hero-contact__email" href="{{ ('mailto:' ~ email)|e('esc_url')|raw }}">{{ email }}</a>
+            {%- endif -%}
+        </p>
+    {% endif %}
+</div>

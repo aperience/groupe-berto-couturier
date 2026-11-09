@@ -5,7 +5,7 @@
 	"title": "Carte univers",
 	"category": "design",
 	"icon": "id",
-	"description": "Carte du héros de l'accueil : sur-titre, photo, titre H3, texte, bouton vers la rubrique et encart contact (desktop).",
+	"description": "Carte du héros de l'accueil : sur-titre, photo, titre H3, texte, bouton vers la rubrique et contact prédéfini (desktop).",
 	"textdomain": "couturier",
 	"parent": [
 		"couturier/home-hero"
@@ -35,26 +35,8 @@
 			"selector": "p.wp-block-couturier-home-hero-card__button",
 			"role": "content"
 		},
-		"contactImageId": {
+		"contactId": {
 			"type": "number"
-		},
-		"contactTitle": {
-			"type": "string",
-			"source": "html",
-			"selector": "p.wp-block-couturier-home-hero-card__contact-title",
-			"role": "content"
-		},
-		"contactPhone": {
-			"type": "string",
-			"source": "html",
-			"selector": "p.wp-block-couturier-home-hero-card__contact-phone",
-			"role": "content"
-		},
-		"contactEmail": {
-			"type": "string",
-			"source": "html",
-			"selector": "p.wp-block-couturier-home-hero-card__contact-email",
-			"role": "content"
 		}
 	},
 	"supports": {

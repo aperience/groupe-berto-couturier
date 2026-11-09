@@ -187,9 +187,8 @@ $home-hero-height: to-rem(703); // Hauteur du fond (desktop)
 //       h3.wp-block-heading
 //       p.__text
 //       a.__button (éditeur : p.__button, libellé)
-//     div.__contact                    ← encart contact (desktop seulement)
-//       div.__contact-photo > img.__contact-image
-//       div.__contact-body > p.__contact-title, p.__contact-details
+//     div.__contact.hero-contact       ← encart contact (desktop seulement), contenu
+//                                         stylé par `block/_hero-contact.scss`
 //
 // Maquettes : desktop 536:7487 / 536:7469, mobile 610:10469 / 610:10477. Une carte
 // par colonne de la grille du héros, côte à côte dès le mobile. Mobile : contenu
@@ -445,11 +444,9 @@ $home-hero-height: to-rem(703); // Hauteur du fond (desktop)
     display: none;
 
     @include media-breakpoint-up(lg) {
+        // Photo et texte (`.hero-contact`) à 57 px du haut de l'encart (19 px sous
+        // le bas de la carte), comme sur la maquette.
         display: flex;
-        // Photo et texte alignés par le haut, à 57 px du haut de l'encart (19 px
-        // sous le bas de la carte), comme sur la maquette.
-        align-items: flex-start;
-        gap: var(--space-16);
         min-height: to-rem(173);
         margin-top: to-rem(-38);
         padding: to-rem(57) var(--space-20) var(--space-20);
@@ -457,92 +454,5 @@ $home-hero-height: to-rem(703); // Hauteur du fond (desktop)
         background-color: var(--card-contact-bg);
         color: var(--card-contact-color);
         text-align: start;
-    }
-}
-
-// Photo (66 px) et pastille de l'enveloppe, posée à cheval sur son coin bas droit.
-.wp-block-couturier-home-hero-card__contact-photo {
-    position: relative;
-    flex: 0 0 auto;
-    width: to-rem(98);
-    height: to-rem(66);
-
-    // Pastille blanche : rayons et inclinaison de la maquette.
-    &::before {
-        content: "";
-        position: absolute;
-        top: to-rem(38);
-        left: to-rem(49);
-        width: to-rem(47.8);
-        height: to-rem(47.8);
-        border-radius: to-rem(33.5) to-rem(24.5) to-rem(30) to-rem(28);
-        background-color: var(--color-surface-card);
-        transform: rotate(-8deg);
-    }
-
-    // Enveloppe (`images/icons/envelope.svg`, maquette), décorative.
-    &::after {
-        content: "";
-        position: absolute;
-        top: to-rem(50);
-        left: to-rem(62);
-        width: to-rem(20);
-        height: to-rem(19);
-        // noinspection CssUnknownTarget
-        background: url("../images/icons/envelope.svg") center / 100% 100% no-repeat;
-    }
-}
-
-// Noir et blanc, comme sur la maquette (fusion « luminosité » sur blanc).
-.wp-block-couturier-home-hero-card__contact-image {
-    filter: grayscale(1);
-    display: block;
-    width: to-rem(66);
-    height: to-rem(66);
-    border-radius: 50%;
-    object-fit: cover;
-}
-
-.wp-block-couturier-home-hero-card__contact-body {
-    flex: 1 1 auto;
-    min-width: 0;
-
-    > * {
-        margin: 0;
-    }
-}
-
-.wp-block-couturier-home-hero-card__contact-title {
-    font-weight: 700;
-    font-size: to-rem(18);
-    line-height: 1.28;
-}
-
-// Coordonnées : téléphone - e-mail (séparateur posé par `render.php` ; dans
-// l'éditeur, deux champs côte à côte).
-.wp-block-couturier-home-hero-card__contact-details {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0 var(--space-6);
-    // 2 lignes vides de 12,5 px dans la maquette.
-    margin-top: var(--space-16);
-    font-weight: 700;
-    font-size: to-rem(12.5);
-    line-height: 1.28;
-
-    > * {
-        margin: 0;
-    }
-
-    a {
-        color: inherit;
-    }
-
-    .wp-block-couturier-home-hero-card__contact-phone {
-        text-decoration: none;
-    }
-
-    .wp-block-couturier-home-hero-card__contact-email {
-        text-decoration: underline;
     }
 }

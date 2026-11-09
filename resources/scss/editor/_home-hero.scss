@@ -28,42 +28,15 @@
     text-align: start;
 }
 
-// Coordonnées du contact : séparateur « - » entre téléphone et e-mail, posé par
-// `render.php` sur le front ; ici, entre les deux champs quand ils sont remplis.
-.wp-block-couturier-home-hero-card__contact-details > .wp-block-couturier-home-hero-card__contact-phone:not(:has([data-rich-text-placeholder])) + .wp-block-couturier-home-hero-card__contact-email:not(:has([data-rich-text-placeholder]))::before {
-    content: "–";
-    margin-right: var(--space-6);
-}
-
-// Photo du contact (66 px) : boutons « Remplacer » / « Supprimer » réduits à leur
-// icône (libellé gardé pour les lecteurs d'écran) et posés au-dessus de la photo,
-// pour ne pas recouvrir le texte.
-.wp-block-couturier-home-hero-card__contact-photo .couturier-image-field__actions {
-    top: auto;
-    right: auto;
-    bottom: calc(100% + var(--space-4));
-    left: 0;
-    z-index: 2;
-    gap: var(--space-4);
-
-    .components-button {
-        gap: 0;
-        min-width: 0;
-        padding: var(--space-6);
-        font-size: 0;
-    }
-}
-
-// Emplacements des photos (carte, contact) : le cadre de l'emplacement (ombre
+// Emplacement de la photo de la carte : le cadre de l'emplacement (ombre
 // intérieure du core) suit l'arrondi au lieu d'être coupé par l'enveloppe.
 .wp-block-couturier-home-hero-card__media > .couturier-image-field__placeholder {
     height: 100%;
     border-radius: inherit;
 }
 
-// Photo du contact absente : bouton rond de la médiathèque (`ImageField` compact),
-// à la taille de la photo.
-.wp-block-couturier-home-hero-card__contact-photo > .couturier-image-field__compact {
-    width: to-rem(66);
-    height: to-rem(66);
+// Pas de contact (ou contact introuvable), carte en cours d'édition : indication à
+// la place de l'encart.
+.wp-block-couturier-home-hero-card__contact.is-placeholder {
+    align-items: center;
 }
