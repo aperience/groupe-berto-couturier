@@ -13,8 +13,10 @@
  *       p.__rating                ← avis (attributs), facultatif
  *       div.wp-block-buttons      ← boutons
  *       div.wp-block-couturier-page-hero-media  ← visuel (colonne de droite en desktop)
+ *       div.__contact.hero-contact  ← contact prédéfini (`contactId`), desktop seulement
  *
- * `has-media` : le visuel est rendu (il ne l'est pas sans image).
+ * `has-media` : le visuel est rendu (il ne l'est pas sans image). `has-contact` :
+ * un contact publié est choisi (`Theme\Features\Contacts\Contact::render()`).
  *
  * Le H1 est obligatoire : vide, rien n'est rendu.
  *
@@ -132,13 +134,24 @@ if ( ! empty( $attributes['showRating'] )
     $couturier_page_hero_rating = '<p class="wp-block-couturier-page-hero__rating">' . $couturier_page_hero_inner_html . '</p>';
 }
 
+// ─── Contact (desktop seulement, CSS) ──────────────────────────────────────────
+$couturier_page_hero_contact = \Theme\Features\Contacts\Contact::render( (int) ( $attributes['contactId'] ?? 0 ) );
+$couturier_page_hero_contact = '' === $couturier_page_hero_contact
+    ? ''
+    : '<div class="wp-block-couturier-page-hero__contact hero-contact">' . $couturier_page_hero_contact . '</div>';
+
+$couturier_page_hero_classes = trim(
+    ( '' !== $couturier_page_hero_media ? 'has-media' : '' ) . ( '' !== $couturier_page_hero_contact ? ' has-contact' : '' )
+);
+
 printf(
-    '<section %1$s><div class="wp-block-couturier-page-hero__content">%2$s%3$s%4$s%5$s%6$s%7$s</div></section>',
-    get_block_wrapper_attributes( [ 'class' => '' !== $couturier_page_hero_media ? 'has-media' : '' ] ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
+    '<section %1$s><div class="wp-block-couturier-page-hero__content">%2$s%3$s%4$s%5$s%6$s%7$s%8$s</div></section>',
+    get_block_wrapper_attributes( [ 'class' => $couturier_page_hero_classes ] ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
     \Theme\Support\Breadcrumb::render(), // phpcs:ignore WordPress.Security.EscapeOutput -- gabarit Twig, échappement automatique.
     $couturier_page_hero_nbsp( $couturier_page_hero_title ), // phpcs:ignore WordPress.Security.EscapeOutput -- HTML des blocs imbriqués.
     $couturier_page_hero_nbsp( $couturier_page_hero_text ), // phpcs:ignore WordPress.Security.EscapeOutput -- HTML des blocs imbriqués.
     $couturier_page_hero_rating, // phpcs:ignore WordPress.Security.EscapeOutput -- échappé ci-dessus.
     $couturier_page_hero_buttons, // phpcs:ignore WordPress.Security.EscapeOutput -- HTML des blocs imbriqués.
-    $couturier_page_hero_media // phpcs:ignore WordPress.Security.EscapeOutput -- HTML du bloc imbriqué.
+    $couturier_page_hero_media, // phpcs:ignore WordPress.Security.EscapeOutput -- HTML du bloc imbriqué.
+    $couturier_page_hero_contact // phpcs:ignore WordPress.Security.EscapeOutput -- gabarit Twig, échappement automatique.
 );

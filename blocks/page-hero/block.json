@@ -5,8 +5,14 @@
 	"title": "Héros de page",
 	"category": "design",
 	"icon": "cover-image",
-	"description": "En-tête d'une page intérieure : fil d'Ariane, titre principal de la page (H1), texte, avis, un ou deux boutons.",
-	"keywords": [ "héros", "hero", "en-tête", "bannière", "h1" ],
+	"description": "En-tête d'une page intérieure : fil d'Ariane, titre principal de la page (H1), texte, avis, un ou deux boutons, visuel et contact facultatifs.",
+	"keywords": [
+		"héros",
+		"hero",
+		"en-tête",
+		"bannière",
+		"h1"
+	],
 	"textdomain": "couturier",
 	"attributes": {
 		"showRating": {
@@ -22,6 +28,9 @@
 		},
 		"ratingLink": {
 			"type": "object"
+		},
+		"contactId": {
+			"type": "number"
 		}
 	},
 	"supports": {
@@ -29,25 +38,83 @@
 		"multiple": false
 	},
 	"styles": [
-		{ "name": "default", "label": "Pêche", "isDefault": true },
-		{ "name": "pink", "label": "Rose clair" },
-		{ "name": "petrol", "label": "Pétrole clair" }
+		{
+			"name": "default",
+			"label": "Pêche",
+			"isDefault": true
+		},
+		{
+			"name": "pink",
+			"label": "Rose clair"
+		},
+		{
+			"name": "petrol",
+			"label": "Pétrole clair"
+		}
 	],
 	"example": {
 		"viewportWidth": 1200,
 		"attributes": {
 			"showRating": true,
 			"rating": "4,8",
-			"reviewCount": 200
+			"reviewCount": 200,
+			"contactId": -1
 		},
 		"innerBlocks": [
-			{ "name": "core/heading", "attributes": { "level": 1, "content": "Passer son permis de conduire, à votre <span class=\"wp-block-couturier-cta__highlight\">rythme</span>" } },
-			{ "name": "core/paragraph", "attributes": { "content": "L’auto-école Couturier prépare les particuliers au permis B, à la moto, à la remorque et au code de la route, en formule accélérée, à son rythme ou en conduite accompagnée." } },
+			{
+				"name": "core/heading",
+				"attributes": {
+					"level": 1,
+					"content": "Passer son permis de conduire, à votre <span class=\"wp-block-couturier-cta__highlight\">rythme</span>"
+				}
+			},
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"content": "L’auto-école Couturier prépare les particuliers au permis B, à la moto, à la remorque et au code de la route, en formule accélérée, à son rythme ou en conduite accompagnée."
+				}
+			},
 			{
 				"name": "core/buttons",
 				"innerBlocks": [
-					{ "name": "core/button", "attributes": { "text": "Passer le test d’évaluation", "hasArrow": true } },
-					{ "name": "core/button", "attributes": { "text": "Être rappelé", "className": "is-style-outline" } }
+					{
+						"name": "core/button",
+						"attributes": {
+							"text": "Passer le test d’évaluation",
+							"hasArrow": true
+						}
+					},
+					{
+						"name": "core/button",
+						"attributes": {
+							"text": "Être rappelé",
+							"className": "is-style-outline"
+						}
+					}
+				]
+			},
+			{
+				"name": "couturier/page-hero-media",
+				"attributes": {
+					"imageId": -1,
+					"eyebrow": "La méthode accélérée inventée par Couturier",
+					"title": "<strong>Permis de conduire<br>en accéléré</strong> (20h)",
+					"buttonLabel": "Découvrir cette formule accélérée",
+					"buttonLink": {
+						"url": "#"
+					}
+				},
+				"innerBlocks": [
+					{
+						"name": "couturier/page-hero-tag",
+						"attributes": {
+							"label": "88 % de réussite à l’épreuve",
+							"position": {
+								"x": 1,
+								"y": 0.06
+							}
+						}
+					}
 				]
 			}
 		]

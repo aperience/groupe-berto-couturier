@@ -11,6 +11,7 @@
 //       p.__rating                 ← span.__stars (--rating), span.__score, nombre d'avis
 //       div.wp-block-buttons
 //       div.wp-block-couturier-page-hero-media  ← visuel (`block/_page-hero-media.scss`)
+//       div.__contact.hero-contact ← contact (desktop), contenu : `block/_hero-contact.scss`
 //
 // Maquettes Figma : desktop 301:6148, 301:6425, 301:6948, 301:7208 ; mobile
 // 596:1342, 598:1342, 605:1350, 608:1354.
@@ -30,6 +31,8 @@
 .wp-block-couturier-page-hero {
     --page-hero-bg: var(--color-surface-peach-soft);
     --page-hero-shape: var(--color-action-primary);
+    --page-hero-contact-bg: var(--color-surface-peach-faint);
+    --page-hero-contact-color: var(--color-text-accent);
 
     position: relative;
     margin-block: var(--layout-section-gap);
@@ -48,6 +51,8 @@
     &.is-style-petrol {
         --page-hero-bg: var(--color-surface-petrol-soft);
         --page-hero-shape: var(--color-action-dark);
+        --page-hero-contact-bg: var(--color-surface-petrol-faint);
+        --page-hero-contact-color: var(--color-text-heading);
     }
 
     @include media-breakpoint-up(lg) {
@@ -221,5 +226,50 @@
             align-self: start;
             margin: 0;
         }
+    }
+}
+
+// ─── Contact (desktop seulement) ──────────────────────────────────────────────
+// Maquettes 301:6175 / 301:6747 : encart de 513 px au plus, rayon 20, sous les
+// boutons, qui déborde de 75 px sous le bas du héros — marge basse négative (75 px
+// + padding du héros) ; le héros garde l'écart de section sous l'encart. Couleurs
+// de l'encart contact des cartes de l'accueil : pêche clair et texte orange 700
+// (Pêche, Rose clair), pétrole clair et texte pétrole 500 (Pétrole clair).
+// ⚠️ Orange 700 sur pêche 100 : 4,47:1, à peine sous les 4,5:1 de 1.4.3 (texte de
+// 18 px gras et 12,5 px) — couleurs de la maquette appliquées, comme à l'accueil.
+// Avec un visuel (grille), l'encart occupe la dernière ligne, en `1fr` : il est
+// calé en bas, à la hauteur du bas du visuel.
+$page-hero-contact-overhang: to-rem(75);
+
+.wp-block-couturier-page-hero__contact {
+    display: none;
+
+    @include media-breakpoint-up(lg) {
+        position: relative;
+        z-index: 1;
+        display: flex;
+        width: 100%;
+        max-width: to-rem(513);
+        min-height: to-rem(145);
+        margin-top: var(--space-24);
+        margin-bottom: calc(-1 * (#{$page-hero-contact-overhang} + var(--space-64)));
+        padding: var(--space-20);
+        border-radius: var(--bs-border-radius);
+        background-color: var(--page-hero-contact-bg);
+        color: var(--page-hero-contact-color);
+        align-items: center;
+        order: 4;
+    }
+}
+
+@include media-breakpoint-up(lg) {
+    .wp-block-couturier-page-hero.has-contact {
+        margin-bottom: calc(var(--layout-section-gap) + #{$page-hero-contact-overhang});
+    }
+
+    .wp-block-couturier-page-hero.has-media > .wp-block-couturier-page-hero__content > .wp-block-couturier-page-hero__contact {
+        grid-row: -2 / -1;
+        align-self: end;
+        margin-bottom: calc(-1 * (#{$page-hero-contact-overhang} + var(--space-64)));
     }
 }

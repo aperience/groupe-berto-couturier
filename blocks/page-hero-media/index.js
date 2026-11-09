@@ -40,6 +40,7 @@ import { link as linkIcon, plus } from '../_shared/icons.js';
 import ImageField, { ImageInfoPanel, imageUrl } from '../_shared/image-field.js';
 import { hideLockedControls, nonBreaking, textOf } from '../_shared/locked-content.js';
 import metadata from './block.json';
+import exampleImage from './example.webp';
 
 const ROOT = 'couturier/page-hero';
 
@@ -49,6 +50,14 @@ const TAG = 'couturier/page-hero-tag';
 const MAX_TAGS = 2;
 
 const DEFAULT_FOCAL_POINT = { x: 0.5, y: 0.5 };
+
+/**
+ * `imageId` réservé à l'aperçu de l'inserteur (`example` du héros de page) : la
+ * photo de la maquette (Figma 301:6161), fournie avec le bloc. Jamais enregistré ;
+ * `render.php` n'en trouverait pas de pièce jointe.
+ */
+const EXAMPLE_IMAGE_ID = -1;
+const EXAMPLE_MEDIA = { source_url: exampleImage, alt_text: '', media_details: { width: 520, height: 596 } };
 
 /** `object-position` du point focal, en variable `--focal` (même calcul dans `render.php`). */
 const objectPosition = ( { x, y } = DEFAULT_FOCAL_POINT ) =>
@@ -66,6 +75,10 @@ function useMedia( imageId ) {
 		( select ) => {
 			if ( ! imageId ) {
 				return { media: null, isMissing: false };
+			}
+
+			if ( EXAMPLE_IMAGE_ID === imageId ) {
+				return { media: EXAMPLE_MEDIA, isMissing: false };
 			}
 
 			const attachment = select( coreStore ).getMedia( imageId, { context: 'view' } );

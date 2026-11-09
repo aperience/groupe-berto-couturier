@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-09T08:26:25+00:00\n"
+"POT-Creation-Date: 2026-11-09T10:37:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -42,9 +42,13 @@ msgstr ""
 msgid "Lire la suite"
 msgstr ""
 
-#: blocks/home-hero-card/render.php:89
+#: blocks/home-hero-card/render.php:90
 #: blocks/image-text-icon/render.php:57
+#: blocks/page-hero-media/render.php:92
+#: blocks/page-hero-tag/render.php:82
+#: blocks/page-hero/render.php:130
 #: blocks/photo-card/render.php:66
+#: blocks/reassurance-item/render.php:66
 #: src/Features/CurrentOffer/CurrentOfferDashboard.php:78
 #: resources/views/partials/footer/bottom.twig:18
 #: resources/views/partials/footer/link.twig:14
@@ -61,6 +65,36 @@ msgstr ""
 #: blocks/reviews/render.php:90
 msgid "Moins"
 msgstr ""
+
+#. translators: 1: note, ex. « 4,8 » ; 2: nombre d'avis.
+#: blocks/page-hero/render.php:83
+#, php-format
+msgid "Note : %1$s sur 5, %2$s avis"
+msgid_plural "Note : %1$s sur 5, %2$s avis"
+msgstr[0] ""
+msgstr[1] ""
+
+#. translators: %s: note, ex. « 4,8 ».
+#: blocks/page-hero/render.php:85
+#, php-format
+msgid "Note : %s sur 5"
+msgstr ""
+
+#. translators: %s: note, ex. « 4,8 ».
+#: blocks/page-hero/render.php:91
+#: blocks/page-hero/index.js:147
+#, php-format,js-format
+msgid "%s / 5"
+msgstr ""
+
+#. translators: %s: nombre d'avis.
+#: blocks/page-hero/render.php:94
+#: blocks/page-hero/index.js:148
+#, php-format,js-format
+msgid "%s avis"
+msgid_plural "%s avis"
+msgstr[0] ""
+msgstr[1] ""
 
 #: blocks/photo-cards/render.php:49
 msgid "Cartes précédentes"
@@ -174,14 +208,140 @@ msgstr ""
 msgid "Retire le réglage de lettrine des paragraphes dans l'éditeur."
 msgstr ""
 
-#: src/Features/Blocks/FrontPageOnlyBlocks.php:49
-msgid "Réserve le héros de l'accueil à la page d'accueil : il n'est proposé dans l'éditeur d'aucun autre contenu."
+#: src/Features/Blocks/PageScopedBlocks.php:55
+msgid "Réserve le héros de l'accueil à la page d'accueil, et propose le héros de page partout ailleurs."
 msgstr ""
 
 #. translators: %s : niveaux autorisés, ex. « H2, H3 ».
 #: src/Features/Blocks/RestrictHeadingLevels.php:82
 #, php-format
 msgid "Limite les niveaux de titre proposés dans l'éditeur à %s."
+msgstr ""
+
+#: src/Features/Contacts/ContactEditorData.php:40
+msgid "Transmet la liste des contacts publiés à l'éditeur de blocs, pour les choisir dans les héros."
+msgstr ""
+
+#: src/Features/Contacts/ContactMetaBox.php:48
+msgid "Ajoute à l'écran d'un contact la boîte « Coordonnées » (texte affiché, téléphone, e-mail) et ses colonnes à la liste des contacts."
+msgstr ""
+
+#: src/Features/Contacts/ContactMetaBox.php:55
+msgid "Coordonnées"
+msgstr ""
+
+#: src/Features/Contacts/ContactMetaBox.php:73
+#: src/Features/Contacts/ContactMetaBox.php:162
+msgid "Texte affiché"
+msgstr ""
+
+#: src/Features/Contacts/ContactMetaBox.php:77
+msgid "Affiché en gras à côté de la photo. Un retour à la ligne est conservé, ex. « Une question ? » puis « Eloim vous aide à choisir la formule adaptée ». Sans texte, le contact n'est pas affiché."
+msgstr ""
+
+#: src/Features/Contacts/ContactMetaBox.php:82
+#: src/Features/Contacts/ContactMetaBox.php:163
+msgid "Téléphone"
+msgstr ""
+
+#: src/Features/Contacts/ContactMetaBox.php:85
+msgid "Affiché tel que saisi (ex. 02 37 42 42 69) ; facultatif."
+msgstr ""
+
+#: src/Features/Contacts/ContactMetaBox.php:89
+#: src/Features/Contacts/ContactMetaBox.php:164
+msgid "E-mail"
+msgstr ""
+
+#: src/Features/Contacts/ContactMetaBox.php:92
+#: blocks/page-hero/index.js:216
+msgid "Facultatif."
+msgstr ""
+
+#: src/Features/Contacts/ContactMetaBox.php:147
+msgid "L'adresse e-mail saisie n'est pas valide : elle n'a pas été enregistrée."
+msgstr ""
+
+#: src/Features/Contacts/ContactMetaBox.php:161
+msgid "Nom interne"
+msgstr ""
+
+#: src/Features/Contacts/ContactPageCache.php:39
+msgid "Vide le cache de page (W3 Total Cache, WP Super Cache) quand un contact est modifié, publié, dépublié ou supprimé."
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:45
+msgid "Déclare les contacts prédéfinis (menu « Contacts »), choisis dans les héros de l'accueil et des pages ; ils n'ont pas de page sur le site."
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:54
+#: src/Features/Contacts/ContactPostType.php:56
+#: src/Features/Contacts/ContactPostType.php:57
+msgid "Contacts"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:55
+#: blocks/_shared/contacts.js:70
+msgid "Contact"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:58
+#: src/Features/Contacts/ContactPostType.php:59
+msgid "Ajouter un contact"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:60
+msgid "Modifier le contact"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:61
+msgid "Nouveau contact"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:62
+msgid "Rechercher des contacts"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:63
+msgid "Aucun contact."
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:64
+msgid "Aucun contact dans la corbeille."
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:65
+#: blocks/home-hero-card/index.js:242
+#: blocks/photo-card/index.js:220
+msgid "Photo"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:66
+msgid "Choisir la photo"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:67
+msgid "Retirer la photo"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:68
+msgid "Utiliser comme photo"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:69
+msgid "Contact publié."
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:70
+msgid "Contact mis à jour."
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:98
+msgid "Nom interne (ex. « Eloim – Auto-école »), pour le choisir dans les blocs"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:108
+msgid "Photo carrée, affichée ronde et en noir et blanc (66 px)."
 msgstr ""
 
 #. translators: 1 : date, 2 : heure.
@@ -320,7 +480,7 @@ msgstr ""
 #: src/Features/Footer/FooterSettings.php:410
 #: src/Features/Navigation/MegaMenuFields.php:97
 #: blocks/cta/index.js:85
-#: blocks/home-hero-card/index.js:242
+#: blocks/home-hero-card/index.js:250
 #: blocks/home-hero/index.js:57
 #: blocks/icon-card/index.js:174
 msgid "Texte"
@@ -470,6 +630,7 @@ msgstr ""
 
 #: src/Features/Footer/FooterSettings.php:361
 #: src/Features/Footer/FooterSettings.php:511
+#: blocks/page-hero/index.js:221
 msgid "Lien (facultatif)"
 msgstr ""
 
@@ -534,7 +695,7 @@ msgstr ""
 
 #: src/Features/Footer/FooterSettings.php:447
 #: src/Features/Footer/FooterSettings.php:520
-#: blocks/reassurance-item/index.js:157
+#: blocks/reassurance-item/index.js:227
 #: blocks/_shared/image-field.js:107
 msgid "Supprimer"
 msgstr ""
@@ -548,7 +709,7 @@ msgid "Aucune image"
 msgstr ""
 
 #: src/Features/Footer/FooterSettings.php:496
-#: blocks/reassurance-item/index.js:153
+#: blocks/reassurance-item/index.js:223
 msgid "Choisir"
 msgstr ""
 
@@ -775,6 +936,7 @@ msgstr ""
 
 #: blocks/cta/index.js:168
 #: blocks/image-text/index.js:205
+#: blocks/page-hero/index.js:271
 msgid "Ajouter des boutons"
 msgstr ""
 
@@ -814,6 +976,7 @@ msgstr ""
 
 #: blocks/faq/index.js:56
 #: blocks/image-text/index.js:86
+#: blocks/page-hero/index.js:78
 msgid "Texte (facultatif)"
 msgstr ""
 
@@ -829,93 +992,76 @@ msgstr ""
 msgid "Ajouter un bouton"
 msgstr ""
 
-#: blocks/home-hero-card/index.js:65
+#: blocks/home-hero-card/index.js:68
 #: blocks/icon-card/title.js:13
 #: blocks/photo-card/title.js:13
 msgid "Titre de la carte"
 msgstr ""
 
-#: blocks/home-hero-card/index.js:142
+#: blocks/home-hero-card/index.js:145
+#: blocks/page-hero-media/index.js:176
 msgid "Modifier le lien du bouton"
 msgstr ""
 
-#: blocks/home-hero-card/index.js:142
+#: blocks/home-hero-card/index.js:145
+#: blocks/page-hero-media/index.js:176
 msgid "Ajouter un lien au bouton"
 msgstr ""
 
-#: blocks/home-hero-card/index.js:205
+#: blocks/home-hero-card/index.js:207
 msgid "Lien du bouton"
 msgstr ""
 
-#: blocks/home-hero-card/index.js:207
+#: blocks/home-hero-card/index.js:209
+#: blocks/page-hero-media/index.js:165
 msgid "Page vers laquelle mène le bouton. Sans lien ou sans libellé, le bouton n'est pas affiché."
 msgstr ""
 
 #: blocks/home-hero-card/index.js:219
+msgid "Encart affiché sous la carte, en desktop seulement."
+msgstr ""
+
+#: blocks/home-hero-card/index.js:227
 #: blocks/photo-card/index.js:238
 msgid "Sur-titre de la carte"
 msgstr ""
 
-#: blocks/home-hero-card/index.js:220
+#: blocks/home-hero-card/index.js:228
 #: blocks/photo-card/index.js:239
 msgid "Sur-titre"
 msgstr ""
 
-#: blocks/home-hero-card/index.js:234
-#: blocks/photo-card/index.js:220
-msgid "Photo"
-msgstr ""
-
-#: blocks/home-hero-card/index.js:241
+#: blocks/home-hero-card/index.js:249
 #: blocks/icon-card/index.js:173
 #: blocks/photo-card/index.js:249
 msgid "Texte de la carte"
 msgstr ""
 
-#: blocks/home-hero-card/index.js:250
-#: blocks/home-hero-card/index.js:251
+#: blocks/home-hero-card/index.js:258
+#: blocks/home-hero-card/index.js:259
 msgid "Libellé du bouton"
 msgstr ""
 
-#: blocks/home-hero-card/index.js:259
+#: blocks/home-hero-card/index.js:267
 #: blocks/icon-card/index.js:181
 #: blocks/photo-card/index.js:257
 msgid "Titre obligatoire : sans lui, cette carte n'est pas affichée sur le site."
 msgstr ""
 
-#: blocks/home-hero-card/index.js:264
+#: blocks/home-hero-card/index.js:272
 msgid "Pas de lien : le bouton n'est pas affiché (bouton « Lien » de la barre d'outils)."
 msgstr ""
 
-#: blocks/home-hero-card/index.js:277
-msgid "Choisir la photo du contact"
-msgstr ""
-
 #: blocks/home-hero-card/index.js:285
-msgid "Texte du contact"
+msgid "Contact introuvable (supprimé ou dépublié) : choisissez-en un autre dans la barre latérale."
 msgstr ""
 
 #: blocks/home-hero-card/index.js:286
-msgid "Une question ? Prénom vous aide… (contact facultatif, affiché en desktop)"
-msgstr ""
-
-#: blocks/home-hero-card/index.js:295
-msgid "Téléphone du contact"
-msgstr ""
-
-#: blocks/home-hero-card/index.js:296
-msgid "Téléphone"
-msgstr ""
-
-#: blocks/home-hero-card/index.js:305
-msgid "E-mail du contact"
-msgstr ""
-
-#: blocks/home-hero-card/index.js:306
-msgid "E-mail"
+msgid "Pas de contact : choisissez-en un dans la barre latérale (panneau « Contact », affiché en desktop)."
 msgstr ""
 
 #: blocks/home-hero/index.js:55
+#: blocks/page-hero/index.js:77
 msgid "Titre principal de la page (H1)"
 msgstr ""
 
@@ -934,6 +1080,8 @@ msgid "L'image choisie n'existe plus dans la médiathèque."
 msgstr ""
 
 #: blocks/home-hero/index.js:129
+#: blocks/page-hero-media/index.js:153
+#: blocks/page-hero-media/index.js:156
 msgid "Point focal"
 msgstr ""
 
@@ -946,12 +1094,13 @@ msgid "Choisissez l'image dans le bloc."
 msgstr ""
 
 #: blocks/home-hero/index.js:166
+#: blocks/page-hero/index.js:245
 msgid "Le titre principal (H1) est obligatoire : sans lui, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
 #: blocks/icon-card/index.js:123
 #: blocks/icon-card/index.js:129
-#: blocks/reassurance-item/index.js:120
+#: blocks/reassurance-item/index.js:190
 msgid "Remplacer le pictogramme"
 msgstr ""
 
@@ -960,13 +1109,14 @@ msgid "Supprimer le pictogramme"
 msgstr ""
 
 #: blocks/icon-card/index.js:151
-#: blocks/reassurance-item/index.js:135
+#: blocks/reassurance-item/index.js:205
 msgid "Choisir un pictogramme (SVG de préférence)"
 msgstr ""
 
 #: blocks/icon-card/index.js:162
 #: blocks/image-text-icon/index.js:96
-#: blocks/reassurance-item/index.js:146
+#: blocks/page-hero-tag/index.js:132
+#: blocks/reassurance-item/index.js:216
 msgid "Pictogramme"
 msgstr ""
 
@@ -1046,7 +1196,160 @@ msgid "Surtitre"
 msgstr ""
 
 #: blocks/image-text/index.js:189
+#: blocks/page-hero-media/index.js:224
 msgid "Surtitre (facultatif)"
+msgstr ""
+
+#: blocks/page-hero-media/index.js:157
+msgid "Partie de l'image toujours visible, quel que soit le recadrage."
+msgstr ""
+
+#: blocks/page-hero-media/index.js:164
+msgid "Bouton sur l'image"
+msgstr ""
+
+#: blocks/page-hero-media/index.js:202
+msgid "Image du héros (facultative)"
+msgstr ""
+
+#: blocks/page-hero-media/index.js:215
+msgid "Ajouter un tag"
+msgstr ""
+
+#: blocks/page-hero-media/index.js:223
+msgid "Surtitre sur l'image"
+msgstr ""
+
+#: blocks/page-hero-media/index.js:233
+msgid "Titre sur l'image"
+msgstr ""
+
+#: blocks/page-hero-media/index.js:234
+msgid "Titre sur l'image (facultatif, gras possible)"
+msgstr ""
+
+#: blocks/page-hero-media/index.js:249
+msgid "Libellé du bouton sur l'image"
+msgstr ""
+
+#: blocks/page-hero-media/index.js:250
+msgid "Libellé du bouton (facultatif)"
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:55
+#: blocks/_shared/buttons.js:112
+msgid "Aucun"
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:56
+msgid "Point orange"
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:57
+msgid "Point pétrole"
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:58
+msgid "Repère (lieu)"
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:59
+msgid "Lecture (vidéo)"
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:60
+msgid "Calendrier"
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:128
+msgid "Tag"
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:140
+msgid "Position sur l'image"
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:141
+msgid "Cliquez ou glissez sur l'image. Le tag reste dans le visuel ; près d'un bord, il déborde un peu de l'image, comme sur la maquette."
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:151
+msgid "Position horizontale (%)"
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:160
+msgid "Position verticale (%)"
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:170
+msgid "Masquer en mobile"
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:175
+#: blocks/photo-card/index.js:197
+#: blocks/reassurance-item/index.js:233
+msgid "Lien"
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:176
+msgid "Facultatif : avec un lien, le tag est cliquable."
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:186
+msgid "Modifier le lien du tag"
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:186
+msgid "Ajouter un lien au tag"
+msgstr ""
+
+#: blocks/page-hero-tag/index.js:203
+#: blocks/page-hero-tag/index.js:204
+msgid "Libellé du tag"
+msgstr ""
+
+#: blocks/page-hero/index.js:115
+msgid "Accueil"
+msgstr ""
+
+#: blocks/page-hero/index.js:130
+msgid "Titre de la page"
+msgstr ""
+
+#: blocks/page-hero/index.js:192
+msgid "Le premier bouton est orange avec une flèche, le second à contour."
+msgstr ""
+
+#: blocks/page-hero/index.js:195
+msgid "Avis"
+msgstr ""
+
+#: blocks/page-hero/index.js:198
+msgid "Afficher les avis"
+msgstr ""
+
+#: blocks/page-hero/index.js:199
+msgid "Étoiles, note et nombre d'avis, sous le texte."
+msgstr ""
+
+#: blocks/page-hero/index.js:208
+msgid "Note sur 5"
+msgstr ""
+
+#: blocks/page-hero/index.js:209
+msgid "Note illisible : saisir un nombre entre 0 et 5, ex. 4,8. Les avis ne sont pas affichés."
+msgstr ""
+
+#: blocks/page-hero/index.js:209
+msgid "Ex. 4,8"
+msgstr ""
+
+#: blocks/page-hero/index.js:215
+msgid "Nombre d'avis"
+msgstr ""
+
+#: blocks/page-hero/index.js:235
+msgid "Encart posé sous les boutons, à cheval sur le bas du héros, en desktop seulement."
 msgstr ""
 
 #: blocks/photo-card/index.js:61
@@ -1071,10 +1374,6 @@ msgstr ""
 
 #: blocks/photo-card/index.js:190
 msgid "Pastille orange posée en haut de la carte, au-dessus de la photo. Son libellé se modifie sur la carte."
-msgstr ""
-
-#: blocks/photo-card/index.js:197
-msgid "Lien"
 msgstr ""
 
 #: blocks/photo-card/index.js:199
@@ -1117,24 +1416,36 @@ msgstr ""
 msgid "Grandes"
 msgstr ""
 
-#: blocks/reassurance-item/index.js:148
+#: blocks/reassurance-item/index.js:112
+msgid "Modifier le lien de l'atout"
+msgstr ""
+
+#: blocks/reassurance-item/index.js:112
+msgid "Ajouter un lien à l'atout"
+msgstr ""
+
+#: blocks/reassurance-item/index.js:218
 msgid "Le pictogramme est peint en pétrole foncé quelles que soient ses couleurs d'origine. Il est décoratif : son texte alternatif n'est pas utilisé. La couleur de la pastille alterne d'un atout à l'autre."
 msgstr ""
 
-#: blocks/reassurance-item/index.js:153
+#: blocks/reassurance-item/index.js:223
 #: blocks/_shared/image-field.js:101
 msgid "Remplacer"
 msgstr ""
 
-#: blocks/reassurance-item/index.js:170
+#: blocks/reassurance-item/index.js:235
+msgid "Facultatif : tout l'atout mène alors à cette page. Sans lien, il n'est pas cliquable."
+msgstr ""
+
+#: blocks/reassurance-item/index.js:247
 msgid "Texte de l'atout"
 msgstr ""
 
-#: blocks/reassurance-item/index.js:171
+#: blocks/reassurance-item/index.js:248
 msgid "Court texte"
 msgstr ""
 
-#: blocks/reassurance-item/index.js:179
+#: blocks/reassurance-item/index.js:256
 msgid "Titre obligatoire : sans lui, cet atout n'est pas affiché sur le site."
 msgstr ""
 
@@ -1250,8 +1561,24 @@ msgstr ""
 msgid "Nombre de boutons"
 msgstr ""
 
-#: blocks/_shared/buttons.js:112
-msgid "Aucun"
+#: blocks/_shared/contacts.js:60
+msgid "Aucun contact"
+msgstr ""
+
+#: blocks/_shared/contacts.js:65
+msgid "Contact introuvable"
+msgstr ""
+
+#: blocks/_shared/contacts.js:73
+msgid "Le contact choisi a été supprimé ou dépublié : l'encart n'est pas affiché. Choisissez-en un autre."
+msgstr ""
+
+#: blocks/_shared/contacts.js:79
+msgid "Contact affiché"
+msgstr ""
+
+#: blocks/_shared/contacts.js:86
+msgid "Gérer les contacts"
 msgstr ""
 
 #: blocks/_shared/formats.js:79
@@ -1428,10 +1755,11 @@ msgstr ""
 
 #: blocks/home-hero-card/block.json
 msgctxt "block description"
-msgid "Carte du héros de l'accueil : sur-titre, photo, titre H3, texte, bouton vers la rubrique et encart contact (desktop)."
+msgid "Carte du héros de l'accueil : sur-titre, photo, titre H3, texte, bouton vers la rubrique et contact prédéfini (desktop)."
 msgstr ""
 
 #: blocks/home-hero-card/block.json
+#: blocks/page-hero/block.json
 msgctxt "block style label"
 msgid "Pêche"
 msgstr ""
@@ -1452,11 +1780,13 @@ msgid "En-tête de la page d'accueil : image de fond, titre principal de la page
 msgstr ""
 
 #: blocks/home-hero/block.json
+#: blocks/page-hero/block.json
 msgctxt "block keyword"
 msgid "héros"
 msgstr ""
 
 #: blocks/home-hero/block.json
+#: blocks/page-hero/block.json
 msgctxt "block keyword"
 msgid "hero"
 msgstr ""
@@ -1467,11 +1797,13 @@ msgid "accueil"
 msgstr ""
 
 #: blocks/home-hero/block.json
+#: blocks/page-hero/block.json
 msgctxt "block keyword"
 msgid "bannière"
 msgstr ""
 
 #: blocks/home-hero/block.json
+#: blocks/page-hero/block.json
 msgctxt "block keyword"
 msgid "h1"
 msgstr ""
@@ -1584,6 +1916,53 @@ msgctxt "block keyword"
 msgid "média"
 msgstr ""
 
+#: blocks/page-hero-media/block.json
+msgctxt "block title"
+msgid "Visuel du héros"
+msgstr ""
+
+#: blocks/page-hero-media/block.json
+msgctxt "block description"
+msgid "Visuel du héros de page : image facultative, forme inclinée, surtitre, titre et bouton posés sur l'image."
+msgstr ""
+
+#: blocks/page-hero-tag/block.json
+msgctxt "block title"
+msgid "Tag du visuel"
+msgstr ""
+
+#: blocks/page-hero-tag/block.json
+msgctxt "block description"
+msgid "Étiquette posée sur l'image du héros de page : pictogramme facultatif, libellé court, lien facultatif, position libre."
+msgstr ""
+
+#: blocks/page-hero/block.json
+msgctxt "block title"
+msgid "Héros de page"
+msgstr ""
+
+#: blocks/page-hero/block.json
+msgctxt "block description"
+msgid "En-tête d'une page intérieure : fil d'Ariane, titre principal de la page (H1), texte, avis, un ou deux boutons, visuel et contact facultatifs."
+msgstr ""
+
+#: blocks/page-hero/block.json
+msgctxt "block keyword"
+msgid "en-tête"
+msgstr ""
+
+#: blocks/page-hero/block.json
+msgctxt "block style label"
+msgid "Rose clair"
+msgstr ""
+
+#: blocks/page-hero/block.json
+#: blocks/photo-cards/block.json
+#: blocks/reviews/block.json
+msgctxt "block style label"
+msgid "Pétrole clair"
+msgstr ""
+
 #: blocks/photo-card/block.json
 msgctxt "block title"
 msgid "Carte photo"
@@ -1634,12 +2013,6 @@ msgctxt "block style label"
 msgid "Gris clair"
 msgstr ""
 
-#: blocks/photo-cards/block.json
-#: blocks/reviews/block.json
-msgctxt "block style label"
-msgid "Pétrole clair"
-msgstr ""
-
 #: blocks/reassurance-item/block.json
 msgctxt "block title"
 msgid "Atout"
@@ -1647,7 +2020,7 @@ msgstr ""
 
 #: blocks/reassurance-item/block.json
 msgctxt "block description"
-msgid "Un atout de réassurance : pictogramme (SVG de la médiathèque), titre H3 et court texte, chacun sur une ligne."
+msgid "Un atout de réassurance : pictogramme (SVG de la médiathèque), titre H3 et court texte, chacun sur une ligne ; lien facultatif."
 msgstr ""
 
 #: blocks/reassurance/block.json
@@ -2326,6 +2699,10 @@ msgstr ""
 
 #: resources/views/index.twig:17
 msgid "Aucun contenu trouvé."
+msgstr ""
+
+#: resources/views/partials/breadcrumb.twig:8
+msgid "Fil d'Ariane"
 msgstr ""
 
 #: resources/views/partials/footer/bottom.twig:31

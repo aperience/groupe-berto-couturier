@@ -207,9 +207,10 @@ printf( '<hgroup %s>%s</hgroup>', get_block_wrapper_attributes(), $content );
 - **L'attribut `levelOptions` d'une instance est ignoré** : ne pas le mettre dans un template.
 - **Niveaux limités à H2 / H3 sur tout le site** par la feature `Theme\Features\Blocks\RestrictHeadingLevels`
   (variations restreintes + garde-fou JS qui corrige Markdown, collage, éditeur de code). Un bloc n'a
-  donc pas à corriger lui-même un niveau hors plage. Seule exception : le héros de l'accueil
-  (`couturier/home-hero`), déclaré dans `exempt_parents:` de la feature, dont le premier titre est
-  un H1 — le bloc fixe ses niveaux par `useLockedContent( blocks, { level: ( titre, rang ) => … } )`.
+  donc pas à corriger lui-même un niveau hors plage. Seules exceptions : les héros
+  (`couturier/home-hero`, `couturier/page-hero`), déclarés dans `exempt_parents:` de la feature,
+  dont le premier titre est un H1 — le bloc fixe ses niveaux par `useLockedContent( blocks, { level } )`
+  (fonction `( titre, rang ) => …` pour l'accueil : H1 puis H2).
 - Le titre reste un `core/heading` : classes `wp-block-heading`, ancres automatiques, variations.
 
 ---
@@ -296,6 +297,25 @@ sans effet sur le front) donne à chacun sa boîte. Un séparateur entre les deu
 CSS, conditionné à leur contenu : sur le front, `save()` n'écrit pas un champ vide ; dans le canvas,
 un champ vide est présent (placeholder) — signaler l'état par une classe posée par `edit()`
 (`is-date-empty`), un `:has()` ne pouvant pas s'imbriquer.
+
+## Blocs imbriqués positionnés librement (ex. tags du héros de page)
+
+Des blocs enfants posés en absolu sur une image (`couturier/page-hero-tag`, position x / y en
+attribut, `--tag-x` / `--tag-y`) : l'éditeur contrarie ce placement de plusieurs façons.
+
+- **`position` et marges** : tout bloc du canvas reçoit `position: relative`
+  (`.block-editor-block-list__block`) et la marge par défaut (`:where(.wp-block)`) — les
+  rétablir dans `resources/scss/editor/` (`position: absolute; margin: 0`).
+- **`transform`** : l'animation de déplacement des blocs pose un `transform` en ligne sur le bloc.
+  Décaler l'élément par la propriété **`translate`**, qu'il n'écrase pas.
+- **Largeur** : un élément positionné près du bord droit n'a plus de largeur disponible ; le champ
+  `RichText` étant en `pre-wrap`, le libellé passe à la ligne — `width: max-content`.
+- **Déplacement par glisser-déposer / flèches** : sans objet (la position se règle dans la barre
+  latérale) — verrou `lock.move` par **défaut d'attribut dans `block.json`** (rien d'enregistré),
+  cadenas masqué par `hideLockedControls()` depuis le parent, verrou rétabli par un `useEffect`
+  non persistant s'il est levé par « Déverrouiller ».
+- **Nombre borné** : zone `templateLock: false` sans bouton d'ajout du core
+  (`renderAppender: false`), bouton du bloc parent affiché tant que le maximum n'est pas atteint.
 
 ## Formats du texte des blocs imbriqués
 

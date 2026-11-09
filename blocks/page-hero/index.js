@@ -17,6 +17,10 @@
  * barre latérale, rendus par `render.php` entre le texte et les boutons ; dans le
  * canvas, un aperçu placé au même endroit par `order` (CSS).
  *
+ * Contact (desktop seulement) : un contact prédéfini (menu « Contacts »), choisi
+ * dans la barre latérale (`contactId`, `blocks/_shared/contacts.js`), posé sous les
+ * boutons à cheval sur le bas du héros.
+ *
  * Fil d'Ariane : calculé au rendu (Rank Math, `Theme\Support\Breadcrumb`) ; dans
  * le canvas, un aperçu tiré du titre de la page et de ses parents.
  *
@@ -46,6 +50,8 @@ import { decodeEntities } from '@wordpress/html-entities';
 import { __, _n, sprintf } from '@wordpress/i18n';
 
 import { ButtonsControl, useButtonCount } from '../_shared/buttons.js';
+import { ContactPanel, ContactPreview, useContact } from '../_shared/contacts.js';
+import { exampleContact } from '../home-hero-card/example-images.js';
 import { plus } from '../_shared/icons.js';
 import {
 	LOCKED,
@@ -145,7 +151,9 @@ function RatingPreview( { rating, reviewCount } ) {
 }
 
 function Edit( { attributes, setAttributes, clientId, isSelected } ) {
-	const { showRating, rating, reviewCount, ratingLink } = attributes;
+	const { showRating, rating, reviewCount, ratingLink, contactId } = attributes;
+	const { contact, isMissing: isContactMissing } = useContact( contactId, exampleContact );
+	const hasContact = !! contact?.text?.trim();
 	const blocks = useSelect( ( select ) => select( blockEditorStore ).getBlocks( clientId ), [ clientId ] );
 	// Bloc ou l'un de ses blocs imbriqués sélectionné. Sinon, le canvas montre le
 	// rendu du site : ni avertissement, ni bouton d'ajout.
@@ -220,7 +228,17 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 					) }
 				</PanelBody>
 			</InspectorControls>
-			<section { ...useBlockProps( { className: hasMedia ? 'has-media' : undefined } ) }>
+			<ContactPanel
+				contactId={ contactId }
+				isMissing={ isContactMissing }
+				onChange={ ( value ) => setAttributes( { contactId: value } ) }
+				help={ __( 'Encart posé sous les boutons, à cheval sur le bas du héros, en desktop seulement.', 'couturier' ) }
+			/>
+			<section
+				{ ...useBlockProps( {
+					className: [ hasMedia ? 'has-media' : '', hasContact ? 'has-contact' : '' ].filter( Boolean ).join( ' ' ) || undefined,
+				} ) }
+			>
 				<div { ...innerBlocksProps }>
 					{ isEditing && isIncomplete && (
 						<Notice status="warning" isDismissible={ false } className="wp-block-couturier-page-hero__notice">
@@ -252,6 +270,11 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 						>
 							{ __( 'Ajouter des boutons', 'couturier' ) }
 						</Button>
+					) }
+					{ hasContact && (
+						<div className="wp-block-couturier-page-hero__contact hero-contact">
+							<ContactPreview contact={ contact } />
+						</div>
 					) }
 				</div>
 			</section>
