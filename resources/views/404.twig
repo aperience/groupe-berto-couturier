@@ -1,14 +1,34 @@
 {% extends "base.twig" %}
-{% import "macros/ui.twig" as ui %}
+
+{#
+ # Page 404 : héros des pages intérieures (`couturier/page-hero`, style par défaut,
+ # sans visuel), rendu par `do_blocks()` pour reprendre balisage, fil d'Ariane et
+ # styles du bloc. Le H1 est celui du héros.
+ #}
+{% set hero_title = __('Erreur 404 — Page introuvable', 'couturier') %}
+{% set hero_text = __("La page que vous cherchez n'existe pas ou a été déplacée.", 'couturier') %}
+{% set hero_button = __("Retour à la page d'accueil", 'couturier') %}
+
+{% set hero_markup %}
+<!-- wp:couturier/page-hero -->
+<!-- wp:heading {"level":1} -->
+<h1 class="wp-block-heading">{{ hero_title }}</h1>
+<!-- /wp:heading -->
+<!-- wp:paragraph -->
+<p>{{ hero_text }}</p>
+<!-- /wp:paragraph -->
+<!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"hasArrow":true} -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="{{ site.url }}">{{ hero_button }}</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+<!-- /wp:couturier/page-hero -->
+{% endset %}
 
 {% block content %}
     <article class="error-404">
         <div class="container">
-            <h1>{{ __('Erreur 404 — Page introuvable', 'couturier') }}</h1>
-            {{ ui.button(__("Retour à la page d'accueil", 'couturier'), {
-                href: site.url,
-                variant: 'btn-dark',
-            }) }}
+            {{ function('do_blocks', hero_markup)|raw }}
         </div>
     </article>
 {% endblock %}

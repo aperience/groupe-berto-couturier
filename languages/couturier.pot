@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-09T13:29:50+00:00\n"
+"POT-Creation-Date: 2026-11-09T14:22:06+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -45,7 +45,6 @@ msgstr ""
 #: blocks/home-hero-card/render.php:90
 #: blocks/image-text-icon/render.php:57
 #: blocks/page-hero-media/render.php:92
-#: blocks/page-hero-tag/render.php:82
 #: blocks/page-hero/render.php:136
 #: blocks/photo-card/render.php:66
 #: blocks/reassurance-item/render.php:66
@@ -1116,7 +1115,7 @@ msgstr ""
 
 #: blocks/icon-card/index.js:162
 #: blocks/image-text-icon/index.js:96
-#: blocks/page-hero-tag/index.js:132
+#: blocks/page-hero-tag/index.js:139
 #: blocks/reassurance-item/index.js:216
 msgid "Pictogramme"
 msgstr ""
@@ -1273,75 +1272,57 @@ msgstr ""
 msgid "Libellé du bouton (facultatif)"
 msgstr ""
 
-#: blocks/page-hero-tag/index.js:55
+#: blocks/page-hero-tag/index.js:53
 #: blocks/_shared/buttons.js:112
 msgid "Aucun"
 msgstr ""
 
-#: blocks/page-hero-tag/index.js:56
+#: blocks/page-hero-tag/index.js:54
 msgid "Point orange"
 msgstr ""
 
-#: blocks/page-hero-tag/index.js:57
+#: blocks/page-hero-tag/index.js:55
 msgid "Point pétrole"
 msgstr ""
 
-#: blocks/page-hero-tag/index.js:58
+#: blocks/page-hero-tag/index.js:56
 msgid "Repère (lieu)"
 msgstr ""
 
-#: blocks/page-hero-tag/index.js:59
+#: blocks/page-hero-tag/index.js:57
 msgid "Lecture (vidéo)"
 msgstr ""
 
-#: blocks/page-hero-tag/index.js:60
+#: blocks/page-hero-tag/index.js:58
 msgid "Calendrier"
 msgstr ""
 
-#: blocks/page-hero-tag/index.js:128
+#: blocks/page-hero-tag/index.js:135
 msgid "Tag"
 msgstr ""
 
-#: blocks/page-hero-tag/index.js:140
+#: blocks/page-hero-tag/index.js:147
 msgid "Position sur l'image"
 msgstr ""
 
-#: blocks/page-hero-tag/index.js:141
+#: blocks/page-hero-tag/index.js:148
 msgid "Cliquez ou glissez sur l'image. Le tag reste dans le visuel ; près d'un bord, il déborde un peu de l'image, comme sur la maquette."
 msgstr ""
 
-#: blocks/page-hero-tag/index.js:151
+#: blocks/page-hero-tag/index.js:158
 msgid "Position horizontale (%)"
 msgstr ""
 
-#: blocks/page-hero-tag/index.js:160
+#: blocks/page-hero-tag/index.js:167
 msgid "Position verticale (%)"
 msgstr ""
 
-#: blocks/page-hero-tag/index.js:170
+#: blocks/page-hero-tag/index.js:177
 msgid "Masquer en mobile"
 msgstr ""
 
-#: blocks/page-hero-tag/index.js:175
-#: blocks/photo-card/index.js:197
-#: blocks/reassurance-item/index.js:233
-msgid "Lien"
-msgstr ""
-
-#: blocks/page-hero-tag/index.js:176
-msgid "Facultatif : avec un lien, le tag est cliquable."
-msgstr ""
-
-#: blocks/page-hero-tag/index.js:186
-msgid "Modifier le lien du tag"
-msgstr ""
-
-#: blocks/page-hero-tag/index.js:186
-msgid "Ajouter un lien au tag"
-msgstr ""
-
-#: blocks/page-hero-tag/index.js:203
-#: blocks/page-hero-tag/index.js:204
+#: blocks/page-hero-tag/index.js:188
+#: blocks/page-hero-tag/index.js:189
 msgid "Libellé du tag"
 msgstr ""
 
@@ -1423,6 +1404,11 @@ msgstr ""
 
 #: blocks/photo-card/index.js:190
 msgid "Pastille orange posée en haut de la carte, au-dessus de la photo. Son libellé se modifie sur la carte."
+msgstr ""
+
+#: blocks/photo-card/index.js:197
+#: blocks/reassurance-item/index.js:233
+msgid "Lien"
 msgstr ""
 
 #: blocks/photo-card/index.js:199
@@ -1992,7 +1978,7 @@ msgstr ""
 
 #: blocks/page-hero-tag/block.json
 msgctxt "block description"
-msgid "Étiquette posée sur l'image du héros de page : pictogramme facultatif, libellé court, lien facultatif, position libre."
+msgid "Étiquette posée sur l'image du héros de page : pictogramme facultatif, libellé court (liens possibles sur une partie du texte), position libre."
 msgstr ""
 
 #: blocks/page-hero/block.json
@@ -2172,11 +2158,15 @@ msgctxt "block keyword"
 msgid "intertitre"
 msgstr ""
 
-#: resources/views/404.twig:7
+#: resources/views/404.twig:8
 msgid "Erreur 404 — Page introuvable"
 msgstr ""
 
-#: resources/views/404.twig:8
+#: resources/views/404.twig:9
+msgid "La page que vous cherchez n'existe pas ou a été déplacée."
+msgstr ""
+
+#: resources/views/404.twig:10
 msgid "Retour à la page d'accueil"
 msgstr ""
 
