@@ -1,0 +1,20 @@
+{#
+    Fil d'Ariane (données de Rank Math), rendu par `Theme\Support\Breadcrumb::render()`.
+    Styles : `resources/scss/block/_breadcrumb.scss`.
+
+    items : [{ label, url }], de l'accueil à la page courante ; la page courante
+            n'a pas d'URL (`aria-current="page"`). Séparateur « › » en CSS, non lu.
+#}
+<nav class="breadcrumb-trail" aria-label="{{ __("Fil d'Ariane", 'couturier') }}">
+    <ol class="breadcrumb-trail__list">
+        {%- for item in items -%}
+            <li class="breadcrumb-trail__item">
+                {%- if item.url -%}
+                    <a class="breadcrumb-trail__link" href="{{ item.url|e('esc_url')|raw }}">{{ item.label }}</a>
+                {%- else -%}
+                    <span class="breadcrumb-trail__current"{% if loop.last %} aria-current="page"{% endif %}>{{ item.label }}</span>
+                {%- endif -%}
+            </li>
+        {%- endfor -%}
+    </ol>
+</nav>

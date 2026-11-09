@@ -1,0 +1,51 @@
+// ─── Fil d'Ariane ─────────────────────────────────────────────────────────────
+//
+// Gabarit `resources/views/partials/breadcrumb.twig` (données de Rank Math,
+// `Theme\Support\Breadcrumb`), affiché en tête du héros des pages ; dans
+// `_content.scss` pour valoir aussi dans le canvas (aperçu du héros).
+//
+//   nav.breadcrumb-trail > ol.__list > li.__item > a.__link | span.__current
+//
+// Classe `breadcrumb-trail`, pas `breadcrumb` : celle du composant Bootstrap.
+//
+// Maquettes : desktop 301:6149 (Small, pétrole 400, page courante en gras
+// pétrole 500), mobile 598:1343 (tout en pétrole 400, sans gras). Séparateur
+// « › » en CSS : décoratif, absent du texte lu.
+// ⚠️ Pétrole 400 en 12,5 px sur les fonds du héros : 3,96:1 (pêche), 4,34:1
+// (rose), 4,11:1 (pétrole clair), sous les 4,5:1 de 1.4.3 — couleur de la
+// maquette appliquée.
+
+.breadcrumb-trail {
+    @include text-style(small);
+    color: var(--color-text-muted);
+}
+
+.breadcrumb-trail__list {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.breadcrumb-trail__item + .breadcrumb-trail__item::before {
+    content: "›" / "";
+    padding-inline: 0.3em;
+}
+
+.breadcrumb-trail__link {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+        text-decoration: underline;
+    }
+}
+
+.breadcrumb-trail__current {
+    @include media-breakpoint-up(lg) {
+        font-weight: 700;
+        color: var(--color-text-heading);
+    }
+}
