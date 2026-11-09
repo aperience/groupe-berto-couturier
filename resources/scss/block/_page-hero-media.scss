@@ -171,29 +171,32 @@
     }
 }
 
-// Tag avec lien : libellé souligné au survol et au focus, anneau de focus double
-// (blanc puis pétrole foncé) comme les boutons.
-a.wp-block-couturier-page-hero-tag {
-    &:hover,
-    &:focus-visible {
-        color: var(--color-text-heading);
-
-        .wp-block-couturier-page-hero-tag__label {
-            text-decoration: underline;
-        }
-    }
-
-    &:focus-visible {
-        outline: 2px solid transparent;
-        outline-offset: 2px;
-        box-shadow: 0 0 0 2px var(--color-surface-card), 0 0 0 4px var(--color-text-default);
-    }
-}
-
 .wp-block-couturier-page-hero-tag__label {
     overflow: hidden;
+    // Place pour l'anneau de focus des liens, que `overflow` rognerait.
+    margin: to-rem(-4);
+    padding: to-rem(4);
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    // Mots-liens (format « Lien » sur une partie du libellé) : orange 700,
+    // soulignés au survol et au focus, anneau de focus pétrole foncé.
+    a {
+        color: var(--color-text-accent);
+        text-decoration: none;
+
+        &:hover,
+        &:focus-visible {
+            color: var(--color-text-accent);
+            text-decoration: underline;
+        }
+
+        &:focus-visible {
+            outline: 2px solid var(--color-text-default);
+            outline-offset: 1px;
+            border-radius: 2px;
+        }
+    }
 }
 
 .wp-block-couturier-page-hero-tag__icon {

@@ -5,7 +5,7 @@
 	"title": "Tag du visuel",
 	"category": "design",
 	"icon": "tag",
-	"description": "Étiquette posée sur l'image du héros de page : pictogramme facultatif, libellé court, lien facultatif, position libre.",
+	"description": "Étiquette posée sur l'image du héros de page : pictogramme facultatif, libellé court (liens possibles sur une partie du texte), position libre.",
 	"textdomain": "couturier",
 	"parent": [ "couturier/page-hero-media" ],
 	"attributes": {

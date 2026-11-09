@@ -2,12 +2,15 @@
  * Tag du visuel du héros de page (`couturier/page-hero-tag`) : étiquette posée sur
  * l'image, deux au plus par visuel (`couturier/page-hero-media`).
  *
- * - libellé : attribut écrit dans le HTML enregistré (compteur de mots), sans
- *   format ;
+ * - libellé : attribut écrit dans le HTML enregistré (compteur de mots) ; seul
+ *   format permis : le lien (`core/link`), posé sur une sélection de mots, qui
+ *   passent en orange (cf. `block/_page-hero-media.scss`) ;
  * - pictogramme (liste fixe : aucun, point orange ou pétrole, repère, lecture,
  *   calendrier),
- *   position, masquage en mobile et lien : réglages de la barre latérale (panneau
- *   « Tag ») ; lien aussi par le bouton « Lien » de la barre d'outils ;
+ *   position et masquage en mobile : réglages de la barre latérale (panneau
+ *   « Tag ») ;
+ * - ancien lien sur tout le tag (attribut `link`, abandonné) : repris au chargement
+ *   sous forme de lien sur tout le libellé, puis l'attribut est vidé ;
  * - position : x et y de 0 à 1 (`position`), choisis sur l'image par un sélecteur
  *   de point (`FocalPointPicker`) ; même placement au front et dans le canvas
  *   (`--tag-x`, `--tag-y`, cf. `block/_page-hero-media.scss`).
@@ -22,9 +25,7 @@
  */
 import { registerBlockType } from '@wordpress/blocks';
 import {
-	BlockControls,
 	InspectorControls,
-	LinkControl,
 	RichText,
 	store as blockEditorStore,
 	useBlockProps,
@@ -32,19 +33,16 @@ import {
 import {
 	FocalPointPicker,
 	PanelBody,
-	Popover,
 	RangeControl,
 	SelectControl,
 	ToggleControl,
-	ToolbarButton,
-	ToolbarGroup,
 } from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
 import { useDispatch, useSelect } from '@wordpress/data';
-import { useEffect, useState } from '@wordpress/element';
+import { useEffect } from '@wordpress/element';
+import { create, applyFormat, toHTMLString } from '@wordpress/rich-text';
 import { __ } from '@wordpress/i18n';
 
-import { link as linkIcon } from '../_shared/icons.js';
 import { imageUrl } from '../_shared/image-field.js';
 import { textOf } from '../_shared/locked-content.js';
 import metadata from './block.json';
@@ -60,11 +58,24 @@ const ICONS = [
 	{ value: 'calendar', label: __( 'Calendrier', 'couturier' ) },
 ];
 
-/** Valeur du `LinkControl` réduite à ce que `render.php` utilise. */
-const toLink = ( value ) =>
-	value?.url
-		? { url: value.url, id: value.id, kind: value.kind, type: value.type, opensInNewTab: !! value.opensInNewTab }
-		: undefined;
+/** Libellé entièrement lié à `link` (ancien lien sur tout le tag). */
+function linkWholeLabel( label, link ) {
+	const value = create( { html: label } );
+	const attributes = { url: link.url };
+
+	if ( link.id ) {
+		attributes.id = String( link.id );
+	}
+	if ( link.type ) {
+		attributes.type = link.type;
+	}
+	if ( link.opensInNewTab ) {
+		attributes.target = '_blank';
+		attributes.rel = 'noreferrer noopener';
+	}
+
+	return toHTMLString( { value: applyFormat( value, { type: 'core/link', attributes }, 0, value.text.length ) } );
+}
 
 /** Pourcentage (0–100, une décimale) d'une coordonnée de 0 à 1. */
 const percent = ( value ) => Math.round( Math.min( Math.max( Number( value ) || 0, 0 ), 1 ) * 1000 ) / 10;
@@ -85,8 +96,6 @@ function useParentImageUrl( clientId ) {
 
 function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	const { label, icon, position, hideOnMobile, link } = attributes;
-	const [ isLinkOpen, setLinkOpen ] = useState( false );
-	const [ linkAnchor, setLinkAnchor ] = useState( null );
 	const imageSrc = useParentImageUrl( clientId );
 	const { x, y } = { ...DEFAULT_POSITION, ...position };
 	const { __unstableMarkNextChangeAsNotPersistent } = useDispatch( blockEditorStore );
@@ -99,6 +108,16 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 		}
 	}, [ attributes.lock, setAttributes, __unstableMarkNextChangeAsNotPersistent ] );
 
+	// Ancien lien sur tout le tag : repris sur tout le libellé.
+	useEffect( () => {
+		if ( link ) {
+			setAttributes( {
+				link: undefined,
+				...( link.url && textOf( label ) ? { label: linkWholeLabel( label, link ) } : {} ),
+			} );
+		}
+	}, [ link, label, setAttributes ] );
+
 	const blockProps = useBlockProps( {
 		className: [
 			'none' !== icon ? `has-icon-${ icon }` : '',
@@ -109,18 +128,6 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 			.join( ' ' ),
 		style: { '--tag-x': percent( x ), '--tag-y': percent( y ) },
 	} );
-
-	const linkControl = ( onClose ) => (
-		<LinkControl
-			value={ link }
-			forceIsEditingLink={ ! link?.url }
-			onChange={ ( value ) => setAttributes( { link: toLink( value ) } ) }
-			onRemove={ () => {
-				setAttributes( { link: undefined } );
-				onClose?.();
-			} }
-		/>
-	);
 
 	return (
 		<>
@@ -172,29 +179,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 						onChange={ ( value ) => setAttributes( { hideOnMobile: value } ) }
 					/>
 				</PanelBody>
-				<PanelBody title={ __( 'Lien', 'couturier' ) } initialOpen={ !! link?.url }>
-					<p>{ __( 'Facultatif : avec un lien, le tag est cliquable.', 'couturier' ) }</p>
-					{ linkControl() }
-				</PanelBody>
 			</InspectorControls>
-			{ isSelected && (
-				<BlockControls group="block">
-					<ToolbarGroup>
-						<ToolbarButton
-							ref={ setLinkAnchor }
-							icon={ linkIcon }
-							label={ link?.url ? __( 'Modifier le lien du tag', 'couturier' ) : __( 'Ajouter un lien au tag', 'couturier' ) }
-							isPressed={ !! link?.url }
-							onClick={ () => setLinkOpen( ! isLinkOpen ) }
-						/>
-					</ToolbarGroup>
-				</BlockControls>
-			) }
-			{ isLinkOpen && (
-				<Popover anchor={ linkAnchor } placement="bottom" onClose={ () => setLinkOpen( false ) } focusOnMount="firstElement">
-					{ linkControl( () => setLinkOpen( false ) ) }
-				</Popover>
-			) }
 			<div { ...blockProps }>
 				{ 'none' !== icon && <span className="wp-block-couturier-page-hero-tag__icon" aria-hidden="true" /> }
 				<RichText
@@ -204,7 +189,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 					placeholder={ __( 'Libellé du tag', 'couturier' ) }
 					value={ label }
 					onChange={ ( value ) => setAttributes( { label: value } ) }
-					allowedFormats={ [] }
+					allowedFormats={ [ 'core/link' ] }
 					disableLineBreaks
 				/>
 			</div>
