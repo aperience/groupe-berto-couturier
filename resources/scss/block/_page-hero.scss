@@ -93,10 +93,13 @@
         order: 2;
     }
 
-    // Visuel : sous les boutons en mobile.
+    // Visuel : sous les boutons en mobile. Marge basse : la forme inclinée déborde
+    // d'environ 20 px sous l'image ; sans elle, le fond du héros s'arrêtait au ras
+    // de la forme (le padding du héros se compte depuis le bas de l'image).
     > .wp-block-couturier-page-hero-media {
         order: 3;
         margin-top: var(--space-8);
+        margin-bottom: var(--space-24);
     }
 
     > .wp-block-buttons {

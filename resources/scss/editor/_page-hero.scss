@@ -44,3 +44,24 @@
 .wp-block-couturier-page-hero-media__frame .couturier-image-field__actions {
     z-index: 2;
 }
+
+// Bouton « Ajouter un tag » : en haut à gauche du visuel, au-dessus des tags.
+.wp-block-couturier-page-hero-media__add-tag {
+    position: absolute;
+    top: var(--space-12);
+    left: var(--space-12);
+    z-index: 3;
+}
+
+// Tag sans libellé en cours d'édition : emplacement visible sur l'image.
+.wp-block-couturier-page-hero-tag .wp-block-couturier-page-hero-tag__label {
+    min-width: to-rem(80);
+}
+
+// Tags : l'éditeur pose `position: relative` et la marge par défaut des blocs sur
+// chaque bloc (`.block-editor-block-list__block`, `:where(.wp-block)`), ce qui
+// annulerait le placement absolu du front.
+.editor-styles-wrapper .wp-block-couturier-page-hero-media__tags > .wp-block-couturier-page-hero-tag {
+    position: absolute;
+    margin: 0;
+}

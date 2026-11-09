@@ -7,6 +7,7 @@
  *
  *   div.wp-block-couturier-page-hero-media
  *     div.__frame > img.__image          ← image (`alt` de la médiathèque), point focal
+ *     div.__tags > a|span.wp-block-couturier-page-hero-tag  ← 0 à 2 tags (blocs imbriqués)
  *     div.__overlay                      ← surtitre, titre, bouton (si l'un d'eux est rempli)
  *       p.__eyebrow, p.__title
  *       div.wp-block-buttons.__buttons > div.wp-block-button.is-style-outline.has-arrow > a
@@ -97,16 +98,26 @@ $couturier_hero_media_overlay = ( $couturier_hero_media_filled( 'eyebrow' ) ? '<
     . ( $couturier_hero_media_filled( 'title' ) ? '<p class="wp-block-couturier-page-hero-media__title">' . $couturier_hero_media_parts['title'] . '</p>' : '' )
     . $couturier_hero_media_button;
 
+// ─── Tags (blocs imbriqués), rendus un par un ─────────────────────────────────
+$couturier_hero_media_tags = '';
+
+foreach ( $block->inner_blocks as $couturier_hero_media_inner ) {
+    if ( 'couturier/page-hero-tag' === $couturier_hero_media_inner->name ) {
+        $couturier_hero_media_tags .= $couturier_hero_media_inner->render();
+    }
+}
+
 // Point focal → `object-position` (même calcul que `objectPosition()` dans `index.js`).
 $couturier_hero_media_focal = is_array( $attributes['focalPoint'] ?? null ) ? $attributes['focalPoint'] : [];
 $couturier_hero_media_x     = round( min( max( (float) ( $couturier_hero_media_focal['x'] ?? 0.5 ), 0.0 ), 1.0 ) * 100, 1 );
 $couturier_hero_media_y     = round( min( max( (float) ( $couturier_hero_media_focal['y'] ?? 0.5 ), 0.0 ), 1.0 ) * 100, 1 );
 
 printf(
-    '<div %1$s><div class="wp-block-couturier-page-hero-media__frame" style="--focal: %2$s%% %3$s%%">%4$s</div>%5$s</div>',
+    '<div %1$s><div class="wp-block-couturier-page-hero-media__frame" style="--focal: %2$s%% %3$s%%">%4$s</div>%6$s%5$s</div>',
     get_block_wrapper_attributes(), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
     esc_attr( (string) $couturier_hero_media_x ),
     esc_attr( (string) $couturier_hero_media_y ),
     $couturier_hero_media_image, // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par wp_get_attachment_image().
-    '' !== $couturier_hero_media_overlay ? '<div class="wp-block-couturier-page-hero-media__overlay">' . $couturier_hero_media_overlay . '</div>' : '' // phpcs:ignore WordPress.Security.EscapeOutput -- contenu enregistré, URL échappée.
+    '' !== $couturier_hero_media_overlay ? '<div class="wp-block-couturier-page-hero-media__overlay">' . $couturier_hero_media_overlay . '</div>' : '', // phpcs:ignore WordPress.Security.EscapeOutput -- contenu enregistré, URL échappée.
+    '' !== trim( $couturier_hero_media_tags ) ? '<div class="wp-block-couturier-page-hero-media__tags">' . $couturier_hero_media_tags . '</div>' : '' // phpcs:ignore WordPress.Security.EscapeOutput -- HTML des blocs imbriqués.
 );

@@ -10,33 +10,43 @@
  *   le titre est un paragraphe, pas un titre : accroche vers une offre, hors du plan
  *   de la page ;
  * - le lien du bouton (`buttonLink`) est la valeur du `LinkControl` natif (bouton
- *   « Lien » de la barre d'outils, panneau « Bouton » de la barre latérale).
+ *   « Lien » de la barre d'outils, panneau « Bouton » de la barre latérale) ;
+ * - 0 à 2 tags (`couturier/page-hero-tag`), blocs imbriqués libres
+ *   (`templateLock: false`), ajoutés par le bouton « Ajouter un tag » du canvas,
+ *   posés sur l'image à la position choisie dans leurs réglages.
  *
  * Sans image, rien n'est rendu sur le site, surimpression comprise : les champs ne
  * sont proposés qu'une image choisie. La forme inclinée derrière l'image prend la
  * couleur du style du héros (CSS).
  */
-import { registerBlockType } from '@wordpress/blocks';
+import { createBlock, registerBlockType } from '@wordpress/blocks';
 import {
 	BlockControls,
+	InnerBlocks,
 	InspectorControls,
 	LinkControl,
 	RichText,
 	store as blockEditorStore,
 	useBlockProps,
+	useInnerBlocksProps,
 } from '@wordpress/block-editor';
-import { FocalPointPicker, PanelBody, Popover, ToolbarButton, ToolbarGroup } from '@wordpress/components';
+import { Button, FocalPointPicker, PanelBody, Popover, ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
-import { useSelect } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 import { useState } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
-import { link as linkIcon } from '../_shared/icons.js';
+import { link as linkIcon, plus } from '../_shared/icons.js';
 import ImageField, { ImageInfoPanel, imageUrl } from '../_shared/image-field.js';
-import { nonBreaking, textOf } from '../_shared/locked-content.js';
+import { hideLockedControls, nonBreaking, textOf } from '../_shared/locked-content.js';
 import metadata from './block.json';
 
 const ROOT = 'couturier/page-hero';
+
+const TAG = 'couturier/page-hero-tag';
+
+/** Tags par visuel, au plus. */
+const MAX_TAGS = 2;
 
 const DEFAULT_FOCAL_POINT = { x: 0.5, y: 0.5 };
 
@@ -104,6 +114,15 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	);
 
 	const { media, isMissing } = useMedia( imageId );
+	const tagCount = useSelect( ( select ) => select( blockEditorStore ).getBlockCount( clientId ), [ clientId ] );
+	const { insertBlock } = useDispatch( blockEditorStore );
+
+	// Tags : zone d'imbrication libre, sans bouton d'ajout du core (le nôtre est
+	// borné à `MAX_TAGS`).
+	const tagsProps = useInnerBlocksProps(
+		{ className: 'wp-block-couturier-page-hero-media__tags' },
+		{ allowedBlocks: [ TAG ], templateLock: false, renderAppender: false }
+	);
 	const isImageLoading = !! imageId && ! media && ! isMissing;
 	const hasOverlay = !! ( textOf( eyebrow ) || textOf( title ) || ( textOf( buttonLabel ) && buttonLink?.url ) );
 
@@ -171,6 +190,18 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 						/>
 					) }
 				</div>
+				{ media && <div { ...tagsProps } /> }
+				{ media && isEditing && tagCount < MAX_TAGS && (
+					<Button
+						__next40pxDefaultSize
+						variant="secondary"
+						icon={ plus }
+						className="wp-block-couturier-page-hero-media__add-tag"
+						onClick={ () => insertBlock( createBlock( TAG ), tagCount, clientId ) }
+					>
+						{ __( 'Ajouter un tag', 'couturier' ) }
+					</Button>
+				) }
 				{ media && ( hasOverlay || isEditing ) && (
 					<div className="wp-block-couturier-page-hero-media__overlay">
 						<RichText
@@ -233,6 +264,11 @@ registerBlockType( metadata.name, {
 						/>
 					)
 			) }
+			<InnerBlocks.Content />
 		</>
 	),
 } );
+
+// Tag sélectionné : pas de cadenas (il lèverait le verrou de déplacement, cf.
+// `page-hero-tag/index.js`).
+hideLockedControls( metadata.name, [ TAG ] );

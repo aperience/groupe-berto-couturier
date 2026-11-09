@@ -1,0 +1,46 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/page-hero-tag",
+	"title": "Tag du visuel",
+	"category": "design",
+	"icon": "tag",
+	"description": "Étiquette posée sur l'image du héros de page : pictogramme facultatif, libellé court, lien facultatif, position libre.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/page-hero-media" ],
+	"attributes": {
+		"label": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-page-hero-tag__label",
+			"role": "content"
+		},
+		"icon": {
+			"type": "string",
+			"enum": [ "none", "dot", "dot-petrol", "pin", "play", "calendar" ],
+			"default": "none"
+		},
+		"position": {
+			"type": "object",
+			"default": { "x": 0.15, "y": 0.2 }
+		},
+		"hideOnMobile": {
+			"type": "boolean",
+			"default": false
+		},
+		"link": {
+			"type": "object"
+		},
+		"lock": {
+			"type": "object",
+			"default": { "move": true }
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"inserter": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

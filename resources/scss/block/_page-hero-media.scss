@@ -103,3 +103,124 @@
 .wp-block-couturier-page-hero-media__buttons {
     margin: var(--space-12) 0 0;
 }
+
+// ─── Tags (couturier/page-hero-tag) ───────────────────────────────────────────
+// Maquettes 301:6447, 301:6449, 301:6162 : pastille blanche de 36 px, ombre
+// flottante, texte de 12,5 px en gras pétrole 500 ; pictogramme orange 700
+// (repère, lecture, calendrier : `images/icons/`, en masque ; point : CSS, orange
+// 700 ou pétrole 500).
+//
+// Position (`--tag-x`, `--tag-y`, 0 à 100, réglée dans l'éditeur) : placement
+// proportionnel dans une zone qui déborde de l'image de `--tag-overhang` à gauche
+// et à droite — à x = 0, le bord gauche du tag est au bord gauche de la zone ; à
+// x = 100, son bord droit au bord droit de la zone. Le tag peut ainsi chevaucher
+// le bord de l'image (maquette), sans jamais sortir du héros ni de l'écran (marges
+// du visuel : 24 px en mobile). Même principe en hauteur, sans débord.
+
+.wp-block-couturier-page-hero-media__tags {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.wp-block-couturier-page-hero-tag {
+    --tag-overhang: var(--space-20);
+
+    position: absolute;
+    top: calc(var(--tag-y, 20) * 1%);
+    left: calc(-1 * var(--tag-overhang) + (100% + 2 * var(--tag-overhang)) * var(--tag-x, 15) / 100);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-6);
+    // Largeur du contenu : près du bord droit, la largeur disponible d'un élément
+    // positionné tomberait sinon à zéro et le libellé passerait à la ligne (dans
+    // l'éditeur, où le champ de saisie est en `pre-wrap`).
+    width: max-content;
+    max-width: calc(100% + 2 * var(--tag-overhang));
+    min-height: to-rem(36);
+    padding: var(--space-10) var(--space-14);
+    border-radius: var(--bs-border-radius-pill);
+    background-color: var(--color-surface-card);
+    box-shadow: var(--bs-box-shadow-lg);
+    color: var(--color-text-heading);
+    font-family: $font-family-sans-serif;
+    font-weight: 700;
+    font-size: to-rem(12.5);
+    line-height: 1.25;
+    text-decoration: none;
+    pointer-events: auto;
+    // `translate` et non `transform` : dans l'éditeur, le `transform` en ligne de
+    // l'animation de déplacement des blocs l'écraserait.
+    translate: calc(var(--tag-x, 15) * -1%) calc(var(--tag-y, 20) * -1%);
+
+    &.is-hidden-mobile {
+        @include media-breakpoint-down(lg) {
+            display: none;
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        --tag-overhang: var(--space-48);
+    }
+}
+
+// Tag avec lien : libellé souligné au survol et au focus, anneau de focus double
+// (blanc puis pétrole foncé) comme les boutons.
+a.wp-block-couturier-page-hero-tag {
+    &:hover,
+    &:focus-visible {
+        color: var(--color-text-heading);
+
+        .wp-block-couturier-page-hero-tag__label {
+            text-decoration: underline;
+        }
+    }
+
+    &:focus-visible {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 2px var(--color-surface-card), 0 0 0 4px var(--color-text-default);
+    }
+}
+
+.wp-block-couturier-page-hero-tag__label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.wp-block-couturier-page-hero-tag__icon {
+    flex: 0 0 auto;
+    width: to-rem(14);
+    height: to-rem(14);
+    background-color: var(--color-text-accent);
+
+    .has-icon-dot > &,
+    .has-icon-dot-petrol > & {
+        width: to-rem(8);
+        height: to-rem(8);
+        margin-inline: to-rem(3);
+        border-radius: 50%;
+    }
+
+    .has-icon-dot-petrol > & {
+        background-color: var(--color-text-heading);
+    }
+
+    // Chemins relatifs à l'entrée, pas au partial : PhpStorm ne les résout pas.
+    // noinspection CssUnknownTarget
+    .has-icon-pin > & {
+        mask: url("../images/icons/pin.svg") center / contain no-repeat;
+    }
+
+    // noinspection CssUnknownTarget
+    .has-icon-play > & {
+        mask: url("../images/icons/play.svg") center / contain no-repeat;
+    }
+
+    // noinspection CssUnknownTarget
+    .has-icon-calendar > & {
+        mask: url("../images/icons/calendar.svg") center / contain no-repeat;
+    }
+}
