@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-09T10:37:54+00:00\n"
+"POT-Creation-Date: 2026-11-09T13:29:50+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -46,7 +46,7 @@ msgstr ""
 #: blocks/image-text-icon/render.php:57
 #: blocks/page-hero-media/render.php:92
 #: blocks/page-hero-tag/render.php:82
-#: blocks/page-hero/render.php:130
+#: blocks/page-hero/render.php:136
 #: blocks/photo-card/render.php:66
 #: blocks/reassurance-item/render.php:66
 #: src/Features/CurrentOffer/CurrentOfferDashboard.php:78
@@ -67,7 +67,7 @@ msgid "Moins"
 msgstr ""
 
 #. translators: 1: note, ex. « 4,8 » ; 2: nombre d'avis.
-#: blocks/page-hero/render.php:83
+#: blocks/page-hero/render.php:89
 #, php-format
 msgid "Note : %1$s sur 5, %2$s avis"
 msgid_plural "Note : %1$s sur 5, %2$s avis"
@@ -75,21 +75,21 @@ msgstr[0] ""
 msgstr[1] ""
 
 #. translators: %s: note, ex. « 4,8 ».
-#: blocks/page-hero/render.php:85
+#: blocks/page-hero/render.php:91
 #, php-format
 msgid "Note : %s sur 5"
 msgstr ""
 
 #. translators: %s: note, ex. « 4,8 ».
-#: blocks/page-hero/render.php:91
-#: blocks/page-hero/index.js:147
+#: blocks/page-hero/render.php:97
+#: blocks/page-hero/index.js:155
 #, php-format,js-format
 msgid "%s / 5"
 msgstr ""
 
 #. translators: %s: nombre d'avis.
-#: blocks/page-hero/render.php:94
-#: blocks/page-hero/index.js:148
+#: blocks/page-hero/render.php:100
+#: blocks/page-hero/index.js:156
 #, php-format,js-format
 msgid "%s avis"
 msgid_plural "%s avis"
@@ -254,7 +254,7 @@ msgid "E-mail"
 msgstr ""
 
 #: src/Features/Contacts/ContactMetaBox.php:92
-#: blocks/page-hero/index.js:216
+#: blocks/page-hero/index.js:236
 msgid "Facultatif."
 msgstr ""
 
@@ -630,7 +630,7 @@ msgstr ""
 
 #: src/Features/Footer/FooterSettings.php:361
 #: src/Features/Footer/FooterSettings.php:511
-#: blocks/page-hero/index.js:221
+#: blocks/page-hero/index.js:241
 msgid "Lien (facultatif)"
 msgstr ""
 
@@ -842,6 +842,7 @@ msgstr ""
 #: src/Features/Navigation/HeaderSettings.php:268
 #: src/Features/Navigation/MegaMenuFields.php:107
 #: blocks/image-text-icon/index.js:148
+#: blocks/page-hero-facts/index.js:73
 msgid "Libellé"
 msgstr ""
 
@@ -936,7 +937,7 @@ msgstr ""
 
 #: blocks/cta/index.js:168
 #: blocks/image-text/index.js:205
-#: blocks/page-hero/index.js:271
+#: blocks/page-hero/index.js:304
 msgid "Ajouter des boutons"
 msgstr ""
 
@@ -976,7 +977,7 @@ msgstr ""
 
 #: blocks/faq/index.js:56
 #: blocks/image-text/index.js:86
-#: blocks/page-hero/index.js:78
+#: blocks/page-hero/index.js:86
 msgid "Texte (facultatif)"
 msgstr ""
 
@@ -1061,7 +1062,7 @@ msgid "Pas de contact : choisissez-en un dans la barre latérale (panneau « Con
 msgstr ""
 
 #: blocks/home-hero/index.js:55
-#: blocks/page-hero/index.js:77
+#: blocks/page-hero/index.js:85
 msgid "Titre principal de la page (H1)"
 msgstr ""
 
@@ -1094,7 +1095,7 @@ msgid "Choisissez l'image dans le bloc."
 msgstr ""
 
 #: blocks/home-hero/index.js:166
-#: blocks/page-hero/index.js:245
+#: blocks/page-hero/index.js:278
 msgid "Le titre principal (H1) est obligatoire : sans lui, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
@@ -1198,6 +1199,42 @@ msgstr ""
 #: blocks/image-text/index.js:189
 #: blocks/page-hero-media/index.js:224
 msgid "Surtitre (facultatif)"
+msgstr ""
+
+#: blocks/page-hero-facts/index.js:62
+msgid "Seuls les chiffres renseignés (libellé et valeur) sont affichés sur le site."
+msgstr ""
+
+#. translators: %d: position du chiffre clé.
+#: blocks/page-hero-facts/index.js:72
+#, js-format
+msgid "Libellé %d"
+msgstr ""
+
+#. translators: %d: position du chiffre clé.
+#: blocks/page-hero-facts/index.js:82
+#, js-format
+msgid "Valeur %d"
+msgstr ""
+
+#: blocks/page-hero-facts/index.js:83
+msgid "Valeur"
+msgstr ""
+
+#: blocks/page-hero-facts/index.js:93
+msgid "Déplacer avant"
+msgstr ""
+
+#: blocks/page-hero-facts/index.js:101
+msgid "Déplacer après"
+msgstr ""
+
+#: blocks/page-hero-facts/index.js:110
+msgid "Supprimer ce chiffre"
+msgstr ""
+
+#: blocks/page-hero-facts/index.js:128
+msgid "Ajouter un chiffre clé"
 msgstr ""
 
 #: blocks/page-hero-media/index.js:157
@@ -1308,47 +1345,59 @@ msgstr ""
 msgid "Libellé du tag"
 msgstr ""
 
-#: blocks/page-hero/index.js:115
+#: blocks/page-hero/index.js:123
 msgid "Accueil"
 msgstr ""
 
-#: blocks/page-hero/index.js:130
+#: blocks/page-hero/index.js:138
 msgid "Titre de la page"
 msgstr ""
 
-#: blocks/page-hero/index.js:192
+#: blocks/page-hero/index.js:212
 msgid "Le premier bouton est orange avec une flèche, le second à contour."
 msgstr ""
 
-#: blocks/page-hero/index.js:195
+#: blocks/page-hero/index.js:215
 msgid "Avis"
 msgstr ""
 
-#: blocks/page-hero/index.js:198
+#: blocks/page-hero/index.js:218
 msgid "Afficher les avis"
 msgstr ""
 
-#: blocks/page-hero/index.js:199
+#: blocks/page-hero/index.js:219
 msgid "Étoiles, note et nombre d'avis, sous le texte."
 msgstr ""
 
-#: blocks/page-hero/index.js:208
+#: blocks/page-hero/index.js:228
 msgid "Note sur 5"
 msgstr ""
 
-#: blocks/page-hero/index.js:209
+#: blocks/page-hero/index.js:229
 msgid "Note illisible : saisir un nombre entre 0 et 5, ex. 4,8. Les avis ne sont pas affichés."
 msgstr ""
 
-#: blocks/page-hero/index.js:209
+#: blocks/page-hero/index.js:229
 msgid "Ex. 4,8"
 msgstr ""
 
-#: blocks/page-hero/index.js:215
+#: blocks/page-hero/index.js:235
 msgid "Nombre d'avis"
 msgstr ""
 
-#: blocks/page-hero/index.js:235
+#: blocks/page-hero/index.js:252
+msgid "Chiffres clés"
+msgstr ""
+
+#: blocks/page-hero/index.js:255
+msgid "Afficher des chiffres clés"
+msgstr ""
+
+#: blocks/page-hero/index.js:256
+msgid "De 1 à 5 cartes sous le héros, à la place du contact."
+msgstr ""
+
+#: blocks/page-hero/index.js:267
 msgid "Encart posé sous les boutons, à cheval sur le bas du héros, en desktop seulement."
 msgstr ""
 
@@ -1914,6 +1963,16 @@ msgstr ""
 #: blocks/image-text/block.json
 msgctxt "block keyword"
 msgid "média"
+msgstr ""
+
+#: blocks/page-hero-facts/block.json
+msgctxt "block title"
+msgid "Chiffres clés du héros"
+msgstr ""
+
+#: blocks/page-hero-facts/block.json
+msgctxt "block description"
+msgid "Rangée de 1 à 5 chiffres clés (libellé et valeur) à cheval sur le bas du héros de page, à la place du contact."
 msgstr ""
 
 #: blocks/page-hero-media/block.json

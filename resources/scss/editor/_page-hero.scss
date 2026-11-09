@@ -65,3 +65,24 @@
     position: absolute;
     margin: 0;
 }
+
+// Chiffres clés en cours d'édition : avertissement, boutons de chaque carte
+// (déplacer, supprimer) et « Ajouter un chiffre clé ».
+.wp-block-couturier-page-hero-facts__notice {
+    margin: 0 0 var(--space-12);
+}
+
+.wp-block-couturier-page-hero-facts__controls {
+    display: flex;
+    gap: var(--space-4);
+    margin-top: auto;
+
+    .components-button:disabled {
+        opacity: .4;
+    }
+}
+
+.wp-block-couturier-page-hero-facts__add.components-button.is-secondary {
+    margin-top: var(--space-12);
+    background-color: var(--color-surface-card);
+}

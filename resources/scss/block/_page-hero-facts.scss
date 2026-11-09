@@ -1,0 +1,161 @@
+// ─── Chiffres clés du héros de page (couturier/page-hero-facts) ───────────────
+//
+// Balisage (front : `render.php` ; éditeur : `blocks/page-hero-facts/index.js`,
+// mêmes classes), dernier élément de `.wp-block-couturier-page-hero__content` :
+//
+//   div.wp-block-couturier-page-hero-facts
+//     dl.__list
+//       div.__item > dt.__label + dd.__value     ← 1 à 5 cartes
+//
+// Maquette desktop 301:6977 (cartes 301:6977 à 301:6989) : cartes de 131 px de
+// haut, rayon 28, écart 15 px, libellé en surtitre pétrole 400, valeur en H3
+// (Red Hat Display 700, 20 / 25). Fonds alternés (décision d'Aurélien,
+// 2026-11-09) : cartes impaires pêche 300 et valeur orange 700, paires pétrole 50
+// et valeur pétrole 500. Rangée qui déborde de la moitié d'une carte sous le bas
+// du héros (marge basse négative : débord + padding du héros, comme le contact) ;
+// le héros garde l'écart de section sous les cartes (`has-facts`).
+// Mobile (sous `lg`) : grille de deux colonnes **sous** le fond coloré du héros,
+// toutes les cartes pêche 300 et valeur orange 700 (décisions d'Aurélien,
+// 2026-11-09). Le bloc reste dans le héros (une seule zone d'imbrication dans le
+// canvas) : un calque à la couleur de la page (`::before`) recouvre le fond du
+// héros sous les cartes, jusqu'aux bords et au bas du héros (son padding), et deux
+// coins (`::after`, dégradés radiaux) redessinent l'arrondi bas du héros au-dessus
+// des cartes. Indépendant de la hauteur des cartes.
+
+$page-hero-facts-overhang: to-rem(66);
+// Écart entre le bas (visible) du fond du héros et les cartes, en mobile.
+$page-hero-facts-mobile-gap: var(--space-24);
+
+.wp-block-couturier-page-hero-facts {
+    // Pleine largeur du contenu (le conteneur est en `align-items: flex-start`).
+    align-self: stretch;
+    width: 100%;
+    order: 5;
+
+    @include media-breakpoint-down(lg) {
+        --page-hero-facts-radius: var(--bs-border-radius-lg);
+
+        position: relative;
+        // Contexte d'empilement : le calque (z-index -1) passe sous les cartes,
+        // au-dessus du fond du héros.
+        z-index: 0;
+        // Padding bas du fond visible (24 px, celui du héros) + écart.
+        margin-top: calc(var(--space-24) + #{$page-hero-facts-mobile-gap});
+
+        &::before,
+        &::after {
+            content: "";
+            position: absolute;
+            z-index: -1;
+            // Jusqu'aux bords du héros (son padding horizontal).
+            right: calc(-1 * var(--space-16));
+            left: calc(-1 * var(--space-16));
+        }
+
+        // Recouvre le fond du héros : de l'écart au-dessus des cartes jusqu'au bas
+        // du héros (son padding bas).
+        &::before {
+            top: calc(-1 * #{$page-hero-facts-mobile-gap});
+            bottom: calc(-1 * var(--space-24));
+            background-color: var(--color-surface-page);
+        }
+
+        // Coins arrondis du bas du fond visible : la couleur de la page hors du
+        // quart de cercle.
+        &::after {
+            bottom: calc(100% + #{$page-hero-facts-mobile-gap});
+            height: var(--page-hero-facts-radius);
+            background:
+                radial-gradient(circle at 100% 0, transparent var(--page-hero-facts-radius), var(--color-surface-page) calc(var(--page-hero-facts-radius) + .5px)) left / var(--page-hero-facts-radius) 100% no-repeat,
+                radial-gradient(circle at 0 0, transparent var(--page-hero-facts-radius), var(--color-surface-page) calc(var(--page-hero-facts-radius) + .5px)) right / var(--page-hero-facts-radius) 100% no-repeat;
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        position: relative;
+        z-index: 1;
+        margin-top: var(--space-32);
+        margin-bottom: calc(-1 * (#{$page-hero-facts-overhang} + var(--space-64)));
+    }
+}
+
+.wp-block-couturier-page-hero-facts__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-8);
+    margin: 0;
+
+    @include media-breakpoint-up(lg) {
+        display: flex;
+        gap: to-rem(15);
+    }
+}
+
+.wp-block-couturier-page-hero-facts__item {
+    display: flex;
+    flex-direction: column;
+    // Maquettes 301:6977 (desktop) et 606:1389 (mobile) : mêmes marges
+    // intérieures ; la valeur commence 23 px sous le haut du libellé (boîte du
+    // libellé de 23 px pour une ligne de 16) : 8 px d'écart.
+    gap: var(--space-8);
+    min-height: to-rem(131);
+    padding: to-rem(26) to-rem(22);
+    border-radius: var(--bs-border-radius-lg);
+    background-color: var(--color-surface-peach-soft);
+
+    @include media-breakpoint-up(lg) {
+        flex: 1 1 0;
+        min-width: 0;
+
+        &:nth-child(even) {
+            background-color: var(--color-surface-petrol-faint);
+
+            > .wp-block-couturier-page-hero-facts__value {
+                color: var(--color-text-heading);
+            }
+        }
+    }
+}
+
+.wp-block-couturier-page-hero-facts__label,
+.wp-block-couturier-page-hero-facts__value {
+    margin: 0;
+    // Mot long à 320 px (« RENOUVELLEMENT ») : à la ligne plutôt que de déborder
+    // (WCAG 1.4.10).
+    overflow-wrap: anywhere;
+}
+
+.wp-block-couturier-page-hero-facts__label {
+    @include text-style(eyebrow);
+    color: var(--color-text-muted);
+}
+
+.wp-block-couturier-page-hero-facts__value {
+    @include text-style(h3);
+    color: var(--color-text-accent);
+}
+
+// Sans visuel, le contenu est limité à la largeur de lecture : les cartes prennent
+// toute la largeur du héros, le reste la garde.
+.wp-block-couturier-page-hero.has-facts:not(.has-media) > .wp-block-couturier-page-hero__content {
+    max-width: none;
+
+    > :not(.wp-block-couturier-page-hero-facts) {
+        max-width: min(100%, #{to-rem(760)});
+    }
+}
+
+// Avec un visuel (grille) : sur toute la largeur, sous le texte et le visuel.
+@include media-breakpoint-up(lg) {
+    .wp-block-couturier-page-hero.has-facts {
+        margin-bottom: calc(var(--layout-section-gap) + #{$page-hero-facts-overhang});
+    }
+
+    .wp-block-couturier-page-hero.has-media > .wp-block-couturier-page-hero__content > .wp-block-couturier-page-hero-facts {
+        grid-column: 1 / -1;
+        // La forme inclinée du visuel déborde d'environ 20 px sous l'image : écart
+        // agrandi d'autant pour que les cartes ne la touchent pas.
+        margin-top: var(--space-48);
+        margin-bottom: calc(-1 * (#{$page-hero-facts-overhang} + var(--space-64)));
+    }
+}

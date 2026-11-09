@@ -21,13 +21,19 @@
  * dans la barre latérale (`contactId`, `blocks/_shared/contacts.js`), posé sous les
  * boutons à cheval sur le bas du héros.
  *
+ * Chiffres clés : à la place du contact (l'un, l'autre ou aucun), bloc imbriqué
+ * `couturier/page-hero-facts` ajouté ou retiré par le panneau « Chiffres clés »
+ * (`replaceInnerBlocks`, que le verrou du modèle ne filtre pas) ; l'activer vide le
+ * contact. Rangée de cartes sous le contenu, à cheval sur le bas du héros en
+ * desktop.
+ *
  * Fil d'Ariane : calculé au rendu (Rank Math, `Theme\Support\Breadcrumb`) ; dans
  * le canvas, un aperçu tiré du titre de la page et de ses parents.
  *
  * `save()` n'enregistre que les blocs imbriqués ; l'enveloppe, le fil et les avis
  * sont produits par `render.php`, qui n'affiche rien sans H1.
  */
-import { registerBlockType } from '@wordpress/blocks';
+import { createBlock, registerBlockType } from '@wordpress/blocks';
 import {
 	InnerBlocks,
 	InspectorControls,
@@ -45,7 +51,7 @@ import {
 	__experimentalNumberControl as NumberControl,
 } from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
-import { useSelect } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
 import { decodeEntities } from '@wordpress/html-entities';
 import { __, _n, sprintf } from '@wordpress/i18n';
 
@@ -73,6 +79,8 @@ const BUTTONS = [
 
 const MEDIA = 'couturier/page-hero-media';
 
+const FACTS = 'couturier/page-hero-facts';
+
 const TEMPLATE = [
 	[ 'core/heading', { level: 1, lock: LOCKED, placeholder: __( 'Titre principal de la page (H1)', 'couturier' ) } ],
 	[ 'core/paragraph', { lock: LOCKED, placeholder: __( 'Texte (facultatif)', 'couturier' ) } ],
@@ -80,8 +88,8 @@ const TEMPLATE = [
 	[ MEDIA, { lock: LOCKED } ],
 ];
 
-/** Blocs imbriqués verrouillés : titre, texte et visuel. */
-const LOCKED_BLOCKS = [ ...TEXT_BLOCKS, MEDIA ];
+/** Blocs imbriqués verrouillés : titre, texte, visuel et chiffres clés. */
+const LOCKED_BLOCKS = [ ...TEXT_BLOCKS, MEDIA, FACTS ];
 
 /** Le titre est toujours le `<h1>` de la page. */
 const LEVEL = 1;
@@ -152,9 +160,21 @@ function RatingPreview( { rating, reviewCount } ) {
 
 function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	const { showRating, rating, reviewCount, ratingLink, contactId } = attributes;
-	const { contact, isMissing: isContactMissing } = useContact( contactId, exampleContact );
-	const hasContact = !! contact?.text?.trim();
 	const blocks = useSelect( ( select ) => select( blockEditorStore ).getBlocks( clientId ), [ clientId ] );
+	const { replaceInnerBlocks } = useDispatch( blockEditorStore );
+	// Chiffres clés et contact s'excluent : les chiffres l'emportent.
+	const facts = blocks.find( ( block ) => block.name === FACTS );
+	const { contact, isMissing: isContactMissing } = useContact( facts ? undefined : contactId, exampleContact );
+	const hasContact = ! facts && !! contact?.text?.trim();
+
+	const setFacts = ( enabled ) => {
+		if ( enabled ) {
+			replaceInnerBlocks( clientId, [ ...blocks, createBlock( FACTS, { lock: LOCKED } ) ], false );
+			setAttributes( { contactId: undefined } );
+		} else {
+			replaceInnerBlocks( clientId, blocks.filter( ( block ) => block !== facts ), false );
+		}
+	};
 	// Bloc ou l'un de ses blocs imbriqués sélectionné. Sinon, le canvas montre le
 	// rendu du site : ni avertissement, ni bouton d'ajout.
 	const isEditing = useSelect(
@@ -228,15 +248,28 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 					) }
 				</PanelBody>
 			</InspectorControls>
-			<ContactPanel
-				contactId={ contactId }
-				isMissing={ isContactMissing }
-				onChange={ ( value ) => setAttributes( { contactId: value } ) }
-				help={ __( 'Encart posé sous les boutons, à cheval sur le bas du héros, en desktop seulement.', 'couturier' ) }
-			/>
+			<InspectorControls>
+				<PanelBody title={ __( 'Chiffres clés', 'couturier' ) } initialOpen={ !! facts }>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Afficher des chiffres clés', 'couturier' ) }
+						help={ __( 'De 1 à 5 cartes sous le héros, à la place du contact.', 'couturier' ) }
+						checked={ !! facts }
+						onChange={ setFacts }
+					/>
+				</PanelBody>
+			</InspectorControls>
+			{ ! facts && (
+				<ContactPanel
+					contactId={ contactId }
+					isMissing={ isContactMissing }
+					onChange={ ( value ) => setAttributes( { contactId: value } ) }
+					help={ __( 'Encart posé sous les boutons, à cheval sur le bas du héros, en desktop seulement.', 'couturier' ) }
+				/>
+			) }
 			<section
 				{ ...useBlockProps( {
-					className: [ hasMedia ? 'has-media' : '', hasContact ? 'has-contact' : '' ].filter( Boolean ).join( ' ' ) || undefined,
+					className: [ hasMedia ? 'has-media' : '', hasContact ? 'has-contact' : '', facts ? 'has-facts' : '' ].filter( Boolean ).join( ' ' ) || undefined,
 				} ) }
 			>
 				<div { ...innerBlocksProps }>

@@ -1,0 +1,45 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/page-hero-facts",
+	"title": "Chiffres clés du héros",
+	"category": "design",
+	"icon": "editor-table",
+	"description": "Rangée de 1 à 5 chiffres clés (libellé et valeur) à cheval sur le bas du héros de page, à la place du contact.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/page-hero" ],
+	"attributes": {
+		"items": {
+			"type": "array",
+			"source": "query",
+			"selector": "div.wp-block-couturier-page-hero-facts__item",
+			"query": {
+				"label": {
+					"type": "string",
+					"source": "html",
+					"selector": "dt.wp-block-couturier-page-hero-facts__label"
+				},
+				"value": {
+					"type": "string",
+					"source": "html",
+					"selector": "dd.wp-block-couturier-page-hero-facts__value"
+				}
+			},
+			"default": [
+				{ "label": "", "value": "" },
+				{ "label": "", "value": "" },
+				{ "label": "", "value": "" },
+				{ "label": "", "value": "" },
+				{ "label": "", "value": "" }
+			],
+			"role": "content"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"inserter": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
