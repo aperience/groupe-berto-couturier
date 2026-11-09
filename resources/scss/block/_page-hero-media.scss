@@ -86,13 +86,19 @@
     }
 }
 
+// Ombres portées absentes de la maquette, reprises du héros de l'accueil
+// (`block/_home-hero.scss`) pour la lisibilité du blanc sur la photo : resserrée
+// sur le petit surtitre (comme le H1 de l'accueil), large sur le titre (comme
+// son H2).
 .wp-block-couturier-page-hero-media__eyebrow {
     @include text-style(page-hero-media-eyebrow);
+    text-shadow: 0 1px 3px rgba(0, 0, 0, .6), 0 0 12px rgba(0, 0, 0, .35);
 }
 
 // Parties en gras (`<strong>`) ×1,25, comme la maquette (24 → 30 px).
 .wp-block-couturier-page-hero-media__title {
     @include text-style(page-hero-media-title);
+    text-shadow: 0 4px 11.9px rgba(0, 0, 0, .4);
 
     strong {
         font-weight: 700;
