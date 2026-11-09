@@ -9,7 +9,9 @@
  *   `Blocks\RestrictHeadingLevels` ignore ce bloc : `exempt_parents`), avec la
  *   « Mise en avant » orange ;
  * - le texte, un `core/paragraph` (facultatif) ;
- * - 0 à 2 boutons (`core/buttons`, supprimables, panneau « Boutons »).
+ * - 0 à 2 boutons (`core/buttons`, supprimables, panneau « Boutons ») ;
+ * - le visuel, `couturier/page-hero-media` (image facultative et surimpression),
+ *   colonne de droite en desktop (`has-media`), sous les boutons en mobile.
  *
  * Avis (étoiles, note, nombre d'avis, lien facultatif) : attributs réglés dans la
  * barre latérale, rendus par `render.php` entre le texte et les boutons ; dans le
@@ -63,11 +65,17 @@ const BUTTONS = [
 	[ 'core/button', { className: 'is-style-outline', lock: REMOVABLE } ],
 ];
 
+const MEDIA = 'couturier/page-hero-media';
+
 const TEMPLATE = [
 	[ 'core/heading', { level: 1, lock: LOCKED, placeholder: __( 'Titre principal de la page (H1)', 'couturier' ) } ],
 	[ 'core/paragraph', { lock: LOCKED, placeholder: __( 'Texte (facultatif)', 'couturier' ) } ],
 	[ 'core/buttons', { lock: REMOVABLE }, BUTTONS ],
+	[ MEDIA, { lock: LOCKED } ],
 ];
+
+/** Blocs imbriqués verrouillés : titre, texte et visuel. */
+const LOCKED_BLOCKS = [ ...TEXT_BLOCKS, MEDIA ];
 
 /** Le titre est toujours le `<h1>` de la page. */
 const LEVEL = 1;
@@ -151,10 +159,14 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	const isIncomplete = blocks.length > 0 && ! textOf( title );
 	const [ buttonCount, setButtonCount ] = useButtonCount( clientId, blocks, BUTTONS );
 	const isRatingInvalid = showRating && null === parseRating( rating );
+	// Colonne du visuel : une image, ou son emplacement pendant l'édition (cf.
+	// `render.php` : `has-media` si le visuel est rendu).
+	const media = blocks.find( ( block ) => block.name === MEDIA );
+	const hasMedia = !! media && ( !! media.attributes.imageId || isEditing );
 
 	// Titre et texte toujours verrouillés, titre toujours en H1 ; espace insécable
 	// avant « ? ! : ; ».
-	useLockedContent( blocks, { level: LEVEL, names: TEXT_BLOCKS } );
+	useLockedContent( blocks, { level: LEVEL, names: LOCKED_BLOCKS } );
 	useNonBreakingPunctuation( blocks );
 
 	// Modèle passé à l'insertion seulement (cf. `blocks/CLAUDE.md`).
@@ -208,7 +220,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 					) }
 				</PanelBody>
 			</InspectorControls>
-			<section { ...useBlockProps() }>
+			<section { ...useBlockProps( { className: hasMedia ? 'has-media' : undefined } ) }>
 				<div { ...innerBlocksProps }>
 					{ isEditing && isIncomplete && (
 						<Notice status="warning" isDismissible={ false } className="wp-block-couturier-page-hero__notice">
@@ -252,5 +264,5 @@ registerBlockType( metadata.name, {
 	save: () => <InnerBlocks.Content />,
 } );
 
-// Titre ou texte du héros sélectionné : ni cadenas, ni variations de niveau.
-hideLockedControls( metadata.name );
+// Titre, texte ou visuel du héros sélectionné : ni cadenas, ni variations de niveau.
+hideLockedControls( metadata.name, LOCKED_BLOCKS );

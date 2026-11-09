@@ -10,6 +10,7 @@
 //       p                          ← texte
 //       p.__rating                 ← span.__stars (--rating), span.__score, nombre d'avis
 //       div.wp-block-buttons
+//       div.wp-block-couturier-page-hero-media  ← visuel (`block/_page-hero-media.scss`)
 //
 // Maquettes Figma : desktop 301:6148, 301:6425, 301:6948, 301:7208 ; mobile
 // 596:1342, 598:1342, 605:1350, 608:1354.
@@ -17,15 +18,18 @@
 //   derrière l'en-tête collant quand le héros est le premier bloc
 //   (`partials/_layout.scss`) ; éléments empilés à 12 px.
 // - Desktop (`lg`) : encadré arrondi (40 px) à la largeur du container, sous
-//   l'en-tête.
+//   l'en-tête ; avec un visuel (`has-media`), grille à deux colonnes : texte à
+//   gauche, visuel de 429 px à droite (cf. « Deux colonnes »).
 // Fonds (styles de bloc) : Pêche (défaut, pêche 300), Rose clair (orange 100),
-// Pétrole clair (pétrole 100).
+// Pétrole clair (pétrole 100) ; forme inclinée du visuel orange (Pêche, Rose) ou
+// pétrole (Pétrole clair), `--page-hero-shape`.
 //
 // Dans l'éditeur, les avis (aperçu) suivent les blocs imbriqués dans le DOM : ils
 // sont replacés avant les boutons par `order`, sans effet sur le front (même ordre).
 
 .wp-block-couturier-page-hero {
     --page-hero-bg: var(--color-surface-peach-soft);
+    --page-hero-shape: var(--color-action-primary);
 
     position: relative;
     margin-block: var(--layout-section-gap);
@@ -43,6 +47,7 @@
 
     &.is-style-petrol {
         --page-hero-bg: var(--color-surface-petrol-soft);
+        --page-hero-shape: var(--color-action-dark);
     }
 
     @include media-breakpoint-up(lg) {
@@ -86,6 +91,12 @@
     > .wp-block-buttons,
     > .wp-block-couturier-page-hero__add-buttons {
         order: 2;
+    }
+
+    // Visuel : sous les boutons en mobile.
+    > .wp-block-couturier-page-hero-media {
+        order: 3;
+        margin-top: var(--space-8);
     }
 
     > .wp-block-buttons {
@@ -176,5 +187,36 @@
     @include media-breakpoint-up(lg) {
         font-weight: 700;
         color: var(--color-text-heading);
+    }
+}
+
+// ─── Deux colonnes (desktop, avec visuel) ─────────────────────────────────────
+// Un seul conteneur pour le texte et le visuel, au front comme dans le canvas
+// (où les blocs imbriqués n'ont qu'une zone) : grille dont le visuel occupe la
+// colonne de droite sur toutes les lignes. Les lignes du texte sont en `auto`
+// (sept au plus : fil, avertissement du canvas, titre, texte, avis, boutons, bouton
+// d'ajout) et la dernière en `1fr` : la hauteur du visuel, plus grand, y passe au
+// lieu d'écarter les éléments du texte. Écarts par marges (une ligne vide n'en
+// prend pas), 52 px entre les colonnes (maquette).
+@include media-breakpoint-up(lg) {
+    .wp-block-couturier-page-hero.has-media > .wp-block-couturier-page-hero__content {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) to-rem(429);
+        grid-template-rows: repeat(7, auto) 1fr;
+        justify-items: start;
+        gap: 0 to-rem(52);
+        max-width: none;
+
+        > * {
+            grid-column: 1;
+            margin-bottom: var(--space-16);
+        }
+
+        > .wp-block-couturier-page-hero-media {
+            grid-column: 2;
+            grid-row: 1 / -1;
+            align-self: start;
+            margin: 0;
+        }
     }
 }

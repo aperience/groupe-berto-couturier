@@ -211,6 +211,10 @@ $ds-text-styles: (
     // interlettrage −0,5 px ; texte de 14 px en mobile, 17,5 px en desktop.
     page-hero-title: (family: heading, weight: 900, size: (34, 46), line: (38, 49), tracking: -0.5),
     page-hero-text:  (family: body,    weight: 400, size: (14, 17.5), line: (24, 29)),
+    // Surimpression du visuel du héros de page (301:6166, 596:1361) : surtitre en
+    // capitales ; titre en Red Hat Display Regular, parties en gras ×1,25 (24 → 30).
+    page-hero-media-eyebrow: (family: body,    weight: 700, size: (12.5, 15), line: (16.5, 19.5), uppercase: true),
+    page-hero-media-title:   (family: heading, weight: 400, size: (20, 24),   line: (28.5, 34)),
 );
 
 // ═══ 2. Admin et page de connexion ═══════════════════════════════════════════

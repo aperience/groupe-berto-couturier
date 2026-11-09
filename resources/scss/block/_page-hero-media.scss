@@ -1,0 +1,105 @@
+// ─── Visuel du héros de page (couturier/page-hero-media) ──────────────────────
+//
+// Balisage (front : `render.php` ; éditeur : `blocks/page-hero-media/index.js`) :
+//
+//   div.wp-block-couturier-page-hero-media
+//     ::before                           ← forme inclinée (couleur : `--page-hero-shape`)
+//     div.__frame (--focal) > img.__image
+//     div.__overlay > p.__eyebrow, p.__title, div.wp-block-buttons.__buttons (bouton
+//                                      « outline » à flèche, `block/_button.scss`)
+//
+// Maquettes : desktop 301:6152 / 301:6153 (image 429 × 492, rayon 32 ; forme
+// 424 × 473, rayon 34, tournée de 3,21°, décalée de 10 / 28 px, à 90 %) ; mobile
+// 608:1368 (image 294 × 347, rayon 22). Placement dans le héros (colonne de droite
+// en desktop) : `block/_page-hero.scss`.
+//
+// ⚠️ Texte blanc posé directement sur la photo, sans voile ni dégradé (maquette
+// appliquée, décision d'Aurélien du 2026-11-09) : contraste dépendant de l'image
+// (WCAG 1.4.3) — choisir une photo sombre dans sa partie basse.
+
+.wp-block-couturier-page-hero-media {
+    position: relative;
+    // La forme passe derrière l'image sans sortir du héros.
+    isolation: isolate;
+    width: calc(100% - var(--space-48));
+    margin-inline: auto;
+
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        border-radius: to-rem(34);
+        background-color: var(--page-hero-shape, var(--color-action-primary));
+        opacity: .9;
+        transform: translate(3.5%, 6%) rotate(3.21deg) scale(.98, .94);
+    }
+
+    @include media-breakpoint-up(lg) {
+        width: 100%;
+        margin-inline: 0;
+
+        &::before {
+            transform: translate(2.4%, 5.7%) rotate(3.21deg) scale(.99, .96);
+        }
+    }
+}
+
+.wp-block-couturier-page-hero-media__frame {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 429 / 492;
+    border-radius: to-rem(22);
+    background-color: var(--page-hero-bg, var(--color-surface-peach-soft));
+
+    @include media-breakpoint-up(lg) {
+        border-radius: to-rem(32);
+    }
+}
+
+.wp-block-couturier-page-hero-media__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--focal, 50% 50%);
+}
+
+// ─── Surimpression ────────────────────────────────────────────────────────────
+.wp-block-couturier-page-hero-media__overlay {
+    position: absolute;
+    inset: auto var(--space-20) var(--space-24);
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    color: var(--color-text-on-brand);
+
+    > * {
+        max-width: 100%;
+        margin: 0;
+    }
+
+    @include media-breakpoint-up(lg) {
+        // 40 / 53 px : marges de la maquette.
+        inset: auto to-rem(40) to-rem(53);
+    }
+}
+
+.wp-block-couturier-page-hero-media__eyebrow {
+    @include text-style(page-hero-media-eyebrow);
+}
+
+// Parties en gras (`<strong>`) ×1,25, comme la maquette (24 → 30 px).
+.wp-block-couturier-page-hero-media__title {
+    @include text-style(page-hero-media-title);
+
+    strong {
+        font-weight: 700;
+        font-size: 1.25em;
+    }
+}
+
+.wp-block-couturier-page-hero-media__buttons {
+    margin: var(--space-12) 0 0;
+}

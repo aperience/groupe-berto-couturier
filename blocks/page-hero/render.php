@@ -3,14 +3,18 @@
  * Rendu du bloc « Héros de page » (`couturier/page-hero`).
  *
  * Blocs imbriqués enregistrés : H1 (`core/heading`), texte (`core/paragraph`,
- * facultatif), boutons (`core/buttons`, facultatif). Rendu :
+ * facultatif), boutons (`core/buttons`, facultatif), visuel
+ * (`couturier/page-hero-media`). Rendu :
  *
- *   section.wp-block-couturier-page-hero.is-style-…
+ *   section.wp-block-couturier-page-hero.is-style-…[.has-media]
  *     div.__content
  *       nav.breadcrumb-trail      ← fil d'Ariane (Rank Math, `Theme\Support\Breadcrumb`)
  *       h1, p                     ← titre et texte
  *       p.__rating                ← avis (attributs), facultatif
  *       div.wp-block-buttons      ← boutons
+ *       div.wp-block-couturier-page-hero-media  ← visuel (colonne de droite en desktop)
+ *
+ * `has-media` : le visuel est rendu (il ne l'est pas sans image).
  *
  * Le H1 est obligatoire : vide, rien n'est rendu.
  *
@@ -31,6 +35,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 $couturier_page_hero_title   = '';
 $couturier_page_hero_text    = '';
 $couturier_page_hero_buttons = '';
+$couturier_page_hero_media   = '';
 
 foreach ( $block->inner_blocks as $couturier_page_hero_inner ) {
     $couturier_page_hero_html = $couturier_page_hero_inner->render();
@@ -41,6 +46,8 @@ foreach ( $block->inner_blocks as $couturier_page_hero_inner ) {
         $couturier_page_hero_text = $couturier_page_hero_html;
     } elseif ( 'core/buttons' === $couturier_page_hero_inner->name ) {
         $couturier_page_hero_buttons = $couturier_page_hero_html;
+    } elseif ( 'couturier/page-hero-media' === $couturier_page_hero_inner->name ) {
+        $couturier_page_hero_media = trim( $couturier_page_hero_html );
     }
 }
 
@@ -126,11 +133,12 @@ if ( ! empty( $attributes['showRating'] )
 }
 
 printf(
-    '<section %1$s><div class="wp-block-couturier-page-hero__content">%2$s%3$s%4$s%5$s%6$s</div></section>',
-    get_block_wrapper_attributes(), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
+    '<section %1$s><div class="wp-block-couturier-page-hero__content">%2$s%3$s%4$s%5$s%6$s%7$s</div></section>',
+    get_block_wrapper_attributes( [ 'class' => '' !== $couturier_page_hero_media ? 'has-media' : '' ] ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
     \Theme\Support\Breadcrumb::render(), // phpcs:ignore WordPress.Security.EscapeOutput -- gabarit Twig, échappement automatique.
     $couturier_page_hero_nbsp( $couturier_page_hero_title ), // phpcs:ignore WordPress.Security.EscapeOutput -- HTML des blocs imbriqués.
     $couturier_page_hero_nbsp( $couturier_page_hero_text ), // phpcs:ignore WordPress.Security.EscapeOutput -- HTML des blocs imbriqués.
     $couturier_page_hero_rating, // phpcs:ignore WordPress.Security.EscapeOutput -- échappé ci-dessus.
-    $couturier_page_hero_buttons // phpcs:ignore WordPress.Security.EscapeOutput -- HTML des blocs imbriqués.
+    $couturier_page_hero_buttons, // phpcs:ignore WordPress.Security.EscapeOutput -- HTML des blocs imbriqués.
+    $couturier_page_hero_media // phpcs:ignore WordPress.Security.EscapeOutput -- HTML du bloc imbriqué.
 );

@@ -1,0 +1,47 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/page-hero-media",
+	"title": "Visuel du héros",
+	"category": "design",
+	"icon": "format-image",
+	"description": "Visuel du héros de page : image facultative, forme inclinée, surtitre, titre et bouton posés sur l'image.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/page-hero" ],
+	"attributes": {
+		"imageId": {
+			"type": "number"
+		},
+		"focalPoint": {
+			"type": "object"
+		},
+		"eyebrow": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-page-hero-media__eyebrow",
+			"role": "content"
+		},
+		"title": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-page-hero-media__title",
+			"role": "content"
+		},
+		"buttonLabel": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-page-hero-media__button",
+			"role": "content"
+		},
+		"buttonLink": {
+			"type": "object"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false,
+		"inserter": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

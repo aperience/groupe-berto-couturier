@@ -23,3 +23,24 @@
 .editor-styles-wrapper .wp-block-couturier-page-hero__content > .wp-block {
     margin-inline: 0;
 }
+
+// Visuel : l'`ImageField` (image ou emplacement) remplit le cadre arrondi, dont il
+// reprend le rayon (jusqu'à l'emplacement) : le cadre de l'emplacement (ombre
+// intérieure du core) suit l'arrondi au lieu d'être coupé par le `overflow` du
+// cadre.
+.wp-block-couturier-page-hero-media__field {
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+
+    > .couturier-image-field__placeholder {
+        height: 100%;
+        border-radius: inherit;
+    }
+}
+
+// Visuel en cours d'édition : boutons « Remplacer » / « Supprimer » au-dessus de
+// la surimpression.
+.wp-block-couturier-page-hero-media__frame .couturier-image-field__actions {
+    z-index: 2;
+}
