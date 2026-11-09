@@ -1,0 +1,28 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/reassurance-item",
+	"title": "Atout",
+	"category": "design",
+	"icon": "yes-alt",
+	"description": "Un atout de réassurance : pictogramme (SVG de la médiathèque), titre H3 et court texte, chacun sur une ligne.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/reassurance" ],
+	"attributes": {
+		"iconId": {
+			"type": "number"
+		},
+		"text": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-reassurance-item__text",
+			"role": "content"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

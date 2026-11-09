@@ -1,0 +1,29 @@
+// ─── Bloc « Réassurance » (éditeur seulement) ─────────────────────────────────
+//
+// Emplacement d'un pictogramme non choisi (bouton « + » dans la pastille),
+// pictogramme cliquable pour le remplacer, avertissement d'un atout sans titre.
+// Ces éléments n'existent que dans le canvas.
+
+.wp-block-couturier-reassurance-item__choose.components-button,
+.wp-block-couturier-reassurance-item__replace.components-button {
+    justify-content: center;
+    width: 100%;
+    min-width: 0;
+    height: 100%;
+    padding: 0;
+    border-radius: inherit;
+    color: inherit;
+}
+
+.wp-block-couturier-reassurance-item__choose.components-button {
+    border: 1px dashed currentColor;
+
+    svg {
+        width: var(--space-24);
+        height: var(--space-24);
+    }
+}
+
+.wp-block-couturier-reassurance-item__notice {
+    margin-top: var(--space-8);
+}

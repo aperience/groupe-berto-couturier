@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-06T12:30:56+00:00\n"
+"POT-Creation-Date: 2026-11-09T08:26:25+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -42,6 +42,16 @@ msgstr ""
 msgid "Lire la suite"
 msgstr ""
 
+#: blocks/home-hero-card/render.php:89
+#: blocks/image-text-icon/render.php:57
+#: blocks/photo-card/render.php:66
+#: src/Features/CurrentOffer/CurrentOfferDashboard.php:78
+#: resources/views/partials/footer/bottom.twig:18
+#: resources/views/partials/footer/link.twig:14
+#: resources/views/partials/header/link.twig:16
+msgid "(nouvel onglet)"
+msgstr ""
+
 #: blocks/image-text-body/render.php:39
 #: blocks/reviews/render.php:89
 msgid "Plus"
@@ -50,15 +60,6 @@ msgstr ""
 #: blocks/image-text-body/render.php:40
 #: blocks/reviews/render.php:90
 msgid "Moins"
-msgstr ""
-
-#: blocks/image-text-icon/render.php:57
-#: blocks/photo-card/render.php:66
-#: src/Features/CurrentOffer/CurrentOfferDashboard.php:78
-#: resources/views/partials/footer/bottom.twig:18
-#: resources/views/partials/footer/link.twig:14
-#: resources/views/partials/header/link.twig:16
-msgid "(nouvel onglet)"
 msgstr ""
 
 #: blocks/photo-cards/render.php:49
@@ -173,8 +174,12 @@ msgstr ""
 msgid "Retire le réglage de lettrine des paragraphes dans l'éditeur."
 msgstr ""
 
+#: src/Features/Blocks/FrontPageOnlyBlocks.php:49
+msgid "Réserve le héros de l'accueil à la page d'accueil : il n'est proposé dans l'éditeur d'aucun autre contenu."
+msgstr ""
+
 #. translators: %s : niveaux autorisés, ex. « H2, H3 ».
-#: src/Features/Blocks/RestrictHeadingLevels.php:74
+#: src/Features/Blocks/RestrictHeadingLevels.php:82
 #, php-format
 msgid "Limite les niveaux de titre proposés dans l'éditeur à %s."
 msgstr ""
@@ -315,6 +320,8 @@ msgstr ""
 #: src/Features/Footer/FooterSettings.php:410
 #: src/Features/Navigation/MegaMenuFields.php:97
 #: blocks/cta/index.js:85
+#: blocks/home-hero-card/index.js:242
+#: blocks/home-hero/index.js:57
 #: blocks/icon-card/index.js:174
 msgid "Texte"
 msgstr ""
@@ -527,7 +534,8 @@ msgstr ""
 
 #: src/Features/Footer/FooterSettings.php:447
 #: src/Features/Footer/FooterSettings.php:520
-#: blocks/_shared/image-field.js:81
+#: blocks/reassurance-item/index.js:157
+#: blocks/_shared/image-field.js:107
 msgid "Supprimer"
 msgstr ""
 
@@ -540,6 +548,7 @@ msgid "Aucune image"
 msgstr ""
 
 #: src/Features/Footer/FooterSettings.php:496
+#: blocks/reassurance-item/index.js:153
 msgid "Choisir"
 msgstr ""
 
@@ -820,8 +829,129 @@ msgstr ""
 msgid "Ajouter un bouton"
 msgstr ""
 
+#: blocks/home-hero-card/index.js:65
+#: blocks/icon-card/title.js:13
+#: blocks/photo-card/title.js:13
+msgid "Titre de la carte"
+msgstr ""
+
+#: blocks/home-hero-card/index.js:142
+msgid "Modifier le lien du bouton"
+msgstr ""
+
+#: blocks/home-hero-card/index.js:142
+msgid "Ajouter un lien au bouton"
+msgstr ""
+
+#: blocks/home-hero-card/index.js:205
+msgid "Lien du bouton"
+msgstr ""
+
+#: blocks/home-hero-card/index.js:207
+msgid "Page vers laquelle mène le bouton. Sans lien ou sans libellé, le bouton n'est pas affiché."
+msgstr ""
+
+#: blocks/home-hero-card/index.js:219
+#: blocks/photo-card/index.js:238
+msgid "Sur-titre de la carte"
+msgstr ""
+
+#: blocks/home-hero-card/index.js:220
+#: blocks/photo-card/index.js:239
+msgid "Sur-titre"
+msgstr ""
+
+#: blocks/home-hero-card/index.js:234
+#: blocks/photo-card/index.js:220
+msgid "Photo"
+msgstr ""
+
+#: blocks/home-hero-card/index.js:241
+#: blocks/icon-card/index.js:173
+#: blocks/photo-card/index.js:249
+msgid "Texte de la carte"
+msgstr ""
+
+#: blocks/home-hero-card/index.js:250
+#: blocks/home-hero-card/index.js:251
+msgid "Libellé du bouton"
+msgstr ""
+
+#: blocks/home-hero-card/index.js:259
+#: blocks/icon-card/index.js:181
+#: blocks/photo-card/index.js:257
+msgid "Titre obligatoire : sans lui, cette carte n'est pas affichée sur le site."
+msgstr ""
+
+#: blocks/home-hero-card/index.js:264
+msgid "Pas de lien : le bouton n'est pas affiché (bouton « Lien » de la barre d'outils)."
+msgstr ""
+
+#: blocks/home-hero-card/index.js:277
+msgid "Choisir la photo du contact"
+msgstr ""
+
+#: blocks/home-hero-card/index.js:285
+msgid "Texte du contact"
+msgstr ""
+
+#: blocks/home-hero-card/index.js:286
+msgid "Une question ? Prénom vous aide… (contact facultatif, affiché en desktop)"
+msgstr ""
+
+#: blocks/home-hero-card/index.js:295
+msgid "Téléphone du contact"
+msgstr ""
+
+#: blocks/home-hero-card/index.js:296
+msgid "Téléphone"
+msgstr ""
+
+#: blocks/home-hero-card/index.js:305
+msgid "E-mail du contact"
+msgstr ""
+
+#: blocks/home-hero-card/index.js:306
+msgid "E-mail"
+msgstr ""
+
+#: blocks/home-hero/index.js:55
+msgid "Titre principal de la page (H1)"
+msgstr ""
+
+#: blocks/home-hero/index.js:56
+msgid "Accroche"
+msgstr ""
+
+#: blocks/home-hero/index.js:120
+#: blocks/home-hero/index.js:160
+msgid "Image de fond"
+msgstr ""
+
+#: blocks/home-hero/index.js:123
+#: blocks/_shared/image-field.js:137
+msgid "L'image choisie n'existe plus dans la médiathèque."
+msgstr ""
+
+#: blocks/home-hero/index.js:129
+msgid "Point focal"
+msgstr ""
+
+#: blocks/home-hero/index.js:130
+msgid "Partie de l'image toujours visible, quel que soit le recadrage (mobile, desktop). Image décorative : son texte alternatif n'est pas lu."
+msgstr ""
+
+#: blocks/home-hero/index.js:136
+msgid "Choisissez l'image dans le bloc."
+msgstr ""
+
+#: blocks/home-hero/index.js:166
+msgid "Le titre principal (H1) est obligatoire : sans lui, ce bloc n'est pas affiché sur le site."
+msgstr ""
+
 #: blocks/icon-card/index.js:123
 #: blocks/icon-card/index.js:129
+#: blocks/reassurance-item/index.js:120
 msgid "Remplacer le pictogramme"
 msgstr ""
 
@@ -830,11 +960,13 @@ msgid "Supprimer le pictogramme"
 msgstr ""
 
 #: blocks/icon-card/index.js:151
+#: blocks/reassurance-item/index.js:135
 msgid "Choisir un pictogramme (SVG de préférence)"
 msgstr ""
 
 #: blocks/icon-card/index.js:162
 #: blocks/image-text-icon/index.js:96
+#: blocks/reassurance-item/index.js:146
 msgid "Pictogramme"
 msgstr ""
 
@@ -842,23 +974,8 @@ msgstr ""
 msgid "Le pictogramme est peint en pétrole quelles que soient ses couleurs d'origine. Il est décoratif : son texte alternatif n'est pas utilisé."
 msgstr ""
 
-#: blocks/icon-card/index.js:173
-#: blocks/photo-card/index.js:243
-msgid "Texte de la carte"
-msgstr ""
-
-#: blocks/icon-card/index.js:181
-#: blocks/photo-card/index.js:251
-msgid "Titre obligatoire : sans lui, cette carte n'est pas affichée sur le site."
-msgstr ""
-
-#: blocks/icon-card/title.js:13
-#: blocks/photo-card/title.js:13
-msgid "Titre de la carte"
-msgstr ""
-
 #: blocks/icon-cards/index.js:70
-#: blocks/photo-cards/index.js:86
+#: blocks/photo-cards/index.js:154
 msgid "Ajouter une carte"
 msgstr ""
 
@@ -895,8 +1012,8 @@ msgid "Titre (facultatif)"
 msgstr ""
 
 #: blocks/image-text/index.js:145
-#: blocks/_shared/image-field.js:52
-#: blocks/_shared/image-field.js:108
+#: blocks/_shared/image-field.js:78
+#: blocks/_shared/image-field.js:134
 msgid "Image"
 msgstr ""
 
@@ -964,52 +1081,69 @@ msgstr ""
 msgid "Toute la carte mène à cette page. Sans lien, la carte s'affiche mais n'est pas cliquable."
 msgstr ""
 
-#: blocks/photo-card/index.js:214
-msgid "Photo"
-msgstr ""
-
-#: blocks/photo-card/index.js:221
+#: blocks/photo-card/index.js:227
 msgid "Libellé du badge"
 msgstr ""
 
-#: blocks/photo-card/index.js:232
-msgid "Sur-titre de la carte"
-msgstr ""
-
-#: blocks/photo-card/index.js:233
-msgid "Sur-titre"
-msgstr ""
-
-#: blocks/photo-card/index.js:244
+#: blocks/photo-card/index.js:250
 msgid "Texte court"
 msgstr ""
 
-#: blocks/photo-card/index.js:255
+#: blocks/photo-card/index.js:261
 msgid "Pas de lien : carte non cliquable."
 msgstr ""
 
-#: blocks/photo-cards/index.js:96
+#: blocks/photo-cards/index.js:164
 msgid "Cartes"
 msgstr ""
 
-#: blocks/photo-cards/index.js:101
+#: blocks/photo-cards/index.js:169
 msgid "Taille des cartes"
 msgstr ""
 
-#: blocks/photo-cards/index.js:104
+#: blocks/photo-cards/index.js:172
 msgid "Grandes cartes : 4 par ligne en desktop, flèches au-delà."
 msgstr ""
 
-#: blocks/photo-cards/index.js:105
+#: blocks/photo-cards/index.js:173
 msgid "Petites cartes : 5 par ligne en desktop, flèches au-delà."
 msgstr ""
 
-#: blocks/photo-cards/index.js:110
+#: blocks/photo-cards/index.js:178
 msgid "Petites"
 msgstr ""
 
-#: blocks/photo-cards/index.js:111
+#: blocks/photo-cards/index.js:179
 msgid "Grandes"
+msgstr ""
+
+#: blocks/reassurance-item/index.js:148
+msgid "Le pictogramme est peint en pétrole foncé quelles que soient ses couleurs d'origine. Il est décoratif : son texte alternatif n'est pas utilisé. La couleur de la pastille alterne d'un atout à l'autre."
+msgstr ""
+
+#: blocks/reassurance-item/index.js:153
+#: blocks/_shared/image-field.js:101
+msgid "Remplacer"
+msgstr ""
+
+#: blocks/reassurance-item/index.js:170
+msgid "Texte de l'atout"
+msgstr ""
+
+#: blocks/reassurance-item/index.js:171
+msgid "Court texte"
+msgstr ""
+
+#: blocks/reassurance-item/index.js:179
+msgid "Titre obligatoire : sans lui, cet atout n'est pas affiché sur le site."
+msgstr ""
+
+#: blocks/reassurance-item/title.js:13
+msgid "Titre de l'atout"
+msgstr ""
+
+#: blocks/reassurance/index.js:70
+msgid "Ajouter un atout"
 msgstr ""
 
 #: blocks/reviews/index.js:67
@@ -1125,23 +1259,19 @@ msgstr ""
 msgid "Mise en avant"
 msgstr ""
 
-#: blocks/_shared/image-field.js:53
+#: blocks/_shared/image-field.js:60
+msgid "Choisir une image"
+msgstr ""
+
+#: blocks/_shared/image-field.js:79
 msgid "Téléversez une image, choisissez-la dans la médiathèque ou déposez-la ici."
 msgstr ""
 
-#: blocks/_shared/image-field.js:75
-msgid "Remplacer"
-msgstr ""
-
-#: blocks/_shared/image-field.js:111
-msgid "L'image choisie n'existe plus dans la médiathèque."
-msgstr ""
-
-#: blocks/_shared/image-field.js:115
+#: blocks/_shared/image-field.js:141
 msgid "Texte alternatif :"
 msgstr ""
 
-#: blocks/_shared/image-field.js:118
+#: blocks/_shared/image-field.js:144
 msgid "Sans texte alternatif dans la médiathèque : l'image sera considérée comme décorative."
 msgstr ""
 
@@ -1291,6 +1421,61 @@ msgctxt "block keyword"
 msgid "accordéon"
 msgstr ""
 
+#: blocks/home-hero-card/block.json
+msgctxt "block title"
+msgid "Carte univers"
+msgstr ""
+
+#: blocks/home-hero-card/block.json
+msgctxt "block description"
+msgid "Carte du héros de l'accueil : sur-titre, photo, titre H3, texte, bouton vers la rubrique et encart contact (desktop)."
+msgstr ""
+
+#: blocks/home-hero-card/block.json
+msgctxt "block style label"
+msgid "Pêche"
+msgstr ""
+
+#: blocks/home-hero-card/block.json
+msgctxt "block style label"
+msgid "Pétrole"
+msgstr ""
+
+#: blocks/home-hero/block.json
+msgctxt "block title"
+msgid "Héros de l'accueil"
+msgstr ""
+
+#: blocks/home-hero/block.json
+msgctxt "block description"
+msgid "En-tête de la page d'accueil : image de fond, titre principal de la page (H1), accroche (H2), texte et deux cartes (auto-école, formation pro)."
+msgstr ""
+
+#: blocks/home-hero/block.json
+msgctxt "block keyword"
+msgid "héros"
+msgstr ""
+
+#: blocks/home-hero/block.json
+msgctxt "block keyword"
+msgid "hero"
+msgstr ""
+
+#: blocks/home-hero/block.json
+msgctxt "block keyword"
+msgid "accueil"
+msgstr ""
+
+#: blocks/home-hero/block.json
+msgctxt "block keyword"
+msgid "bannière"
+msgstr ""
+
+#: blocks/home-hero/block.json
+msgctxt "block keyword"
+msgid "h1"
+msgstr ""
+
 #: blocks/icon-card/block.json
 msgctxt "block title"
 msgid "Carte à pictogramme"
@@ -1317,16 +1502,19 @@ msgid "valeurs"
 msgstr ""
 
 #: blocks/icon-cards/block.json
+#: blocks/reassurance/block.json
 msgctxt "block keyword"
 msgid "atouts"
 msgstr ""
 
 #: blocks/icon-cards/block.json
+#: blocks/reassurance/block.json
 msgctxt "block keyword"
 msgid "engagements"
 msgstr ""
 
 #: blocks/icon-cards/block.json
+#: blocks/reassurance/block.json
 msgctxt "block keyword"
 msgid "points forts"
 msgstr ""
@@ -1450,6 +1638,36 @@ msgstr ""
 #: blocks/reviews/block.json
 msgctxt "block style label"
 msgid "Pétrole clair"
+msgstr ""
+
+#: blocks/reassurance-item/block.json
+msgctxt "block title"
+msgid "Atout"
+msgstr ""
+
+#: blocks/reassurance-item/block.json
+msgctxt "block description"
+msgid "Un atout de réassurance : pictogramme (SVG de la médiathèque), titre H3 et court texte, chacun sur une ligne."
+msgstr ""
+
+#: blocks/reassurance/block.json
+msgctxt "block title"
+msgid "Réassurance"
+msgstr ""
+
+#: blocks/reassurance/block.json
+msgctxt "block description"
+msgid "Atouts de réassurance (pictogramme, titre et court texte) : jusqu'à quatre par ligne en desktop, une ligne incomplète répartie sur la largeur."
+msgstr ""
+
+#: blocks/reassurance/block.json
+msgctxt "block keyword"
+msgid "garanties"
+msgstr ""
+
+#: blocks/reassurance/block.json
+msgctxt "block keyword"
+msgid "pictogrammes"
 msgstr ""
 
 #: blocks/reviews/block.json

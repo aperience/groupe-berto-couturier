@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/reassurance",
+	"title": "Réassurance",
+	"category": "design",
+	"icon": "awards",
+	"description": "Atouts de réassurance (pictogramme, titre et court texte) : jusqu'à quatre par ligne en desktop, une ligne incomplète répartie sur la largeur.",
+	"keywords": [ "atouts", "engagements", "points forts", "garanties", "pictogrammes" ],
+	"textdomain": "couturier",
+	"allowedBlocks": [ "couturier/reassurance-item" ],
+	"supports": {
+		"html": false
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"innerBlocks": [
+			{
+				"name": "couturier/reassurance-item",
+				"attributes": { "iconId": -1, "text": "Une histoire de transmission" },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Depuis 1963" } } ]
+			},
+			{
+				"name": "couturier/reassurance-item",
+				"attributes": { "iconId": -2, "text": "Un même engagement" },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "2 expertises" } } ]
+			},
+			{
+				"name": "couturier/reassurance-item",
+				"attributes": { "iconId": -3, "text": "Votre projet, notre priorité" },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "100 % humain" } } ]
+			},
+			{
+				"name": "couturier/reassurance-item",
+				"attributes": { "iconId": -4, "text": "Tout pour apprendre sur place" },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Au cœur de Dreux" } } ]
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
