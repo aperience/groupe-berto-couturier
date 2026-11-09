@@ -1,0 +1,25 @@
+// ─── Bloc « Héros de page » : canvas de l'éditeur ─────────────────────────────
+//
+// Pleine largeur en mobile, comme sur le front : le canvas pose
+// `margin-inline: auto` sur les blocs de premier niveau, plus spécifique que la
+// règle du bloc (`block/_page-hero.scss`).
+
+.editor-styles-wrapper .is-root-container > .wp-block-couturier-page-hero {
+    margin-inline: calc(-1 * var(--page-gutter, 0px));
+
+    @include media-breakpoint-up(lg) {
+        margin-inline: 0;
+    }
+}
+
+// Avertissement « H1 obligatoire » : en tête, pleine largeur.
+.wp-block-couturier-page-hero__notice {
+    align-self: stretch;
+}
+
+// Blocs imbriqués calés à gauche, comme sur le front : le canvas centre les
+// blocs (`.editor-styles-wrapper :where(…) > .wp-block { margin-inline: auto }`,
+// 0,2,0), ce qui centrait les boutons.
+.editor-styles-wrapper .wp-block-couturier-page-hero__content > .wp-block {
+    margin-inline: 0;
+}

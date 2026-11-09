@@ -41,3 +41,17 @@ body {
         margin-top: calc(var(--header-bar-top, 0px) + #{to-rem(30)} - var(--header-height, #{to-rem(30)}));
     }
 }
+
+// Héros de page en tête de page : en mobile, son fond remonte derrière l'en-tête
+// collant jusqu'en haut de la fenêtre (maquettes 596:1342…), contenu décalé
+// d'autant ; en desktop (`lg`), encadré à 22 px sous l'en-tête (301:6147). Sans
+// JS, le héros reste sous l'en-tête.
+#main .wp-block-couturier-page-hero:first-child {
+    margin-top: calc(-1 * var(--header-height, 0px));
+    padding-top: calc(var(--header-height, 0px) + var(--space-24));
+
+    @include media-breakpoint-up(lg) {
+        margin-top: to-rem(22);
+        padding-top: var(--space-48);
+    }
+}

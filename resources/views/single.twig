@@ -4,7 +4,10 @@
 {% block content %}
     <article class="{{ post.class }}">
         <div class="container">
-            <h1>{{ post.title }}</h1>
+            {# Le <h1> du billet est celui du héros de page s'il en a un ; sinon, le titre. #}
+            {% if not function('has_block', 'couturier/page-hero', post.id) %}
+                <h1>{{ post.title }}</h1>
+            {% endif %}
             <div class="entry-content">
                 {{ post.content|raw }}
             </div>

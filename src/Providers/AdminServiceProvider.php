@@ -40,7 +40,7 @@ use Theme\Features\Blocks\BlockLoader;
 use Theme\Features\Blocks\AttachedBlocks;
 use Theme\Features\Blocks\ButtonStyles;
 use Theme\Features\Blocks\DisableDropCap;
-use Theme\Features\Blocks\FrontPageOnlyBlocks;
+use Theme\Features\Blocks\PageScopedBlocks;
 use Theme\Features\Blocks\RestrictHeadingLevels;
 use Theme\Features\Contacts\ContactEditorData;
 use Theme\Features\Contacts\ContactMetaBox;
@@ -94,12 +94,17 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new DisablePostByEmail(),
             new RestrictHeadingLevels(
                 $context,
-                // Le héros de l'accueil porte le <h1> de la page (titre imbriqué niveau 1).
-                exempt_parents: [ $context->block_namespace . '/home-hero' ],
+                // Les héros (accueil, pages) portent le <h1> de la page (titre imbriqué niveau 1).
+                exempt_parents: [
+                    $context->block_namespace . '/home-hero',
+                    $context->block_namespace . '/page-hero',
+                ],
             ),
-            // Le héros (et son <h1>) n'est proposé que dans la page d'accueil.
-            new FrontPageOnlyBlocks(
-                blocks: [ $context->block_namespace . '/home-hero' ],
+            // Héros (et leur <h1>) : celui de l'accueil dans la page d'accueil seule,
+            // celui des pages partout ailleurs.
+            new PageScopedBlocks(
+                front_page_only: [ $context->block_namespace . '/home-hero' ],
+                not_on_front_page: [ $context->block_namespace . '/page-hero' ],
             ),
             new ButtonStyles($context),
             new AttachedBlocks($context),

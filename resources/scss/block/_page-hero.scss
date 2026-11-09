@@ -1,0 +1,180 @@
+// ─── Bloc « Héros de page » (couturier/page-hero) ─────────────────────────────
+//
+// Balisage (front : `render.php` ; éditeur : `blocks/page-hero/index.js`, mêmes
+// classes) :
+//
+//   section.wp-block-couturier-page-hero.is-style-{default|pink|petrol}
+//     div.__content
+//       nav.breadcrumb-trail       ← fil d'Ariane (`block/_breadcrumb.scss`)
+//       h1 (.wp-block-couturier-cta__highlight : mise en avant)
+//       p                          ← texte
+//       p.__rating                 ← span.__stars (--rating), span.__score, nombre d'avis
+//       div.wp-block-buttons
+//
+// Maquettes Figma : desktop 301:6148, 301:6425, 301:6948, 301:7208 ; mobile
+// 596:1342, 598:1342, 605:1350, 608:1354.
+// - Mobile (sous `lg`) : fond pleine largeur, coins bas arrondis (28 px), remonte
+//   derrière l'en-tête collant quand le héros est le premier bloc
+//   (`partials/_layout.scss`) ; éléments empilés à 12 px.
+// - Desktop (`lg`) : encadré arrondi (40 px) à la largeur du container, sous
+//   l'en-tête.
+// Fonds (styles de bloc) : Pêche (défaut, pêche 300), Rose clair (orange 100),
+// Pétrole clair (pétrole 100).
+//
+// Dans l'éditeur, les avis (aperçu) suivent les blocs imbriqués dans le DOM : ils
+// sont replacés avant les boutons par `order`, sans effet sur le front (même ordre).
+
+.wp-block-couturier-page-hero {
+    --page-hero-bg: var(--color-surface-peach-soft);
+
+    position: relative;
+    margin-block: var(--layout-section-gap);
+    // Pleine largeur de la fenêtre en mobile : sort de la marge du container
+    // (`--page-gutter`, cf. le héros de l'accueil).
+    margin-inline: calc(-1 * var(--page-gutter, 0px));
+    padding: var(--space-24) var(--space-16);
+    border-radius: 0 0 var(--bs-border-radius-lg) var(--bs-border-radius-lg);
+    background-color: var(--page-hero-bg);
+    color: var(--color-text-default);
+
+    &.is-style-pink {
+        --page-hero-bg: var(--color-surface-accent-soft);
+    }
+
+    &.is-style-petrol {
+        --page-hero-bg: var(--color-surface-petrol-soft);
+    }
+
+    @include media-breakpoint-up(lg) {
+        margin-inline: 0;
+        // 63 px : marge intérieure de la maquette, hors de l'échelle des espacements.
+        padding: var(--space-48) to-rem(63) var(--space-64);
+        border-radius: var(--bs-border-radius-xl);
+    }
+}
+
+// ─── Contenu ──────────────────────────────────────────────────────────────────
+// Dans l'éditeur, les blocs imbriqués reçoivent les marges par défaut du canvas
+// (`html :where(.wp-block)`) : toutes les marges sont posées ici, par l'écart.
+.wp-block-couturier-page-hero__content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-12);
+    // Sans image : largeur de lecture.
+    max-width: to-rem(760);
+
+    > * {
+        max-width: 100%;
+        margin: 0;
+    }
+
+    > h1 {
+        @include text-style(page-hero-title);
+        color: var(--color-text-heading);
+    }
+
+    > p:not([class*="__"]) {
+        @include text-style(page-hero-text);
+    }
+
+    // Avis puis boutons (cf. en-tête).
+    > .wp-block-couturier-page-hero__rating {
+        order: 1;
+    }
+
+    > .wp-block-buttons,
+    > .wp-block-couturier-page-hero__add-buttons {
+        order: 2;
+    }
+
+    > .wp-block-buttons {
+        gap: var(--space-10);
+    }
+
+    @include media-breakpoint-up(lg) {
+        gap: var(--space-16);
+
+        > .breadcrumb-trail {
+            margin-bottom: var(--space-4);
+        }
+
+        > .wp-block-couturier-page-hero__rating {
+            margin-top: var(--space-8);
+        }
+
+        > .wp-block-buttons {
+            gap: var(--space-8);
+            margin-top: var(--space-16);
+        }
+    }
+}
+
+// Mise en avant du H1 : orange 700 (3,93:1 sur pêche, 4,31:1 sur rose, 4,08:1 sur
+// pétrole clair — texte de grande taille, ≥ 3:1).
+.wp-block-couturier-page-hero__content > h1 .wp-block-couturier-cta__highlight {
+    color: var(--color-text-accent);
+}
+
+// ─── Avis ─────────────────────────────────────────────────────────────────────
+// Mobile (608:1358) : Small, tout en couleur de texte. Desktop (301:6952) : 14 px,
+// étoiles de 16 px en orange 700, note en gras pétrole 500.
+.wp-block-couturier-page-hero__rating {
+    @include text-style(small);
+
+    @include media-breakpoint-up(lg) {
+        font-size: to-rem(14);
+        line-height: normal;
+    }
+}
+
+.wp-block-couturier-page-hero__rating-link {
+    color: inherit;
+    text-decoration: none;
+
+    &:hover,
+    &:focus-visible {
+        text-decoration: underline;
+    }
+}
+
+// Cinq étoiles (`icons/star.svg` en masque, répétée) : fond atténué, puis la part
+// remplie selon la note (`--rating`, 0 à 5).
+.wp-block-couturier-page-hero__stars {
+    position: relative;
+    display: inline-block;
+    width: 5em;
+    height: 1em;
+    vertical-align: -0.125em;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 5em;
+        background-color: currentColor;
+        // noinspection CssUnknownTarget
+        mask: url("../images/icons/star.svg") 0 0 / 1em 1em repeat-x;
+    }
+
+    &::before {
+        opacity: .25;
+    }
+
+    &::after {
+        width: calc(var(--rating, 5) * 1em);
+    }
+
+    @include media-breakpoint-up(lg) {
+        font-size: to-rem(16);
+        color: var(--color-text-accent);
+    }
+}
+
+.wp-block-couturier-page-hero__score {
+    @include media-breakpoint-up(lg) {
+        font-weight: 700;
+        color: var(--color-text-heading);
+    }
+}
