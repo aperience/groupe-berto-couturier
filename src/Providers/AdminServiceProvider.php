@@ -39,6 +39,7 @@ use Theme\Features\Blocks\BlockImageSizes;
 use Theme\Features\Blocks\BlockLoader;
 use Theme\Features\Blocks\AttachedBlocks;
 use Theme\Features\Blocks\ButtonStyles;
+use Theme\Features\Blocks\DisableCorePatterns;
 use Theme\Features\Blocks\DisableDropCap;
 use Theme\Features\Blocks\PageScopedBlocks;
 use Theme\Features\Blocks\RestrictHeadingLevels;
@@ -91,6 +92,7 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new DisableLoginPrivacyPolicyLink(),
             new DisableNativeBlockSupports(),
             new DisableDropCap(),
+            new DisableCorePatterns(),
             new DisablePostByEmail(),
             new RestrictHeadingLevels(
                 $context,
