@@ -1,0 +1,42 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/steps",
+	"title": "Étapes",
+	"category": "design",
+	"icon": "editor-ol",
+	"description": "Liste d'étapes numérotées automatiquement : titre et texte, pastille colorée (série de quatre couleurs qui recommence).",
+	"keywords": [ "étapes", "processus", "parcours", "déroulé", "numéros" ],
+	"textdomain": "couturier",
+	"allowedBlocks": [ "couturier/step" ],
+	"supports": {
+		"html": false
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"innerBlocks": [
+			{
+				"name": "couturier/step",
+				"attributes": { "text": "Vous choisissez votre formation." },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Inscription" } } ]
+			},
+			{
+				"name": "couturier/step",
+				"attributes": { "text": "Un <a href=\"#\">test de niveau</a> pour trouver la bonne formule." },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Évaluation" } } ]
+			},
+			{
+				"name": "couturier/step",
+				"attributes": { "text": "Code puis conduite, au centre ou à votre rythme." },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Formation" } } ]
+			},
+			{
+				"name": "couturier/step",
+				"attributes": { "text": "Place d’examen et accompagnement le jour J." },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Examen blanc" } } ]
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

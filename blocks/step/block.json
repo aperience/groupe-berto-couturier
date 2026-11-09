@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/step",
+	"title": "Étape",
+	"category": "design",
+	"icon": "marker",
+	"description": "Une étape : pastille numérotée automatiquement, titre H3 et texte.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/steps" ],
+	"attributes": {
+		"text": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-step__text",
+			"role": "content"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

@@ -1,0 +1,122 @@
+// ─── Bloc « Étapes » (couturier/steps, couturier/step) ───────────────────────
+//
+// Balisage (front : `render.php` ; éditeur : `index.js`) :
+//
+//   ol.wp-block-couturier-steps
+//     li.wp-block-couturier-step       ← carte grise ; ::before = pastille numérotée
+//       h3                             ← titre (`core/heading`)
+//       p.__text                       ← texte
+//
+// Numéro : compteur CSS (`counter-increment` sur les étapes seulement, pas sur
+// le bouton d'ajout de l'éditeur). Couleur de pastille : série de quatre qui
+// recommence (`4n+1` … `4n+4`). La pastille est décorative pour les aides
+// techniques : la liste ordonnée annonce déjà la position.
+//
+// Maquette (Figma 301:6241 → 301:6256) : cartes #f6f6f6, rayon 28, écart 16 px
+// en desktop ; pastille 44 px ; 16 px pastille → titre, 6 px titre → texte.
+// Mobile : cartes empilées, 12 px entre elles.
+
+$steps-gap: var(--space-12);
+$steps-gap-desktop: var(--space-16);
+
+.wp-block-couturier-steps {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $steps-gap;
+    margin-block: var(--layout-section-gap);
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+
+    @include media-breakpoint-up(md) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: $steps-gap-desktop;
+    }
+
+    @include media-breakpoint-up(lg) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    // Éditeur : « Ajouter une étape », dans l'enveloppe que le core pose en
+    // `position: absolute` : remis dans le flux, sur sa propre ligne.
+    > .block-list-appender,
+    > .wp-block-couturier-steps__add {
+        position: static;
+        grid-column: 1 / -1;
+        list-style: none;
+    }
+}
+
+// Éditeur : annule le centrage des blocs du canvas (cf. `_icon-cards.scss`).
+.wp-block-couturier-steps > .wp-block.wp-block,
+.wp-block-couturier-step > .wp-block.wp-block {
+    margin-inline: 0;
+}
+
+// ─── Étape ────────────────────────────────────────────────────────────────────
+.wp-block-couturier-step {
+    --step-badge-bg: var(--color-surface-peach);
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    margin: 0;
+    padding: var(--space-24) var(--space-32) var(--space-32);
+    border-radius: var(--bs-border-radius-lg);
+    background-color: var(--color-surface-muted);
+    counter-increment: step;
+
+    &:nth-child(4n + 2) { --step-badge-bg: var(--color-surface-petrol-muted); }
+    &:nth-child(4n + 3) { --step-badge-bg: var(--color-surface-peach-soft); }
+    &:nth-child(4n + 4) { --step-badge-bg: var(--color-surface-petrol-soft); }
+
+    &::before {
+        @include text-style(step-number);
+        content: counter(step) / "";
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        margin-bottom: var(--space-16);
+        border-radius: var(--bs-border-radius-pill);
+        background-color: var(--step-badge-bg);
+        color: var(--color-text-heading);
+    }
+
+    > * {
+        margin: 0;
+    }
+
+    > h3 {
+        @include text-style(step-title);
+        color: var(--color-text-heading);
+    }
+
+    > h3 + * {
+        margin-top: var(--space-6);
+    }
+}
+
+.wp-block-couturier-step__text {
+    @include text-style(step-text);
+    color: var(--color-text-default);
+
+    a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: .15em;
+
+        &:hover {
+            text-decoration-thickness: 2px;
+        }
+
+        &:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
+            border-radius: 2px;
+        }
+    }
+}

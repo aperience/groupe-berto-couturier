@@ -80,6 +80,7 @@ $ds-semantic-colors: (
     surface-peach:       (peach, 500),
     surface-peach-soft:  (peach, 300),
     surface-peach-faint: (peach, 100),
+    surface-petrol-muted:(petrol, 200), // Pastille de la 2e étape (bloc Étapes)
     surface-petrol-soft: (petrol, 100),
     surface-petrol-faint:(petrol, 50),
     surface-muted:       (neutral, 50), // Questions de la FAQ, ouvertes ou fermées
@@ -207,6 +208,11 @@ $ds-text-styles: (
     photo-card-eyebrow: (family: body, weight: 700, size: (12, 12), line: (15, 15)),
     photo-card-title:   (family: body, weight: 700, size: (18, 18), line: (21.5, 21.5)),
     photo-card-text:    (family: body, weight: 400, size: (13, 13), line: (20, 20)),
+
+    // Bloc « Étapes » (Figma 301:6241)
+    step-number: (family: heading, weight: 700, size: (20, 20), line: (25, 25)),
+    step-title:  (family: body,    weight: 700, size: (18, 18), line: (23, 23)),
+    step-text:   (family: body,    weight: 400, size: (13.5, 13.5), line: (21.5, 21.5)),
     // Bloc « Héros de page » (Figma 301:6950, 608:1356) : H1 en Black (900),
     // interlettrage −0,5 px ; texte de 14 px en mobile, 17,5 px en desktop.
     page-hero-title: (family: heading, weight: 900, size: (34, 46), line: (38, 49), tracking: -0.5),
