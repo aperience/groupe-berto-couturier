@@ -3,10 +3,10 @@
 // Balisage (front : `render.php` ; éditeur : `index.js`) :
 //
 //   ul.wp-block-couturier-reassurance
-//     li.wp-block-couturier-reassurance-item     ← atout (carte blanche)
+//     li.wp-block-couturier-reassurance-item(.has-link) ← atout (carte blanche)
 //       span.__badge > span.__icon               ← pastille, pictogramme en masque
 //       div.__body
-//         h3                                     ← titre (`core/heading`)
+//         h3 (> a.__link)                        ← titre ; lien étendu à l'atout (::after)
 //         p.__text                               ← court texte
 //
 // Mobile : un atout par ligne. `md` : deux par ligne ; `lg` : quatre. Une ligne
@@ -61,6 +61,7 @@ $reassurance-gap-lg: var(--space-8);
 
 // ─── Atout ────────────────────────────────────────────────────────────────────
 .wp-block-couturier-reassurance-item {
+    position: relative;
     display: flex;
     flex: 0 1 100%;
     align-items: flex-start;
@@ -127,4 +128,36 @@ $reassurance-gap-lg: var(--space-8);
 .wp-block-couturier-reassurance-item__text {
     @include text-style(body);
     color: var(--color-text-default);
+}
+
+// ─── Lien étendu à l'atout ────────────────────────────────────────────────────
+// Même principe que les cartes photo (`_photo-cards.scss`) : le texte du titre
+// est le lien, son `::after` couvre l'atout (positionné) — une seule cible,
+// nommée par le titre. Contour de focus porté par ce calque, aux coins de
+// l'atout (pétrole, 8,5:1 sur blanc). Au survol, titre souligné, sans ombre.
+.wp-block-couturier-reassurance-item__link {
+    color: inherit;
+    text-decoration: none;
+
+    &::after {
+        content: "";
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        border-radius: var(--bs-border-radius-lg);
+    }
+
+    &:focus-visible {
+        outline: none;
+
+        &::after {
+            outline: 2px solid var(--color-text-heading);
+            outline-offset: 3px;
+        }
+    }
+}
+
+.wp-block-couturier-reassurance-item.has-link:is(:hover, :focus-within) .wp-block-couturier-reassurance-item__link {
+    text-decoration: underline;
+    text-underline-offset: .15em;
 }

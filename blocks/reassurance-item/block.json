@@ -5,12 +5,15 @@
 	"title": "Atout",
 	"category": "design",
 	"icon": "yes-alt",
-	"description": "Un atout de réassurance : pictogramme (SVG de la médiathèque), titre H3 et court texte, chacun sur une ligne.",
+	"description": "Un atout de réassurance : pictogramme (SVG de la médiathèque), titre H3 et court texte, chacun sur une ligne ; lien facultatif.",
 	"textdomain": "couturier",
 	"parent": [ "couturier/reassurance" ],
 	"attributes": {
 		"iconId": {
 			"type": "number"
+		},
+		"link": {
+			"type": "object"
 		},
 		"text": {
 			"type": "string",

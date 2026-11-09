@@ -9,7 +9,11 @@
  * - le titre est un `core/heading` imbriqué, toujours un `<h3>` : seul bloc que
  *   lit le panneau Structure. Verrouillé, sans format ;
  * - le texte est un attribut (`text`), écrit après le titre dans le HTML
- *   enregistré : le compteur de mots le lit. Une ligne, sans format.
+ *   enregistré : le compteur de mots le lit. Une ligne, sans format ;
+ * - le lien facultatif (`link`) est la valeur du `LinkControl` natif (contenu
+ *   cherché ou URL, nouvel onglet) ; `render.php` en fait un lien sur le titre,
+ *   étendu à tout l'atout. Bouton « Lien » dans la barre d'outils de l'atout et
+ *   de son titre, et panneau « Lien » de la barre latérale.
  *
  * Aperçu de l'inserteur : `iconId` négatif, cf. `example-icons.js`.
  *
@@ -18,8 +22,10 @@
  */
 import { registerBlockType } from '@wordpress/blocks';
 import {
+	BlockControls,
 	InnerBlocks,
 	InspectorControls,
+	LinkControl,
 	MediaUpload,
 	MediaUploadCheck,
 	RichText,
@@ -27,13 +33,16 @@ import {
 	useBlockProps,
 	useInnerBlocksProps,
 } from '@wordpress/block-editor';
-import { Button, Flex, Notice, PanelBody } from '@wordpress/components';
+import { Button, Flex, Notice, PanelBody, Popover, ToolbarButton, ToolbarGroup } from '@wordpress/components';
+import { createHigherOrderComponent } from '@wordpress/compose';
 import { store as coreStore } from '@wordpress/core-data';
-import { useSelect } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
+import { useState } from '@wordpress/element';
+import { addFilter } from '@wordpress/hooks';
 import { __ } from '@wordpress/i18n';
 
 import { HEADING_FORMATS_OFF, restrictFormats } from '../_shared/formats.js';
-import { plus, replace, trash } from '../_shared/icons.js';
+import { link as linkIcon, plus, replace, trash } from '../_shared/icons.js';
 import {
 	hideLockedControls,
 	nonBreaking,
@@ -53,6 +62,67 @@ const ICON_TYPES = [ 'image/svg+xml', 'image/png' ];
 const TITLE_BLOCKS = [ 'core/heading' ];
 
 const ROOT = 'couturier/reassurance';
+
+/** Valeur du `LinkControl` réduite à ce que `render.php` utilise. */
+const toLink = ( value ) =>
+	value?.url
+		? {
+				url: value.url,
+				id: value.id,
+				kind: value.kind,
+				type: value.type,
+				opensInNewTab: !! value.opensInNewTab,
+		  }
+		: undefined;
+
+/**
+ * Lien de l'atout `itemId` : choix d'un contenu ou d'une URL, nouvel onglet,
+ * retrait. Partagé par le bouton de la barre d'outils et la barre latérale.
+ */
+function ItemLinkControl( { itemId, onClose } ) {
+	const link = useSelect( ( select ) => select( blockEditorStore ).getBlockAttributes( itemId )?.link, [ itemId ] );
+	const { updateBlockAttributes } = useDispatch( blockEditorStore );
+
+	return (
+		<LinkControl
+			value={ link }
+			forceIsEditingLink={ ! link?.url }
+			onChange={ ( value ) => updateBlockAttributes( itemId, { link: toLink( value ) } ) }
+			onRemove={ () => {
+				updateBlockAttributes( itemId, { link: undefined } );
+				onClose?.();
+			} }
+		/>
+	);
+}
+
+/** Bouton « Lien » de la barre d'outils (atout ou titre), avec sa fenêtre. */
+function ItemLinkToolbar( { itemId } ) {
+	const hasLink = useSelect( ( select ) => !! select( blockEditorStore ).getBlockAttributes( itemId )?.link?.url, [ itemId ] );
+	const [ isOpen, setOpen ] = useState( false );
+	const [ anchor, setAnchor ] = useState( null );
+
+	return (
+		<>
+			<BlockControls group="block">
+				<ToolbarGroup>
+					<ToolbarButton
+						ref={ setAnchor }
+						icon={ linkIcon }
+						label={ hasLink ? __( 'Modifier le lien de l\'atout', 'couturier' ) : __( 'Ajouter un lien à l\'atout', 'couturier' ) }
+						isPressed={ hasLink }
+						onClick={ () => setOpen( ! isOpen ) }
+					/>
+				</ToolbarGroup>
+			</BlockControls>
+			{ isOpen && (
+				<Popover anchor={ anchor } placement="bottom" onClose={ () => setOpen( false ) } focusOnMount="firstElement">
+					<ItemLinkControl itemId={ itemId } onClose={ () => setOpen( false ) } />
+				</Popover>
+			) }
+		</>
+	);
+}
 
 function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	const { iconId, text } = attributes;
@@ -160,7 +230,14 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 						</Flex>
 					) ) }
 				</PanelBody>
+				<PanelBody title={ __( 'Lien', 'couturier' ) }>
+					<p>
+						{ __( 'Facultatif : tout l\'atout mène alors à cette page. Sans lien, il n\'est pas cliquable.', 'couturier' ) }
+					</p>
+					<ItemLinkControl itemId={ clientId } />
+				</PanelBody>
 			</InspectorControls>
+			{ isSelected && <ItemLinkToolbar itemId={ clientId } /> }
 			{ badge }
 			<div className="wp-block-couturier-reassurance-item__body">
 				{ children }
@@ -196,10 +273,42 @@ registerBlockType( metadata.name, {
 	),
 } );
 
-// Aucun format dans le titre.
+// Aucun format dans le titre (il devient le lien de l'atout).
 restrictFormats( metadata.name, {
 	'core/heading': [ ...HEADING_FORMATS_OFF, 'core/strikethrough', 'core/superscript', 'core/subscript' ],
 } );
 
 // Titre sélectionné : ni cadenas, ni variations de niveau.
 hideLockedControls( metadata.name, TITLE_BLOCKS );
+
+// Titre d'un atout sélectionné : bouton « Lien » de l'atout dans sa barre
+// d'outils (c'est lui que l'on sélectionne le plus souvent).
+addFilter(
+	'editor.BlockEdit',
+	'couturier/reassurance-item/title-link',
+	createHigherOrderComponent(
+		( BlockEdit ) => ( props ) => {
+			const itemId = useSelect(
+				( select ) => {
+					if ( props.name !== 'core/heading' || ! props.isSelected ) {
+						return undefined;
+					}
+
+					const editor = select( blockEditorStore );
+					const parentId = editor.getBlockRootClientId( props.clientId );
+
+					return editor.getBlockName( parentId ) === metadata.name ? parentId : undefined;
+				},
+				[ props.name, props.clientId, props.isSelected ]
+			);
+
+			return (
+				<>
+					{ itemId && <ItemLinkToolbar itemId={ itemId } /> }
+					<BlockEdit { ...props } />
+				</>
+			);
+		},
+		'withReassuranceItemTitleLink'
+	)
+);
