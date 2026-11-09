@@ -135,16 +135,6 @@ $page-hero-facts-mobile-gap: var(--space-24);
     color: var(--color-text-accent);
 }
 
-// Sans visuel, le contenu est limité à la largeur de lecture : les cartes prennent
-// toute la largeur du héros, le reste la garde.
-.wp-block-couturier-page-hero.has-facts:not(.has-media) > .wp-block-couturier-page-hero__content {
-    max-width: none;
-
-    > :not(.wp-block-couturier-page-hero-facts) {
-        max-width: min(100%, #{to-rem(760)});
-    }
-}
-
 // Avec un visuel (grille) : sur toute la largeur, sous le texte et le visuel.
 @include media-breakpoint-up(lg) {
     .wp-block-couturier-page-hero.has-facts {

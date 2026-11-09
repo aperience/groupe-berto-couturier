@@ -71,8 +71,6 @@
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-12);
-    // Sans image : largeur de lecture.
-    max-width: to-rem(760);
 
     > * {
         max-width: 100%;
@@ -213,7 +211,6 @@
         grid-template-rows: repeat(7, auto) 1fr;
         justify-items: start;
         gap: 0 to-rem(52);
-        max-width: none;
 
         > * {
             grid-column: 1;
