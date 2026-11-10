@@ -10,5 +10,25 @@
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/variables-dark";
 @import "~bootstrap/scss/maps";
+
+// Palettes génériques de Bootstrap (`--bs-blue`, `--bs-gray-100`…) vidées : seul
+// le module `root` les lisait, pour émettre des custom properties qu'aucune
+// feuille n'emploie. Le thème n'utilise que les tokens du design system.
+$colors: ();
+$grays: ();
 @import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/utilities";
+
+// ─── Utilitaires générés : uniquement ceux que le thème emploie ───────────────
+//
+// L'API complète produisait ~70 Ko de classes (marges, flex, couleurs…) pour
+// cinq classes réellement utilisées. On ne garde que `display`, réduit aux
+// valeurs servies par les gabarits (`d-none`, `d-xl-block`, `d-xl-inline-flex`,
+// `d-xl-none`). Avant d'employer un autre utilitaire dans un gabarit, l'ajouter
+// ici. `visually-hidden(-focusable)` vient de `helpers`, pas de cette API.
+$utilities: (
+    "display": map-merge(
+        map-get($utilities, "display"),
+        (values: none block flex inline-flex)
+    ),
+);

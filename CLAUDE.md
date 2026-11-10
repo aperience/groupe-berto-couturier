@@ -430,7 +430,6 @@ Rendu via **Timber 2.x**. Configuration dans `Kernel::init_timber()`, alimentée
 - `page.twig`, `single.twig`, `index.twig`, `404.twig` — étendent `base.twig`
 - `partials/` — header, footer, navigation, favicon
 - `emails/` — gabarit des e-mails (`layout.twig`), macros (`macros.twig`) et fragments du projet
-- `macros/ui.twig` — macros réutilisables (boutons, etc.)
 - `admin/help/` — un gabarit par onglet de la page d'aide de l'admin (cf. *Page d'aide*)
 
 **Wrappers PHP** à la racine du thème (`page.php`, `single.php`, `index.php`, `404.php`…) : ils se contentent
@@ -457,11 +456,11 @@ Conséquence pour tous les templates :
 - **`|raw` uniquement sur le HTML volontaire** : `{{ post.content|raw }}`, `{{ post.excerpt|raw }}`,
   `{{ site.language_attributes|raw }}`. Un `|raw` est une décision, pas un réflexe.
 - **`|e('html_attr')` sur toute valeur concaténée dans une chaîne d'attributs** sortie en `|raw`
-  (cf. `macros/ui.twig`) — l'échappement automatique ne s'applique pas aux concaténations `{% set %}`.
+  — l’échappement automatique ne s'applique pas aux concaténations `{% set %}`.
 - **`|e('esc_url')|raw` sur toute URL placée dans un `href` / `src`** qui ne vient pas d'une valeur
   sûre (champ saisi dans l'admin, option, attribut de bloc) : l'échappement HTML laisse passer
   `javascript:`, `esc_url` l'écarte (chaîne vide). Le `|raw` est nécessaire : sa sortie est déjà
-  prête pour un attribut, l'échappement automatique doublerait les `&` (cf. `macros/ui.twig`).
+  prête pour un attribut, l'échappement automatique doublerait les `&`.
 - `|e` est inutile sur une sortie normale : l'échappement est déjà appliqué.
 
 Oublier un `|raw` produit un bug d'affichage immédiatement visible (les balises apparaissent en texte) ;

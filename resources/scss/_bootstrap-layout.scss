@@ -8,9 +8,11 @@
 
 // Layout & components
 @import "~bootstrap/scss/containers";
-@import "~bootstrap/scss/grid";
+// `grid` retiré : aucun gabarit n’emploie `.row` / `.col-*` (seul `.container` sert).
+// Les mixins `make-row` / `make-col` restent disponibles via `bootstrap-config`.
 //@import "~bootstrap/scss/forms";
-@import "~bootstrap/scss/buttons";
+// `buttons` retiré : les boutons sont ceux du core habillés (block/_button.scss) ;
+// aucun gabarit n’emploie `.btn` (la macro `ui.button` n’est jamais appelée).
 @import "~bootstrap/scss/transitions"; // .collapse / .collapsing (accordéon du bloc FAQ)
 //@import "~bootstrap/scss/dropdown";
 //@import "~bootstrap/scss/button-group";
@@ -35,7 +37,9 @@
 //@import "~bootstrap/scss/placeholders";
 
 // Helpers
-@import "~bootstrap/scss/helpers";
+// Seul helper employé : `.visually-hidden(-focusable)` (les autres — `.link-*`,
+// `.text-bg-*`, `.ratio`, `.stack`… — ne servaient nulle part).
+@import "~bootstrap/scss/helpers/visually-hidden";
 
 // Utilities
 @import "~bootstrap/scss/utilities/api";

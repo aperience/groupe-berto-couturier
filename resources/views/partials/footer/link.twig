@@ -2,8 +2,8 @@
     Lien d'un élément de menu du pied de page.
     Données : `item` (Timber\MenuItem), `class` (facultatif).
 
-    URL saisie dans Apparence › Menus : esc_url écarte les schémas dangereux (cf.
-    macros/ui.twig). Lien courant signalé par `aria-current` ; ouverture dans un nouvel
+    URL saisie dans Apparence › Menus : esc_url écarte les schémas dangereux
+    (javascript:…). Lien courant signalé par `aria-current` ; ouverture dans un nouvel
     onglet annoncée en texte masqué (WCAG 2.4.4).
 #}
 <a href="{{ item.link|e('esc_url')|raw }}"
