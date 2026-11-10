@@ -5,10 +5,21 @@
 	"title": "Cartes à pictogramme",
 	"category": "design",
 	"icon": "screenoptions",
-	"description": "Cartes avec pictogramme, titre et texte : trois par ligne en desktop, les suivantes réparties sur la ligne suivante.",
+	"description": "Cartes avec pictogramme, titre et texte : trois ou quatre par ligne en desktop (réglage), les suivantes réparties sur la ligne suivante. Cartes blanches ou colorées (pétrole et pêche en alternance).",
 	"keywords": [ "valeurs", "atouts", "engagements", "points forts", "icônes" ],
 	"textdomain": "couturier",
 	"allowedBlocks": [ "couturier/icon-card" ],
+	"attributes": {
+		"columns": {
+			"type": "number",
+			"enum": [ 3, 4 ],
+			"default": 3
+		}
+	},
+	"styles": [
+		{ "name": "default", "label": "Cartes blanches", "isDefault": true },
+		{ "name": "colored", "label": "Cartes colorées" }
+	],
 	"supports": {
 		"html": false
 	},

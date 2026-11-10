@@ -22,8 +22,11 @@ if ( ! str_contains( $content, '<li' ) ) {
     return;
 }
 
+// Réglage « Cartes par ligne » : quatre en desktop (`xl`), trois par défaut.
+$wrapper_extra = 4 === (int) ( $attributes['columns'] ?? 3 ) ? [ 'class' => 'has-4-columns' ] : [];
+
 printf(
     '<ul %s>%s</ul>',
-    get_block_wrapper_attributes(), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
+    get_block_wrapper_attributes( $wrapper_extra ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
     trim( $content ) // phpcs:ignore WordPress.Security.EscapeOutput -- cartes rendues.
 );

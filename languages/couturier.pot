@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-09T14:57:49+00:00\n"
+"POT-Creation-Date: 2026-11-10T16:47:55+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -1129,9 +1129,26 @@ msgstr ""
 msgid "Le pictogramme est peint en pétrole quelles que soient ses couleurs d'origine. Il est décoratif : son texte alternatif n'est pas utilisé."
 msgstr ""
 
-#: blocks/icon-cards/index.js:70
+#: blocks/icon-cards/index.js:91
 #: blocks/photo-cards/index.js:154
 msgid "Ajouter une carte"
+msgstr ""
+
+#: blocks/icon-cards/index.js:101
+#: blocks/photo-cards/index.js:164
+msgid "Cartes"
+msgstr ""
+
+#: blocks/icon-cards/index.js:106
+msgid "Cartes par ligne (desktop)"
+msgstr ""
+
+#: blocks/icon-cards/index.js:109
+msgid "Quatre cartes par ligne sur grand écran, trois sur écran moyen."
+msgstr ""
+
+#: blocks/icon-cards/index.js:110
+msgid "Trois cartes par ligne sur grand écran."
 msgstr ""
 
 #: blocks/image-text-icon/index.js:98
@@ -1430,10 +1447,6 @@ msgstr ""
 
 #: blocks/photo-card/index.js:261
 msgid "Pas de lien : carte non cliquable."
-msgstr ""
-
-#: blocks/photo-cards/index.js:164
-msgid "Cartes"
 msgstr ""
 
 #: blocks/photo-cards/index.js:169
@@ -1881,7 +1894,7 @@ msgstr ""
 
 #: blocks/icon-cards/block.json
 msgctxt "block description"
-msgid "Cartes avec pictogramme, titre et texte : trois par ligne en desktop, les suivantes réparties sur la ligne suivante."
+msgid "Cartes avec pictogramme, titre et texte : trois ou quatre par ligne en desktop (réglage), les suivantes réparties sur la ligne suivante."
 msgstr ""
 
 #: blocks/icon-cards/block.json

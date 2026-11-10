@@ -8,9 +8,14 @@
 //       h3                                       ← titre (`core/heading`)
 //       p.__text                                 ← texte
 //
-// Mobile : une carte par ligne. `md` : deux par ligne ; `lg` : trois. Une ligne
+// Mobile : une carte par ligne. `md` : deux par ligne ; `lg` : trois. Réglage
+// « Cartes par ligne » à 4 (`has-4-columns`) : quatre à partir de `xl` (en `lg`,
+// une carte ne ferait que ~218 px). Une ligne
 // incomplète répartit ses cartes (`space-around`) : les lignes pleines occupent
 // toute la largeur et n'en sont pas affectées.
+//
+// Style « Cartes colorées » (`is-style-colored`, panneau « Styles ») : fond
+// pétrole/100 et pêche/300 en alternance, sans bordure, pastille blanche, texte en pétrole/500.
 //
 // Pictogramme : #00232D sur la pastille orange/100 (maquette).
 //
@@ -76,6 +81,12 @@ $icon-cards-gap-desktop: var(--space-24);
         flex-basis: calc((100% - 2 * #{$icon-cards-gap-desktop}) / 3);
     }
 
+    @include media-breakpoint-up(xl) {
+        .wp-block-couturier-icon-cards.has-4-columns > & {
+            flex-basis: calc((100% - 3 * #{$icon-cards-gap-desktop}) / 4);
+        }
+    }
+
     > * {
         margin: 0;
     }
@@ -125,5 +136,24 @@ $icon-cards-gap-desktop: var(--space-24);
             outline-offset: 2px;
             border-radius: 2px;
         }
+    }
+}
+
+// ─── Style « Cartes colorées » ───────────────────────────────────────────────
+.wp-block-couturier-icon-cards.is-style-colored > .wp-block-couturier-icon-card {
+    border-color: transparent;
+    background-color: var(--color-surface-petrol-soft);
+
+    &:nth-child(even) {
+        background-color: var(--color-surface-peach-soft);
+    }
+
+    .wp-block-couturier-icon-card__badge {
+        background-color: var(--color-surface-card);
+    }
+
+    // Texte en pétrole/500, comme le titre (7,56:1 sur pétrole/100, 7,28:1 sur pêche/300).
+    .wp-block-couturier-icon-card__text {
+        color: var(--color-text-heading);
     }
 }
