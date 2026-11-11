@@ -227,9 +227,9 @@ $ds-text-styles: (
     step-title:  (family: body,    weight: 700, size: (18, 18), line: (23, 23)),
     step-text:   (family: body,    weight: 400, size: (13.5, 13.5), line: (21.5, 21.5)),
     // Bloc « Héros de page » (Figma 301:6950, 608:1356) : H1 en Black (900),
-    // interlettrage −0,5 px ; texte de 14 px en mobile, 17,5 px en desktop.
+    // interlettrage −0,5 px ; texte de 14 px en mobile, 18 px en desktop (17,5 sur la maquette).
     page-hero-title: (family: heading, weight: 900, size: (34, 46), line: (38, 49), tracking: -0.5),
-    page-hero-text:  (family: body,    weight: 400, size: (14, 17.5), line: (24, 29)),
+    page-hero-text:  (family: body,    weight: 400, size: (14, 18), line: (24, 29)),
     // Bloc « Appel à action compact » (Figma 301:6347) : titre en Space Grotesk
     // Bold, interlettrage −0,5 px ; 20 px en mobile (hors maquette).
     compact-cta-title: (family: body, weight: 700, size: (20, 24),   line: (26, 31), tracking: -0.5),
