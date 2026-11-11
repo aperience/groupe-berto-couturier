@@ -1,0 +1,174 @@
+// ─── Bloc « Cartes illustrées » (couturier/image-cards, couturier/image-card) ─
+//
+// Balisage (front : `render.php` ; éditeur : `index.js`) :
+//
+//   ul.wp-block-couturier-image-cards
+//     li.wp-block-couturier-image-card[.has-icon]   ← carte arrondie, contenu rogné
+//       div.__background > div.__media > img.__image ← photo estompée (20 %)
+//       span.__badge > span.__icon                  ← bulle blanche, pictogramme en masque
+//       h3                                          ← titre (`core/heading`)
+//       p.__text                                    ← texte
+//
+// Grille : celle des cartes à pictogramme (une par ligne en mobile, deux à
+// partir de `md`, trois à partir de `lg`, quatre à partir de `xl` avec
+// `has-4-columns` ; ligne incomplète répartie par `space-around`).
+//
+// Maquette (Figma 301:6291) : carte 358 × 234, rayon 28 px, aplat pêche/100 sous
+// la photo à 20 % d'opacité ; bulle blanche (104 px, pivotée de -8°, coins
+// asymétriques) qui déborde du coin haut gauche et que la carte rogne
+// (`overflow: hidden`), pictogramme pétrole de 54 px ; titre et texte calés en
+// bas, à 32 px du bord gauche, 8 px entre eux. Sans pictogramme, pas de bulle :
+// le contenu reste en bas (`min-height`).
+
+$image-cards-gap: var(--space-16);
+$image-cards-gap-desktop: var(--space-24);
+
+.wp-block-couturier-image-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: $image-cards-gap;
+    margin-block: var(--layout-section-gap);
+    padding: 0;
+    list-style: none;
+
+    @include media-breakpoint-up(md) {
+        gap: $image-cards-gap-desktop;
+    }
+
+    // Éditeur : « Ajouter une carte », remis dans le flux, sur sa propre ligne.
+    > .block-list-appender,
+    > .wp-block-couturier-image-cards__add {
+        position: static;
+        flex-basis: 100%;
+        list-style: none;
+    }
+}
+
+// Éditeur : marges automatiques du core neutralisées (cf. `_icon-cards.scss`).
+.wp-block-couturier-image-cards > .wp-block.wp-block,
+.wp-block-couturier-image-card > .wp-block.wp-block {
+    margin-inline: 0;
+}
+
+// ─── Carte ────────────────────────────────────────────────────────────────────
+.wp-block-couturier-image-card {
+    position: relative;
+    display: flex;
+    flex: 0 1 100%;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: var(--space-8);
+    min-width: 0;
+    min-height: 234px;
+    margin: 0;
+    padding: var(--space-32);
+    overflow: hidden;
+    border-radius: var(--bs-border-radius-lg);
+    background-color: var(--color-surface-peach-faint);
+
+    // Place de la bulle (98 px) au-dessus du titre.
+    &.has-icon {
+        padding-top: 118px;
+    }
+
+    @include media-breakpoint-up(md) {
+        flex-basis: calc((100% - #{$image-cards-gap-desktop}) / 2);
+    }
+
+    @include media-breakpoint-up(lg) {
+        flex-basis: calc((100% - 2 * #{$image-cards-gap-desktop}) / 3);
+    }
+
+    @include media-breakpoint-up(xl) {
+        .wp-block-couturier-image-cards.has-4-columns > & {
+            flex-basis: calc((100% - 3 * #{$image-cards-gap-desktop}) / 4);
+        }
+    }
+
+    > h3,
+    > .wp-block-couturier-image-card__text {
+        position: relative; // au-dessus de la photo
+        margin: 0;
+    }
+
+    > h3 {
+        @include text-style(h3);
+        color: var(--color-text-heading);
+    }
+}
+
+// ─── Photo ────────────────────────────────────────────────────────────────────
+// Opacité sur l'image seule : un calque transparent créerait un contexte
+// d'empilement qui enfermerait les boutons de l'éditeur posés sur l'image.
+// `__media` doublée (0,2,0) : dans l'éditeur, c'est aussi l'enveloppe
+// `.couturier-image-field`, remise en `position: relative` par
+// `editor/_image-field.scss`, importé après le contenu.
+.wp-block-couturier-image-card__background,
+.wp-block-couturier-image-card__media.wp-block-couturier-image-card__media {
+    position: absolute;
+    inset: 0;
+}
+
+.wp-block-couturier-image-card__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--focal, 50% 50%);
+    opacity: .2;
+}
+
+// ─── Bulle du pictogramme ─────────────────────────────────────────────────────
+.wp-block-couturier-image-card__badge {
+    position: absolute;
+    top: -20px;
+    left: -16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 118px;
+    height: 118px;
+    color: var(--color-text-heading);
+
+    // Forme blanche aux coins asymétriques, pivotée.
+    &::before {
+        content: "";
+        position: absolute;
+        inset: 7px;
+        border-radius: 33.5px 24.5px 30px 28px;
+        background-color: var(--color-surface-card);
+        rotate: -8deg;
+    }
+}
+
+.wp-block-couturier-image-card__icon {
+    position: relative;
+    display: block;
+    width: 54px;
+    height: 54px;
+    background-color: currentColor;
+    mask: var(--icon) center / contain no-repeat;
+}
+
+// ─── Texte ────────────────────────────────────────────────────────────────────
+.wp-block-couturier-image-card__text {
+    @include text-style(body);
+    color: var(--color-text-default);
+
+    a {
+        color: var(--color-text-heading);
+        text-decoration: underline;
+        text-underline-offset: .15em;
+
+        &:hover {
+            text-decoration-thickness: 2px;
+        }
+
+        &:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
+            border-radius: 2px;
+        }
+    }
+}

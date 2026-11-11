@@ -1,0 +1,44 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/image-cards",
+	"title": "Cartes illustrées",
+	"category": "design",
+	"icon": "format-gallery",
+	"description": "Cartes sur image de fond, avec pictogramme facultatif, titre et texte : trois ou quatre par ligne en desktop (réglage), les suivantes réparties sur la ligne suivante.",
+	"keywords": [ "cartes", "image", "pictogramme", "services", "équipements" ],
+	"textdomain": "couturier",
+	"allowedBlocks": [ "couturier/image-card" ],
+	"attributes": {
+		"columns": {
+			"type": "number",
+			"enum": [ 3, 4 ],
+			"default": 3
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"innerBlocks": [
+			{
+				"name": "couturier/image-card",
+				"attributes": { "imageId": -1, "iconId": -1, "text": "Résidence sur place pendant le stage." },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Hébergement" } } ]
+			},
+			{
+				"name": "couturier/image-card",
+				"attributes": { "imageId": -2, "iconId": -2, "text": "Repas pris en commun, à deux pas des salles." },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Restauration" } } ]
+			},
+			{
+				"name": "couturier/image-card",
+				"attributes": { "imageId": -3, "iconId": -3, "text": "Une navette vous attend à la gare." },
+				"innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Accès" } } ]
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

@@ -1,0 +1,58 @@
+// ─── Bloc « Cartes illustrées » (éditeur seulement) ───────────────────────────
+//
+// Emplacement d'un pictogramme non choisi (« + » dans la bulle), pictogramme
+// cliquable pour le remplacer, boutons du pictogramme et de l'image de fond dans
+// le coin de la carte, avertissement d'une carte sans titre.
+
+.wp-block-couturier-image-card__choose.components-button,
+.wp-block-couturier-image-card__replace.components-button {
+    position: relative;
+    justify-content: center;
+    width: 54px;
+    min-width: 0;
+    height: 54px;
+    padding: 0;
+    color: inherit;
+}
+
+.wp-block-couturier-image-card__choose.components-button {
+    border: 1px dashed currentColor;
+    border-radius: var(--bs-border-radius);
+
+    svg {
+        width: var(--space-24);
+        height: var(--space-24);
+    }
+}
+
+// Boutons au-dessus du contenu de la carte.
+.wp-block-couturier-image-card .couturier-image-field__actions,
+.wp-block-couturier-image-card__icon-actions,
+.wp-block-couturier-image-card__choose-image {
+    z-index: 2;
+}
+
+// Pas d'image : bouton rond en haut à droite.
+.wp-block-couturier-image-card__choose-image {
+    position: absolute;
+    top: var(--space-12);
+    right: var(--space-12);
+    width: var(--space-40);
+    height: var(--space-40);
+}
+
+// Pictogramme : sous les boutons de l'image (ou à leur place sans image).
+.wp-block-couturier-image-card__icon-actions {
+    position: absolute;
+    top: calc(var(--space-12) + 48px);
+    right: var(--space-12);
+    display: flex;
+    gap: var(--space-4);
+    border-radius: var(--bs-border-radius-sm);
+    background-color: var(--color-surface-card);
+}
+
+.wp-block-couturier-image-card__notice {
+    position: relative;
+    align-self: stretch;
+}

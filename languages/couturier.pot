@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-11T09:49:20+00:00\n"
+"POT-Creation-Date: 2026-11-11T10:10:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -488,6 +488,7 @@ msgstr ""
 #: blocks/home-hero-card/index.js:250
 #: blocks/home-hero/index.js:57
 #: blocks/icon-card/index.js:174
+#: blocks/image-card/index.js:234
 #: blocks/step/index.js:80
 msgid "Texte"
 msgstr ""
@@ -1002,6 +1003,7 @@ msgstr ""
 
 #: blocks/home-hero-card/index.js:68
 #: blocks/icon-card/title.js:13
+#: blocks/image-card/title.js:13
 #: blocks/photo-card/title.js:13
 msgid "Titre de la carte"
 msgstr ""
@@ -1041,6 +1043,7 @@ msgstr ""
 
 #: blocks/home-hero-card/index.js:249
 #: blocks/icon-card/index.js:173
+#: blocks/image-card/index.js:233
 #: blocks/photo-card/index.js:249
 msgid "Texte de la carte"
 msgstr ""
@@ -1052,6 +1055,7 @@ msgstr ""
 
 #: blocks/home-hero-card/index.js:267
 #: blocks/icon-card/index.js:181
+#: blocks/image-card/index.js:241
 #: blocks/photo-card/index.js:257
 msgid "Titre obligatoire : sans lui, cette carte n'est pas affichée sur le site."
 msgstr ""
@@ -1079,6 +1083,7 @@ msgstr ""
 
 #: blocks/home-hero/index.js:120
 #: blocks/home-hero/index.js:160
+#: blocks/image-card/index.js:185
 msgid "Image de fond"
 msgstr ""
 
@@ -1088,6 +1093,7 @@ msgid "L'image choisie n'existe plus dans la médiathèque."
 msgstr ""
 
 #: blocks/home-hero/index.js:129
+#: blocks/image-card/index.js:189
 #: blocks/page-hero-media/index.js:153
 #: blocks/page-hero-media/index.js:156
 msgid "Point focal"
@@ -1108,11 +1114,14 @@ msgstr ""
 
 #: blocks/icon-card/index.js:123
 #: blocks/icon-card/index.js:129
+#: blocks/image-card/index.js:147
+#: blocks/image-card/index.js:152
 #: blocks/reassurance-item/index.js:190
 msgid "Remplacer le pictogramme"
 msgstr ""
 
 #: blocks/icon-card/index.js:135
+#: blocks/image-card/index.js:158
 msgid "Supprimer le pictogramme"
 msgstr ""
 
@@ -1122,6 +1131,7 @@ msgid "Choisir un pictogramme (SVG de préférence)"
 msgstr ""
 
 #: blocks/icon-card/index.js:162
+#: blocks/image-card/index.js:199
 #: blocks/image-text-icon/index.js:96
 #: blocks/page-hero-tag/index.js:139
 #: blocks/reassurance-item/index.js:216
@@ -1133,25 +1143,50 @@ msgid "Le pictogramme est peint en pétrole quelles que soient ses couleurs d'or
 msgstr ""
 
 #: blocks/icon-cards/index.js:91
+#: blocks/image-cards/index.js:91
 #: blocks/photo-cards/index.js:154
 msgid "Ajouter une carte"
 msgstr ""
 
 #: blocks/icon-cards/index.js:101
+#: blocks/image-cards/index.js:101
 #: blocks/photo-cards/index.js:164
 msgid "Cartes"
 msgstr ""
 
 #: blocks/icon-cards/index.js:106
+#: blocks/image-cards/index.js:106
 msgid "Cartes par ligne (desktop)"
 msgstr ""
 
 #: blocks/icon-cards/index.js:109
+#: blocks/image-cards/index.js:109
 msgid "Quatre cartes par ligne sur grand écran, trois sur écran moyen."
 msgstr ""
 
 #: blocks/icon-cards/index.js:110
+#: blocks/image-cards/index.js:110
 msgid "Trois cartes par ligne sur grand écran."
+msgstr ""
+
+#: blocks/image-card/index.js:174
+msgid "Choisir un pictogramme (facultatif, SVG de préférence)"
+msgstr ""
+
+#: blocks/image-card/index.js:190
+msgid "Partie de l'image toujours visible, quel que soit le recadrage. Image décorative : son texte alternatif n'est pas lu."
+msgstr ""
+
+#: blocks/image-card/index.js:196
+msgid "Choisissez l'image dans la carte (bouton en haut à droite)."
+msgstr ""
+
+#: blocks/image-card/index.js:201
+msgid "Facultatif. Peint en pétrole quelles que soient ses couleurs d'origine, dans une bulle blanche. Il est décoratif : son texte alternatif n'est pas utilisé."
+msgstr ""
+
+#: blocks/image-card/index.js:225
+msgid "Choisir l'image de fond"
 msgstr ""
 
 #: blocks/image-text-icon/index.js:98
@@ -1975,6 +2010,52 @@ msgctxt "block style label"
 msgid "Cartes colorées"
 msgstr ""
 
+#: blocks/image-card/block.json
+msgctxt "block title"
+msgid "Carte illustrée"
+msgstr ""
+
+#: blocks/image-card/block.json
+msgctxt "block description"
+msgid "Une carte : image de fond estompée, pictogramme facultatif dans une bulle blanche, titre H3 et texte."
+msgstr ""
+
+#: blocks/image-cards/block.json
+msgctxt "block title"
+msgid "Cartes illustrées"
+msgstr ""
+
+#: blocks/image-cards/block.json
+msgctxt "block description"
+msgid "Cartes sur image de fond, avec pictogramme facultatif, titre et texte : trois ou quatre par ligne en desktop (réglage), les suivantes réparties sur la ligne suivante."
+msgstr ""
+
+#: blocks/image-cards/block.json
+msgctxt "block keyword"
+msgid "cartes"
+msgstr ""
+
+#: blocks/image-cards/block.json
+#: blocks/image-text/block.json
+msgctxt "block keyword"
+msgid "image"
+msgstr ""
+
+#: blocks/image-cards/block.json
+msgctxt "block keyword"
+msgid "pictogramme"
+msgstr ""
+
+#: blocks/image-cards/block.json
+msgctxt "block keyword"
+msgid "services"
+msgstr ""
+
+#: blocks/image-cards/block.json
+msgctxt "block keyword"
+msgid "équipements"
+msgstr ""
+
 #: blocks/image-text-body/block.json
 msgctxt "block title"
 msgid "Texte"
@@ -2013,11 +2094,6 @@ msgstr ""
 #: blocks/image-text/block.json
 msgctxt "block description"
 msgid "Image à gauche ou à droite, et à côté : surtitre, titre avec mots mis en avant, texte libre, icônes avec lien, un ou deux boutons."
-msgstr ""
-
-#: blocks/image-text/block.json
-msgctxt "block keyword"
-msgid "image"
 msgstr ""
 
 #: blocks/image-text/block.json
