@@ -13,6 +13,10 @@
  *   un lien sur le titre, étendu à toute la carte. Bouton « Lien » dans la barre
  *   d'outils de la carte et de son titre, et panneau « Lien » de la barre latérale.
  *
+ * - le fond (`background`) se choisit dans une liste fermée
+ *   (`_shared/backgrounds.js`) : gris clair (défaut), blanc ou pétrole très clair,
+ *   seuls fonds où le sur-titre tient 4,5:1 → classe `is-bg-{fond}`.
+ *
  * Aperçu de l'inserteur : `imageId` négatif, cf. `example-images.js`.
  *
  * Sans titre, la carte n'est pas rendue sur le site (`is-incomplete`). Les autres
@@ -47,6 +51,7 @@ import {
 	useLockedContent,
 	useNonBreakingPunctuation,
 } from '../_shared/locked-content.js';
+import { BackgroundPanel, useBackground } from '../_shared/backgrounds.js';
 import metadata from './block.json';
 import { exampleMedia } from './example-images.js';
 import { LEVEL, TITLE } from './title.js';
@@ -126,6 +131,7 @@ function CardLinkToolbar( { cardId } ) {
 
 function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	const { imageId, hasBadge, badge, eyebrow, text, link } = attributes;
+	const background = useBackground( metadata, attributes.background );
 
 	const { blocks, isEditing } = useSelect(
 		( select ) => {
@@ -176,12 +182,15 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 
 	// Modèle passé à l'insertion seulement (bloc vide), cf. `blocks/CLAUDE.md`.
 	const { children, ...innerBlocksProps } = useInnerBlocksProps(
-		useBlockProps( { className: isIncomplete ? 'is-incomplete' : undefined } ),
+		useBlockProps( {
+			className: [ background.className, isIncomplete && 'is-incomplete' ].filter( Boolean ).join( ' ' ) || undefined,
+		} ),
 		{ template: blocks.length ? undefined : TEMPLATE, templateLock: 'all' }
 	);
 
 	return (
 		<li { ...innerBlocksProps }>
+			<BackgroundPanel { ...background } onChange={ ( slug ) => setAttributes( { background: slug } ) } />
 			<InspectorControls>
 				<PanelBody title={ __( 'Badge', 'couturier' ) }>
 					<ToggleControl

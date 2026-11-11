@@ -5,7 +5,7 @@
 	"title": "Carte photo",
 	"category": "design",
 	"icon": "format-image",
-	"description": "Une carte : photo, badge facultatif, sur-titre, titre H3, texte court et lien vers une page.",
+	"description": "Une carte : photo, badge facultatif, sur-titre, titre H3, texte court et lien vers une page, sur un fond au choix (gris clair, blanc ou pétrole très clair).",
 	"textdomain": "couturier",
 	"parent": [ "couturier/photo-cards" ],
 	"attributes": {
@@ -14,6 +14,11 @@
 		},
 		"link": {
 			"type": "object"
+		},
+		"background": {
+			"type": "string",
+			"enum": [ "neutral-50", "white", "petrol-50" ],
+			"default": "neutral-50"
 		},
 		"hasBadge": {
 			"type": "boolean",

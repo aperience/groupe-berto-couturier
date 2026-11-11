@@ -13,6 +13,10 @@
  * cartes passent à la ligne (`editor/_photo-cards.scss`) et les flèches, sans
  * objet, disparaissent.
  *
+ * Fond réglé carte par carte (`photo-card`). Ancien style « Pétrole clair »
+ * (`is-style-petrol`, supprimé) : migré à l'ouverture dans l'éditeur, cartes
+ * encore en gris clair passées en pétrole très clair, puis classe retirée.
+ *
  * Sans carte titrée, le bloc n'est pas rendu (`render.php`) : il reçoit
  * `is-incomplete` dans le canvas.
  */
@@ -102,7 +106,7 @@ function useNav( track, deps ) {
 
 function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	const size = 'large' === attributes.size ? 'large' : 'small';
-	const { insertBlock, selectBlock } = useDispatch( blockEditorStore );
+	const { insertBlock, selectBlock, updateBlockAttributes } = useDispatch( blockEditorStore );
 	// Bloc ou l'une de ses cartes sélectionné. Sinon, le canvas montre le rendu du
 	// site : pas de bouton d'ajout.
 	const { isEditing, items } = useSelect(
@@ -116,6 +120,20 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 		},
 		[ clientId, isSelected ]
 	);
+
+	// Migration de l'ancien style « Pétrole clair ».
+	const className = attributes.className ?? '';
+	useEffect( () => {
+		if ( ! /(^|\s)is-style-petrol(\s|$)/.test( className ) || ! items.length ) {
+			return;
+		}
+		items.forEach( ( item ) => {
+			if ( ( item.attributes.background ?? 'neutral-50' ) === 'neutral-50' ) {
+				updateBlockAttributes( item.clientId, { background: 'petrol-50' } );
+			}
+		} );
+		setAttributes( { className: className.replace( /(^|\s)is-style-petrol(?=\s|$)/, '' ).trim() || undefined } );
+	}, [ className, items, setAttributes, updateBlockAttributes ] );
 
 	// Carte créée avec son titre, curseur placé dans le titre : sans titre, il
 	// n'arriverait qu'ensuite, par le modèle de la carte.

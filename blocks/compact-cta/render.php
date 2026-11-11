@@ -2,10 +2,11 @@
 /**
  * Rendu du bloc « Appel à action compact » (`couturier/compact-cta`).
  *
- * Balisage : `section.wp-block-couturier-compact-cta.is-style-…` > h2, p,
+ * Balisage : `section.wp-block-couturier-compact-cta[.is-bg-…]` > h2, p,
  * `div.wp-block-buttons` — enfants directs, comme dans le canvas, mis en grille
  * par `block/_compact-cta.scss`. Titre et texte sont obligatoires : si l'un des
- * deux est vide, rien n'est rendu.
+ * deux est vide, rien n'est rendu. Fond (`background`) autre que pétrole clair :
+ * classe `is-bg-{fond}`.
  *
  * @package Couturier
  *
@@ -37,6 +38,6 @@ $couturier_compact_cta_content = preg_replace( '/ +((?:<[^>]*>)*)(?=[?!:;»])/u'
 
 printf(
     '<section %s>%s</section>',
-    get_block_wrapper_attributes(), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
+    get_block_wrapper_attributes( [ 'class' => \Theme\Support\CardBackground::class_name( $attributes, $block ) ] ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
     $couturier_compact_cta_content // phpcs:ignore WordPress.Security.EscapeOutput -- HTML des blocs imbriqués.
 );

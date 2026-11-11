@@ -5,7 +5,10 @@
  * Même structure que le CTA (`blocks/cta/index.js`) : titre `core/heading` toujours
  * en H2, texte `core/paragraph`, tous deux verrouillés, et un `core/button`
  * facultatif (pétrole foncé avec flèche), remis par le panneau « Bouton ».
- * Couleur du fond : styles de bloc (panneau « Styles »), sans attribut.
+ * Fond (`background`) dans une liste fermée (`_shared/backgrounds.js`), pétrole
+ * clair par défaut → classe `is-bg-{fond}`. Anciens styles de bloc
+ * (`is-style-peach` / `-pink` / `-default`, supprimés) : migrés à l'ouverture
+ * dans l'éditeur (pêche/300, orange/100, défaut), puis classe retirée.
  *
  * `save()` n'enregistre que les blocs imbriqués : l'enveloppe est produite par
  * `render.php`, qui n'affiche rien si le titre ou le texte est vide.
@@ -19,6 +22,7 @@ import {
 } from '@wordpress/block-editor';
 import { Notice } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
+import { useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 import { ButtonsControl, useButtonCount } from '../_shared/buttons.js';
@@ -30,6 +34,7 @@ import {
 	useLockedContent,
 	useNonBreakingPunctuation,
 } from '../_shared/locked-content.js';
+import { BackgroundPanel, useBackground } from '../_shared/backgrounds.js';
 import metadata from './block.json';
 import './formats.js';
 
@@ -41,10 +46,14 @@ const TEMPLATE = [
 	[ 'core/buttons', { lock: REMOVABLE }, BUTTONS ],
 ];
 
+/** Anciens styles de bloc → fond. */
+const LEGACY_STYLES = { default: undefined, peach: 'peach-300', pink: 'orange-100' };
+const LEGACY_PATTERN = /(^|\s)is-style-(default|peach|pink)(?=\s|$)/;
+
 /** Le titre est toujours un `<h2>`. */
 const LEVEL = 2;
 
-function Edit( { clientId, isSelected } ) {
+function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	const blocks = useSelect( ( select ) => select( blockEditorStore ).getBlocks( clientId ), [ clientId ] );
 	const isEditing = useSelect(
 		( select ) => isSelected || select( blockEditorStore ).hasSelectedInnerBlock( clientId, true ),
@@ -56,17 +65,37 @@ function Edit( { clientId, isSelected } ) {
 	const isIncomplete = blocks.length > 0 && ( ! textOf( heading ) || ! textOf( paragraph ) );
 	const [ buttonCount, setButtonCount ] = useButtonCount( clientId, blocks, BUTTONS );
 
+	const background = useBackground( metadata, attributes.background );
+
+	// Migration des anciens styles de bloc.
+	const className = attributes.className ?? '';
+	useEffect( () => {
+		const match = className.match( LEGACY_PATTERN );
+		if ( ! match ) {
+			return;
+		}
+		setAttributes( {
+			...( LEGACY_STYLES[ match[ 2 ] ] ? { background: LEGACY_STYLES[ match[ 2 ] ] } : {} ),
+			className: className.replace( LEGACY_PATTERN, '' ).trim() || undefined,
+		} );
+	}, [ className, setAttributes ] );
+
 	useLockedContent( blocks, { level: LEVEL } );
 	useNonBreakingPunctuation( blocks );
 
 	// Modèle passé à l'insertion seulement (cf. `blocks/CLAUDE.md`).
 	const innerBlocksProps = useInnerBlocksProps(
-		useBlockProps(),
+		useBlockProps( { className: background.className } ),
 		{ template: blocks.length ? undefined : TEMPLATE, templateLock: 'all' }
 	);
 
 	return (
 		<>
+			<BackgroundPanel
+				{ ...background }
+				title={ __( 'Fond du bandeau', 'couturier' ) }
+				onChange={ ( slug ) => setAttributes( { background: slug } ) }
+			/>
 			<ButtonsControl count={ buttonCount } setCount={ setButtonCount } max={ 1 } />
 			{ isEditing && isIncomplete && (
 				<Notice status="warning" isDismissible={ false } className="wp-block-couturier-compact-cta__notice">

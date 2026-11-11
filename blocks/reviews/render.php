@@ -10,6 +10,9 @@
  *   selon la note), et le lien « Lire tous les avis » si une URL est saisie ;
  * - ajoute à chaque avis ses étoiles (`data-stars`), lues aussi en texte masqué.
  *
+ * Fond de l'avis mis en avant (`background`) autre qu'orange clair : classe
+ * `is-bg-{fond}` du bloc, appliquée en desktop.
+ *
  * Logo et étoiles sont des images CSS (`block/_reviews.scss`), décoratives : la
  * note est lue en texte (« Note moyenne des avis Google : 4,8 sur 5 »).
  *
@@ -159,7 +162,7 @@ if ( '' !== $couturier_reviews_summary ) {
 
 printf(
     '<div %s>%s%s</div>',
-    get_block_wrapper_attributes(), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
+    get_block_wrapper_attributes( [ 'class' => \Theme\Support\CardBackground::class_name( $attributes, $block ) ] ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
     $couturier_reviews_summary, // phpcs:ignore WordPress.Security.EscapeOutput -- construit ci-dessus, valeurs échappées.
     $couturier_reviews_content // phpcs:ignore WordPress.Security.EscapeOutput -- HTML enregistré du bloc.
 );

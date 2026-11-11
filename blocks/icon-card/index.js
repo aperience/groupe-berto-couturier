@@ -10,7 +10,7 @@
  * - le texte est un attribut (`text`), écrit après le titre dans le HTML
  *   enregistré : le compteur de mots le lit. Gras, italique et lien permis.
  *
- * - le fond (`background`) se choisit dans une liste fermée (`BACKGROUNDS`) ;
+ * - le fond (`background`) se choisit dans une liste fermée (`_shared/backgrounds.js`) ;
  *   autre que blanc : classe `is-bg-{fond}`, sans bordure, pastille blanche.
  *
  * - présentation (`iconStyle`) : « Pastille » (défaut, ci-dessus) ou « Visuel
@@ -36,7 +36,6 @@ import {
 } from '@wordpress/block-editor';
 import {
 	Button,
-	ColorPalette,
 	Notice,
 	PanelBody,
 	__experimentalToggleGroupControl as ToggleGroupControl,
@@ -55,6 +54,7 @@ import {
 	useLockedContent,
 	useNonBreakingPunctuation,
 } from '../_shared/locked-content.js';
+import { BackgroundPanel, useBackground } from '../_shared/backgrounds.js';
 import metadata from './block.json';
 import { exampleIconUrl } from './example-icons.js';
 import { LEVEL, TITLE } from './title.js';
@@ -77,24 +77,10 @@ const TITLE_BLOCKS = [ 'core/heading' ];
 
 const ROOT = 'couturier/icon-cards';
 
-/**
- * Fonds proposés, liste fermée (`block.json` → `background.enum`). Hexa pour
- * les pastilles de l'inspecteur seulement : le rendu passe par la classe
- * `is-bg-{slug}` et les couleurs sémantiques (`block/_icon-cards.scss`).
- */
-const BACKGROUNDS = [
-	{ slug: 'white', name: __( 'Blanc', 'couturier' ), color: '#ffffff' },
-	{ slug: 'petrol-100', name: __( 'Pétrole clair', 'couturier' ), color: '#e0eaec' },
-	{ slug: 'peach-300', name: __( 'Pêche', 'couturier' ), color: '#fbdfcb' },
-	{ slug: 'petrol-50', name: __( 'Pétrole très clair', 'couturier' ), color: '#f0f4f6' },
-	{ slug: 'orange-100', name: __( 'Orange clair', 'couturier' ), color: '#ffeae3' },
-	{ slug: 'neutral-50', name: __( 'Blanc cassé', 'couturier' ), color: '#f6f6f6' },
-];
-
 function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	const { iconId, text } = attributes;
 	const isOffset = 'offset' === attributes.iconStyle;
-	const background = BACKGROUNDS.find( ( item ) => item.slug === attributes.background ) ?? BACKGROUNDS[ 0 ];
+	const background = useBackground( metadata, attributes.background );
 
 	const { blocks, isEditing, isCardEditing, iconUrl, iconMime } = useSelect(
 		( select ) => {
@@ -132,7 +118,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 		useBlockProps( {
 			className:
 				[
-					'white' !== background.slug && `is-bg-${ background.slug }`,
+					background.className,
 					isOffset && 'has-offset-visual',
 					isIncomplete && 'is-incomplete',
 				]
@@ -222,18 +208,8 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 
 	return (
 		<li { ...innerBlocksProps }>
+			<BackgroundPanel { ...background } onChange={ ( slug ) => setAttributes( { background: slug } ) } />
 			<InspectorControls>
-				<PanelBody title={ __( 'Fond de la carte', 'couturier' ) }>
-					<ColorPalette
-						colors={ BACKGROUNDS.map( ( { name, color } ) => ( { name, color } ) ) }
-						value={ background.color }
-						onChange={ ( color ) =>
-							setAttributes( { background: BACKGROUNDS.find( ( item ) => item.color === color )?.slug ?? 'white' } )
-						}
-						disableCustomColors
-						clearable={ false }
-					/>
-				</PanelBody>
 				<PanelBody title={ __( 'Pictogramme', 'couturier' ) }>
 					<ToggleGroupControl
 						__next40pxDefaultSize

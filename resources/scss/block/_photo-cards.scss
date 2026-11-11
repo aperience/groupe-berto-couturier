@@ -165,14 +165,23 @@ $photo-cards-media-height: to-rem(150);
     color: var(--color-text-default);
 }
 
-// Style de bloc « Pétrole clair » (`is-style-petrol`, panneau « Styles ») :
-// cartes de la rangée « Formation Pro » (Figma 536:7544) — fond pétrole 50,
-// sur-titre pétrole 400 (4,56:1 sur #F0F4F6). La zone d'une photo absente passe
-// en pétrole 100, sinon elle se confondrait avec la carte.
-.wp-block-couturier-photo-cards.is-style-petrol {
-    .wp-block-couturier-photo-card {
-        background-color: var(--color-surface-petrol-faint);
+// ─── Fond de la carte ────────────────────────────────────────────────────────
+// `background` → classe `is-bg-{fond}`, gris clair (neutre/50) sans classe.
+// Fonds limités à ceux où le sur-titre tient 4,5:1 : orange/700 à 4,62:1 sur
+// neutre/50 et 4,99:1 sur blanc ; sur pétrole/50 (rangée « Formation Pro »,
+// Figma 536:7544), sur-titre pétrole/400 à 4,55:1 et zone d'une photo absente en
+// pétrole/100, sinon elle se confondrait avec la carte.
+// Fonds de l'`enum` du `block.json`, sauf le défaut.
+@each $name in ("white", "petrol-50") {
+    .wp-block-couturier-photo-card.is-bg-#{$name} {
+        background-color: var(--color-#{map-get($ds-card-backgrounds, $name)});
     }
+}
+
+.wp-block-couturier-photo-card.is-bg-petrol-50,
+// Ancien style « Pétrole clair » (supprimé) : contenu pas encore réenregistré.
+.wp-block-couturier-photo-cards.is-style-petrol .wp-block-couturier-photo-card:not([class*="is-bg-"]) {
+    background-color: var(--color-surface-petrol-faint);
 
     .wp-block-couturier-photo-card__media {
         background-color: var(--color-surface-petrol-soft);

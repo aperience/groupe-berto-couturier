@@ -116,6 +116,19 @@ $ds-semantic-colors: (
     flag-text:           (orange, 700),
 );
 
+// ─── Fonds de carte ───────────────────────────────────────────────────────────
+// Liste fermée des fonds qu'un bloc de cartes peut proposer (attribut
+// `background`, `blocks/_shared/backgrounds.js`) : slug → rôle sémantique.
+// Chaque bloc n'en reprend que les slugs de son `enum` ; classe `is-bg-{slug}`.
+$ds-card-backgrounds: (
+    "white":    surface-card,
+    petrol-100: surface-petrol-soft,
+    peach-300:  surface-peach-soft,
+    petrol-50:  surface-petrol-faint,
+    orange-100: surface-accent-soft,
+    neutral-50: surface-muted,
+);
+
 /// Valeur Sass d'une couleur sémantique, ex. `ds-semantic(text-heading)` — pour
 /// les overrides Bootstrap, qui calculent sur des couleurs et non des `var()`.
 @function ds-semantic($role) {

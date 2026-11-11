@@ -5,7 +5,7 @@
 	"title": "Avis Google",
 	"category": "design",
 	"icon": "star-filled",
-	"description": "Note moyenne Google, lien vers tous les avis, et trois avis : un mis en avant, deux secondaires.",
+	"description": "Note moyenne Google, lien vers tous les avis, et trois avis : un mis en avant (fond au choix en desktop), deux secondaires.",
 	"keywords": [ "avis", "google", "témoignages", "note", "étoiles" ],
 	"textdomain": "couturier",
 	"attributes": {
@@ -14,6 +14,11 @@
 			"source": "html",
 			"selector": "p.wp-block-couturier-reviews__score",
 			"role": "content"
+		},
+		"background": {
+			"type": "string",
+			"enum": [ "orange-100", "petrol-100", "peach-300", "petrol-50" ],
+			"default": "orange-100"
 		},
 		"url": {
 			"type": "string",
@@ -61,10 +66,6 @@
 	"supports": {
 		"html": false
 	},
-	"styles": [
-		{ "name": "default", "label": "Rose", "isDefault": true },
-		{ "name": "petrol", "label": "Pétrole clair" }
-	],
 	"example": {
 		"viewportWidth": 1200,
 		"attributes": {

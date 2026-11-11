@@ -15,6 +15,11 @@
  *
  * Liste fixe de trois avis : ni ajout, ni suppression, ni déplacement.
  *
+ * Fond de l'avis mis en avant, en desktop (`background`, liste fermée de
+ * `_shared/backgrounds.js`, orange clair par défaut) → classe `is-bg-{fond}` du
+ * bloc. Ancien style « Pétrole clair » (`is-style-petrol`, supprimé) : migré à
+ * l'ouverture dans l'éditeur en `petrol-100`, puis classe retirée.
+ *
  * `save()` n'enregistre que la note et la liste : l'enveloppe, l'en-tête (logo,
  * étoiles de la note, lien) et les étoiles des avis sont produits par
  * `render.php`. Le canvas les reproduit à l'identique (mêmes classes).
@@ -23,9 +28,11 @@ import { registerBlockType } from '@wordpress/blocks';
 import { InspectorControls, RichText, store as blockEditorStore, useBlockProps } from '@wordpress/block-editor';
 import { Notice, PanelBody, SelectControl, TextControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
+import { useEffect } from '@wordpress/element';
 import { __, sprintf } from '@wordpress/i18n';
 
 import { nonBreaking, textOf } from '../_shared/locked-content.js';
+import { BackgroundPanel, useBackground } from '../_shared/backgrounds.js';
 import metadata from './block.json';
 
 const CLASS = 'wp-block-couturier-reviews';
@@ -77,6 +84,19 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 		[ clientId, isSelected ]
 	);
 
+	const background = useBackground( metadata, attributes.background );
+
+	// Migration de l'ancien style « Pétrole clair ».
+	const className = attributes.className ?? '';
+	useEffect( () => {
+		if ( /(^|\s)is-style-petrol(\s|$)/.test( className ) ) {
+			setAttributes( {
+				background: 'petrol-100',
+				className: className.replace( /(^|\s)is-style-petrol(?=\s|$)/, '' ).trim() || undefined,
+			} );
+		}
+	}, [ className, setAttributes ] );
+
 	const updateReview = ( index, changes ) =>
 		setAttributes( { reviews: reviews.map( ( review, i ) => ( i === index ? { ...review, ...changes } : review ) ) } );
 
@@ -105,7 +125,12 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 					) ) }
 				</PanelBody>
 			</InspectorControls>
-			<div { ...useBlockProps() }>
+			<BackgroundPanel
+				{ ...background }
+				title={ __( 'Fond de l’avis mis en avant', 'couturier' ) }
+				onChange={ ( slug ) => setAttributes( { background: slug } ) }
+			/>
+			<div { ...useBlockProps( { className: background.className } ) }>
 				{ isEditing && reviews.some( ( review ) => ! isComplete( review ) ) && (
 					<Notice status="warning" isDismissible={ false } className={ `${ CLASS }__notice` }>
 						{ __( 'Seuls les avis renseignés (texte et nom) sont affichés sur le site.', 'couturier' ) }

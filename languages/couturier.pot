@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-11T11:03:29+00:00\n"
+"POT-Creation-Date: 2026-11-11T11:21:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -46,7 +46,7 @@ msgstr ""
 #: blocks/image-text-icon/render.php:57
 #: blocks/page-hero-media/render.php:92
 #: blocks/page-hero/render.php:136
-#: blocks/photo-card/render.php:66
+#: blocks/photo-card/render.php:68
 #: blocks/reassurance-item/render.php:66
 #: src/Features/CurrentOffer/CurrentOfferDashboard.php:78
 #: resources/views/partials/footer/bottom.twig:18
@@ -56,12 +56,12 @@ msgid "(nouvel onglet)"
 msgstr ""
 
 #: blocks/image-text-body/render.php:39
-#: blocks/reviews/render.php:89
+#: blocks/reviews/render.php:92
 msgid "Plus"
 msgstr ""
 
 #: blocks/image-text-body/render.php:40
-#: blocks/reviews/render.php:90
+#: blocks/reviews/render.php:93
 msgid "Moins"
 msgstr ""
 
@@ -104,33 +104,33 @@ msgid "Cartes suivantes"
 msgstr ""
 
 #. translators: %d: nombre d'étoiles de l'avis, de 1 à 5.
-#: blocks/reviews/render.php:66
+#: blocks/reviews/render.php:69
 #, php-format
 msgid "Note : %d sur 5"
 msgstr ""
 
 #. translators: %s: nom de l'auteur de l'avis.
-#: blocks/reviews/render.php:92
+#: blocks/reviews/render.php:95
 #, php-format
 msgid "— avis rédigé par %s"
 msgstr ""
 
-#: blocks/reviews/render.php:114
+#: blocks/reviews/render.php:117
 msgid "Note moyenne des avis Google :"
 msgstr ""
 
 #. translators: %s: note moyenne, ex. « 4,8 ».
-#: blocks/reviews/render.php:127
+#: blocks/reviews/render.php:130
 #, php-format
 msgid "Note moyenne des avis Google : %s sur 5"
 msgstr ""
 
-#: blocks/reviews/render.php:151
-#: blocks/reviews/index.js:136
+#: blocks/reviews/render.php:154
+#: blocks/reviews/index.js:161
 msgid "Lire tous les avis"
 msgstr ""
 
-#: blocks/reviews/render.php:152
+#: blocks/reviews/render.php:155
 msgid "sur Google (nouvel onglet)"
 msgstr ""
 
@@ -315,7 +315,7 @@ msgstr ""
 
 #: src/Features/Contacts/ContactPostType.php:65
 #: blocks/home-hero-card/index.js:242
-#: blocks/photo-card/index.js:220
+#: blocks/photo-card/index.js:229
 msgid "Photo"
 msgstr ""
 
@@ -469,7 +469,7 @@ msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:257
 #: blocks/collapsible-text/index.js:40
-#: blocks/compact-cta/index.js:39
+#: blocks/compact-cta/index.js:44
 #: blocks/cta/index.js:84
 #: blocks/faq/index.js:55
 #: blocks/section-title/index.js:42
@@ -483,11 +483,11 @@ msgstr ""
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:272
 #: src/Features/Footer/FooterSettings.php:410
 #: src/Features/Navigation/MegaMenuFields.php:97
-#: blocks/compact-cta/index.js:40
+#: blocks/compact-cta/index.js:45
 #: blocks/cta/index.js:85
 #: blocks/home-hero-card/index.js:250
 #: blocks/home-hero/index.js:57
-#: blocks/icon-card/index.js:267
+#: blocks/icon-card/index.js:243
 #: blocks/image-card/index.js:234
 #: blocks/step/index.js:80
 msgid "Texte"
@@ -934,9 +934,13 @@ msgid "Colonne de droite (facultative)"
 msgstr ""
 
 #: blocks/collapsible-text/index.js:75
-#: blocks/compact-cta/index.js:73
+#: blocks/compact-cta/index.js:102
 #: blocks/cta/index.js:154
 msgid "Le titre et le texte sont obligatoires : sans eux, ce bloc n'est pas affiché sur le site."
+msgstr ""
+
+#: blocks/compact-cta/index.js:96
+msgid "Fond du bandeau"
 msgstr ""
 
 #: blocks/cta/index.js:148
@@ -1032,19 +1036,19 @@ msgid "Encart affiché sous la carte, en desktop seulement."
 msgstr ""
 
 #: blocks/home-hero-card/index.js:227
-#: blocks/photo-card/index.js:238
+#: blocks/photo-card/index.js:247
 msgid "Sur-titre de la carte"
 msgstr ""
 
 #: blocks/home-hero-card/index.js:228
-#: blocks/photo-card/index.js:239
+#: blocks/photo-card/index.js:248
 msgid "Sur-titre"
 msgstr ""
 
 #: blocks/home-hero-card/index.js:249
-#: blocks/icon-card/index.js:266
+#: blocks/icon-card/index.js:242
 #: blocks/image-card/index.js:233
-#: blocks/photo-card/index.js:249
+#: blocks/photo-card/index.js:258
 msgid "Texte de la carte"
 msgstr ""
 
@@ -1054,9 +1058,9 @@ msgid "Libellé du bouton"
 msgstr ""
 
 #: blocks/home-hero-card/index.js:267
-#: blocks/icon-card/index.js:274
+#: blocks/icon-card/index.js:250
 #: blocks/image-card/index.js:241
-#: blocks/photo-card/index.js:257
+#: blocks/photo-card/index.js:266
 msgid "Titre obligatoire : sans lui, cette carte n'est pas affichée sur le site."
 msgstr ""
 
@@ -1112,53 +1116,25 @@ msgstr ""
 msgid "Le titre principal (H1) est obligatoire : sans lui, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
-#: blocks/icon-card/index.js:86
-msgid "Blanc"
-msgstr ""
-
-#: blocks/icon-card/index.js:87
-msgid "Pétrole clair"
-msgstr ""
-
-#: blocks/icon-card/index.js:88
-msgid "Pêche"
-msgstr ""
-
-#: blocks/icon-card/index.js:89
-msgid "Pétrole très clair"
-msgstr ""
-
-#: blocks/icon-card/index.js:90
-msgid "Orange clair"
-msgstr ""
-
-#: blocks/icon-card/index.js:91
-msgid "Blanc cassé"
-msgstr ""
-
-#: blocks/icon-card/index.js:186
-#: blocks/icon-card/index.js:192
+#: blocks/icon-card/index.js:172
+#: blocks/icon-card/index.js:178
 #: blocks/image-card/index.js:147
 #: blocks/image-card/index.js:152
 #: blocks/reassurance-item/index.js:190
 msgid "Remplacer le pictogramme"
 msgstr ""
 
-#: blocks/icon-card/index.js:198
+#: blocks/icon-card/index.js:184
 #: blocks/image-card/index.js:158
 msgid "Supprimer le pictogramme"
 msgstr ""
 
-#: blocks/icon-card/index.js:215
+#: blocks/icon-card/index.js:201
 #: blocks/reassurance-item/index.js:205
 msgid "Choisir un pictogramme (SVG de préférence)"
 msgstr ""
 
-#: blocks/icon-card/index.js:226
-msgid "Fond de la carte"
-msgstr ""
-
-#: blocks/icon-card/index.js:237
+#: blocks/icon-card/index.js:213
 #: blocks/image-card/index.js:199
 #: blocks/image-text-icon/index.js:96
 #: blocks/page-hero-tag/index.js:139
@@ -1166,39 +1142,39 @@ msgstr ""
 msgid "Pictogramme"
 msgstr ""
 
-#: blocks/icon-card/index.js:242
+#: blocks/icon-card/index.js:218
 msgid "Présentation"
 msgstr ""
 
-#: blocks/icon-card/index.js:246
+#: blocks/icon-card/index.js:222
 msgid "Pastille"
 msgstr ""
 
-#: blocks/icon-card/index.js:247
+#: blocks/icon-card/index.js:223
 msgid "Visuel décalé"
 msgstr ""
 
-#: blocks/icon-card/index.js:251
+#: blocks/icon-card/index.js:227
 msgid "Image JPG, PNG ou SVG affichée dans ses couleurs, à 80 px de haut, décalée sur un disque. Elle est décorative : son texte alternatif n'est pas utilisé."
 msgstr ""
 
-#: blocks/icon-card/index.js:252
+#: blocks/icon-card/index.js:228
 msgid "Un pictogramme SVG est peint en pétrole quelles que soient ses couleurs d'origine ; une image PNG garde les siennes. Il est décoratif : son texte alternatif n'est pas utilisé."
 msgstr ""
 
-#: blocks/icon-card/index.js:256
+#: blocks/icon-card/index.js:232
 msgid "Cette image ne peut pas être affichée en pastille : choisissez « Visuel décalé » ou un pictogramme SVG / PNG à fond transparent."
 msgstr ""
 
 #: blocks/icon-cards/index.js:110
 #: blocks/image-cards/index.js:91
-#: blocks/photo-cards/index.js:154
+#: blocks/photo-cards/index.js:172
 msgid "Ajouter une carte"
 msgstr ""
 
 #: blocks/icon-cards/index.js:120
 #: blocks/image-cards/index.js:101
-#: blocks/photo-cards/index.js:164
+#: blocks/photo-cards/index.js:182
 msgid "Cartes"
 msgstr ""
 
@@ -1490,68 +1466,68 @@ msgstr ""
 msgid "Encart posé sous les boutons, à cheval sur le bas du héros, en desktop seulement."
 msgstr ""
 
-#: blocks/photo-card/index.js:61
+#: blocks/photo-card/index.js:66
 msgid "Le + choisi"
 msgstr ""
 
-#: blocks/photo-card/index.js:112
+#: blocks/photo-card/index.js:117
 msgid "Modifier le lien de la carte"
 msgstr ""
 
-#: blocks/photo-card/index.js:112
+#: blocks/photo-card/index.js:117
 msgid "Ajouter un lien à la carte"
 msgstr ""
 
-#: blocks/photo-card/index.js:186
+#: blocks/photo-card/index.js:195
 msgid "Badge"
 msgstr ""
 
-#: blocks/photo-card/index.js:189
+#: blocks/photo-card/index.js:198
 msgid "Afficher un badge"
 msgstr ""
 
-#: blocks/photo-card/index.js:190
+#: blocks/photo-card/index.js:199
 msgid "Pastille orange posée en haut de la carte, au-dessus de la photo. Son libellé se modifie sur la carte."
 msgstr ""
 
-#: blocks/photo-card/index.js:197
+#: blocks/photo-card/index.js:206
 #: blocks/reassurance-item/index.js:233
 msgid "Lien"
 msgstr ""
 
-#: blocks/photo-card/index.js:199
+#: blocks/photo-card/index.js:208
 msgid "Toute la carte mène à cette page. Sans lien, la carte s'affiche mais n'est pas cliquable."
 msgstr ""
 
-#: blocks/photo-card/index.js:227
+#: blocks/photo-card/index.js:236
 msgid "Libellé du badge"
 msgstr ""
 
-#: blocks/photo-card/index.js:250
+#: blocks/photo-card/index.js:259
 msgid "Texte court"
 msgstr ""
 
-#: blocks/photo-card/index.js:261
+#: blocks/photo-card/index.js:270
 msgid "Pas de lien : carte non cliquable."
 msgstr ""
 
-#: blocks/photo-cards/index.js:169
+#: blocks/photo-cards/index.js:187
 msgid "Taille des cartes"
 msgstr ""
 
-#: blocks/photo-cards/index.js:172
+#: blocks/photo-cards/index.js:190
 msgid "Grandes cartes : 4 par ligne en desktop, flèches au-delà."
 msgstr ""
 
-#: blocks/photo-cards/index.js:173
+#: blocks/photo-cards/index.js:191
 msgid "Petites cartes : 5 par ligne en desktop, flèches au-delà."
 msgstr ""
 
-#: blocks/photo-cards/index.js:178
+#: blocks/photo-cards/index.js:196
 msgid "Petites"
 msgstr ""
 
-#: blocks/photo-cards/index.js:179
+#: blocks/photo-cards/index.js:197
 msgid "Grandes"
 msgstr ""
 
@@ -1596,83 +1572,87 @@ msgstr ""
 msgid "Ajouter un atout"
 msgstr ""
 
-#: blocks/reviews/index.js:67
+#: blocks/reviews/index.js:74
 msgid "Avis mis en avant"
 msgstr ""
 
 #. translators: %d: position de l'avis secondaire (1 ou 2).
-#: blocks/reviews/index.js:69
+#: blocks/reviews/index.js:76
 #, js-format
 msgid "Avis secondaire %d"
 msgstr ""
 
-#: blocks/reviews/index.js:86
+#: blocks/reviews/index.js:106
 msgid "Avis Google"
 msgstr ""
 
-#: blocks/reviews/index.js:90
+#: blocks/reviews/index.js:110
 msgid "Lien « Lire tous les avis »"
 msgstr ""
 
-#: blocks/reviews/index.js:91
+#: blocks/reviews/index.js:111
 msgid "Adresse de la fiche Google de l’auto-école. Sans adresse, le lien n’est pas affiché."
 msgstr ""
 
 #. translators: %s: libellé de l'avis (« Avis mis en avant », « Avis secondaire 1 »…).
-#: blocks/reviews/index.js:100
+#: blocks/reviews/index.js:120
 #, js-format
 msgid "Étoiles — %s"
 msgstr ""
 
-#: blocks/reviews/index.js:111
+#: blocks/reviews/index.js:130
+msgid "Fond de l’avis mis en avant"
+msgstr ""
+
+#: blocks/reviews/index.js:136
 msgid "Seuls les avis renseignés (texte et nom) sont affichés sur le site."
 msgstr ""
 
-#: blocks/reviews/index.js:119
+#: blocks/reviews/index.js:144
 msgid "Note moyenne"
 msgstr ""
 
-#: blocks/reviews/index.js:120
+#: blocks/reviews/index.js:145
 msgid "4,8 / 5"
 msgstr ""
 
 #. translators: %s: libellé de l'avis.
-#: blocks/reviews/index.js:150
+#: blocks/reviews/index.js:175
 #, js-format
 msgid "Texte — %s"
 msgstr ""
 
-#: blocks/reviews/index.js:151
+#: blocks/reviews/index.js:176
 msgid "Texte de l’avis, copié de Google"
 msgstr ""
 
 #. translators: %s: libellé de l'avis.
-#: blocks/reviews/index.js:160
+#: blocks/reviews/index.js:185
 #, js-format
 msgid "Nom — %s"
 msgstr ""
 
-#: blocks/reviews/index.js:161
+#: blocks/reviews/index.js:186
 msgid "Prénom Nom"
 msgstr ""
 
 #. translators: %s: libellé de l'avis.
-#: blocks/reviews/index.js:172
+#: blocks/reviews/index.js:197
 #, js-format
 msgid "Formation — %s"
 msgstr ""
 
-#: blocks/reviews/index.js:173
+#: blocks/reviews/index.js:198
 msgid "Formation (ex. Permis B)"
 msgstr ""
 
 #. translators: %s: libellé de l'avis.
-#: blocks/reviews/index.js:183
+#: blocks/reviews/index.js:208
 #, js-format
 msgid "Date — %s"
 msgstr ""
 
-#: blocks/reviews/index.js:184
+#: blocks/reviews/index.js:209
 msgid "Date (facultative)"
 msgstr ""
 
@@ -1702,6 +1682,34 @@ msgstr ""
 
 #: blocks/steps/index.js:68
 msgid "Ajouter une étape"
+msgstr ""
+
+#: blocks/_shared/backgrounds.js:18
+msgid "Blanc"
+msgstr ""
+
+#: blocks/_shared/backgrounds.js:19
+msgid "Pétrole clair"
+msgstr ""
+
+#: blocks/_shared/backgrounds.js:20
+msgid "Pêche"
+msgstr ""
+
+#: blocks/_shared/backgrounds.js:21
+msgid "Pétrole très clair"
+msgstr ""
+
+#: blocks/_shared/backgrounds.js:22
+msgid "Orange clair"
+msgstr ""
+
+#: blocks/_shared/backgrounds.js:23
+msgid "Blanc cassé"
+msgstr ""
+
+#: blocks/_shared/backgrounds.js:43
+msgid "Fond de la carte"
 msgstr ""
 
 #: blocks/_shared/buttons.js:102
@@ -1830,7 +1838,7 @@ msgstr ""
 
 #: blocks/compact-cta/block.json
 msgctxt "block description"
-msgid "Bandeau clair arrondi : titre et texte à gauche, un bouton à droite."
+msgid "Bandeau clair arrondi, fond au choix : titre et texte à gauche, un bouton à droite."
 msgstr ""
 
 #: blocks/compact-cta/block.json
@@ -1853,27 +1861,6 @@ msgstr ""
 #: blocks/compact-cta/block.json
 msgctxt "block keyword"
 msgid "appel"
-msgstr ""
-
-#: blocks/compact-cta/block.json
-#: blocks/page-hero/block.json
-#: blocks/photo-cards/block.json
-#: blocks/reviews/block.json
-msgctxt "block style label"
-msgid "Pétrole clair"
-msgstr ""
-
-#: blocks/compact-cta/block.json
-#: blocks/home-hero-card/block.json
-#: blocks/page-hero/block.json
-msgctxt "block style label"
-msgid "Pêche"
-msgstr ""
-
-#: blocks/compact-cta/block.json
-#: blocks/page-hero/block.json
-msgctxt "block style label"
-msgid "Rose clair"
 msgstr ""
 
 #: blocks/cta/block.json
@@ -1954,6 +1941,12 @@ msgstr ""
 #: blocks/home-hero-card/block.json
 msgctxt "block description"
 msgid "Carte du héros de l'accueil : sur-titre, photo, titre H3, texte, bouton vers la rubrique et contact prédéfini (desktop)."
+msgstr ""
+
+#: blocks/home-hero-card/block.json
+#: blocks/page-hero/block.json
+msgctxt "block style label"
+msgid "Pêche"
 msgstr ""
 
 #: blocks/home-hero-card/block.json
@@ -2194,6 +2187,16 @@ msgctxt "block keyword"
 msgid "en-tête"
 msgstr ""
 
+#: blocks/page-hero/block.json
+msgctxt "block style label"
+msgid "Rose clair"
+msgstr ""
+
+#: blocks/page-hero/block.json
+msgctxt "block style label"
+msgid "Pétrole clair"
+msgstr ""
+
 #: blocks/photo-card/block.json
 msgctxt "block title"
 msgid "Carte photo"
@@ -2201,7 +2204,7 @@ msgstr ""
 
 #: blocks/photo-card/block.json
 msgctxt "block description"
-msgid "Une carte : photo, badge facultatif, sur-titre, titre H3, texte court et lien vers une page."
+msgid "Une carte : photo, badge facultatif, sur-titre, titre H3, texte court et lien vers une page, sur un fond au choix (gris clair, blanc ou pétrole très clair)."
 msgstr ""
 
 #: blocks/photo-cards/block.json
@@ -2211,7 +2214,7 @@ msgstr ""
 
 #: blocks/photo-cards/block.json
 msgctxt "block description"
-msgid "Rangée de cartes cliquables avec photo, sur-titre, titre et texte court : 5 petites ou 4 grandes par ligne en desktop, flèches au-delà ; défilement au doigt en mobile."
+msgid "Rangée de cartes cliquables avec photo, sur-titre, titre et texte court : 5 petites ou 4 grandes par ligne en desktop, flèches au-delà ; défilement au doigt en mobile. Fond réglable carte par carte."
 msgstr ""
 
 #: blocks/photo-cards/block.json
@@ -2237,11 +2240,6 @@ msgstr ""
 #: blocks/photo-cards/block.json
 msgctxt "block keyword"
 msgid "carrousel"
-msgstr ""
-
-#: blocks/photo-cards/block.json
-msgctxt "block style label"
-msgid "Gris clair"
 msgstr ""
 
 #: blocks/reassurance-item/block.json
@@ -2281,7 +2279,7 @@ msgstr ""
 
 #: blocks/reviews/block.json
 msgctxt "block description"
-msgid "Note moyenne Google, lien vers tous les avis, et trois avis : un mis en avant, deux secondaires."
+msgid "Note moyenne Google, lien vers tous les avis, et trois avis : un mis en avant (fond au choix en desktop), deux secondaires."
 msgstr ""
 
 #: blocks/reviews/block.json
@@ -2307,11 +2305,6 @@ msgstr ""
 #: blocks/reviews/block.json
 msgctxt "block keyword"
 msgid "étoiles"
-msgstr ""
-
-#: blocks/reviews/block.json
-msgctxt "block style label"
-msgid "Rose"
 msgstr ""
 
 #: blocks/section-title/block.json

@@ -12,6 +12,8 @@
  * partir de son ID et suit ainsi un changement de permalien ; à défaut (contenu
  * supprimé, URL saisie), l'URL enregistrée. Nouvel onglet annoncé en texte masqué.
  *
+ * Fond (`background`) autre que gris clair : classe `is-bg-{fond}`.
+ *
  * Sans titre : rien n'est rendu. Sans photo (ou pièce jointe supprimée) : pas
  * d'image, le haut de la carte reste vide.
  *
@@ -84,9 +86,12 @@ $couturier_card_image = empty( $attributes['imageId'] ) ? '' : wp_get_attachment
     ]
 );
 
+// Fond de la carte : liste fermée du `block.json`, gris clair par défaut (aucune classe).
+$couturier_card_class = trim( ( $couturier_card_href ? 'has-link ' : '' ) . \Theme\Support\CardBackground::class_name( $attributes, $block ) );
+
 printf(
     '<li %s>%s%s</li>',
-    get_block_wrapper_attributes( [ 'class' => $couturier_card_href ? 'has-link' : '' ] ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
+    get_block_wrapper_attributes( [ 'class' => $couturier_card_class ] ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
     $couturier_card_image ? '<div class="wp-block-couturier-photo-card__media">' . $couturier_card_image . '</div>' : '<div class="wp-block-couturier-photo-card__media" aria-hidden="true"></div>', // phpcs:ignore WordPress.Security.EscapeOutput -- produit par WordPress.
     trim( $content ) // phpcs:ignore WordPress.Security.EscapeOutput -- contenu enregistré.
 );

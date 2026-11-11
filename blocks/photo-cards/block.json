@@ -5,7 +5,7 @@
 	"title": "Cartes photo",
 	"category": "design",
 	"icon": "images-alt2",
-	"description": "Rangée de cartes cliquables avec photo, sur-titre, titre et texte court : 5 petites ou 4 grandes par ligne en desktop, flèches au-delà ; défilement au doigt en mobile.",
+	"description": "Rangée de cartes cliquables avec photo, sur-titre, titre et texte court : 5 petites ou 4 grandes par ligne en desktop, flèches au-delà ; défilement au doigt en mobile. Fond réglable carte par carte.",
 	"keywords": [ "formations", "permis", "offres", "liens", "carrousel" ],
 	"textdomain": "couturier",
 	"allowedBlocks": [ "couturier/photo-card" ],
@@ -19,10 +19,6 @@
 	"supports": {
 		"html": false
 	},
-	"styles": [
-		{ "name": "default", "label": "Gris clair", "isDefault": true },
-		{ "name": "petrol", "label": "Pétrole clair" }
-	],
 	"example": {
 		"viewportWidth": 1200,
 		"attributes": { "size": "small" },

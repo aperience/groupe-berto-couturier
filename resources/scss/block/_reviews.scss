@@ -466,12 +466,22 @@ $reviews-google-yellow: #fbbc04;
     }
 }
 
-// Style de bloc « Pétrole clair » (`is-style-petrol`, panneau « Styles ») : fond
-// pétrole 100 au lieu d'orange 100 pour l'avis mis en avant, en desktop seulement
-// (le mobile reste en pétrole foncé). Autres couleurs inchangées (choix
-// d'Aurélien) : date et guillemet orange 700 à 4,08:1, « Plus » orange 500 à
-// 2,32:1 — à reprendre dans le rapport de contrastes.
-.wp-block-couturier-reviews.is-style-petrol .wp-block-couturier-reviews__item:first-child {
+// ─── Fond de l'avis mis en avant ─────────────────────────────────────────────
+// `background` → classe `is-bg-{fond}` du bloc, orange/100 sans classe. En
+// desktop seulement (le mobile reste en pétrole foncé). Autres couleurs
+// inchangées : date et guillemet en orange/700 — 4,31:1 sur orange/100 et 4,08:1
+// sur pétrole/100 (sous l'AA, couleurs de la maquette), 3,93:1 sur pêche/300
+// (sous l'AA, fond demandé par Aurélien le 2026-11-11), 4,51:1 sur pétrole/50.
+@each $name in ("petrol-100", "peach-300", "petrol-50") {
+    .wp-block-couturier-reviews.is-bg-#{$name} .wp-block-couturier-reviews__item:first-child {
+        @include media-breakpoint-up(lg) {
+            background-color: var(--color-#{map-get($ds-card-backgrounds, $name)});
+        }
+    }
+}
+
+// Ancien style « Pétrole clair » (supprimé) : contenu pas encore réenregistré.
+.wp-block-couturier-reviews.is-style-petrol:not([class*="is-bg-"]) .wp-block-couturier-reviews__item:first-child {
     @include media-breakpoint-up(lg) {
         background-color: var(--color-surface-petrol-soft);
     }

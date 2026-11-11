@@ -34,11 +34,9 @@ if ( ! preg_match( '#^\s*<h([2-6])\b[^>]*>(.*?)</h\1>#s', $content, $couturier_c
     return;
 }
 
-// Fond de la carte : liste fermée, blanc par défaut (aucune classe).
-$couturier_card_bg    = (string) ( $attributes['background'] ?? 'white' );
-$couturier_card_extra = in_array( $couturier_card_bg, [ 'petrol-100', 'peach-300', 'petrol-50', 'orange-100', 'neutral-50' ], true )
-    ? [ 'class' => 'is-bg-' . $couturier_card_bg ]
-    : [];
+// Fond de la carte : liste fermée du `block.json`, blanc par défaut (aucune classe).
+$couturier_card_bg    = \Theme\Support\CardBackground::class_name( $attributes, $block );
+$couturier_card_extra = $couturier_card_bg ? [ 'class' => $couturier_card_bg ] : [];
 
 $couturier_card_icon_id = empty( $attributes['iconId'] ) ? 0 : (int) $attributes['iconId'];
 $couturier_card_badge   = '';

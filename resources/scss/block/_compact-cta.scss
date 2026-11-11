@@ -2,14 +2,15 @@
 //
 // Balisage (front : `render.php` ; éditeur : `blocks/compact-cta/index.js`) :
 //
-//   section.wp-block-couturier-compact-cta[.is-style-peach|.is-style-pink]
+//   section.wp-block-couturier-compact-cta[.is-bg-{fond}]
 //     h2, p, div.wp-block-buttons   ← enfants directs des deux côtés
 //
 // Mobile : tout empilé. Desktop (`lg`) : grille, titre et texte à gauche, bouton
 // à droite centré verticalement (Figma 301:6347).
 //
-// Fond par style de bloc (panneau « Styles ») : seule `--compact-cta-bg` change,
-// titre pétrole 500 et texte pétrole 900 sur les trois fonds clairs.
+// Fond (`background` → classe `is-bg-{fond}`, pétrole/100 sans classe) : seule
+// `--compact-cta-bg` change. Titre pétrole/500 (≥ 7,28:1) et texte pétrole/900
+// (≥ 12,9:1) sur tous les fonds proposés. Pas de blanc : la page l'est.
 
 .wp-block-couturier-compact-cta {
     --compact-cta-bg: var(--color-surface-petrol-soft);
@@ -23,8 +24,14 @@
     background-color: var(--compact-cta-bg);
     color: var(--color-text-default);
 
-    &.is-style-peach { --compact-cta-bg: var(--color-surface-peach-soft); }
-    &.is-style-pink  { --compact-cta-bg: var(--color-surface-accent-soft); }
+    // Fonds de l'`enum` du `block.json`, sauf le défaut.
+    @each $name in ("peach-300", "orange-100", "petrol-50", "neutral-50") {
+        &.is-bg-#{$name} { --compact-cta-bg: var(--color-#{map-get($ds-card-backgrounds, $name)}); }
+    }
+
+    // Anciens styles de bloc (supprimés) : contenu pas encore réenregistré.
+    &.is-style-peach:not([class*="is-bg-"]) { --compact-cta-bg: var(--color-surface-peach-soft); }
+    &.is-style-pink:not([class*="is-bg-"])  { --compact-cta-bg: var(--color-surface-accent-soft); }
 
     // Marges par défaut des blocs du canvas neutralisées : `.wp-block` y pose
     // `margin-inline: auto`, qui, dans une grille, rétrécit l'élément à son
