@@ -11,12 +11,16 @@
     position: relative;
 
     > h3 {
-        padding-inline-end: to-rem(96);
         margin-bottom: var(--space-12);
 
         @include media-breakpoint-up(lg) {
             margin-bottom: var(--space-24);
         }
+    }
+
+    // Place du bouton, à droite du titre.
+    &:not(.is-not-collapsible) > h3 {
+        padding-inline-end: to-rem(96);
     }
 
     > .wp-block-couturier-collapsible-text__toggle {
@@ -38,6 +42,15 @@
 
         > :is(h3, .wp-block-couturier-collapsible-text__notice) {
             flex: 0 0 100%;
+        }
+
+        // « Une seule colonne » : colonnes empilées sur toute la largeur.
+        &.is-single-column > .wp-block-couturier-collapsible-text-column {
+            flex: 0 0 100%;
+
+            + .wp-block-couturier-collapsible-text-column {
+                margin-top: var(--space-24);
+            }
         }
     }
 }

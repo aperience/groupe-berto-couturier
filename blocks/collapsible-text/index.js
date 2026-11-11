@@ -3,6 +3,13 @@
  * sur deux colonnes, repliable en desktop (bouton « Réduire » /
  * « Lire la suite »).
  *
+ * Réglages (barre latérale, panneau « Mise en page ») :
+ * - « Une seule colonne » (`singleColumn`, `is-single-column`) : les deux
+ *   colonnes sont empilées sur toute la largeur, la droite à la suite de la
+ *   gauche — rien n'est perdu en changeant d'avis ;
+ * - « Texte repliable » (`isCollapsible`, coché par défaut) : décoché, ni
+ *   bouton ni repli, le texte est toujours entier (`is-not-collapsible`).
+ *
  * Modèle figé par `templateLock: 'all'` :
  * - le titre est un `core/heading` imbriqué (panneau Structure, cf.
  *   `blocks/CLAUDE.md`), toujours un `<h3>`, verrouillé ;
@@ -16,8 +23,8 @@
  * le corps sont produits par `render.php`, qui n'affiche rien sans titre ni texte.
  */
 import { registerBlockType } from '@wordpress/blocks';
-import { InnerBlocks, store as blockEditorStore, useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
-import { Notice } from '@wordpress/components';
+import { InnerBlocks, InspectorControls, store as blockEditorStore, useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
+import { Notice, PanelBody, ToggleControl } from '@wordpress/components';
 import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
@@ -45,7 +52,9 @@ const TEMPLATE = [
 /** Blocs imbriqués verrouillés : le titre et les deux colonnes. */
 const LOCKED_BLOCKS = [ 'core/heading', COLUMN ];
 
-function Edit( { clientId, isSelected } ) {
+function Edit( { attributes, setAttributes, clientId, isSelected } ) {
+	const { singleColumn, isCollapsible } = attributes;
+
 	const blocks = useSelect( ( select ) => select( blockEditorStore ).getBlocks( clientId ), [ clientId ] );
 	// Bloc ou l'un de ses blocs imbriqués sélectionné. Sinon, le canvas montre le
 	// rendu du site.
@@ -63,22 +72,47 @@ function Edit( { clientId, isSelected } ) {
 	useNonBreakingPunctuation( blocks );
 
 	// Modèle passé à l'insertion seulement (bloc vide), cf. `blocks/CLAUDE.md`.
-	const { children, ...innerBlocksProps } = useInnerBlocksProps( useBlockProps(), {
+	const { children, ...innerBlocksProps } = useInnerBlocksProps(
+		useBlockProps( {
+			className: [ singleColumn && 'is-single-column', ! isCollapsible && 'is-not-collapsible' ].filter( Boolean ).join( ' ' ) || undefined,
+		} ),
+		{
 		template: blocks.length ? undefined : TEMPLATE,
-		templateLock: 'all',
-	} );
+			templateLock: 'all',
+		}
+	);
 
 	return (
 		<div { ...innerBlocksProps }>
+			<InspectorControls>
+				<PanelBody title={ __( 'Mise en page', 'couturier' ) }>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Une seule colonne', 'couturier' ) }
+						help={ __( 'Le texte occupe toute la largeur : la colonne de droite s\'affiche sous celle de gauche.', 'couturier' ) }
+						checked={ !! singleColumn }
+						onChange={ ( checked ) => setAttributes( { singleColumn: checked } ) }
+					/>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Texte repliable', 'couturier' ) }
+						help={ __( 'Bouton « Réduire » / « Lire la suite » en desktop. Décoché, le texte s\'affiche toujours en entier.', 'couturier' ) }
+						checked={ !! isCollapsible }
+						onChange={ ( checked ) => setAttributes( { isCollapsible: checked } ) }
+					/>
+				</PanelBody>
+			</InspectorControls>
 			{ isEditing && blocks.length > 0 && ( ! textOf( heading ) || ! hasText ) && (
 				<Notice status="warning" isDismissible={ false } className="wp-block-couturier-collapsible-text__notice">
 					{ __( 'Le titre et le texte sont obligatoires : sans eux, ce bloc n\'est pas affiché sur le site.', 'couturier' ) }
 				</Notice>
 			) }
 			{ /* Bouton du front, sans action dans l'éditeur. */ }
-			<span className="wp-block-couturier-collapsible-text__toggle" aria-hidden="true">
-				{ __( 'Réduire', 'couturier' ) }
-			</span>
+			{ isCollapsible && (
+				<span className="wp-block-couturier-collapsible-text__toggle" aria-hidden="true">
+					{ __( 'Réduire', 'couturier' ) }
+				</span>
+			) }
 			{ children }
 		</div>
 	);

@@ -3,8 +3,9 @@
 // Balisage :
 //
 //   front (`render.php`) :
-//     section.wp-block-couturier-collapsible-text[.is-collapsed]
-//       div.__header > h3 + button.__toggle   ← bouton `hidden` hors desktop
+//     section.wp-block-couturier-collapsible-text[.is-collapsed][.is-single-column][.is-not-collapsible]
+//       div.__header > h3 + button.__toggle   ← bouton `hidden` hors desktop,
+//                                               absent si `is-not-collapsible`
 //       div.__body > div.__content
 //         div.wp-block-couturier-collapsible-text-column > p, ul, ol   (1 ou 2)
 //
@@ -163,5 +164,17 @@ $collapsible-text-max-width: to-rem(1060);
         gap: var(--space-48);
         align-items: flex-start;
         padding-top: var(--space-24);
+    }
+
+    // « Une seule colonne » : colonnes empilées sur toute la largeur, séparées
+    // comme deux paragraphes.
+    .is-single-column & {
+        @include media-breakpoint-up(lg) {
+            display: block;
+
+            > .wp-block-couturier-collapsible-text-column + .wp-block-couturier-collapsible-text-column {
+                margin-top: var(--space-24);
+            }
+        }
     }
 }

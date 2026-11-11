@@ -5,9 +5,13 @@
 	"title": "Texte repliable",
 	"category": "design",
 	"icon": "editor-justify",
-	"description": "Titre et texte sur deux colonnes (paragraphes, listes), repliable en desktop.",
+	"description": "Titre et texte sur une ou deux colonnes (paragraphes, listes), repliable en desktop ou non.",
 	"keywords": [ "texte", "colonnes", "réduire", "lire la suite", "seo" ],
 	"textdomain": "couturier",
+	"attributes": {
+		"singleColumn": { "type": "boolean", "default": false },
+		"isCollapsible": { "type": "boolean", "default": true }
+	},
 	"allowedBlocks": [ "core/heading", "couturier/collapsible-text-column" ],
 	"supports": {
 		"html": false

@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-11T11:21:38+00:00\n"
+"POT-Creation-Date: 2026-11-11T12:39:09+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -33,12 +33,12 @@ msgstr ""
 msgid "https://www.deefuse.fr"
 msgstr ""
 
-#: blocks/collapsible-text/render.php:54
-#: blocks/collapsible-text/index.js:80
+#: blocks/collapsible-text/render.php:81
+#: blocks/collapsible-text/index.js:113
 msgid "Réduire"
 msgstr ""
 
-#: blocks/collapsible-text/render.php:55
+#: blocks/collapsible-text/render.php:82
 msgid "Lire la suite"
 msgstr ""
 
@@ -468,7 +468,7 @@ msgid "Afficher l'offre en page d'accueil pendant ses dates"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:257
-#: blocks/collapsible-text/index.js:40
+#: blocks/collapsible-text/index.js:47
 #: blocks/compact-cta/index.js:44
 #: blocks/cta/index.js:84
 #: blocks/faq/index.js:55
@@ -925,15 +925,35 @@ msgstr ""
 msgid "Accès rapides (menu mobile)"
 msgstr ""
 
-#: blocks/collapsible-text/index.js:41
+#: blocks/collapsible-text/index.js:48
 msgid "Colonne de gauche"
 msgstr ""
 
-#: blocks/collapsible-text/index.js:42
+#: blocks/collapsible-text/index.js:49
 msgid "Colonne de droite (facultative)"
 msgstr ""
 
-#: blocks/collapsible-text/index.js:75
+#: blocks/collapsible-text/index.js:88
+msgid "Mise en page"
+msgstr ""
+
+#: blocks/collapsible-text/index.js:91
+msgid "Une seule colonne"
+msgstr ""
+
+#: blocks/collapsible-text/index.js:92
+msgid "Le texte occupe toute la largeur : la colonne de droite s'affiche sous celle de gauche."
+msgstr ""
+
+#: blocks/collapsible-text/index.js:98
+msgid "Texte repliable"
+msgstr ""
+
+#: blocks/collapsible-text/index.js:99
+msgid "Bouton « Réduire » / « Lire la suite » en desktop. Décoché, le texte s'affiche toujours en entier."
+msgstr ""
+
+#: blocks/collapsible-text/index.js:107
 #: blocks/compact-cta/index.js:102
 #: blocks/cta/index.js:154
 msgid "Le titre et le texte sont obligatoires : sans eux, ce bloc n'est pas affiché sur le site."
@@ -1802,7 +1822,7 @@ msgstr ""
 
 #: blocks/collapsible-text/block.json
 msgctxt "block description"
-msgid "Titre et texte sur deux colonnes (paragraphes, listes), repliable en desktop."
+msgid "Titre et texte sur une ou deux colonnes (paragraphes, listes), repliable en desktop ou non."
 msgstr ""
 
 #: blocks/collapsible-text/block.json
