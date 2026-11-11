@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-11T14:28:33+00:00\n"
+"POT-Creation-Date: 2026-11-11T15:06:12+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -44,6 +44,7 @@ msgstr ""
 
 #: blocks/home-hero-card/render.php:90
 #: blocks/image-text-icon/render.php:57
+#: blocks/logo-strip-item/render.php:65
 #: blocks/page-hero-media/render.php:92
 #: blocks/page-hero/render.php:136
 #: blocks/reassurance-item/render.php:66
@@ -1013,6 +1014,7 @@ msgstr ""
 
 #: blocks/faq/index.js:56
 #: blocks/image-text/index.js:86
+#: blocks/logo-strip/index.js:41
 #: blocks/page-hero/index.js:86
 msgid "Texte (facultatif)"
 msgstr ""
@@ -1243,10 +1245,12 @@ msgid "Le pictogramme est décoratif : son texte alternatif dans la médiathèqu
 msgstr ""
 
 #: blocks/image-text-icon/index.js:107
+#: blocks/logo-strip-item/index.js:80
 msgid "Modifier le lien"
 msgstr ""
 
 #: blocks/image-text-icon/index.js:107
+#: blocks/logo-strip-item/index.js:80
 msgid "Ajouter un lien"
 msgstr ""
 
@@ -1267,6 +1271,7 @@ msgid "Ajouter une icône"
 msgstr ""
 
 #: blocks/image-text/index.js:85
+#: blocks/logo-strip/index.js:40
 msgid "Titre (facultatif)"
 msgstr ""
 
@@ -1307,6 +1312,30 @@ msgstr ""
 #: blocks/image-text/index.js:189
 #: blocks/page-hero-media/index.js:224
 msgid "Surtitre (facultatif)"
+msgstr ""
+
+#: blocks/logo-strip-item/index.js:119
+msgid "Choisir un logo"
+msgstr ""
+
+#: blocks/logo-strip-item/index.js:127
+msgid "Légende du logo"
+msgstr ""
+
+#: blocks/logo-strip-item/index.js:128
+msgid "Légende"
+msgstr ""
+
+#: blocks/logo-strip-items/index.js:58
+msgid "Ajouter un logo"
+msgstr ""
+
+#: blocks/logo-strip/index.js:69
+msgid "Fond de la section"
+msgstr ""
+
+#: blocks/logo-strip/index.js:75
+msgid "Saisissez la légende d'au moins un logo : sans elle, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
 #: blocks/page-hero-facts/index.js:62
@@ -1739,22 +1768,26 @@ msgid "Pétrole clair"
 msgstr ""
 
 #: blocks/_shared/backgrounds.js:20
-msgid "Pêche"
+msgid "Pêche très clair"
 msgstr ""
 
 #: blocks/_shared/backgrounds.js:21
-msgid "Pétrole très clair"
+msgid "Pêche"
 msgstr ""
 
 #: blocks/_shared/backgrounds.js:22
-msgid "Orange clair"
+msgid "Pétrole très clair"
 msgstr ""
 
 #: blocks/_shared/backgrounds.js:23
+msgid "Orange clair"
+msgstr ""
+
+#: blocks/_shared/backgrounds.js:24
 msgid "Blanc cassé"
 msgstr ""
 
-#: blocks/_shared/backgrounds.js:43
+#: blocks/_shared/backgrounds.js:44
 msgid "Fond de la carte"
 msgstr ""
 
@@ -1900,6 +1933,7 @@ msgid "bouton"
 msgstr ""
 
 #: blocks/compact-cta/block.json
+#: blocks/logo-strip/block.json
 msgctxt "block keyword"
 msgid "bandeau"
 msgstr ""
@@ -2134,6 +2168,7 @@ msgid "équipements"
 msgstr ""
 
 #: blocks/image-text-body/block.json
+#: blocks/logo-strip-body/block.json
 msgctxt "block title"
 msgid "Texte"
 msgstr ""
@@ -2186,6 +2221,61 @@ msgstr ""
 #: blocks/image-text/block.json
 msgctxt "block keyword"
 msgid "média"
+msgstr ""
+
+#: blocks/logo-strip-body/block.json
+msgctxt "block description"
+msgid "Texte du bloc « Logos partenaires » : paragraphes et listes."
+msgstr ""
+
+#: blocks/logo-strip-item/block.json
+msgctxt "block title"
+msgid "Logo"
+msgstr ""
+
+#: blocks/logo-strip-item/block.json
+msgctxt "block description"
+msgid "Logo facultatif (cercle coloré à défaut), légende et lien facultatif."
+msgstr ""
+
+#: blocks/logo-strip-items/block.json
+msgctxt "block title"
+msgid "Logos"
+msgstr ""
+
+#: blocks/logo-strip-items/block.json
+msgctxt "block description"
+msgid "Encart des logos du bloc « Logos partenaires »."
+msgstr ""
+
+#: blocks/logo-strip/block.json
+msgctxt "block title"
+msgid "Logos partenaires"
+msgstr ""
+
+#: blocks/logo-strip/block.json
+msgctxt "block description"
+msgid "Section arrondie, fond au choix : titre, texte libre et encart de logos légendés (5 par ligne en desktop, bande défilante en mobile)."
+msgstr ""
+
+#: blocks/logo-strip/block.json
+msgctxt "block keyword"
+msgid "logos"
+msgstr ""
+
+#: blocks/logo-strip/block.json
+msgctxt "block keyword"
+msgid "partenaires"
+msgstr ""
+
+#: blocks/logo-strip/block.json
+msgctxt "block keyword"
+msgid "financeurs"
+msgstr ""
+
+#: blocks/logo-strip/block.json
+msgctxt "block keyword"
+msgid "financement"
 msgstr ""
 
 #: blocks/page-hero-facts/block.json

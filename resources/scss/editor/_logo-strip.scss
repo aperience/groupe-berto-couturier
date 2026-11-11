@@ -1,0 +1,50 @@
+// ─── Bloc « Logos partenaires » (éditeur seulement) ───────────────────────────
+//
+// Bouton de choix d'un logo posé dans le cercle vide, boutons « Remplacer » /
+// « Supprimer » sur un logo, bouton « Ajouter un logo » de l'encart.
+
+.wp-block-couturier-logo-strip-item__media.is-empty {
+    position: relative;
+
+    > .couturier-image-field {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+// Logo : boutons de l'image empilés et réduits, la colonne étant étroite.
+.wp-block-couturier-logo-strip-item__media.couturier-image-field {
+    position: relative;
+
+    .couturier-image-field__actions {
+        flex-direction: column;
+        transform: scale(.8);
+    }
+}
+
+// Légende vide en cours d'édition : une largeur pour pouvoir cliquer dedans.
+.wp-block-couturier-logo-strip-item__caption[contenteditable] {
+    min-width: 4em;
+}
+
+.wp-block-couturier-logo-strip-items__add {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style: none;
+}
+
+// En cours d'édition, les logos passent à la ligne (comme les cartes photo).
+.wp-block-couturier-logo-strip-items.is-editing {
+    flex-wrap: wrap;
+    row-gap: var(--space-24);
+}
+
+// Puce centrée (`list-style-position: inside`) : le champ d'un élément de
+// liste est un bloc dans le canvas, qui renverrait le texte sous la puce.
+.wp-block-couturier-logo-strip-body li > [contenteditable] {
+    display: inline;
+}

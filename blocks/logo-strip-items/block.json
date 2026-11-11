@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/logo-strip-items",
+	"title": "Logos",
+	"category": "design",
+	"icon": "grid-view",
+	"description": "Encart des logos du bloc « Logos partenaires ».",
+	"textdomain": "couturier",
+	"parent": [ "couturier/logo-strip" ],
+	"allowedBlocks": [ "couturier/logo-strip-item" ],
+	"supports": {
+		"html": false,
+		"inserter": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

@@ -1,0 +1,46 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/logo-strip",
+	"title": "Logos partenaires",
+	"category": "design",
+	"icon": "images-alt2",
+	"description": "Section arrondie, fond au choix : titre, texte libre et encart de logos légendés (5 par ligne en desktop, bande défilante en mobile).",
+	"keywords": [ "logos", "partenaires", "financeurs", "financement", "bandeau" ],
+	"textdomain": "couturier",
+	"allowedBlocks": [ "core/heading", "couturier/logo-strip-body", "couturier/logo-strip-items" ],
+	"attributes": {
+		"background": {
+			"type": "string",
+			"enum": [ "peach-100", "peach-300", "petrol-100", "petrol-50", "orange-100", "neutral-50" ],
+			"default": "peach-100"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"innerBlocks": [
+			{ "name": "core/heading", "attributes": { "level": 2, "content": "Financer la formation de vos équipes, ou à titre <span class=\"wp-block-couturier-cta__highlight\">individuel</span>" } },
+			{
+				"name": "couturier/logo-strip-body",
+				"innerBlocks": [
+					{ "name": "core/paragraph", "attributes": { "content": "Les équipes administratives du centre de formation Couturier mettent en place de nombreuses solutions de financement selon votre profil." } }
+				]
+			},
+			{
+				"name": "couturier/logo-strip-items",
+				"innerBlocks": [
+					{ "name": "couturier/logo-strip-item", "attributes": { "caption": "OPCO" } },
+					{ "name": "couturier/logo-strip-item", "attributes": { "caption": "France Travail" } },
+					{ "name": "couturier/logo-strip-item", "attributes": { "caption": "Transitions Pro" } },
+					{ "name": "couturier/logo-strip-item", "attributes": { "caption": "CPF · individuel" } },
+					{ "name": "couturier/logo-strip-item", "attributes": { "caption": "Plan de développement des compétences" } }
+				]
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

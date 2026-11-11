@@ -1,0 +1,213 @@
+// ─── Bloc « Logos partenaires » (couturier/logo-strip) ────────────────────────
+//
+// Maquettes : desktop 301:6827, mobile 605:1480.
+//
+//   section.wp-block-couturier-logo-strip[.is-bg-{fond}]
+//     h2.wp-block-heading                         ← titre facultatif
+//     div.wp-block-couturier-logo-strip-body      ← texte libre facultatif
+//     ul.wp-block-couturier-logo-strip-items      ← encart blanc
+//       li.wp-block-couturier-logo-strip-item
+//         (a|span).__link > span.__media[.is-empty] (img) + span.__caption
+//
+// Mobile : l'encart est une bande qui défile au doigt (`scroll-snap`), deux logos
+// visibles. Desktop (`lg`) : grille de cinq logos par ligne.
+//
+// Fond (`background` → `is-bg-{fond}`, pêche/100 sans classe) : seule
+// `--logo-strip-bg` change. Titre pétrole/500 et texte pétrole/900 : AA sur tous
+// les fonds proposés.
+
+.wp-block-couturier-logo-strip {
+    --logo-strip-bg: var(--color-surface-peach-faint);
+    --logo-strip-circle: #{to-rem(57)};
+    --logo-strip-logo-h: #{to-rem(66)};
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    margin-block: var(--layout-section-gap);
+    padding: var(--space-24) var(--space-16);
+    border-radius: var(--bs-border-radius-xl);
+    background-color: var(--logo-strip-bg);
+    color: var(--color-text-default);
+    text-align: center;
+
+    // Fonds de l'`enum` du `block.json`, sauf le défaut.
+    @each $name in ("peach-300", "petrol-100", "petrol-50", "orange-100", "neutral-50") {
+        &.is-bg-#{$name} { --logo-strip-bg: var(--color-#{map-get($ds-card-backgrounds, $name)}); }
+    }
+
+    // Marges des blocs du canvas neutralisées (cf. `_compact-cta.scss`).
+    > *,
+    .editor-styles-wrapper & > .wp-block {
+        margin: 0;
+    }
+
+    > h2 {
+        @include text-style(section-title);
+        color: var(--color-text-heading);
+        text-align: center;
+
+        .wp-block-couturier-cta__highlight {
+            color: var(--color-text-accent);
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        --logo-strip-circle: #{to-rem(76)};
+        --logo-strip-logo-h: #{to-rem(88)};
+
+        padding: var(--space-48) to-rem(46);
+
+        > h2 {
+            // 49 px d'interligne et −1 px d'approche : valeurs de la maquette.
+            line-height: to-rem(49);
+            letter-spacing: -1px;
+        }
+
+        // Spécificité 0,3,0 dans le canvas : l'emporte sur la remise à zéro des
+        // marges ci-dessus.
+        > .wp-block-couturier-logo-strip-body,
+        .editor-styles-wrapper & > .wp-block-couturier-logo-strip-body {
+            margin-top: var(--space-20);
+        }
+
+        > .wp-block-couturier-logo-strip-items,
+        .editor-styles-wrapper & > .wp-block-couturier-logo-strip-items {
+            margin-top: var(--space-10);
+        }
+    }
+}
+
+// ─── Texte ────────────────────────────────────────────────────────────────────
+
+.wp-block-couturier-logo-strip-body {
+    @include text-style(logo-strip-text);
+
+    > :where(p, ul, ol) {
+        margin-block: 0;
+    }
+
+    > * + * {
+        margin-top: var(--space-12);
+    }
+
+    // Listes : puces centrées avec le texte, sans retrait.
+    :where(ul, ol) {
+        padding-left: 0;
+        list-style-position: inside;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: .15em;
+
+        &:hover {
+            text-decoration-thickness: 2px;
+        }
+    }
+}
+
+// ─── Encart des logos ─────────────────────────────────────────────────────────
+
+.wp-block-couturier-logo-strip-items {
+    display: flex;
+    margin: 0;
+    padding: var(--space-24) 0;
+    overflow-x: auto;
+    border-radius: to-rem(24);
+    background-color: var(--color-surface-card);
+    list-style: none;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    overscroll-behavior-x: contain;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    > li {
+        flex: 0 0 50%;
+        min-width: 0;
+        margin: 0;
+        padding-inline: var(--space-8);
+        scroll-snap-align: start;
+    }
+
+    @include media-breakpoint-up(md) {
+        > li {
+            flex-basis: calc(100% / 3);
+        }
+    }
+
+    @include media-breakpoint-up(lg) {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        row-gap: var(--space-32);
+        padding: var(--space-32) var(--space-24);
+        overflow: visible;
+        border-radius: to-rem(32);
+    }
+}
+
+.wp-block-couturier-logo-strip-item__link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-8);
+    height: 100%;
+    color: var(--color-text-heading);
+    text-decoration: none;
+}
+
+a.wp-block-couturier-logo-strip-item__link {
+    border-radius: var(--bs-border-radius-sm);
+
+    &:hover .wp-block-couturier-logo-strip-item__caption {
+        text-decoration: underline;
+        text-underline-offset: .15em;
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-border-strong);
+        outline-offset: 2px;
+    }
+}
+
+.wp-block-couturier-logo-strip-item__media {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--logo-strip-logo-h);
+
+    // Sans logo : cercle coloré, couleurs tournantes de la maquette.
+    &.is-empty::before {
+        content: "";
+        width: var(--logo-strip-circle);
+        height: var(--logo-strip-circle);
+        border-radius: 50%;
+        background-color: var(--logo-strip-circle-bg, var(--color-surface-peach-soft));
+    }
+}
+
+.wp-block-couturier-logo-strip-item__image {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+}
+
+.wp-block-couturier-logo-strip-item__caption {
+    @include text-style(logo-strip-caption);
+    max-width: to-rem(154);
+    text-align: center;
+}
+
+// Couleurs des cercles : pêche/300, pétrole/100, orange/100, pétrole/50.
+.wp-block-couturier-logo-strip-item {
+    &:nth-child(4n + 2) { --logo-strip-circle-bg: var(--color-surface-petrol-soft); }
+    &:nth-child(4n + 3) { --logo-strip-circle-bg: var(--color-surface-accent-soft); }
+    &:nth-child(4n + 4) { --logo-strip-circle-bg: var(--color-surface-petrol-faint); }
+}

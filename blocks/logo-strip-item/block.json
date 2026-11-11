@@ -1,0 +1,31 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/logo-strip-item",
+	"title": "Logo",
+	"category": "design",
+	"icon": "format-image",
+	"description": "Logo facultatif (cercle coloré à défaut), légende et lien facultatif.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/logo-strip-items" ],
+	"attributes": {
+		"imageId": {
+			"type": "number"
+		},
+		"link": {
+			"type": "object"
+		},
+		"caption": {
+			"type": "string",
+			"source": "html",
+			"selector": ".wp-block-couturier-logo-strip-item__caption",
+			"role": "content"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

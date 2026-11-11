@@ -123,6 +123,7 @@ $ds-semantic-colors: (
 $ds-card-backgrounds: (
     "white":    surface-card,
     petrol-100: surface-petrol-soft,
+    peach-100:  surface-peach-faint,
     peach-300:  surface-peach-soft,
     petrol-50:  surface-petrol-faint,
     orange-100: surface-accent-soft,
@@ -234,6 +235,10 @@ $ds-text-styles: (
     // Bold, interlettrage −0,5 px ; 20 px en mobile (hors maquette).
     compact-cta-title: (family: body, weight: 700, size: (20, 24),   line: (26, 31), tracking: -0.5),
     compact-cta-text:  (family: body, weight: 400, size: (14.5, 14.5), line: (23, 23)),
+    // Bloc « Logos partenaires » (Figma 301:6827, 605:1480) : texte et légendes
+    // (légende à 12 px en mobile au lieu de 9,75, validé par Aurélien).
+    logo-strip-text:    (family: body, weight: 400, size: (14, 18), line: (24, 29)),
+    logo-strip-caption: (family: body, weight: 700, size: (12, 13), line: (16, 17)),
     // Surimpression du visuel du héros de page (301:6166, 596:1361) : surtitre en
     // capitales ; titre en Red Hat Display Regular, parties en gras ×1,25 (24 → 30).
     page-hero-media-eyebrow: (family: body,    weight: 700, size: (12.5, 15), line: (16.5, 19.5), uppercase: true),

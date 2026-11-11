@@ -17,6 +17,7 @@ import { __ } from '@wordpress/i18n';
 export const BACKGROUNDS = [
 	{ slug: 'white', name: __( 'Blanc', 'couturier' ), color: '#ffffff' },
 	{ slug: 'petrol-100', name: __( 'Pétrole clair', 'couturier' ), color: '#e0eaec' },
+	{ slug: 'peach-100', name: __( 'Pêche très clair', 'couturier' ), color: '#fdf0e7' },
 	{ slug: 'peach-300', name: __( 'Pêche', 'couturier' ), color: '#fbdfcb' },
 	{ slug: 'petrol-50', name: __( 'Pétrole très clair', 'couturier' ), color: '#f0f4f6' },
 	{ slug: 'orange-100', name: __( 'Orange clair', 'couturier' ), color: '#ffeae3' },
