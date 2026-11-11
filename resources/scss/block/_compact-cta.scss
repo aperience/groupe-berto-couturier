@@ -46,6 +46,12 @@
     > h2 {
         @include text-style(compact-cta-title);
         color: var(--color-text-heading);
+
+        // Mots mis en avant (format `couturier/highlight`) : orange foncé, comme
+        // sur les fonds clairs des cartes (`_image-cards.scss`).
+        .wp-block-couturier-cta__highlight {
+            color: var(--color-text-accent);
+        }
     }
 
     > p {
