@@ -35,8 +35,13 @@ if ( ! $couturier_section_title_has_title ) {
 // entre l'espace et le signe (mise en avant, lien…) sont conservées.
 $couturier_section_title_content = preg_replace( '/ +((?:<[^>]*>)*)(?=[?!:;»])/u', "\u{00A0}$1", $content ) ?? $content;
 
+// Centré par défaut : seul l'alignement à gauche pose une classe.
+$couturier_section_title_wrapper = 'left' === ( $attributes['textAlign'] ?? 'center' )
+    ? get_block_wrapper_attributes( [ 'class' => 'has-text-align-left' ] )
+    : get_block_wrapper_attributes();
+
 printf(
     '<hgroup %s>%s</hgroup>',
-    get_block_wrapper_attributes(), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
+    $couturier_section_title_wrapper, // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
     $couturier_section_title_content // phpcs:ignore WordPress.Security.EscapeOutput -- HTML enregistré du bloc.
 );

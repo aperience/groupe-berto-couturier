@@ -41,6 +41,7 @@ use Theme\Features\Blocks\AttachedBlocks;
 use Theme\Features\Blocks\ButtonStyles;
 use Theme\Features\Blocks\DisableCorePatterns;
 use Theme\Features\Blocks\DisableDropCap;
+use Theme\Features\Blocks\HeadingTextAlign;
 use Theme\Features\Blocks\PageScopedBlocks;
 use Theme\Features\Blocks\RestrictHeadingLevels;
 use Theme\Features\Contacts\ContactEditorData;
@@ -109,6 +110,7 @@ final class AdminServiceProvider implements ServiceProviderInterface
                 not_on_front_page: [ $context->block_namespace . '/page-hero' ],
             ),
             new ButtonStyles($context),
+            new HeadingTextAlign($context),
             new AttachedBlocks($context),
             new BlockImageSizes(),
             // Contacts prédéfinis, choisis dans les héros (menu « Contacts »).

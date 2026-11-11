@@ -9,6 +9,11 @@
 	"keywords": [ "titre", "sous-titre", "section", "intertitre" ],
 	"textdomain": "couturier",
 	"attributes": {
+		"textAlign": {
+			"type": "string",
+			"enum": [ "left", "center" ],
+			"default": "center"
+		},
 		"subtitle": {
 			"type": "string",
 			"source": "html",

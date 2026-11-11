@@ -6,7 +6,8 @@
 //     h2 | h3                                   ← titre (core/heading imbriqué)
 //     p.__subtitle                              ← sous-titre facultatif
 //
-// Titre centré ; sous-titre à gauche en mobile, centré à partir de `md`.
+// Titre et sous-titre centrés par défaut ; `.has-text-align-left` (réglage
+// « Aligner à gauche » du bloc) les aligne à gauche.
 //
 // Le même style vaut pour un **titre libre** : `core/heading` H2 posé au premier
 // niveau du contenu (`.container` de `page.twig` au front, `.is-root-container`
@@ -23,6 +24,13 @@ $section-title-root: ":where(.container, .is-root-container) > h2.wp-block-headi
     @include text-style(section-title);
     color: var(--color-text-heading);
     text-align: center;
+}
+
+// Style du H3 libre (`core/heading` au premier niveau) : taille du titre du texte
+// repliable (style h2 de la charte). Repris par le H3 du bloc.
+@mixin section-title-h3 {
+    @include text-style(h2);
+    color: var(--color-text-heading);
 }
 
 // Marges : un titre ouvre une section, et introduit le bloc qui le suit.
@@ -45,10 +53,15 @@ $section-title-root: ":where(.container, .is-root-container) > h2.wp-block-headi
         @include section-title-h2;
     }
 
+    // Même style que le H3 libre (`core/heading`), centré comme le H2.
     > h3 {
-        @include text-style(h3);
-        color: var(--color-text-heading);
+        @include section-title-h3;
         text-align: center;
+    }
+
+    // Alignement à gauche : classe doublée (0,2,0) pour passer devant `> h2`/`> h3`.
+    &.has-text-align-left > * {
+        text-align: left;
     }
 
     // Avertissement de l'éditeur (titre vide).
@@ -109,8 +122,14 @@ $section-title-root: ":where(.container, .is-root-container) > h2.wp-block-headi
 }
 
 // Titre libre H3 : même taille que le titre du texte repliable (style h2 de la
-// charte). Premier niveau seulement, comme le H2 : les H3 imbriqués gardent les leurs.
+// charte), centré comme le H2. Premier niveau seulement : les H3 imbriqués gardent les leurs.
 :where(.container, .is-root-container) > h3.wp-block-heading {
-    @include text-style(h2);
-    color: var(--color-text-heading);
+    @include section-title-h3;
+    text-align: center;
+}
+
+// Titre libre aligné à gauche (réglage de `Blocks\HeadingTextAlign`) ; (0,2,0)
+// passe devant `> h2.wp-block-heading` / `> h3.wp-block-heading` (0,1,1).
+:where(.container, .is-root-container) > .wp-block-heading.has-text-align-left {
+    text-align: left;
 }

@@ -1,6 +1,6 @@
 /**
- * Bloc « Titre de section » (`couturier/section-title`) : titre centré, puis
- * sous-titre facultatif.
+ * Bloc « Titre de section » (`couturier/section-title`) : titre, puis
+ * sous-titre facultatif, centrés (par défaut) ou alignés à gauche.
  *
  * - le titre est un `core/heading` imbriqué (panneau Structure, cf.
  *   `blocks/CLAUDE.md`), verrouillé par `templateLock: 'all'`, en H2 ou H3 au
@@ -13,6 +13,7 @@
  */
 import { getBlockType, registerBlockType } from '@wordpress/blocks';
 import {
+	AlignmentControl,
 	BlockControls,
 	HeadingLevelDropdown,
 	InnerBlocks,
@@ -47,16 +48,40 @@ const LOCKED_BLOCKS = [ 'core/heading' ];
 /** Niveaux proposés : ceux de `RestrictHeadingLevels` (H2, H3). */
 const getLevels = () => getBlockType( 'core/heading' )?.attributes?.levelOptions?.default ?? [ 2, 3 ];
 
-/** Sélecteur de niveau du titre, dans la barre d'outils. */
-function LevelControl( { clientId, level } ) {
+/** Alignements proposés : gauche ou centré (défaut). */
+const ALIGNMENTS = [
+	{ icon: 'editor-alignleft', title: __( 'Aligner le texte à gauche', 'couturier' ), align: 'left' },
+	{ icon: 'editor-aligncenter', title: __( 'Centrer le texte', 'couturier' ), align: 'center' },
+];
+
+/** Classe d'alignement : seul l'alignement à gauche en pose une (centré = défaut). */
+const alignClass = ( textAlign ) => ( 'left' === textAlign ? 'has-text-align-left' : undefined );
+
+/**
+ * Sélecteurs de niveau du titre et d'alignement du bloc, dans la barre d'outils.
+ *
+ * @param {Object} props
+ * @param {string} props.headingId Identifiant du titre imbriqué.
+ * @param {number} props.level     Niveau du titre.
+ * @param {string} props.blockId   Identifiant du bloc « Titre de section ».
+ * @param {string} props.textAlign Alignement du bloc.
+ */
+function ToolbarControls( { headingId, level, blockId, textAlign } ) {
 	const { updateBlockAttributes } = useDispatch( blockEditorStore );
 
 	return (
 		<BlockControls group="block">
-			<HeadingLevelDropdown
-				value={ level }
-				options={ getLevels() }
-				onChange={ ( newLevel ) => updateBlockAttributes( clientId, { level: newLevel } ) }
+			{ headingId && (
+				<HeadingLevelDropdown
+					value={ level }
+					options={ getLevels() }
+					onChange={ ( newLevel ) => updateBlockAttributes( headingId, { level: newLevel } ) }
+				/>
+			) }
+			<AlignmentControl
+				value={ textAlign }
+				alignmentControls={ ALIGNMENTS }
+				onChange={ ( newAlign ) => updateBlockAttributes( blockId, { textAlign: newAlign ?? 'center' } ) }
 			/>
 		</BlockControls>
 	);
@@ -78,14 +103,19 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	useNonBreakingPunctuation( blocks );
 
 	// Modèle passé à l'insertion seulement (bloc vide), cf. `blocks/CLAUDE.md`.
-	const { children, ...innerBlocksProps } = useInnerBlocksProps( useBlockProps(), {
+	const { children, ...innerBlocksProps } = useInnerBlocksProps( useBlockProps( { className: alignClass( attributes.textAlign ) } ), {
 		template: blocks.length ? undefined : TEMPLATE,
 		templateLock: 'all',
 	} );
 
 	return (
 		<>
-			{ heading && <LevelControl clientId={ heading.clientId } level={ heading.attributes.level } /> }
+			<ToolbarControls
+				headingId={ heading?.clientId }
+				level={ heading?.attributes.level }
+				blockId={ clientId }
+				textAlign={ attributes.textAlign }
+			/>
 			<hgroup { ...innerBlocksProps }>
 				{ isEditing && blocks.length > 0 && ! textOf( heading ) && (
 					<Notice status="warning" isDismissible={ false } className="wp-block-couturier-section-title__notice">
@@ -124,28 +154,40 @@ registerBlockType( metadata.name, {
 // Titre sélectionné : ni cadenas, ni variations de niveau…
 hideLockedControls( metadata.name, LOCKED_BLOCKS );
 
-// … mais le sélecteur de niveau, que `templateLock: 'all'` retire de sa barre
-// d'outils : c'est le titre que l'on sélectionne le plus souvent.
+// … mais les sélecteurs de niveau et d'alignement, que `templateLock: 'all'`
+// retire de sa barre d'outils : c'est le titre que l'on sélectionne le plus souvent.
 addFilter(
 	'editor.BlockEdit',
 	`${ metadata.name }/heading-level`,
 	createHigherOrderComponent(
 		( BlockEdit ) => ( props ) => {
-			const isInBlock = useSelect(
+			// Bloc parent, s'il s'agit du titre d'un « Titre de section ».
+			const parent = useSelect(
 				( select ) => {
-					const editor = select( blockEditorStore );
+					if ( 'core/heading' !== props.name ) {
+						return null;
+					}
 
-					return (
-						'core/heading' === props.name &&
-						metadata.name === editor.getBlockName( editor.getBlockRootClientId( props.clientId ) )
-					);
+					const editor = select( blockEditorStore );
+					const parentId = editor.getBlockRootClientId( props.clientId );
+
+					return metadata.name === editor.getBlockName( parentId )
+						? { clientId: parentId, textAlign: editor.getBlockAttributes( parentId )?.textAlign }
+						: null;
 				},
 				[ props.name, props.clientId ]
 			);
 
 			return (
 				<>
-					{ isInBlock && props.isSelected && <LevelControl clientId={ props.clientId } level={ props.attributes.level } /> }
+					{ parent && props.isSelected && (
+						<ToolbarControls
+							headingId={ props.clientId }
+							level={ props.attributes.level }
+							blockId={ parent.clientId }
+							textAlign={ parent.textAlign }
+						/>
+					) }
 					<BlockEdit { ...props } />
 				</>
 			);
