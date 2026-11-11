@@ -74,6 +74,12 @@ if ( $couturier_card_href ) {
 }
 
 // ─── Photo ────────────────────────────────────────────────────────────────────
+// Point focal → `--focal` (même calcul que `objectPosition()` dans `index.js`), omis au centre.
+$couturier_card_focal = is_array( $attributes['focalPoint'] ?? null ) ? $attributes['focalPoint'] : [];
+$couturier_card_x     = round( min( max( (float) ( $couturier_card_focal['x'] ?? 0.5 ), 0.0 ), 1.0 ) * 100, 1 );
+$couturier_card_y     = round( min( max( (float) ( $couturier_card_focal['y'] ?? 0.5 ), 0.0 ), 1.0 ) * 100, 1 );
+$couturier_card_style = ( 50.0 === $couturier_card_x && 50.0 === $couturier_card_y ) ? '' : sprintf( ' style="--focal: %s%% %s%%"', $couturier_card_x, $couturier_card_y );
+
 // 280 px : largeur maximale d'une carte (grandes cartes en desktop).
 $couturier_card_image = empty( $attributes['imageId'] ) ? '' : wp_get_attachment_image(
     (int) $attributes['imageId'],
@@ -92,6 +98,6 @@ $couturier_card_class = trim( ( $couturier_card_href ? 'has-link ' : '' ) . \The
 printf(
     '<li %s>%s%s</li>',
     get_block_wrapper_attributes( [ 'class' => $couturier_card_class ] ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
-    $couturier_card_image ? '<div class="wp-block-couturier-photo-card__media">' . $couturier_card_image . '</div>' : '<div class="wp-block-couturier-photo-card__media" aria-hidden="true"></div>', // phpcs:ignore WordPress.Security.EscapeOutput -- produit par WordPress.
+    $couturier_card_image ? '<div class="wp-block-couturier-photo-card__media"' . $couturier_card_style . '>' . $couturier_card_image . '</div>' : '<div class="wp-block-couturier-photo-card__media" aria-hidden="true"></div>', // phpcs:ignore WordPress.Security.EscapeOutput -- produit par WordPress.
     trim( $content ) // phpcs:ignore WordPress.Security.EscapeOutput -- contenu enregistré.
 );

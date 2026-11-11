@@ -3,6 +3,7 @@
  * facultatif, sur-titre, titre, texte court et lien.
  *
  * - la photo (`imageId`) passe par `ImageField` (`blocks/_shared/image-field.js`) ;
+ *   point focal (`focalPoint` → `--focal`, `object-position`) dans la barre latérale ;
  * - le titre est un `core/heading` imbriqué, toujours un `<h3>` : seul bloc que
  *   lit le panneau Structure. Verrouillé, sans format ;
  * - badge et sur-titre sont des attributs écrits avant le titre dans le HTML
@@ -33,7 +34,7 @@ import {
 	useBlockProps,
 	useInnerBlocksProps,
 } from '@wordpress/block-editor';
-import { Notice, PanelBody, Popover, ToggleControl, ToolbarButton, ToolbarGroup } from '@wordpress/components';
+import { FocalPointPicker, Notice, PanelBody, Popover, ToggleControl, ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import { createHigherOrderComponent } from '@wordpress/compose';
 import { store as coreStore } from '@wordpress/core-data';
 import { useDispatch, useSelect } from '@wordpress/data';
@@ -43,7 +44,7 @@ import { __ } from '@wordpress/i18n';
 
 import { HEADING_FORMATS_OFF, restrictFormats } from '../_shared/formats.js';
 import { link as linkIcon } from '../_shared/icons.js';
-import ImageField, { ImageInfoPanel } from '../_shared/image-field.js';
+import ImageField, { ImageInfoPanel, imageUrl } from '../_shared/image-field.js';
 import {
 	hideLockedControls,
 	nonBreaking,
@@ -61,6 +62,12 @@ const TEMPLATE = [ TITLE ];
 const TITLE_BLOCKS = [ 'core/heading' ];
 
 const ROOT = 'couturier/photo-cards';
+
+const DEFAULT_FOCAL_POINT = { x: 0.5, y: 0.5 };
+
+/** `object-position` du point focal, en variable `--focal` (même calcul dans `render.php`). */
+const objectPosition = ( { x, y } = DEFAULT_FOCAL_POINT ) =>
+	`${ Math.round( x * 1000 ) / 10 }% ${ Math.round( y * 1000 ) / 10 }%`;
 
 /** Libellé proposé quand on affiche le badge. */
 const DEFAULT_BADGE = __( 'Le + choisi', 'couturier' );
@@ -130,7 +137,7 @@ function CardLinkToolbar( { cardId } ) {
 }
 
 function Edit( { attributes, setAttributes, clientId, isSelected } ) {
-	const { imageId, hasBadge, badge, eyebrow, text, link } = attributes;
+	const { imageId, focalPoint, hasBadge, badge, eyebrow, text, link } = attributes;
 	const background = useBackground( metadata, attributes.background );
 
 	const { blocks, isEditing } = useSelect(
@@ -184,6 +191,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	const { children, ...innerBlocksProps } = useInnerBlocksProps(
 		useBlockProps( {
 			className: [ background.className, isIncomplete && 'is-incomplete' ].filter( Boolean ).join( ' ' ) || undefined,
+			style: focalPoint ? { '--focal': objectPosition( focalPoint ) } : undefined,
 		} ),
 		{ template: blocks.length ? undefined : TEMPLATE, templateLock: 'all' }
 	);
@@ -192,6 +200,20 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 		<li { ...innerBlocksProps }>
 			<BackgroundPanel { ...background } onChange={ ( slug ) => setAttributes( { background: slug } ) } />
 			<InspectorControls>
+				<PanelBody title={ __( 'Photo', 'couturier' ) }>
+					{ media ? (
+						<FocalPointPicker
+							__nextHasNoMarginBottom
+							label={ __( 'Point focal', 'couturier' ) }
+							help={ __( 'Partie de la photo toujours visible, quel que soit le recadrage.', 'couturier' ) }
+							url={ imageUrl( media ) }
+							value={ focalPoint ?? DEFAULT_FOCAL_POINT }
+							onChange={ ( value ) => setAttributes( { focalPoint: value } ) }
+						/>
+					) : (
+						! isMissing && <p>{ __( 'Choisissez la photo dans la carte.', 'couturier' ) }</p>
+					) }
+				</PanelBody>
 				<PanelBody title={ __( 'Badge', 'couturier' ) }>
 					<ToggleControl
 						__nextHasNoMarginBottom
@@ -224,8 +246,8 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 					imageClassName="wp-block-couturier-photo-card__image"
 					media={ media }
 					isEditing={ isEditing }
-					onSelect={ ( selected ) => setAttributes( { imageId: selected?.id } ) }
-					onRemove={ () => setAttributes( { imageId: undefined } ) }
+					onSelect={ ( selected ) => setAttributes( { imageId: selected?.id, focalPoint: undefined } ) }
+					onRemove={ () => setAttributes( { imageId: undefined, focalPoint: undefined } ) }
 					label={ __( 'Photo', 'couturier' ) }
 				/>
 			) }

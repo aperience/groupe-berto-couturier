@@ -12,6 +12,9 @@
 		"imageId": {
 			"type": "number"
 		},
+		"focalPoint": {
+			"type": "object"
+		},
 		"link": {
 			"type": "object"
 		},
