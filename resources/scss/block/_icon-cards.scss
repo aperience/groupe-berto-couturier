@@ -95,6 +95,12 @@ $icon-cards-gap-desktop: var(--space-24);
     > h3 {
         @include text-style(h3);
         color: var(--color-text-heading);
+
+        // Mots mis en avant (format `couturier/highlight`) : orange foncé sur
+        // les fonds clairs des cartes.
+        .wp-block-couturier-cta__highlight {
+            color: var(--color-text-accent);
+        }
     }
 }
 
