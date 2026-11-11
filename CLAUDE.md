@@ -1,11 +1,9 @@
 # CLAUDE.md — Thème Couturier
 
-Documentation d'architecture du thème WordPress `couturier`. Ce fichier couvre le thème (code, build,
-conventions) ; l'environnement Docker (services, ports, base de données, WP-CLI) est documenté dans le
-`CLAUDE.md` à la racine du dépôt (`04 - Code`). Les deux sont versionnés dans le même dépôt.
+Documentation d'architecture du thème WordPress `couturier` (code, build, conventions).
 
-Le thème est né du squelette `wp-theme-skeleton` (v1.7.3), adapté à l'environnement Docker : dev
-server Vite en HTTP dans le conteneur `node` (pas de mkcert), `bin/wp` en `--allow-root`, et
+Le thème est né du squelette `wp-theme-skeleton` (v1.7.3), adapté : dev
+server Vite en HTTP (pas de mkcert), `bin/wp` en `--allow-root`, et
 `BlockLoader` écrit dans le thème (annoncé par le squelette, absent du squelette comme du socle).
 
 Namespaces PHP : `Theme\` pour le code du projet (`src/`), `Deefuse\ThemeCore\` pour le socle,
@@ -88,14 +86,6 @@ lecteur d'écran restent indispensables.
 ---
 
 ## Commandes
-
-Dans l'environnement Docker, les commandes `npm` tournent dans le conteneur `node` (dont le répertoire
-de travail est le thème) et `composer` dans le conteneur `cli` :
-
-```bash
-docker compose exec node npm run <script>
-docker compose exec -w /var/www/html/wp-content/themes/couturier cli composer install
-```
 
 Scripts disponibles :
 
@@ -396,7 +386,7 @@ WP-CLI est une dépendance de dev Composer (`wp-cli/i18n-command`) : version ver
 `composer.lock`, aucune dépendance au `wp` global du poste. Le wrapper `bin/wp` lui fournit un PHP ≥ 8.5
 (via `WP_CLI_PHP`), sans quoi le platform check généré par Composer fait échouer la commande — le `php`
 du PATH est souvent plus ancien. Il cherche dans l'ordre `$PHP_BIN`, le `php` du PATH, puis MAMP.
-Il passe `--allow-root` : dans l'environnement Docker, il tourne dans le conteneur `node`, en root.
+Il passe `--allow-root`.
 
 ### Traduire une nouvelle langue (Poedit)
 
@@ -960,7 +950,7 @@ synchro de la BDD de `bin/deploy-preprod`, sinon à refaire là-bas).
 - Structure personnalisée : `/blog/%category%/%postname%/` ; préfixe des catégories : `blog/categorie`
   (WordPress n'y ajoute pas le début de la structure quand il est renseigné, d'où le `blog/` en entier) ;
   préfixe des étiquettes vide.
-- En WP-CLI : `docker compose exec cli wp rewrite structure '/blog/%category%/%postname%/' --category-base=blog/categorie`.
+- En WP-CLI : `wp rewrite structure '/blog/%category%/%postname%/' --category-base=blog/categorie`.
 
 | URL | Contenu |
 |-----|---------|
@@ -1001,9 +991,7 @@ Couvre les deux chemins d'upload : médiathèque (`upload`) et éditeur de blocs
   depuis WP 7.1, l'éditeur redimensionne les images dans le navigateur en HTTPS ou sur `localhost`,
   ce qui court-circuiterait la conversion.
 - Une conversion impossible ne bloque jamais l'upload : l'original est alors conservé.
-- Les images importées **avant** l'activation restent en JPEG / PNG. `wp media regenerate` ne sait
-  pas les régénérer en local : le conteneur `cli` n'a ni Imagick ni GD, et le conteneur `php` n'a pas
-  WP-CLI.
+- Les images importées **avant** l'activation restent en JPEG / PNG.
 
 ---
 
@@ -1162,9 +1150,7 @@ dev server — un e-mail est lu bien après son envoi. Sans build, le nom du sit
 
 ## Git
 
-Le dépôt Git est à la **racine du projet** (`04 - Code`, remote `git@github.com:achappard/couturier-wp.git`) :
-il versionne l'environnement Docker et le thème, et ignore le reste de `wordpress/` (cf. `CLAUDE.md`
-racine). Branches : `master` (livré), `dev` (intégration), `feature/{nom}` créées depuis `dev`.
+Le dépôt Git est le **dossier du thème** (remote `git@github.com:achappard/couturier-wp.git`). Branches : `master` (livré), `dev` (intégration), `feature/{nom}` créées depuis `dev`.
 
 Messages de commit : `<emoji> <type>. <message>` — ex. `✨ feat. ajout du bloc hero`
 Types : `feat.`, `fix.`, `refactor.`, `docs.`, `chore.`, `style.`, `test.`

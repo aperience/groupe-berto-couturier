@@ -6,12 +6,10 @@ text-domain `couturier`.
 
 ## Installation
 
-Dans l'environnement Docker du projet (cf. `CLAUDE.md` à la racine du dépôt) :
-
 ```bash
-docker compose exec -w /var/www/html/wp-content/themes/couturier cli composer install
-docker compose exec node npm install
-docker compose exec node npm run build
+composer install
+npm install
+npm run build
 ```
 
 `composer install` est obligatoire : `functions.php` s'arrête avec un message explicite si
@@ -19,7 +17,7 @@ docker compose exec node npm run build
 
 ## Développement
 
-Scripts à lancer dans le conteneur `node` (`docker compose exec node npm run …`) :
+Scripts npm disponibles :
 
 ```bash
 npm run dev          # Vite (HMR) + watch des blocs Gutenberg
