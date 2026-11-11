@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/pickup-map-body",
+	"title": "Texte",
+	"category": "design",
+	"icon": "editor-paragraph",
+	"description": "Texte du bloc « Centre et points de ramassage » : paragraphes et listes.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/pickup-map" ],
+	"allowedBlocks": [ "core/paragraph", "core/list" ],
+	"supports": {
+		"html": false,
+		"inserter": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

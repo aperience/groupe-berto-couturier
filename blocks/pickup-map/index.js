@@ -5,6 +5,9 @@
  *
  * - le titre est un `core/heading` imbriqué, toujours un `<h2>`, avec mise en
  *   avant (orange foncé) ;
+ * - le texte `couturier/pickup-map-body` (paragraphes et listes libres,
+ *   facultatif) suit le titre, sur toute la largeur ; un bloc créé avant lui le
+ *   reçoit à l'ouverture dans l'éditeur ;
  * - la liste `couturier/pickup-map-points` (verrouillée, son propre
  *   `templateLock: false`) reçoit les points, sans limite ;
  * - l'adresse du centre est saisie dans la barre latérale (commentaire du bloc) ;
@@ -17,7 +20,7 @@
  *
  * Rien n'est rendu sans titre ou sans adresse du centre.
  */
-import { registerBlockType } from '@wordpress/blocks';
+import { createBlock, registerBlockType } from '@wordpress/blocks';
 import {
 	InnerBlocks,
 	InspectorControls,
@@ -27,20 +30,25 @@ import {
 	useInnerBlocksProps,
 } from '@wordpress/block-editor';
 import { Notice, PanelBody, TextControl } from '@wordpress/components';
-import { useSelect } from '@wordpress/data';
+import { useDispatch, useSelect } from '@wordpress/data';
+import { useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 import { LOCKED, hideLockedControls, nonBreaking, textOf, useLockedContent, useNonBreakingPunctuation } from '../_shared/locked-content.js';
+import { hasContent } from '../image-text-body/content.js';
 import { NAME } from '../pickup-point/name.js';
 import metadata from './block.json';
 import './formats.js';
 
+const BODY = 'couturier/pickup-map-body';
+
 const TEMPLATE = [
 	[ 'core/heading', { level: 2, lock: LOCKED, content: __( 'Le centre et les points de ramassage', 'couturier' ), placeholder: __( 'Titre', 'couturier' ) } ],
+	[ BODY, { lock: LOCKED }, [ [ 'core/paragraph', { placeholder: __( 'Texte (facultatif)', 'couturier' ) } ] ] ],
 	[ 'couturier/pickup-map-points', { lock: LOCKED }, [ [ 'couturier/pickup-point', {}, [ NAME ] ] ] ],
 ];
 
-const LOCKED_BLOCKS = [ 'core/heading', 'couturier/pickup-map-points' ];
+const LOCKED_BLOCKS = [ 'core/heading', BODY, 'couturier/pickup-map-points' ];
 
 const LEVEL = 2;
 
@@ -63,16 +71,40 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	);
 
 	const heading = blocks.find( ( block ) => 'core/heading' === block.name );
+	const body = blocks.find( ( block ) => BODY === block.name );
 	const list = blocks.find( ( block ) => 'couturier/pickup-map-points' === block.name );
 	const hasPoints = !! list?.innerBlocks.some( ( point ) => !! textOf( point.innerBlocks[ 0 ] ) );
 	const address = centerAddress.trim();
 	const isIncomplete = blocks.length > 0 && ( ! textOf( heading ) || ! address );
 
+	// Bloc créé avant le texte : texte ajouté après le titre (une seule fois).
+	const { replaceInnerBlocks } = useDispatch( blockEditorStore );
+	const hasBody = blocks.some( ( block ) => BODY === block.name );
+
+	useEffect( () => {
+		if ( ! blocks.length || hasBody ) {
+			return;
+		}
+
+		const body = createBlock( BODY, { lock: LOCKED }, [ createBlock( 'core/paragraph', { placeholder: __( 'Texte (facultatif)', 'couturier' ) } ) ] );
+		const index = blocks.findIndex( ( block ) => 'core/heading' === block.name ) + 1;
+
+		replaceInnerBlocks( clientId, [ ...blocks.slice( 0, index ), body, ...blocks.slice( index ) ], false );
+	}, [ blocks.length, hasBody ] ); // eslint-disable-line react-hooks/exhaustive-deps
+
 	useLockedContent( blocks, { level: LEVEL, names: LOCKED_BLOCKS } );
 	useNonBreakingPunctuation( blocks );
 
 	const { children, ...innerBlocksProps } = useInnerBlocksProps(
-		useBlockProps( { className: hasPoints ? 'has-points' : undefined } ),
+		// Éléments présents (zones de la grille, `block/_pickup-map.scss`). En
+		// cours d'édition, champs vides compris : ils restent saisissables.
+		useBlockProps( {
+			className: [
+				( hasPoints || isEditing ) && 'has-points',
+				( isEditing || !! body?.innerBlocks.some( hasContent ) ) && 'has-body',
+				( isEditing || ! RichText.isEmpty( note ) ) && 'has-note',
+			].filter( Boolean ).join( ' ' ) || undefined,
+		} ),
 		{ template: blocks.length ? undefined : TEMPLATE, templateLock: 'all' }
 	);
 

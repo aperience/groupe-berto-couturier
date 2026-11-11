@@ -31,6 +31,7 @@
 		},
 		"innerBlocks": [
 			{ "name": "core/heading", "attributes": { "level": 2, "content": "Le centre et les points de <span class=\"wp-block-couturier-cta__highlight\">ramassage</span>" } },
+			{ "name": "couturier/pickup-map-body", "innerBlocks": [ { "name": "core/paragraph", "attributes": { "content": "Les cours de conduite démarrent au centre ou depuis l'un de nos points de ramassage." } } ] },
 			{
 				"name": "couturier/pickup-map-points",
 				"innerBlocks": [

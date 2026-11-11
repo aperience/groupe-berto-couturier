@@ -5,6 +5,7 @@
 //
 //   section.wp-block-couturier-pickup-map(.has-points)
 //     h2                                   ← titre
+//     div.wp-block-couturier-pickup-map-body ← texte libre facultatif
 //     div.__tabs > .__tab ×2               ← avec des points seulement
 //     div.__map > iframe.__frame + p.__address (front)
 //     ol.wp-block-couturier-pickup-map-points
@@ -17,15 +18,39 @@
 // carte à gauche (628 / 1021 de la maquette), liste puis note à droite ; sans
 // point, carte sur toute la largeur.
 
+/// Zones de la grille du bloc, selon les éléments présents ; `$desktop` : deux
+/// colonnes (avec des points), carte à gauche, liste puis note à droite.
+@function pickup-map-areas($points, $body, $note, $desktop) {
+    $rows: ();
+    $full: if($desktop, "title title", "title");
+    $rows: append($rows, $full);
+
+    @if $body { $rows: append($rows, if($desktop, "body body", "body")); }
+
+    @if $desktop {
+        $rows: append($rows, "tabs tabs");
+        $rows: append($rows, "map list");
+
+        @if $note { $rows: append($rows, "map note"); }
+    } @else {
+        @if $points { $rows: append($rows, "tabs"); }
+        $rows: append($rows, "map");
+        @if $points { $rows: append($rows, "list"); }
+        @if $note { $rows: append($rows, "note"); }
+    }
+
+    $areas: ();
+
+    @each $row in $rows {
+        $areas: append($areas, quote($row), space);
+    }
+
+    @return $areas;
+}
+
 .wp-block-couturier-pickup-map {
+    position: relative;
     display: grid;
-    grid-template-areas:
-        "notice"
-        "title"
-        "tabs"
-        "map"
-        "list"
-        "note";
     grid-template-columns: minmax(0, 1fr);
     gap: var(--space-16);
     margin-block: var(--layout-section-gap);
@@ -54,7 +79,7 @@
         }
     }
 
-    > .wp-block-couturier-pickup-map__notice { grid-area: notice; }
+    > .wp-block-couturier-pickup-map-body { grid-area: body; }
     > .wp-block-couturier-pickup-map__tabs { grid-area: tabs; }
     > .wp-block-couturier-pickup-map__map { grid-area: map; }
     > .wp-block-couturier-pickup-map-points { grid-area: list; }
@@ -70,14 +95,71 @@
         }
 
         &.has-points {
-            grid-template-areas:
-                "notice notice"
-                "title title"
-                "tabs tabs"
-                "map list"
-                "map note";
             grid-template-columns: minmax(0, 628fr) minmax(0, 393fr);
-            grid-template-rows: repeat(4, auto) 1fr;
+        }
+    }
+
+    // Zones de la grille : une ligne par élément présent seulement (une ligne
+    // vide compterait ses deux écarts). Présence signalée par `has-body`,
+    // `has-points`, `has-note` (`render.php` ; dans le canvas, `index.js`).
+    @each $points in (false, true) {
+        @each $body in (false, true) {
+            @each $note in (false, true) {
+                $selector: "&" + if($points, ".has-points", "") + if($body, ".has-body", "") + if($note, ".has-note", "");
+
+                #{$selector} {
+                    grid-template-areas: pickup-map-areas($points, $body, $note, false);
+
+                    @if $points {
+                        @include media-breakpoint-up(lg) {
+                            grid-template-areas: pickup-map-areas($points, $body, $note, true);
+                            // Dernière ligne extensible : la note reste sous la liste.
+                            grid-template-rows: if($note, repeat(if($body, 3, 2), auto) auto 1fr, none);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // Avertissement de l'éditeur : au-dessus de la section, hors de la grille.
+    > .wp-block-couturier-pickup-map__notice {
+        position: absolute;
+        bottom: 100%;
+        inset-inline: 0;
+        margin-bottom: var(--space-8);
+    }
+}
+
+// ─── Texte ────────────────────────────────────────────────────────────────────
+// Comme le texte des logos partenaires : centré sous le titre.
+
+.wp-block-couturier-pickup-map-body {
+    @include text-style(logo-strip-text);
+    color: var(--color-text-default);
+    text-align: center;
+
+    > :where(p, ul, ol) {
+        margin-block: 0;
+    }
+
+    > * + * {
+        margin-top: var(--space-12);
+    }
+
+    // Listes : puces centrées avec le texte, sans retrait.
+    :where(ul, ol) {
+        padding-left: 0;
+        list-style-position: inside;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: .15em;
+
+        &:hover {
+            text-decoration-thickness: 2px;
         }
     }
 }

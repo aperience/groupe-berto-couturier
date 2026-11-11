@@ -2,7 +2,7 @@
 /**
  * Rendu du bloc « Centre et points de ramassage » (`couturier/pickup-map`).
  *
- * Titre, onglets (avec des points seulement), carte Google Maps en iframe, liste
+ * Titre, texte libre facultatif (`pickup-map-body/render.php`), onglets (avec des points seulement), carte Google Maps en iframe, liste
  * des points, note. Modèle WAI-ARIA « Tabs » : les deux onglets commandent un
  * même panneau, la carte (`aria-labelledby` tenu à jour par
  * `resources/js/pickup-map.js`). « Le centre » montre l'adresse du centre ;
@@ -32,10 +32,13 @@ $couturier_map_address = trim( (string) ( $attributes['centerAddress'] ?? '' ) )
 $couturier_map_src     = GoogleMapsEmbed::url( $couturier_map_address );
 $couturier_map_title   = '';
 $couturier_map_points  = '';
+$couturier_map_body    = '';
 
 foreach ( $block->inner_blocks as $couturier_map_inner ) {
     if ( 'core/heading' === $couturier_map_inner->name ) {
         $couturier_map_title = trim( $couturier_map_inner->render() );
+    } elseif ( 'couturier/pickup-map-body' === $couturier_map_inner->name ) {
+        $couturier_map_body = trim( $couturier_map_inner->render() );
     } elseif ( 'couturier/pickup-map-points' === $couturier_map_inner->name ) {
         $couturier_map_points = trim( $couturier_map_inner->render() );
     }
@@ -99,11 +102,12 @@ $couturier_map_html = sprintf(
 );
 
 printf(
-    '<section %1$s>%2$s%3$s%4$s%5$s%6$s</section>',
-    get_block_wrapper_attributes( [ 'class' => $couturier_map_has_points ? 'has-points' : '' ] ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
+    '<section %1$s>%2$s%7$s%3$s%4$s%5$s%6$s</section>',
+    get_block_wrapper_attributes( [ 'class' => implode( ' ', array_filter( [ $couturier_map_has_points ? 'has-points' : '', '' !== $couturier_map_body ? 'has-body' : '', '' !== $couturier_map_note ? 'has-note' : '' ] ) ) ] ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
     $couturier_map_title, // phpcs:ignore WordPress.Security.EscapeOutput -- titre enregistré.
     $couturier_map_tabs, // phpcs:ignore WordPress.Security.EscapeOutput -- échappé ci-dessus.
     $couturier_map_html, // phpcs:ignore WordPress.Security.EscapeOutput -- échappé ci-dessus.
     $couturier_map_points, // phpcs:ignore WordPress.Security.EscapeOutput -- points rendus.
-    $couturier_map_note // phpcs:ignore WordPress.Security.EscapeOutput -- note enregistrée.
+    $couturier_map_note, // phpcs:ignore WordPress.Security.EscapeOutput -- note enregistrée.
+    $couturier_map_body // phpcs:ignore WordPress.Security.EscapeOutput -- texte rendu.
 );
