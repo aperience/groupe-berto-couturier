@@ -103,6 +103,14 @@ $section-title-root: ":where(.container, .is-root-container) > h2.wp-block-headi
 // Mots mis en avant (format `couturier/highlight`) : orange foncé sur fond clair,
 // 4,99:1 — l'orange de la charte n'y tiendrait que 2,8:1.
 .wp-block-couturier-section-title .wp-block-couturier-cta__highlight,
-#{$section-title-root} .wp-block-couturier-cta__highlight {
+#{$section-title-root} .wp-block-couturier-cta__highlight,
+:where(.container, .is-root-container) > h3.wp-block-heading .wp-block-couturier-cta__highlight {
     color: var(--color-text-accent);
+}
+
+// Titre libre H3 : même taille que le titre du texte repliable (style h2 de la
+// charte). Premier niveau seulement, comme le H2 : les H3 imbriqués gardent les leurs.
+:where(.container, .is-root-container) > h3.wp-block-heading {
+    @include text-style(h2);
+    color: var(--color-text-heading);
 }
