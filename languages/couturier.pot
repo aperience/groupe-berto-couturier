@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-11T14:18:32+00:00\n"
+"POT-Creation-Date: 2026-11-11T14:28:33+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -94,11 +94,11 @@ msgid_plural "%s avis"
 msgstr[0] ""
 msgstr[1] ""
 
-#: blocks/photo-cards/render.php:49
+#: blocks/photo-cards/render.php:53
 msgid "Cartes précédentes"
 msgstr ""
 
-#: blocks/photo-cards/render.php:50
+#: blocks/photo-cards/render.php:53
 msgid "Cartes suivantes"
 msgstr ""
 
@@ -1193,13 +1193,13 @@ msgstr ""
 
 #: blocks/icon-cards/index.js:110
 #: blocks/image-cards/index.js:91
-#: blocks/photo-cards/index.js:175
+#: blocks/photo-cards/index.js:181
 msgid "Ajouter une carte"
 msgstr ""
 
 #: blocks/icon-cards/index.js:120
 #: blocks/image-cards/index.js:101
-#: blocks/photo-cards/index.js:185
+#: blocks/photo-cards/index.js:191
 msgid "Cartes"
 msgstr ""
 
@@ -1523,32 +1523,44 @@ msgstr ""
 msgid "Texte court"
 msgstr ""
 
-#: blocks/photo-cards/index.js:190
+#: blocks/photo-cards/index.js:196
 msgid "Taille des cartes"
 msgstr ""
 
-#: blocks/photo-cards/index.js:193
-msgid "Petites cartes : 5 par ligne en desktop, flèches au-delà."
+#: blocks/photo-cards/index.js:199
+msgid "Petites cartes : 5 par ligne en desktop."
 msgstr ""
 
-#: blocks/photo-cards/index.js:194
-msgid "Cartes moyennes : 4 par ligne en desktop, flèches au-delà."
-msgstr ""
-
-#: blocks/photo-cards/index.js:195
-msgid "Grandes cartes : 3 par ligne en desktop, flèches au-delà."
+#: blocks/photo-cards/index.js:200
+msgid "Cartes moyennes : 4 par ligne en desktop."
 msgstr ""
 
 #: blocks/photo-cards/index.js:201
+msgid "Grandes cartes : 3 par ligne en desktop."
+msgstr ""
+
+#: blocks/photo-cards/index.js:207
 msgid "Petites"
 msgstr ""
 
-#: blocks/photo-cards/index.js:202
+#: blocks/photo-cards/index.js:208
 msgid "Moyennes"
 msgstr ""
 
-#: blocks/photo-cards/index.js:203
+#: blocks/photo-cards/index.js:209
 msgid "Grandes"
+msgstr ""
+
+#: blocks/photo-cards/index.js:213
+msgid "Activer les boutons de défilement"
+msgstr ""
+
+#: blocks/photo-cards/index.js:216
+msgid "En desktop, flèches de défilement quand les cartes dépassent la ligne."
+msgstr ""
+
+#: blocks/photo-cards/index.js:217
+msgid "En desktop, les cartes passent à la ligne. En mobile, elles défilent au doigt."
 msgstr ""
 
 #: blocks/reassurance-item/index.js:112
@@ -2248,7 +2260,7 @@ msgstr ""
 
 #: blocks/photo-cards/block.json
 msgctxt "block description"
-msgid "Rangée de cartes avec photo, sur-titre, titre et texte court : 5 petites, 4 moyennes ou 3 grandes par ligne en desktop, flèches au-delà ; défilement au doigt en mobile. Fond réglable carte par carte."
+msgid "Rangée de cartes avec photo, sur-titre, titre et texte court : 5 petites, 4 moyennes ou 3 grandes par ligne en desktop, flèches au-delà (désactivables : les cartes passent alors à la ligne) ; défilement au doigt en mobile. Fond réglable carte par carte."
 msgstr ""
 
 #: blocks/photo-cards/block.json

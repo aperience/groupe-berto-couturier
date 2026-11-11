@@ -11,6 +11,9 @@
  *   son clic ignoré : un vrai `disabled` lui ferait perdre le focus clavier, qui
  *   retomberait sur `<body>` (WCAG 2.4.3).
  *
+ * Bloc sans flèches (« Boutons de défilement » décochés, `is-wrapped`) : ignoré,
+ * ses cartes passent à la ligne en desktop.
+ *
  * Sous `lg`, le ruban défile au doigt : pas de flèches. Sans ce script, la piste
  * garde sa barre de défilement.
  */

@@ -6,7 +6,9 @@
  * carte »), se retirent et se déplacent librement, sans limite de nombre.
  * Réglage « Taille des cartes » (`size`) : petites (`small`, 5 par ligne en
  * desktop), moyennes (`large`, 4 par ligne) ou grandes (`xlarge`, 3 par ligne) ;
- * valeurs internes conservées d'avant les moyennes. Au-delà, les cartes défilent (`block/_photo-cards.scss`,
+ * valeurs internes conservées d'avant les moyennes. « Activer les boutons de
+ * défilement » (`scrollButtons`, coché par défaut) : décoché, pas de flèches et
+ * cartes à la ligne en desktop (`is-wrapped`). Au-delà, les cartes défilent (`block/_photo-cards.scss`,
  * `resources/js/photo-cards.js`).
  *
  * Canvas : bloc non sélectionné, rendu du front, flèches comprises (`useNav`,
@@ -32,6 +34,7 @@ import {
 import {
 	Button,
 	PanelBody,
+	ToggleControl,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
@@ -68,11 +71,12 @@ const EPSILON = 2;
  * @param {?HTMLElement} track Piste (`ul.__track`).
  * @param {Array}        deps  Valeurs qui changent le contenu de la piste.
  */
-function useNav( track, deps ) {
+function useNav( track, enabled, deps ) {
 	const [ nav, setNav ] = useState( { hasNav: false, atStart: true, atEnd: false } );
 
 	useEffect( () => {
-		if ( ! track ) {
+		if ( ! track || ! enabled ) {
+			setNav( { hasNav: false, atStart: true, atEnd: false } );
 			return undefined;
 		}
 
@@ -102,7 +106,7 @@ function useNav( track, deps ) {
 			desktop.removeEventListener( 'change', update );
 		};
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [ track, ...deps ] );
+	}, [ track, enabled, ...deps ] );
 
 	return nav;
 }
@@ -147,12 +151,14 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	};
 
 	const [ track, setTrack ] = useState( null );
-	const nav = useNav( track, [ items.length, isEditing, size ] );
+	const scrollButtons = false !== attributes.scrollButtons;
+	const nav = useNav( track, scrollButtons, [ items.length, isEditing, size ] );
 
 	// `has-nav` : barre de défilement masquée quand les flèches sont là, comme sur le front.
 	const blockProps = useBlockProps( {
 		className: [
 			`is-size-${ size }`,
+			scrollButtons ? '' : 'is-wrapped',
 			nav.hasNav ? 'has-nav' : '',
 			items.length && ! items.some( hasTitle ) ? 'is-incomplete' : '',
 		]
@@ -190,9 +196,9 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 						label={ __( 'Taille des cartes', 'couturier' ) }
 						help={
 							{
-								small: __( 'Petites cartes : 5 par ligne en desktop, flèches au-delà.', 'couturier' ),
-								large: __( 'Cartes moyennes : 4 par ligne en desktop, flèches au-delà.', 'couturier' ),
-								xlarge: __( 'Grandes cartes : 3 par ligne en desktop, flèches au-delà.', 'couturier' ),
+								small: __( 'Petites cartes : 5 par ligne en desktop.', 'couturier' ),
+								large: __( 'Cartes moyennes : 4 par ligne en desktop.', 'couturier' ),
+								xlarge: __( 'Grandes cartes : 3 par ligne en desktop.', 'couturier' ),
 							}[ size ]
 						}
 						value={ size }
@@ -202,6 +208,17 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 						<ToggleGroupControlOption value="large" label={ __( 'Moyennes', 'couturier' ) } />
 						<ToggleGroupControlOption value="xlarge" label={ __( 'Grandes', 'couturier' ) } />
 					</ToggleGroupControl>
+					<ToggleControl
+						__nextHasNoMarginBottom
+						label={ __( 'Activer les boutons de défilement', 'couturier' ) }
+						help={
+							scrollButtons
+								? __( 'En desktop, flèches de défilement quand les cartes dépassent la ligne.', 'couturier' )
+								: __( 'En desktop, les cartes passent à la ligne. En mobile, elles défilent au doigt.', 'couturier' )
+						}
+						checked={ scrollButtons }
+						onChange={ ( checked ) => setAttributes( { scrollButtons: checked } ) }
+					/>
 				</PanelBody>
 			</InspectorControls>
 			<ul { ...innerBlocksProps } />

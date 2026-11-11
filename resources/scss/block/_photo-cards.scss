@@ -2,7 +2,7 @@
 //
 // Balisage (front : `render.php` ; éditeur : `index.js`) :
 //
-//   div.wp-block-couturier-photo-cards.is-size-{small|large|xlarge}
+//   div.wp-block-couturier-photo-cards.is-size-{small|large|xlarge}(.is-wrapped)
 //     ul.__track                                  ← piste défilante
 //       li.wp-block-couturier-photo-card
 //         div.__media > img.__image               ← photo, coins hauts arrondis
@@ -20,7 +20,8 @@
 //
 // Sous `lg` : ruban à largeur de carte fixe, la suivante dépasse, défilement au
 // doigt aimanté. À partir de `lg` : 5, 4 ou 3 cartes dans la largeur, flèches
-// au-delà (`resources/js/photo-cards.js`).
+// au-delà (`resources/js/photo-cards.js`), ou, boutons de défilement désactivés
+// (`is-wrapped`), cartes à la ligne.
 //
 // La piste défile : elle coupe tout ce qui dépasse d'elle. Ses marges
 // intérieures laissent la place au badge (haut), à l'ombre et au contour de
@@ -53,6 +54,14 @@ $photo-cards-media-height: to-rem(150);
 
         .wp-block-couturier-photo-cards.has-nav & {
             scrollbar-width: none;
+        }
+
+        // Boutons de défilement désactivés : cartes à la ligne, même écart entre
+        // les lignes qu'entre les cartes (`gap`).
+        .wp-block-couturier-photo-cards.is-wrapped & {
+            flex-wrap: wrap;
+            overflow-x: visible;
+            scroll-snap-type: none;
         }
     }
 

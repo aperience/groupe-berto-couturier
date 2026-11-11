@@ -8,6 +8,9 @@
  * en desktop quand les cartes dépassent la ligne. Sans ce script, la piste garde
  * sa barre de défilement native.
  *
+ * « Boutons de défilement » décochés (`scrollButtons`) : pas de flèches, classe
+ * `is-wrapped` : en desktop, les cartes passent à la ligne.
+ *
  * Aucune carte titrée : rien n'est rendu.
  *
  * @package Couturier
@@ -29,6 +32,7 @@ if ( ! str_contains( $content, '<li' ) ) {
 
 $couturier_cards_size  = in_array( $attributes['size'] ?? '', [ 'large', 'xlarge' ], true ) ? $attributes['size'] : 'small';
 $couturier_cards_track = wp_unique_id( 'photo-cards-' );
+$couturier_cards_nav   = false !== ( $attributes['scrollButtons'] ?? true );
 
 // « Précédent » rendu désactivé : au chargement, la piste est à son début. Le
 // script n'a donc rien à griser, et la transition d'opacité ne montre pas la
@@ -42,10 +46,9 @@ $couturier_cards_arrow = static fn( string $direction, string $label, bool $disa
 );
 
 printf(
-    '<div %s><ul class="wp-block-couturier-photo-cards__track" id="%s">%s</ul><div class="wp-block-couturier-photo-cards__nav">%s%s</div></div>',
-    get_block_wrapper_attributes( [ 'class' => 'is-size-' . $couturier_cards_size ] ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
+    '<div %s><ul class="wp-block-couturier-photo-cards__track" id="%s">%s</ul>%s</div>',
+    get_block_wrapper_attributes( [ 'class' => 'is-size-' . $couturier_cards_size . ( $couturier_cards_nav ? '' : ' is-wrapped' ) ] ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
     esc_attr( $couturier_cards_track ),
     trim( $content ), // phpcs:ignore WordPress.Security.EscapeOutput -- cartes rendues.
-    $couturier_cards_arrow( 'prev', __( 'Cartes précédentes', 'couturier' ), true ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé ci-dessus.
-    $couturier_cards_arrow( 'next', __( 'Cartes suivantes', 'couturier' ), false ) // phpcs:ignore WordPress.Security.EscapeOutput -- échappé ci-dessus.
+    $couturier_cards_nav ? '<div class="wp-block-couturier-photo-cards__nav">' . $couturier_cards_arrow( 'prev', __( 'Cartes précédentes', 'couturier' ), true ) . $couturier_cards_arrow( 'next', __( 'Cartes suivantes', 'couturier' ), false ) . '</div>' : '' // phpcs:ignore WordPress.Security.EscapeOutput -- échappé ci-dessus.
 );
