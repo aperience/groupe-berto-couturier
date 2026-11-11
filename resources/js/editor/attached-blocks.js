@@ -4,8 +4,9 @@
  * Injecté en inline par `Theme\Features\Blocks\AttachedBlocks`, sans build :
  * écrit sans imports ni JSX, sur les globales `wp.*`.
  *
- * L'attribut `isAttached` est déclaré côté serveur, sur les seuls blocs du thème de
- * premier niveau. Ce script ajoute son interrupteur dans la barre latérale (panneau
+ * L'attribut `isAttached` est déclaré côté serveur, sur les blocs du thème de
+ * premier niveau et sur `core/heading` ; l'interrupteur n'est proposé qu'au premier
+ * niveau du contenu, hors premier bloc. Ce script ajoute son interrupteur dans la barre latérale (panneau
  * « Espacement ») des blocs qui l'ont, et la classe `is-attached` au bloc dans le
  * canvas — sur le front, c'est le filtre `render_block` de la feature qui la pose.
  * Rien n'est écrit dans le HTML enregistré.
@@ -13,7 +14,7 @@
 ( function ( wp ) {
 	'use strict';
 
-	if ( ! wp || ! wp.hooks || ! wp.compose || ! wp.element || ! wp.blocks || ! wp.blockEditor || ! wp.components ) {
+	if ( ! wp || ! wp.hooks || ! wp.compose || ! wp.element || ! wp.blocks || ! wp.blockEditor || ! wp.components || ! wp.data ) {
 		return;
 	}
 
@@ -35,7 +36,15 @@
 		'couturier/attached-blocks/control',
 		wp.compose.createHigherOrderComponent( function ( BlockEdit ) {
 			return function ( props ) {
-				if ( ! props.isSelected || ! hasSetting( props.name ) ) {
+				// Seulement au premier niveau du contenu (un titre peut être imbriqué),
+				// et pas sur le premier bloc : pas de bloc précédent dont se rapprocher.
+				var isEligible = wp.data.useSelect( function ( select ) {
+					var store = select( 'core/block-editor' );
+
+					return ! store.getBlockRootClientId( props.clientId ) && store.getBlockIndex( props.clientId ) > 0;
+				}, [ props.clientId ] );
+
+				if ( ! props.isSelected || ! isEligible || ! hasSetting( props.name ) ) {
 					return el( BlockEdit, props );
 				}
 

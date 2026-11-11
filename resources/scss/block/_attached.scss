@@ -13,8 +13,11 @@
 // Classe doublée (0,2,0) : passe devant la marge des blocs (0,1,0), et devant
 // l'exception du titre (`block/_section-title.scss`, même spécificité) par
 // l'ordre — ce partial est importé après ceux des blocs.
+//
+// Premier enfant de son conteneur (bloc coché puis remonté en tête) : sans bloc
+// précédent, le réglage est sans effet, le bloc garde l'espace entre sections.
 
-.is-attached.is-attached {
+.is-attached.is-attached:not(:first-child) {
     margin-top: var(--space-32);
 }
 

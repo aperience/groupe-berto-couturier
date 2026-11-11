@@ -94,6 +94,13 @@ body,
     }
 }
 
+// Premier bloc du contenu : 32 px au-dessus au lieu de l'espace entre sections
+// (96 px en desktop), dans le canvas seulement — le front garde la marge du bloc.
+// Spécificité (0,2,0) : passe devant `margin-block` des blocs (0,1,0).
+.is-root-container > :first-child {
+    margin-top: var(--space-32);
+}
+
 // Sous `xl`, largeur de la pilule du header : 12 px de chaque côté au total
 // (cf. `partials/_layout.scss`).
 @include media-breakpoint-down(xl) {

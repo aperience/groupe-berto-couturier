@@ -659,7 +659,8 @@ titre fait l'écart, sans fusionner avec le `--layout-section-gap` des blocs.
 section entre deux blocs quels qu'ils soient. Deux exceptions :
 - après un titre (libre ou de section), le bloc suivant perd sa marge haute (ci-dessus) ;
 - réglage **« Rapprocher du bloc précédent »** (barre latérale, panneau « Espacement ») sur les
-  blocs `couturier/*` de premier niveau (feature `Blocks\AttachedBlocks`) : écart ramené à 32 px,
+  blocs `couturier/*` de premier niveau et les titres libres (`core/heading` au premier niveau ;
+  jamais sur le premier bloc du contenu) (feature `Blocks\AttachedBlocks`) : écart ramené à 32 px,
   mobile comme desktop, pour deux blocs que la maquette présente comme une seule section (cartes
   « valeurs » sous « Image et texte » de l'accueil). Attribut `isAttached` déclaré côté serveur,
   stocké dans le commentaire du bloc ; classe `is-attached` posée par `render_block` sur le front

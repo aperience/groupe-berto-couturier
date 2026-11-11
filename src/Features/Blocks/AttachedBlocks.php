@@ -38,6 +38,12 @@ final class AttachedBlocks implements FeatureInterface {
     /** Script de l'éditeur (interrupteur, classe dans le canvas), relatif à la racine du thème. */
     private const SCRIPT = 'resources/js/editor/attached-blocks.js';
 
+    /**
+     * Blocs hors du thème qui portent aussi le réglage. Ils peuvent être imbriqués :
+     * le script de l'éditeur ne propose l'interrupteur qu'au premier niveau du contenu.
+     */
+    private const EXTRA_BLOCKS = [ 'core/heading' ];
+
     /** Attribut du réglage. */
     private const ATTRIBUTE = 'isAttached';
 
@@ -92,7 +98,7 @@ final class AttachedBlocks implements FeatureInterface {
      */
     public function render_class( string $block_content, array $block ): string {
         if ( empty( $block['attrs'][ self::ATTRIBUTE ] ) || '' === trim( $block_content )
-            || ! str_starts_with( (string) ( $block['blockName'] ?? '' ), $this->context->block_namespace . '/' )
+            || ! $this->has_setting( (string) ( $block['blockName'] ?? '' ) )
         ) {
             return $block_content;
         }
@@ -119,7 +125,7 @@ final class AttachedBlocks implements FeatureInterface {
         wp_register_script(
             $handle,
             false,
-            [ 'wp-hooks', 'wp-compose', 'wp-element', 'wp-blocks', 'wp-block-editor', 'wp-components', 'wp-i18n' ],
+            [ 'wp-hooks', 'wp-compose', 'wp-element', 'wp-blocks', 'wp-block-editor', 'wp-components', 'wp-i18n', 'wp-data' ],
             null,
             true
         );
@@ -128,12 +134,24 @@ final class AttachedBlocks implements FeatureInterface {
     }
 
     /**
-     * Bloc du thème sans parent imposé (enfants : carte, question, colonne… exclus).
+     * Bloc du thème sans parent imposé (enfants : carte, question, colonne… exclus),
+     * ou bloc de `EXTRA_BLOCKS`.
      *
      * @param string $block_type Nom du bloc.
      * @param array  $args       Arguments du type de bloc.
      */
     private function is_root_block( string $block_type, array $args ): bool {
-        return str_starts_with( $block_type, $this->context->block_namespace . '/' ) && empty( $args['parent'] );
+        return in_array( $block_type, self::EXTRA_BLOCKS, true )
+            || ( $this->is_theme_block( $block_type ) && empty( $args['parent'] ) );
+    }
+
+    /** Le bloc peut-il porter le réglage (bloc du thème ou de `EXTRA_BLOCKS`) ? */
+    private function has_setting( string $block_type ): bool {
+        return in_array( $block_type, self::EXTRA_BLOCKS, true ) || $this->is_theme_block( $block_type );
+    }
+
+    /** Bloc de l'espace de noms du thème. */
+    private function is_theme_block( string $block_type ): bool {
+        return str_starts_with( $block_type, $this->context->block_namespace . '/' );
     }
 }
