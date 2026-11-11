@@ -1,5 +1,7 @@
 # Couturier — thème WordPress
 
+![Aperçu du thème Couturier : page d’accueil](screenshot.png)
+
 Thème sur mesure basé sur **Timber 2** (Twig), **Vite** (SCSS / JS) et **@wordpress/scripts**
 (blocs Gutenberg), bâti sur le socle `deefuse/wp-theme-core`. PHP 8.5, namespace `Theme\`,
 text-domain `couturier`.
