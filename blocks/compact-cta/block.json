@@ -1,0 +1,34 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/compact-cta",
+	"title": "Appel à action compact",
+	"category": "design",
+	"icon": "megaphone",
+	"description": "Bandeau clair arrondi : titre et texte à gauche, un bouton à droite.",
+	"keywords": [ "cta", "bouton", "bandeau", "appel" ],
+	"textdomain": "couturier",
+	"supports": {
+		"html": false
+	},
+	"styles": [
+		{ "name": "default", "label": "Pétrole clair", "isDefault": true },
+		{ "name": "peach", "label": "Pêche" },
+		{ "name": "pink", "label": "Rose clair" }
+	],
+	"example": {
+		"viewportWidth": 1200,
+		"innerBlocks": [
+			{ "name": "core/heading", "attributes": { "level": 2, "content": "Vous cherchez une formation professionnelle ?" } },
+			{ "name": "core/paragraph", "attributes": { "content": "Un particulier peut suivre une formation FIMO, FCO ou CACES, par exemple en reconversion." } },
+			{
+				"name": "core/buttons",
+				"innerBlocks": [
+					{ "name": "core/button", "attributes": { "text": "Découvrir Formation Pro", "className": "is-style-deep", "hasArrow": true } }
+				]
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

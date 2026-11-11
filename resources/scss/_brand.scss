@@ -217,6 +217,10 @@ $ds-text-styles: (
     // interlettrage −0,5 px ; texte de 14 px en mobile, 17,5 px en desktop.
     page-hero-title: (family: heading, weight: 900, size: (34, 46), line: (38, 49), tracking: -0.5),
     page-hero-text:  (family: body,    weight: 400, size: (14, 17.5), line: (24, 29)),
+    // Bloc « Appel à action compact » (Figma 301:6347) : titre en Space Grotesk
+    // Bold, interlettrage −0,5 px ; 20 px en mobile (hors maquette).
+    compact-cta-title: (family: body, weight: 700, size: (20, 24),   line: (26, 31), tracking: -0.5),
+    compact-cta-text:  (family: body, weight: 400, size: (14.5, 14.5), line: (23, 23)),
     // Surimpression du visuel du héros de page (301:6166, 596:1361) : surtitre en
     // capitales ; titre en Red Hat Display Regular, parties en gras ×1,25 (24 → 30).
     page-hero-media-eyebrow: (family: body,    weight: 700, size: (12.5, 15), line: (16.5, 19.5), uppercase: true),

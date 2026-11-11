@@ -1,0 +1,104 @@
+// ─── Bloc « Appel à action compact » (couturier/compact-cta) ──────────────────
+//
+// Balisage (front : `render.php` ; éditeur : `blocks/compact-cta/index.js`) :
+//
+//   section.wp-block-couturier-compact-cta[.is-style-peach|.is-style-pink]
+//     h2, p, div.wp-block-buttons   ← enfants directs des deux côtés
+//
+// Mobile : tout empilé. Desktop (`lg`) : grille, titre et texte à gauche, bouton
+// à droite centré verticalement (Figma 301:6347).
+//
+// Fond par style de bloc (panneau « Styles ») : seule `--compact-cta-bg` change,
+// titre pétrole 500 et texte pétrole 900 sur les trois fonds clairs.
+
+.wp-block-couturier-compact-cta {
+    --compact-cta-bg: var(--color-surface-petrol-soft);
+
+    display: grid;
+    gap: var(--space-4) var(--space-32);
+    margin-block: var(--layout-section-gap);
+    padding: var(--space-24);
+    // 32 px : valeur de la maquette, entre les rayons `lg` (28) et `xl` (40).
+    border-radius: to-rem(32);
+    background-color: var(--compact-cta-bg);
+    color: var(--color-text-default);
+
+    &.is-style-peach { --compact-cta-bg: var(--color-surface-peach-soft); }
+    &.is-style-pink  { --compact-cta-bg: var(--color-surface-accent-soft); }
+
+    // Marges par défaut des blocs du canvas neutralisées : `.wp-block` y pose
+    // `margin-inline: auto`, qui, dans une grille, rétrécit l'élément à son
+    // contenu et le centre.
+    // Spécificité 0,3,0 dans le canvas : l'emporte sur
+    // `.editor-styles-wrapper :where(…) > .wp-block` (0,2,0).
+    > *,
+    .editor-styles-wrapper & > .wp-block {
+        margin: 0;
+    }
+
+    > h2 {
+        @include text-style(compact-cta-title);
+        color: var(--color-text-heading);
+    }
+
+    > p {
+        @include text-style(compact-cta-text);
+    }
+
+    // Spécificité 0,2,0 : l'emporte sur la marge de `.wp-block-buttons` (`_button.scss`).
+    > .wp-block-buttons {
+        margin-top: var(--space-16);
+    }
+
+    // Bouton sans libellé : le core le retire du rendu, mais laisse le groupe.
+    > .wp-block-buttons:not(:has(.wp-block-button)) {
+        display: none;
+    }
+
+    // Avertissement de l'éditeur (titre ou texte vide) : sur toute la largeur.
+    > .wp-block-couturier-compact-cta__notice {
+        grid-column: 1 / -1;
+    }
+
+    @include media-breakpoint-up(lg) {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        // 1063 px centrés : largeur de la maquette, plus étroite que le conteneur
+        // (1136). `&.wp-block` : l'emporte dans le canvas sur `.wp-block { max-width: none }`
+        // (`editor-gutenberg.scss`, chargé après).
+        &,
+        &.wp-block {
+            max-width: to-rem(1063);
+            margin-inline: auto;
+        }
+        // 32 px en haut, 36 px sur les côtés et en bas : valeurs de la maquette.
+        padding: var(--space-32) to-rem(36) to-rem(36);
+
+        > h2,
+        > p {
+            grid-column: 1;
+        }
+
+        > .wp-block-buttons {
+            grid-column: 2;
+            grid-row: 1 / span 2;
+            margin-top: 0;
+        }
+
+        // Avertissement présent : titre et texte décalés d'une ligne.
+        &:has(> .wp-block-couturier-compact-cta__notice) > .wp-block-buttons {
+            grid-row: 2 / span 2;
+        }
+    }
+}
+
+// Liens du texte : couleur du texte et soulignés (WCAG 1.4.1).
+.wp-block-couturier-compact-cta > p a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: .15em;
+
+    &:hover {
+        text-decoration-thickness: 2px;
+    }
+}
