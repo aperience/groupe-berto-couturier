@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/pickup-map-points",
+	"title": "Points de ramassage",
+	"category": "design",
+	"icon": "list-view",
+	"description": "Liste des points de ramassage du bloc « Centre et points de ramassage ».",
+	"textdomain": "couturier",
+	"parent": [ "couturier/pickup-map" ],
+	"allowedBlocks": [ "couturier/pickup-point" ],
+	"supports": {
+		"html": false,
+		"inserter": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

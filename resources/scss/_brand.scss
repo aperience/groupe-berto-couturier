@@ -243,6 +243,11 @@ $ds-text-styles: (
     // capitales ; titre en Red Hat Display Regular, parties en gras ×1,25 (24 → 30).
     page-hero-media-eyebrow: (family: body,    weight: 700, size: (12.5, 15), line: (16.5, 19.5), uppercase: true),
     page-hero-media-title:   (family: heading, weight: 400, size: (20, 24),   line: (28.5, 34)),
+    // Bloc « Centre et points de ramassage » (Figma 301:6479) : onglets, nom et
+    // horaires des points, en Space Grotesk.
+    pickup-map-tab:     (family: body, weight: 700, size: (14, 14),     line: (18, 18)),
+    pickup-point-name:  (family: body, weight: 700, size: (14, 14),     line: (18, 18)),
+    pickup-point-hours: (family: body, weight: 500, size: (12.5, 12.5), line: (17, 17)),
 );
 
 // ═══ 2. Admin et page de connexion ═══════════════════════════════════════════

@@ -1,0 +1,35 @@
+// ─── Bloc « Centre et points de ramassage » : canvas ─────────────────────────
+//
+// Aperçu de la carte inerte (sélection du bloc au clic), onglets d'aperçu,
+// emplacement sans adresse, avertissements et bouton d'ajout d'un point.
+
+.wp-block-couturier-pickup-map {
+    .wp-block-couturier-pickup-map__tabs {
+        pointer-events: none;
+    }
+
+    .wp-block-couturier-pickup-map__frame {
+        pointer-events: none;
+    }
+
+    .wp-block-couturier-pickup-map__empty {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 200px;
+        margin: 0;
+        padding: var(--space-24);
+        border: 1px dashed var(--color-border-strong);
+        border-radius: var(--bs-border-radius-lg);
+        text-align: center;
+    }
+
+    .wp-block-couturier-pickup-point__notice {
+        grid-column: 1 / -1;
+        margin-top: var(--space-8);
+    }
+}
+
+.wp-block-couturier-pickup-map-points__add {
+    list-style: none;
+}

@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-11T15:06:12+00:00\n"
+"POT-Creation-Date: 2026-11-11T15:37:37+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -101,6 +101,31 @@ msgstr ""
 
 #: blocks/photo-cards/render.php:53
 msgid "Cartes suivantes"
+msgstr ""
+
+#: blocks/pickup-map/render.php:56
+#: blocks/pickup-map/index.js:82
+#: blocks/pickup-map/index.js:102
+msgid "Le centre"
+msgstr ""
+
+#. translators: %s : lieu affiché (« Le centre » ou nom du point de ramassage).
+#: blocks/pickup-map/render.php:59
+#, php-format
+msgid "Carte Google Maps : %s"
+msgstr ""
+
+#: blocks/pickup-map/render.php:78
+msgid "Lieu affiché sur la carte"
+msgstr ""
+
+#: blocks/pickup-map/render.php:84
+#: blocks/pickup-map/index.js:103
+msgid "Points de ramassage"
+msgstr ""
+
+#: blocks/pickup-map/render.php:97
+msgid "Adresse :"
 msgstr ""
 
 #. translators: %d: nombre d'étoiles de l'avis, de 1 à 5.
@@ -477,6 +502,7 @@ msgstr ""
 #: blocks/compact-cta/index.js:44
 #: blocks/cta/index.js:84
 #: blocks/faq/index.js:55
+#: blocks/pickup-map/index.js:39
 #: blocks/section-title/index.js:43
 msgid "Titre"
 msgstr ""
@@ -677,6 +703,7 @@ msgstr ""
 #: src/Features/Footer/FooterSettings.php:390
 #: src/Features/Footer/FooterSettings.php:551
 #: src/Features/Navigation/MegaMenuFields.php:108
+#: blocks/pickup-point/index.js:79
 msgid "Adresse"
 msgstr ""
 
@@ -1014,7 +1041,7 @@ msgstr ""
 
 #: blocks/faq/index.js:56
 #: blocks/image-text/index.js:86
-#: blocks/logo-strip/index.js:41
+#: blocks/logo-strip/index.js:42
 #: blocks/page-hero/index.js:86
 msgid "Texte (facultatif)"
 msgstr ""
@@ -1271,7 +1298,7 @@ msgid "Ajouter une icône"
 msgstr ""
 
 #: blocks/image-text/index.js:85
-#: blocks/logo-strip/index.js:40
+#: blocks/logo-strip/index.js:41
 msgid "Titre (facultatif)"
 msgstr ""
 
@@ -1330,12 +1357,12 @@ msgstr ""
 msgid "Ajouter un logo"
 msgstr ""
 
-#: blocks/logo-strip/index.js:69
+#: blocks/logo-strip/index.js:76
 msgid "Fond de la section"
 msgstr ""
 
-#: blocks/logo-strip/index.js:75
-msgid "Saisissez la légende d'au moins un logo : sans elle, ce bloc n'est pas affiché sur le site."
+#: blocks/logo-strip/index.js:82
+msgid "Saisissez au moins un titre, un texte ou la légende d'un logo : sans eux, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
 #: blocks/page-hero-facts/index.js:62
@@ -1590,6 +1617,67 @@ msgstr ""
 
 #: blocks/photo-cards/index.js:217
 msgid "En desktop, les cartes passent à la ligne. En mobile, elles défilent au doigt."
+msgstr ""
+
+#: blocks/pickup-map-points/index.js:50
+msgid "Ajouter un point de ramassage"
+msgstr ""
+
+#: blocks/pickup-map/index.js:39
+msgid "Le centre et les points de ramassage"
+msgstr ""
+
+#: blocks/pickup-map/index.js:86
+msgid "Adresse du centre"
+msgstr ""
+
+#: blocks/pickup-map/index.js:87
+msgid "Telle qu'on la chercherait dans Google Maps. Obligatoire : la carte de l'onglet « Le centre »."
+msgstr ""
+
+#: blocks/pickup-map/index.js:96
+msgid "Le titre et l'adresse du centre (barre latérale) sont obligatoires : sans eux, ce bloc n'est pas affiché sur le site."
+msgstr ""
+
+#: blocks/pickup-map/index.js:111
+msgid "Aperçu de la carte du centre"
+msgstr ""
+
+#: blocks/pickup-map/index.js:118
+msgid "Saisissez l'adresse du centre dans la barre latérale pour afficher la carte."
+msgstr ""
+
+#: blocks/pickup-map/index.js:126
+msgid "Note"
+msgstr ""
+
+#: blocks/pickup-map/index.js:127
+msgid "Note (facultative)"
+msgstr ""
+
+#: blocks/pickup-point/index.js:83
+msgid "Adresse du point de ramassage"
+msgstr ""
+
+#: blocks/pickup-point/index.js:84
+msgid "Telle qu'on la chercherait dans Google Maps (ex. « Place de la gare, 28100 Dreux »). Elle n'est pas affichée : elle place le point sur la carte."
+msgstr ""
+
+#: blocks/pickup-point/index.js:95
+#: blocks/pickup-point/index.js:96
+msgid "Horaires"
+msgstr ""
+
+#: blocks/pickup-point/index.js:103
+msgid "Nom obligatoire : sans lui, ce point n'est pas affiché sur le site."
+msgstr ""
+
+#: blocks/pickup-point/index.js:108
+msgid "Sans adresse (barre latérale), ce point ne peut pas être affiché sur la carte."
+msgstr ""
+
+#: blocks/pickup-point/name.js:13
+msgid "Nom du point de ramassage"
 msgstr ""
 
 #: blocks/reassurance-item/index.js:112
@@ -2376,6 +2464,66 @@ msgstr ""
 #: blocks/photo-cards/block.json
 msgctxt "block keyword"
 msgid "carrousel"
+msgstr ""
+
+#: blocks/pickup-map-points/block.json
+msgctxt "block title"
+msgid "Points de ramassage"
+msgstr ""
+
+#: blocks/pickup-map-points/block.json
+msgctxt "block description"
+msgid "Liste des points de ramassage du bloc « Centre et points de ramassage »."
+msgstr ""
+
+#: blocks/pickup-map/block.json
+msgctxt "block title"
+msgid "Centre et points de ramassage"
+msgstr ""
+
+#: blocks/pickup-map/block.json
+msgctxt "block description"
+msgid "Titre, carte Google Maps du centre et, facultative, liste numérotée de points de ramassage (onglets « Le centre » / « Points de ramassage »)."
+msgstr ""
+
+#: blocks/pickup-map/block.json
+msgctxt "block keyword"
+msgid "carte"
+msgstr ""
+
+#: blocks/pickup-map/block.json
+msgctxt "block keyword"
+msgid "plan"
+msgstr ""
+
+#: blocks/pickup-map/block.json
+msgctxt "block keyword"
+msgid "google maps"
+msgstr ""
+
+#: blocks/pickup-map/block.json
+msgctxt "block keyword"
+msgid "adresse"
+msgstr ""
+
+#: blocks/pickup-map/block.json
+msgctxt "block keyword"
+msgid "ramassage"
+msgstr ""
+
+#: blocks/pickup-map/block.json
+msgctxt "block keyword"
+msgid "centre"
+msgstr ""
+
+#: blocks/pickup-point/block.json
+msgctxt "block title"
+msgid "Point de ramassage"
+msgstr ""
+
+#: blocks/pickup-point/block.json
+msgctxt "block description"
+msgid "Un point de ramassage : nom (titre H3), horaires et adresse affichée sur la carte."
 msgstr ""
 
 #: blocks/reassurance-item/block.json

@@ -1,0 +1,46 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/pickup-map",
+	"title": "Centre et points de ramassage",
+	"category": "design",
+	"icon": "location-alt",
+	"description": "Titre, carte Google Maps du centre et, facultative, liste numérotée de points de ramassage (onglets « Le centre » / « Points de ramassage »).",
+	"keywords": [ "carte", "plan", "google maps", "adresse", "ramassage", "centre" ],
+	"textdomain": "couturier",
+	"attributes": {
+		"centerAddress": {
+			"type": "string",
+			"default": ""
+		},
+		"note": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-pickup-map__note",
+			"role": "content"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"attributes": {
+			"centerAddress": "Sainte-Gemme-Moronval",
+			"note": "Lieux et horaires à confirmer avec le centre."
+		},
+		"innerBlocks": [
+			{ "name": "core/heading", "attributes": { "level": 2, "content": "Le centre et les points de <span class=\"wp-block-couturier-cta__highlight\">ramassage</span>" } },
+			{
+				"name": "couturier/pickup-map-points",
+				"innerBlocks": [
+					{ "name": "couturier/pickup-point", "attributes": { "hours": "Lundi et jeudi, 17 h" }, "innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Gare de Dreux" } } ] },
+					{ "name": "couturier/pickup-point", "attributes": { "hours": "Mercredi, 14 h" }, "innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Lycée Rotrou" } } ] },
+					{ "name": "couturier/pickup-point", "attributes": { "hours": "Samedi, 9 h" }, "innerBlocks": [ { "name": "core/heading", "attributes": { "level": 3, "content": "Mairie de Vernouillet" } } ] }
+				]
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

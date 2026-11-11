@@ -1,0 +1,29 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/pickup-point",
+	"title": "Point de ramassage",
+	"category": "design",
+	"icon": "location",
+	"description": "Un point de ramassage : nom (titre H3), horaires et adresse affichée sur la carte.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/pickup-map-points" ],
+	"attributes": {
+		"address": {
+			"type": "string",
+			"default": ""
+		},
+		"hours": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-pickup-point__hours",
+			"role": "content"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

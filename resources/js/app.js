@@ -14,6 +14,8 @@ import './reviews.js';
 import './image-text.js';
 // Flèches du bloc Cartes photo (desktop).
 import './photo-cards.js';
+// Onglets et points du bloc Centre et points de ramassage.
+import './pickup-map.js';
 // Méga menu du header (desktop).
 import './megaMenu.js';
 // Menu mobile du header (sous xl).

@@ -1,0 +1,263 @@
+// ─── Bloc « Centre et points de ramassage » (couturier/pickup-map) ───────────
+//
+// Figma 301:6479. Balisage (front : `render.php` des trois blocs ; éditeur :
+// leurs `index.js`) :
+//
+//   section.wp-block-couturier-pickup-map(.has-points)
+//     h2                                   ← titre
+//     div.__tabs > .__tab ×2               ← avec des points seulement
+//     div.__map > iframe.__frame + p.__address (front)
+//     ol.wp-block-couturier-pickup-map-points
+//       li.wp-block-couturier-pickup-point ← pastille (::before), h3.__name, p.__hours
+//     p.__note
+//
+// Disposition en grille nommée : l'ordre du DOM diffère entre le front et le
+// canvas (titre et liste y sont les blocs imbriqués, côte à côte), les zones
+// le rendent identique. Mobile : tout empilé. Desktop (`lg`), avec des points :
+// carte à gauche (628 / 1021 de la maquette), liste puis note à droite ; sans
+// point, carte sur toute la largeur.
+
+.wp-block-couturier-pickup-map {
+    display: grid;
+    grid-template-areas:
+        "notice"
+        "title"
+        "tabs"
+        "map"
+        "list"
+        "note";
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-16);
+    margin-block: var(--layout-section-gap);
+    padding: var(--space-24) var(--space-16);
+    border-radius: var(--bs-border-radius-xl);
+    background-color: var(--color-surface-peach-faint);
+
+    // Marges par défaut des blocs du canvas neutralisées : `.wp-block` y pose
+    // `margin-inline: auto`, qui, dans une grille, rétrécit l'élément à son
+    // contenu (liste des points). Spécificité 0,3,0 dans le canvas : l'emporte
+    // sur `.editor-styles-wrapper :where(…) > .wp-block` (0,2,0).
+    > *,
+    .editor-styles-wrapper & > .wp-block {
+        margin: 0;
+    }
+
+    > h2 {
+        @include text-style(section-title);
+        grid-area: title;
+        color: var(--color-text-heading);
+        text-align: center;
+        letter-spacing: -0.5px;
+
+        .wp-block-couturier-cta__highlight {
+            color: var(--color-text-accent);
+        }
+    }
+
+    > .wp-block-couturier-pickup-map__notice { grid-area: notice; }
+    > .wp-block-couturier-pickup-map__tabs { grid-area: tabs; }
+    > .wp-block-couturier-pickup-map__map { grid-area: map; }
+    > .wp-block-couturier-pickup-map-points { grid-area: list; }
+    > .wp-block-couturier-pickup-map__note { grid-area: note; }
+
+    @include media-breakpoint-up(lg) {
+        padding: var(--space-40) var(--space-48) var(--space-48);
+        column-gap: var(--space-24);
+        row-gap: var(--space-18);
+
+        > h2 {
+            margin-bottom: var(--space-20);
+        }
+
+        &.has-points {
+            grid-template-areas:
+                "notice notice"
+                "title title"
+                "tabs tabs"
+                "map list"
+                "map note";
+            grid-template-columns: minmax(0, 628fr) minmax(0, 393fr);
+            grid-template-rows: repeat(4, auto) 1fr;
+        }
+    }
+}
+
+// ─── Onglets ──────────────────────────────────────────────────────────────────
+
+.wp-block-couturier-pickup-map__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-12) var(--space-16);
+}
+
+.wp-block-couturier-pickup-map__tab {
+    @include text-style(pickup-map-tab);
+    display: inline-flex;
+    align-items: center;
+    min-height: 38px;
+    padding: 0 var(--space-20);
+    border: 0;
+    border-radius: var(--bs-border-radius-pill);
+    background-color: var(--color-surface-card);
+    color: var(--color-text-heading);
+    cursor: pointer;
+
+    &[aria-selected="true"] {
+        background-color: var(--color-surface-brand);
+        color: var(--color-text-on-brand);
+    }
+
+    &:hover:not([aria-selected="true"]) {
+        background-color: var(--color-surface-petrol-soft);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-border-strong);
+        outline-offset: 2px;
+    }
+}
+
+// ─── Carte ────────────────────────────────────────────────────────────────────
+
+.wp-block-couturier-pickup-map__map {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+}
+
+.wp-block-couturier-pickup-map__frame {
+    display: block;
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    border: 0;
+    border-radius: var(--bs-border-radius-lg);
+    background-color: var(--color-surface-petrol-faint);
+
+    @include media-breakpoint-up(lg) {
+        aspect-ratio: auto;
+        height: to-rem(380);
+    }
+}
+
+// Adresse du lieu affiché : alternative à l'iframe.
+.wp-block-couturier-pickup-map__address {
+    @include text-style(small);
+    margin: 0;
+    color: var(--color-text-muted);
+}
+
+// ─── Points de ramassage ──────────────────────────────────────────────────────
+
+.wp-block-couturier-pickup-map-points {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: pickup-point;
+
+    // Points du canvas : même neutralisation (colonne flex).
+    .editor-styles-wrapper & > .wp-block {
+        margin: 0;
+    }
+}
+
+.wp-block-couturier-pickup-point {
+    position: relative;
+    display: grid;
+    grid-template-columns: 32px minmax(0, 1fr);
+    align-content: center;
+    column-gap: var(--space-18);
+    row-gap: var(--space-2);
+    min-height: 68px;
+    margin: 0;
+    padding: var(--space-12) var(--space-24);
+    border-radius: var(--bs-border-radius);
+    background-color: var(--color-surface-card);
+    counter-increment: pickup-point;
+
+    &::before {
+        @include text-style(pickup-map-tab);
+        content: counter(pickup-point) / "";
+        grid-row: 1 / span 2;
+        align-self: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: var(--bs-border-radius-pill);
+        background-color: var(--color-surface-brand);
+        color: var(--color-text-on-brand);
+        font-size: 1rem;
+    }
+
+    // Point affiché sur la carte.
+    &:has([aria-pressed="true"]) {
+        box-shadow: inset 0 0 0 2px var(--color-border-strong);
+    }
+
+    > * {
+        grid-column: 2;
+        margin: 0;
+    }
+
+    > h3 {
+        @include text-style(pickup-point-name);
+        color: var(--color-text-accent);
+    }
+}
+
+// Bouton du nom : toute la carte est cliquable (`::after` étendu).
+.wp-block-couturier-pickup-point__button {
+    padding: 0;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+
+    &::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: inherit;
+    }
+
+    &:focus-visible {
+        outline: 0;
+
+        &::after {
+            outline: 2px solid var(--color-border-strong);
+            outline-offset: 2px;
+            border-radius: var(--bs-border-radius);
+        }
+    }
+}
+
+.wp-block-couturier-pickup-point:has(.wp-block-couturier-pickup-point__button):hover {
+    background-color: var(--color-surface-muted);
+}
+
+.wp-block-couturier-pickup-point__hours {
+    @include text-style(pickup-point-hours);
+    color: var(--color-text-accent);
+}
+
+// ─── Note ─────────────────────────────────────────────────────────────────────
+
+.wp-block-couturier-pickup-map__note {
+    @include text-style(small);
+    color: var(--color-text-muted);
+
+    @include media-breakpoint-up(lg) {
+        padding-inline: var(--space-20);
+    }
+
+    a {
+        color: inherit;
+        text-decoration: underline;
+    }
+}
