@@ -280,7 +280,10 @@
         box-shadow: inset 0 0 0 2px var(--color-border-strong);
     }
 
-    > * {
+    // Dans le canvas, le nom est un bloc (`.wp-block`, marges automatiques qui
+    // le centreraient) : marges neutralisées en 0,3,0.
+    > *,
+    .editor-styles-wrapper & > .wp-block {
         grid-column: 2;
         margin: 0;
     }
