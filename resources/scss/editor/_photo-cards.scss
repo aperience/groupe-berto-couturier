@@ -49,7 +49,7 @@
 // une carte » restent à portée. Non sélectionné : ruban, comme sur le front.
 .wp-block-couturier-photo-cards:is(.is-selected, .has-child-selected) > .wp-block-couturier-photo-cards__track {
     flex-wrap: wrap;
-    row-gap: var(--space-32);
+    row-gap: var(--space-18);
     overflow-x: visible;
 }
 
