@@ -37,6 +37,12 @@ $collapsible-text-max-width: to-rem(1060);
         @include text-style(h2);
         margin: 0;
         color: var(--color-text-heading);
+
+        // Mots mis en avant (format `couturier/highlight`) : orange foncé sur
+        // fond clair, 4,99:1 — l'orange de la charte n'y tiendrait que 2,8:1.
+        .wp-block-couturier-cta__highlight {
+            color: var(--color-text-accent);
+        }
     }
 
     // Texte : paragraphes et listes, front comme éditeur.

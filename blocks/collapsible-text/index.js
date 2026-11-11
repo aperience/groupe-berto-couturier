@@ -36,6 +36,7 @@ import {
 	useNonBreakingPunctuation,
 } from '../_shared/locked-content.js';
 import { hasContent } from '../collapsible-text-column/content.js';
+import './formats.js';
 import metadata from './block.json';
 
 const COLUMN = 'couturier/collapsible-text-column';
