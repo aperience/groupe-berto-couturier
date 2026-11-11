@@ -14,8 +14,9 @@
 // incomplète répartit ses cartes (`space-around`) : les lignes pleines occupent
 // toute la largeur et n'en sont pas affectées.
 //
-// Style « Cartes colorées » (`is-style-colored`, panneau « Styles ») : fond
-// pétrole/100 et pêche/300 en alternance, sans bordure, pastille blanche, texte en pétrole/500.
+// Fond par carte (`background` → classe `is-bg-{fond}`, blanc sans classe) :
+// pétrole/100, pêche/300, pétrole/50, orange/100 ou neutre/50, sans bordure, pastille
+// blanche, texte en pétrole/500.
 //
 // Pictogramme : #00232D sur la pastille orange/100 (maquette).
 //
@@ -118,6 +119,14 @@ $icon-cards-gap-desktop: var(--space-24);
     mask: var(--icon) center / contain no-repeat;
 }
 
+// Pastille avec une image PNG / WebP : couleurs d'origine, sans recadrage.
+.wp-block-couturier-icon-card__picture {
+    display: block;
+    width: var(--space-24);
+    height: var(--space-24);
+    object-fit: contain;
+}
+
 .wp-block-couturier-icon-card__text {
     @include text-style(body);
     color: var(--color-text-default);
@@ -139,21 +148,72 @@ $icon-cards-gap-desktop: var(--space-24);
     }
 }
 
-// ─── Style « Cartes colorées » ───────────────────────────────────────────────
+// ─── Visuel décalé (`iconStyle: offset`) ─────────────────────────────────────
+// Figma 301:6225 / 301:6812 : disque de 64 px, visuel de 80 px de haut posé par-
+// dessus, décalé de 26 px à droite et 17 px vers le haut, qui déborde du disque.
+// Le disque reste dans le flux : titre et texte à la même hauteur que sur une
+// carte à pastille. Couleurs du disque : celles de la pastille (orange/100 sur
+// carte blanche, blanc sur fond coloré).
+.wp-block-couturier-icon-card__badge.is-offset {
+    position: relative;
+    width: var(--space-64);
+    height: var(--space-64);
+    border-radius: 50%;
+}
+
+.wp-block-couturier-icon-card__image {
+    position: absolute;
+    top: -17px;
+    left: 26px;
+    width: auto;
+    height: 80px;
+    // Ne dépasse jamais la carte : largeur utile (`cqi`, carte en conteneur)
+    // moins le décalage. Le débord haut (17 px) tient dans son padding (24 px min.).
+    max-width: calc(100cqi - 26px);
+    object-fit: contain;
+    object-position: left center;
+}
+
+.wp-block-couturier-icon-card.has-offset-visual {
+    container-type: inline-size;
+}
+
+// ─── Fond de la carte ────────────────────────────────────────────────────────
+// Texte en pétrole/500, comme le titre : 7,56:1 sur pétrole/100, 7,28:1 sur
+// pêche/300, 8,36:1 sur pétrole/50, 7,99:1 sur orange/100,
+// 8,56:1 sur neutre/50.
+$icon-card-backgrounds: (
+    petrol-100: var(--color-surface-petrol-soft),
+    peach-300:  var(--color-surface-peach-soft),
+    petrol-50:  var(--color-surface-petrol-faint),
+    orange-100: var(--color-surface-accent-soft),
+    neutral-50: var(--color-surface-muted),
+);
+
+@each $name, $color in $icon-card-backgrounds {
+    .wp-block-couturier-icon-card.is-bg-#{$name} {
+        background-color: $color;
+    }
+}
+
+.wp-block-couturier-icon-card[class*="is-bg-"],
+// Ancien style « Cartes colorées » (supprimé) : contenu pas encore réenregistré.
 .wp-block-couturier-icon-cards.is-style-colored > .wp-block-couturier-icon-card {
     border-color: transparent;
-    background-color: var(--color-surface-petrol-soft);
-
-    &:nth-child(even) {
-        background-color: var(--color-surface-peach-soft);
-    }
 
     .wp-block-couturier-icon-card__badge {
         background-color: var(--color-surface-card);
     }
 
-    // Texte en pétrole/500, comme le titre (7,56:1 sur pétrole/100, 7,28:1 sur pêche/300).
     .wp-block-couturier-icon-card__text {
         color: var(--color-text-heading);
+    }
+}
+
+.wp-block-couturier-icon-cards.is-style-colored > .wp-block-couturier-icon-card:not([class*="is-bg-"]) {
+    background-color: var(--color-surface-petrol-soft);
+
+    &:nth-child(even) {
+        background-color: var(--color-surface-peach-soft);
     }
 }

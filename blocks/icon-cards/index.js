@@ -8,6 +8,10 @@
  * → classe `has-4-columns`, à partir de `xl`) ; une ligne incomplète répartit ses cartes
  * (`block/_icon-cards.scss`).
  *
+ * Fond réglé carte par carte (`icon-card`). Ancien style « Cartes colorées »
+ * (`is-style-colored`, supprimé) : migré à l'ouverture dans l'éditeur, cartes
+ * encore blanches en pétrole/100 et pêche/300 alternés, puis classe retirée.
+ *
  * Sans carte titrée, le bloc n'est pas rendu (`render.php`) : il reçoit
  * `is-incomplete` dans le canvas.
  */
@@ -26,6 +30,7 @@ import {
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
+import { useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 import { plus } from '../_shared/icons.js';
@@ -44,7 +49,7 @@ const hasTitle = ( block ) => !! textOf( block.innerBlocks[ 0 ] );
 
 function Edit( { attributes, clientId, isSelected, setAttributes } ) {
 	const columns = 4 === attributes.columns ? 4 : 3;
-	const { insertBlock, selectBlock } = useDispatch( blockEditorStore );
+	const { insertBlock, selectBlock, updateBlockAttributes } = useDispatch( blockEditorStore );
 	// Bloc ou l'une de ses cartes sélectionné. Sinon, le canvas montre le rendu du
 	// site : pas de bouton d'ajout.
 	const { isEditing, items } = useSelect(
@@ -58,6 +63,20 @@ function Edit( { attributes, clientId, isSelected, setAttributes } ) {
 		},
 		[ clientId, isSelected ]
 	);
+
+	// Migration de l'ancien style « Cartes colorées ».
+	const className = attributes.className ?? '';
+	useEffect( () => {
+		if ( ! /(^|\s)is-style-colored(\s|$)/.test( className ) || ! items.length ) {
+			return;
+		}
+		items.forEach( ( item, index ) => {
+			if ( ( item.attributes.background ?? 'white' ) === 'white' ) {
+				updateBlockAttributes( item.clientId, { background: index % 2 ? 'peach-300' : 'petrol-100' } );
+			}
+		} );
+		setAttributes( { className: className.replace( /(^|\s)is-style-colored(?=\s|$)/, '' ).trim() || undefined } );
+	}, [ className, items, setAttributes, updateBlockAttributes ] );
 
 	// Carte créée avec son titre, curseur placé dans le titre : sans titre, il
 	// n'arriverait qu'ensuite, par le modèle de la carte, et le curseur irait

@@ -5,12 +5,22 @@
 	"title": "Carte à pictogramme",
 	"category": "design",
 	"icon": "id",
-	"description": "Une carte : pictogramme (SVG de la médiathèque, peint en pétrole), titre H3 et texte.",
+	"description": "Une carte : pictogramme (SVG de la médiathèque, peint en pétrole) ou visuel décalé sur un disque (JPG, PNG, SVG), titre H3 et texte, sur un fond au choix (blanc, pétrole, pêche ou orange clair).",
 	"textdomain": "couturier",
 	"parent": [ "couturier/icon-cards" ],
 	"attributes": {
 		"iconId": {
 			"type": "number"
+		},
+		"iconStyle": {
+			"type": "string",
+			"enum": [ "badge", "offset" ],
+			"default": "badge"
+		},
+		"background": {
+			"type": "string",
+			"enum": [ "white", "petrol-100", "peach-300", "petrol-50", "orange-100", "neutral-50" ],
+			"default": "white"
 		},
 		"text": {
 			"type": "string",
