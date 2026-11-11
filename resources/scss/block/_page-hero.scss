@@ -236,7 +236,7 @@
 }
 
 // ─── Contact (desktop seulement) ──────────────────────────────────────────────
-// Maquettes 301:6175 / 301:6747 : encart de 513 px au plus, rayon 20, sous les
+// Maquettes 301:6175 / 301:6747 : encart de 556 px au plus, rayon 20, sous les
 // boutons, qui déborde de 75 px sous le bas du héros — marge basse négative (75 px
 // + padding du héros) ; le héros garde l'écart de section sous l'encart. Couleurs
 // de l'encart contact des cartes de l'accueil : pêche clair et texte orange 700
@@ -255,7 +255,7 @@ $page-hero-contact-overhang: to-rem(75);
         z-index: 1;
         display: flex;
         width: 100%;
-        max-width: to-rem(513);
+        max-width: to-rem(556);
         min-height: to-rem(145);
         margin-top: var(--space-24);
         margin-bottom: calc(-1 * (#{$page-hero-contact-overhang} + var(--space-64)));
@@ -276,6 +276,10 @@ $page-hero-contact-overhang: to-rem(75);
     .wp-block-couturier-page-hero.has-media > .wp-block-couturier-page-hero__content > .wp-block-couturier-page-hero__contact {
         grid-row: -2 / -1;
         align-self: end;
+        // 556 px quelle que soit la largeur de la colonne du texte (plus étroite) :
+        // l'encart déborde dans l'écart de 140 px entre les colonnes.
+        width: to-rem(556);
+        max-width: none;
         margin-bottom: calc(-1 * (#{$page-hero-contact-overhang} + var(--space-64)));
     }
 }
