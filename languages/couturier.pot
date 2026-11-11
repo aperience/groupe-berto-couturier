@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-11T12:39:09+00:00\n"
+"POT-Creation-Date: 2026-11-11T14:18:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -34,7 +34,7 @@ msgid "https://www.deefuse.fr"
 msgstr ""
 
 #: blocks/collapsible-text/render.php:81
-#: blocks/collapsible-text/index.js:113
+#: blocks/collapsible-text/index.js:114
 msgid "Réduire"
 msgstr ""
 
@@ -46,7 +46,6 @@ msgstr ""
 #: blocks/image-text-icon/render.php:57
 #: blocks/page-hero-media/render.php:92
 #: blocks/page-hero/render.php:136
-#: blocks/photo-card/render.php:68
 #: blocks/reassurance-item/render.php:66
 #: src/Features/CurrentOffer/CurrentOfferDashboard.php:78
 #: resources/views/partials/footer/bottom.twig:18
@@ -165,7 +164,7 @@ msgstr ""
 msgid "Fait pointer vers la vue arborescente de Nested Pages les liens de l'admin qui mènent à la liste des pages (tableau de bord, retour de l'éditeur)."
 msgstr ""
 
-#: src/Features/Blocks/AttachedBlocks.php:63
+#: src/Features/Blocks/AttachedBlocks.php:69
 msgid "Ajoute aux blocs du thème le réglage « Rapprocher du bloc précédent » : écart réduit entre deux blocs d'une même section."
 msgstr ""
 
@@ -209,6 +208,10 @@ msgstr ""
 
 #: src/Features/Blocks/DisableDropCap.php:42
 msgid "Retire le réglage de lettrine des paragraphes dans l'éditeur."
+msgstr ""
+
+#: src/Features/Blocks/HeadingTextAlign.php:61
+msgid "Propose d'aligner les titres libres à gauche ou au centre (par défaut)."
 msgstr ""
 
 #: src/Features/Blocks/PageScopedBlocks.php:55
@@ -315,7 +318,8 @@ msgstr ""
 
 #: src/Features/Contacts/ContactPostType.php:65
 #: blocks/home-hero-card/index.js:242
-#: blocks/photo-card/index.js:229
+#: blocks/photo-card/index.js:134
+#: blocks/photo-card/index.js:175
 msgid "Photo"
 msgstr ""
 
@@ -468,11 +472,11 @@ msgid "Afficher l'offre en page d'accueil pendant ses dates"
 msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:257
-#: blocks/collapsible-text/index.js:47
+#: blocks/collapsible-text/index.js:48
 #: blocks/compact-cta/index.js:44
 #: blocks/cta/index.js:84
 #: blocks/faq/index.js:55
-#: blocks/section-title/index.js:42
+#: blocks/section-title/index.js:43
 msgid "Titre"
 msgstr ""
 
@@ -925,35 +929,35 @@ msgstr ""
 msgid "Accès rapides (menu mobile)"
 msgstr ""
 
-#: blocks/collapsible-text/index.js:48
+#: blocks/collapsible-text/index.js:49
 msgid "Colonne de gauche"
 msgstr ""
 
-#: blocks/collapsible-text/index.js:49
+#: blocks/collapsible-text/index.js:50
 msgid "Colonne de droite (facultative)"
 msgstr ""
 
-#: blocks/collapsible-text/index.js:88
+#: blocks/collapsible-text/index.js:89
 msgid "Mise en page"
 msgstr ""
 
-#: blocks/collapsible-text/index.js:91
+#: blocks/collapsible-text/index.js:92
 msgid "Une seule colonne"
 msgstr ""
 
-#: blocks/collapsible-text/index.js:92
+#: blocks/collapsible-text/index.js:93
 msgid "Le texte occupe toute la largeur : la colonne de droite s'affiche sous celle de gauche."
 msgstr ""
 
-#: blocks/collapsible-text/index.js:98
+#: blocks/collapsible-text/index.js:99
 msgid "Texte repliable"
 msgstr ""
 
-#: blocks/collapsible-text/index.js:99
+#: blocks/collapsible-text/index.js:100
 msgid "Bouton « Réduire » / « Lire la suite » en desktop. Décoché, le texte s'affiche toujours en entier."
 msgstr ""
 
-#: blocks/collapsible-text/index.js:107
+#: blocks/collapsible-text/index.js:108
 #: blocks/compact-cta/index.js:102
 #: blocks/cta/index.js:154
 msgid "Le titre et le texte sont obligatoires : sans eux, ce bloc n'est pas affiché sur le site."
@@ -1056,19 +1060,19 @@ msgid "Encart affiché sous la carte, en desktop seulement."
 msgstr ""
 
 #: blocks/home-hero-card/index.js:227
-#: blocks/photo-card/index.js:247
+#: blocks/photo-card/index.js:193
 msgid "Sur-titre de la carte"
 msgstr ""
 
 #: blocks/home-hero-card/index.js:228
-#: blocks/photo-card/index.js:248
+#: blocks/photo-card/index.js:194
 msgid "Sur-titre"
 msgstr ""
 
 #: blocks/home-hero-card/index.js:249
 #: blocks/icon-card/index.js:242
 #: blocks/image-card/index.js:233
-#: blocks/photo-card/index.js:258
+#: blocks/photo-card/index.js:204
 msgid "Texte de la carte"
 msgstr ""
 
@@ -1080,7 +1084,7 @@ msgstr ""
 #: blocks/home-hero-card/index.js:267
 #: blocks/icon-card/index.js:250
 #: blocks/image-card/index.js:241
-#: blocks/photo-card/index.js:266
+#: blocks/photo-card/index.js:212
 msgid "Titre obligatoire : sans lui, cette carte n'est pas affichée sur le site."
 msgstr ""
 
@@ -1120,6 +1124,7 @@ msgstr ""
 #: blocks/image-card/index.js:189
 #: blocks/page-hero-media/index.js:153
 #: blocks/page-hero-media/index.js:156
+#: blocks/photo-card/index.js:138
 msgid "Point focal"
 msgstr ""
 
@@ -1188,13 +1193,13 @@ msgstr ""
 
 #: blocks/icon-cards/index.js:110
 #: blocks/image-cards/index.js:91
-#: blocks/photo-cards/index.js:172
+#: blocks/photo-cards/index.js:175
 msgid "Ajouter une carte"
 msgstr ""
 
 #: blocks/icon-cards/index.js:120
 #: blocks/image-cards/index.js:101
-#: blocks/photo-cards/index.js:182
+#: blocks/photo-cards/index.js:185
 msgid "Cartes"
 msgstr ""
 
@@ -1486,68 +1491,63 @@ msgstr ""
 msgid "Encart posé sous les boutons, à cheval sur le bas du héros, en desktop seulement."
 msgstr ""
 
-#: blocks/photo-card/index.js:66
+#: blocks/photo-card/index.js:65
 msgid "Le + choisi"
 msgstr ""
 
-#: blocks/photo-card/index.js:117
-msgid "Modifier le lien de la carte"
+#: blocks/photo-card/index.js:139
+msgid "Partie de la photo toujours visible, quel que soit le recadrage."
 msgstr ""
 
-#: blocks/photo-card/index.js:117
-msgid "Ajouter un lien à la carte"
+#: blocks/photo-card/index.js:145
+msgid "Choisissez la photo dans la carte."
 msgstr ""
 
-#: blocks/photo-card/index.js:195
+#: blocks/photo-card/index.js:148
 msgid "Badge"
 msgstr ""
 
-#: blocks/photo-card/index.js:198
+#: blocks/photo-card/index.js:151
 msgid "Afficher un badge"
 msgstr ""
 
-#: blocks/photo-card/index.js:199
+#: blocks/photo-card/index.js:152
 msgid "Pastille orange posée en haut de la carte, au-dessus de la photo. Son libellé se modifie sur la carte."
 msgstr ""
 
-#: blocks/photo-card/index.js:206
-#: blocks/reassurance-item/index.js:233
-msgid "Lien"
-msgstr ""
-
-#: blocks/photo-card/index.js:208
-msgid "Toute la carte mène à cette page. Sans lien, la carte s'affiche mais n'est pas cliquable."
-msgstr ""
-
-#: blocks/photo-card/index.js:236
+#: blocks/photo-card/index.js:182
 msgid "Libellé du badge"
 msgstr ""
 
-#: blocks/photo-card/index.js:259
+#: blocks/photo-card/index.js:205
 msgid "Texte court"
 msgstr ""
 
-#: blocks/photo-card/index.js:270
-msgid "Pas de lien : carte non cliquable."
-msgstr ""
-
-#: blocks/photo-cards/index.js:187
+#: blocks/photo-cards/index.js:190
 msgid "Taille des cartes"
 msgstr ""
 
-#: blocks/photo-cards/index.js:190
-msgid "Grandes cartes : 4 par ligne en desktop, flèches au-delà."
-msgstr ""
-
-#: blocks/photo-cards/index.js:191
+#: blocks/photo-cards/index.js:193
 msgid "Petites cartes : 5 par ligne en desktop, flèches au-delà."
 msgstr ""
 
-#: blocks/photo-cards/index.js:196
+#: blocks/photo-cards/index.js:194
+msgid "Cartes moyennes : 4 par ligne en desktop, flèches au-delà."
+msgstr ""
+
+#: blocks/photo-cards/index.js:195
+msgid "Grandes cartes : 3 par ligne en desktop, flèches au-delà."
+msgstr ""
+
+#: blocks/photo-cards/index.js:201
 msgid "Petites"
 msgstr ""
 
-#: blocks/photo-cards/index.js:197
+#: blocks/photo-cards/index.js:202
+msgid "Moyennes"
+msgstr ""
+
+#: blocks/photo-cards/index.js:203
 msgid "Grandes"
 msgstr ""
 
@@ -1566,6 +1566,10 @@ msgstr ""
 #: blocks/reassurance-item/index.js:223
 #: blocks/_shared/image-field.js:101
 msgid "Remplacer"
+msgstr ""
+
+#: blocks/reassurance-item/index.js:233
+msgid "Lien"
 msgstr ""
 
 #: blocks/reassurance-item/index.js:235
@@ -1676,15 +1680,25 @@ msgstr ""
 msgid "Date (facultative)"
 msgstr ""
 
-#: blocks/section-title/index.js:92
+#: blocks/section-title/index.js:53
+#: resources/js/editor/heading-text-align.js:26
+msgid "Aligner le texte à gauche"
+msgstr ""
+
+#: blocks/section-title/index.js:54
+#: resources/js/editor/heading-text-align.js:27
+msgid "Centrer le texte"
+msgstr ""
+
+#: blocks/section-title/index.js:122
 msgid "Le titre est obligatoire : sans lui, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
-#: blocks/section-title/index.js:99
+#: blocks/section-title/index.js:129
 msgid "Sous-titre"
 msgstr ""
 
-#: blocks/section-title/index.js:100
+#: blocks/section-title/index.js:130
 msgid "Sous-titre (facultatif)"
 msgstr ""
 
@@ -1785,15 +1799,15 @@ msgstr ""
 msgid "Sans texte alternatif dans la médiathèque : l'image sera considérée comme décorative."
 msgstr ""
 
-#: resources/js/editor/attached-blocks.js:51
+#: resources/js/editor/attached-blocks.js:60
 msgid "Espacement"
 msgstr ""
 
-#: resources/js/editor/attached-blocks.js:54
+#: resources/js/editor/attached-blocks.js:63
 msgid "Rapprocher du bloc précédent"
 msgstr ""
 
-#: resources/js/editor/attached-blocks.js:55
+#: resources/js/editor/attached-blocks.js:64
 msgid "Écart réduit, comme au sein d'un même ensemble, au lieu de l'espace entre deux sections."
 msgstr ""
 
@@ -2224,7 +2238,7 @@ msgstr ""
 
 #: blocks/photo-card/block.json
 msgctxt "block description"
-msgid "Une carte : photo, badge facultatif, sur-titre, titre H3, texte court et lien vers une page, sur un fond au choix (gris clair, blanc ou pétrole très clair)."
+msgid "Une carte : photo, badge facultatif, sur-titre, titre H3 et texte court (liens permis), sur un fond au choix (gris clair, blanc ou pétrole très clair)."
 msgstr ""
 
 #: blocks/photo-cards/block.json
@@ -2234,7 +2248,7 @@ msgstr ""
 
 #: blocks/photo-cards/block.json
 msgctxt "block description"
-msgid "Rangée de cartes cliquables avec photo, sur-titre, titre et texte court : 5 petites ou 4 grandes par ligne en desktop, flèches au-delà ; défilement au doigt en mobile. Fond réglable carte par carte."
+msgid "Rangée de cartes avec photo, sur-titre, titre et texte court : 5 petites, 4 moyennes ou 3 grandes par ligne en desktop, flèches au-delà ; défilement au doigt en mobile. Fond réglable carte par carte."
 msgstr ""
 
 #: blocks/photo-cards/block.json

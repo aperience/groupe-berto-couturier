@@ -1,7 +1,7 @@
 // ─── Bloc « Cartes photo » (éditeur seulement) ────────────────────────────────
 //
 // Emplacement et boutons de la photo à l'échelle d'une carte de 212 px,
-// avertissement d'une carte sans titre, mention d'une carte sans lien. Ces
+// avertissement d'une carte sans titre. Ces
 // éléments n'existent que dans le canvas.
 
 // Emplacement de la photo : la hauteur de la photo, sans les instructions (trop
@@ -42,13 +42,6 @@
 
 .wp-block-couturier-photo-card__notice {
     margin-top: var(--space-12) !important;
-}
-
-.wp-block-couturier-photo-card__hint {
-    @include text-style(small);
-    margin-top: var(--space-8) !important;
-    color: var(--color-text-muted);
-    font-style: italic;
 }
 
 // Bloc en cours d'édition (lui ou l'une de ses cartes sélectionné) : les cartes

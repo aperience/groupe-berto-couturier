@@ -1,11 +1,12 @@
 /**
  * Bloc « Cartes photo » (`couturier/photo-cards`) : rangée de cartes
- * (`couturier/photo-card`) — photo, badge, sur-titre, titre H3, texte, lien.
+ * (`couturier/photo-card`) — photo, badge, sur-titre, titre H3, texte (liens permis).
  *
  * Inséré avec cinq cartes ; les cartes s'ajoutent (bouton « Ajouter une
  * carte »), se retirent et se déplacent librement, sans limite de nombre.
- * Réglage « Taille des cartes » (`size`) : petites (5 par ligne en desktop) ou
- * grandes (4 par ligne). Au-delà, les cartes défilent (`block/_photo-cards.scss`,
+ * Réglage « Taille des cartes » (`size`) : petites (`small`, 5 par ligne en
+ * desktop), moyennes (`large`, 4 par ligne) ou grandes (`xlarge`, 3 par ligne) ;
+ * valeurs internes conservées d'avant les moyennes. Au-delà, les cartes défilent (`block/_photo-cards.scss`,
  * `resources/js/photo-cards.js`).
  *
  * Canvas : bloc non sélectionné, rendu du front, flèches comprises (`useNav`,
@@ -44,6 +45,8 @@ import { TITLE } from '../photo-card/title.js';
 import metadata from './block.json';
 
 const ITEM = 'couturier/photo-card';
+
+const SIZES = [ 'small', 'large', 'xlarge' ];
 
 const CARD = [ ITEM, {}, [ TITLE ] ];
 
@@ -105,7 +108,7 @@ function useNav( track, deps ) {
 }
 
 function Edit( { attributes, setAttributes, clientId, isSelected } ) {
-	const size = 'large' === attributes.size ? 'large' : 'small';
+	const size = SIZES.includes( attributes.size ) ? attributes.size : 'small';
 	const { insertBlock, selectBlock, updateBlockAttributes } = useDispatch( blockEditorStore );
 	// Bloc ou l'une de ses cartes sélectionné. Sinon, le canvas montre le rendu du
 	// site : pas de bouton d'ajout.
@@ -186,15 +189,18 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 						isBlock
 						label={ __( 'Taille des cartes', 'couturier' ) }
 						help={
-							'large' === size
-								? __( 'Grandes cartes : 4 par ligne en desktop, flèches au-delà.', 'couturier' )
-								: __( 'Petites cartes : 5 par ligne en desktop, flèches au-delà.', 'couturier' )
+							{
+								small: __( 'Petites cartes : 5 par ligne en desktop, flèches au-delà.', 'couturier' ),
+								large: __( 'Cartes moyennes : 4 par ligne en desktop, flèches au-delà.', 'couturier' ),
+								xlarge: __( 'Grandes cartes : 3 par ligne en desktop, flèches au-delà.', 'couturier' ),
+							}[ size ]
 						}
 						value={ size }
 						onChange={ ( value ) => setAttributes( { size: value } ) }
 					>
 						<ToggleGroupControlOption value="small" label={ __( 'Petites', 'couturier' ) } />
-						<ToggleGroupControlOption value="large" label={ __( 'Grandes', 'couturier' ) } />
+						<ToggleGroupControlOption value="large" label={ __( 'Moyennes', 'couturier' ) } />
+						<ToggleGroupControlOption value="xlarge" label={ __( 'Grandes', 'couturier' ) } />
 					</ToggleGroupControl>
 				</PanelBody>
 			</InspectorControls>

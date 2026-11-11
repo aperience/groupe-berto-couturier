@@ -5,16 +5,19 @@
 	"title": "Cartes photo",
 	"category": "design",
 	"icon": "images-alt2",
-	"description": "Rangée de cartes cliquables avec photo, sur-titre, titre et texte court : 5 petites ou 4 grandes par ligne en desktop, flèches au-delà ; défilement au doigt en mobile. Fond réglable carte par carte.",
+	"description": "Rangée de cartes avec photo, sur-titre, titre et texte court : 5 petites, 4 moyennes ou 3 grandes par ligne en desktop, flèches au-delà ; défilement au doigt en mobile. Fond réglable carte par carte.",
 	"keywords": [ "formations", "permis", "offres", "liens", "carrousel" ],
 	"textdomain": "couturier",
 	"allowedBlocks": [ "couturier/photo-card" ],
 	"attributes": {
 		"size": {
 			"type": "string",
-			"enum": [ "small", "large" ],
+			"enum": [ "small", "large", "xlarge" ],
 			"default": "small"
 		}
+	},
+	"providesContext": {
+		"couturier/photoCardsSize": "size"
 	},
 	"supports": {
 		"html": false

@@ -1,6 +1,6 @@
 /**
  * Carte du bloc « Cartes photo » (`couturier/photo-card`) : photo, badge
- * facultatif, sur-titre, titre, texte court et lien.
+ * facultatif, sur-titre, titre et texte court. La carte n'est pas cliquable.
  *
  * - la photo (`imageId`) passe par `ImageField` (`blocks/_shared/image-field.js`) ;
  *   point focal (`focalPoint` → `--focal`, `object-position`) dans la barre latérale ;
@@ -9,10 +9,8 @@
  * - badge et sur-titre sont des attributs écrits avant le titre dans le HTML
  *   enregistré, le texte après lui : le compteur de mots les lit. Le badge
  *   s'affiche par l'interrupteur « Afficher un badge » (`hasBadge`), prérempli
- *   « Le + choisi ». Texte : gras et saut de ligne permis ;
- * - le lien (`link`) est la valeur du `LinkControl` natif ; `render.php` en fait
- *   un lien sur le titre, étendu à toute la carte. Bouton « Lien » dans la barre
- *   d'outils de la carte et de son titre, et panneau « Lien » de la barre latérale.
+ *   « Le + choisi ». Texte : gras, lien et saut de ligne permis (l'ancien lien de
+ *   toute la carte, attribut `link`, est supprimé) ;
  *
  * - le fond (`background`) se choisit dans une liste fermée
  *   (`_shared/backgrounds.js`) : gris clair (défaut), blanc ou pétrole très clair,
@@ -25,25 +23,19 @@
  */
 import { registerBlockType } from '@wordpress/blocks';
 import {
-	BlockControls,
 	InnerBlocks,
 	InspectorControls,
-	LinkControl,
 	RichText,
 	store as blockEditorStore,
 	useBlockProps,
 	useInnerBlocksProps,
 } from '@wordpress/block-editor';
-import { FocalPointPicker, Notice, PanelBody, Popover, ToggleControl, ToolbarButton, ToolbarGroup } from '@wordpress/components';
-import { createHigherOrderComponent } from '@wordpress/compose';
+import { FocalPointPicker, Notice, PanelBody, ToggleControl } from '@wordpress/components';
 import { store as coreStore } from '@wordpress/core-data';
-import { useDispatch, useSelect } from '@wordpress/data';
-import { useState } from '@wordpress/element';
-import { addFilter } from '@wordpress/hooks';
+import { useSelect } from '@wordpress/data';
 import { __ } from '@wordpress/i18n';
 
 import { HEADING_FORMATS_OFF, restrictFormats } from '../_shared/formats.js';
-import { link as linkIcon } from '../_shared/icons.js';
 import ImageField, { ImageInfoPanel, imageUrl } from '../_shared/image-field.js';
 import {
 	hideLockedControls,
@@ -72,72 +64,11 @@ const objectPosition = ( { x, y } = DEFAULT_FOCAL_POINT ) =>
 /** Libellé proposé quand on affiche le badge. */
 const DEFAULT_BADGE = __( 'Le + choisi', 'couturier' );
 
-/** Formats du texte : gras seulement (saut de ligne par Maj+Entrée). */
-const TEXT_FORMATS = [ 'core/bold' ];
-
-/** Valeur du `LinkControl` réduite à ce que `render.php` utilise. */
-const toLink = ( value ) =>
-	value?.url
-		? {
-				url: value.url,
-				id: value.id,
-				kind: value.kind,
-				type: value.type,
-				opensInNewTab: !! value.opensInNewTab,
-		  }
-		: undefined;
-
-/**
- * Lien de la carte `cardId` : choix d'un contenu ou d'une URL, nouvel onglet,
- * retrait. Partagé par le bouton de la barre d'outils et la barre latérale.
- */
-function CardLinkControl( { cardId, onClose } ) {
-	const link = useSelect( ( select ) => select( blockEditorStore ).getBlockAttributes( cardId )?.link, [ cardId ] );
-	const { updateBlockAttributes } = useDispatch( blockEditorStore );
-
-	return (
-		<LinkControl
-			value={ link }
-			forceIsEditingLink={ ! link?.url }
-			onChange={ ( value ) => updateBlockAttributes( cardId, { link: toLink( value ) } ) }
-			onRemove={ () => {
-				updateBlockAttributes( cardId, { link: undefined } );
-				onClose?.();
-			} }
-		/>
-	);
-}
-
-/** Bouton « Lien » de la barre d'outils (carte ou titre), avec sa fenêtre. */
-function CardLinkToolbar( { cardId } ) {
-	const hasLink = useSelect( ( select ) => !! select( blockEditorStore ).getBlockAttributes( cardId )?.link?.url, [ cardId ] );
-	const [ isOpen, setOpen ] = useState( false );
-	const [ anchor, setAnchor ] = useState( null );
-
-	return (
-		<>
-			<BlockControls group="block">
-				<ToolbarGroup>
-					<ToolbarButton
-						ref={ setAnchor }
-						icon={ linkIcon }
-						label={ hasLink ? __( 'Modifier le lien de la carte', 'couturier' ) : __( 'Ajouter un lien à la carte', 'couturier' ) }
-						isPressed={ hasLink }
-						onClick={ () => setOpen( ! isOpen ) }
-					/>
-				</ToolbarGroup>
-			</BlockControls>
-			{ isOpen && (
-				<Popover anchor={ anchor } placement="bottom" onClose={ () => setOpen( false ) } focusOnMount="firstElement">
-					<CardLinkControl cardId={ cardId } onClose={ () => setOpen( false ) } />
-				</Popover>
-			) }
-		</>
-	);
-}
+/** Formats du texte : gras et lien (saut de ligne par Maj+Entrée). */
+const TEXT_FORMATS = [ 'core/bold', 'core/link' ];
 
 function Edit( { attributes, setAttributes, clientId, isSelected } ) {
-	const { imageId, focalPoint, hasBadge, badge, eyebrow, text, link } = attributes;
+	const { imageId, focalPoint, hasBadge, badge, eyebrow, text } = attributes;
 	const background = useBackground( metadata, attributes.background );
 
 	const { blocks, isEditing } = useSelect(
@@ -225,15 +156,8 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 						}
 					/>
 				</PanelBody>
-				<PanelBody title={ __( 'Lien', 'couturier' ) }>
-					<p>
-						{ __( 'Toute la carte mène à cette page. Sans lien, la carte s\'affiche mais n\'est pas cliquable.', 'couturier' ) }
-					</p>
-					<CardLinkControl cardId={ clientId } />
-				</PanelBody>
 			</InspectorControls>
 			<ImageInfoPanel media={ media } isMissing={ isMissing } />
-			{ isSelected && <CardLinkToolbar cardId={ clientId } /> }
 			{ /* Zone photo vide, comme sur le front (`render.php`), quand il n'y a pas
 			     d'emplacement à montrer : photo en cours de chargement, ou carte sans
 			     photo hors édition. Sans elle, le texte remonterait sous le badge. */ }
@@ -288,9 +212,6 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 					{ __( 'Titre obligatoire : sans lui, cette carte n\'est pas affichée sur le site.', 'couturier' ) }
 				</Notice>
 			) }
-			{ isEditing && ! link?.url && ! isIncomplete && (
-				<p className="wp-block-couturier-photo-card__hint">{ __( 'Pas de lien : carte non cliquable.', 'couturier' ) }</p>
-			) }
 		</li>
 	);
 }
@@ -313,7 +234,7 @@ registerBlockType( metadata.name, {
 	),
 } );
 
-// Aucun format dans le titre (il devient le lien de la carte).
+// Aucun format dans le titre.
 restrictFormats( metadata.name, {
 	'core/heading': [ ...HEADING_FORMATS_OFF, 'core/strikethrough', 'core/superscript', 'core/subscript' ],
 } );
@@ -321,34 +242,3 @@ restrictFormats( metadata.name, {
 // Titre sélectionné : ni cadenas, ni variations de niveau.
 hideLockedControls( metadata.name, TITLE_BLOCKS );
 
-// Titre d'une carte sélectionné : bouton « Lien » de la carte dans sa barre
-// d'outils (c'est lui que l'on sélectionne le plus souvent).
-addFilter(
-	'editor.BlockEdit',
-	'couturier/photo-card/title-link',
-	createHigherOrderComponent(
-		( BlockEdit ) => ( props ) => {
-			const cardId = useSelect(
-				( select ) => {
-					if ( props.name !== 'core/heading' || ! props.isSelected ) {
-						return undefined;
-					}
-
-					const editor = select( blockEditorStore );
-					const parentId = editor.getBlockRootClientId( props.clientId );
-
-					return editor.getBlockName( parentId ) === metadata.name ? parentId : undefined;
-				},
-				[ props.name, props.clientId, props.isSelected ]
-			);
-
-			return (
-				<>
-					{ cardId && <CardLinkToolbar cardId={ cardId } /> }
-					<BlockEdit { ...props } />
-				</>
-			);
-		},
-		'withPhotoCardTitleLink'
-	)
-);

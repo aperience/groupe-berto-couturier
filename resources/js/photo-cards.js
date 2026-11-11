@@ -3,7 +3,7 @@
  * précédentes » / « Cartes suivantes » de la piste, en desktop (`lg`).
  *
  * - les flèches, rendues `hidden` par `render.php`, ne s'affichent que si les
- *   cartes dépassent la piste (plus de 5 petites ou 4 grandes) ; le bloc reçoit
+ *   cartes dépassent la piste (plus de 5 petites, 4 moyennes ou 3 grandes) ; le bloc reçoit
  *   alors `has-nav`, qui masque la barre de défilement native ;
  * - un clic fait défiler d'une page (largeur utile de la piste + un écart),
  *   l'aimantation (`scroll-snap`) aligne sur une carte ;

@@ -27,7 +27,7 @@ if ( ! str_contains( $content, '<li' ) ) {
     return;
 }
 
-$couturier_cards_size  = 'large' === ( $attributes['size'] ?? '' ) ? 'large' : 'small';
+$couturier_cards_size  = in_array( $attributes['size'] ?? '', [ 'large', 'xlarge' ], true ) ? $attributes['size'] : 'small';
 $couturier_cards_track = wp_unique_id( 'photo-cards-' );
 
 // « Précédent » rendu désactivé : au chargement, la piste est à son début. Le

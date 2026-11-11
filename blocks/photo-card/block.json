@@ -5,17 +5,15 @@
 	"title": "Carte photo",
 	"category": "design",
 	"icon": "format-image",
-	"description": "Une carte : photo, badge facultatif, sur-titre, titre H3, texte court et lien vers une page, sur un fond au choix (gris clair, blanc ou pétrole très clair).",
+	"description": "Une carte : photo, badge facultatif, sur-titre, titre H3 et texte court (liens permis), sur un fond au choix (gris clair, blanc ou pétrole très clair).",
 	"textdomain": "couturier",
 	"parent": [ "couturier/photo-cards" ],
+	"usesContext": [ "couturier/photoCardsSize" ],
 	"attributes": {
 		"imageId": {
 			"type": "number"
 		},
 		"focalPoint": {
-			"type": "object"
-		},
-		"link": {
 			"type": "object"
 		},
 		"background": {
