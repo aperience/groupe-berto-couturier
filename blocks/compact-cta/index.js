@@ -12,17 +12,28 @@
  * (`is-style-peach` / `-pink` / `-default`, supprimés) : migrés à l'ouverture
  * dans l'éditeur (pêche/300, orange/100, défaut), puis classe retirée.
  *
- * `save()` n'enregistre que les blocs imbriqués : l'enveloppe est produite par
- * `render.php`, qui n'affiche rien si le titre ou le texte est vide.
+ * Largeur (`width`) : compacte (1063 px, défaut) ou pleine (`wide` → classe
+ * `is-wide`, tout le conteneur). Image facultative à gauche (`imageId`, Figma
+ * 301:7148) → classe `has-media`. Texte facultatif, titre obligatoire.
+ *
+ * `save()` n'enregistre que les blocs imbriqués : l'enveloppe et l'image sont
+ * produites par `render.php`, qui n'affiche rien si le titre est vide.
  */
 import { registerBlockType } from '@wordpress/blocks';
 import {
 	InnerBlocks,
+	InspectorControls,
 	store as blockEditorStore,
 	useBlockProps,
 	useInnerBlocksProps,
 } from '@wordpress/block-editor';
-import { Notice } from '@wordpress/components';
+import {
+	Notice,
+	PanelBody,
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+} from '@wordpress/components';
+import { store as coreStore } from '@wordpress/core-data';
 import { useSelect } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
@@ -37,6 +48,7 @@ import {
 	useNonBreakingPunctuation,
 } from '../_shared/locked-content.js';
 import { BackgroundPanel, useBackground } from '../_shared/backgrounds.js';
+import ImageField, { ImageInfoPanel } from '../_shared/image-field.js';
 import metadata from './block.json';
 import './formats.js';
 
@@ -65,32 +77,57 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 		[ clientId, isSelected ]
 	);
 
+	const { imageId, width } = attributes;
+	// Pièce jointe de l'image ; `isMissing` si elle a été supprimée de la médiathèque.
+	const { media, isMissing } = useSelect(
+		( select ) => {
+			if ( ! imageId ) {
+				return { media: null, isMissing: false };
+			}
+			const attachment = select( coreStore ).getMedia( imageId, { context: 'view' } );
+			const isResolved = select( coreStore ).hasFinishedResolution( 'getMedia', [ imageId, { context: 'view' } ] );
+
+			return { media: attachment ?? null, isMissing: isResolved && ! attachment };
+		},
+		[ imageId ]
+	);
+	// Colonne image : l'image, ou son emplacement en cours d'édition (pas pendant
+	// le chargement d'une image déjà choisie).
+	const isImageLoading = !! imageId && ! media && ! isMissing;
+	const hasMediaColumn = !! media || ( isEditing && ! isImageLoading );
+
 	const heading = blocks.find( ( block ) => block.name === 'core/heading' );
-	const paragraph = blocks.find( ( block ) => block.name === 'core/paragraph' );
-	const isIncomplete = blocks.length > 0 && ( ! textOf( heading ) || ! textOf( paragraph ) );
+	const isIncomplete = blocks.length > 0 && ! textOf( heading );
 	const [ buttonCount, setButtonCount ] = useButtonCount( clientId, blocks, BUTTONS );
 
 	const background = useBackground( metadata, attributes.background );
 
 	// Migration des anciens styles de bloc.
-	const className = attributes.className ?? '';
+	const legacyClassName = attributes.className ?? '';
 	useEffect( () => {
-		const match = className.match( LEGACY_PATTERN );
+		const match = legacyClassName.match( LEGACY_PATTERN );
 		if ( ! match ) {
 			return;
 		}
 		setAttributes( {
 			...( LEGACY_STYLES[ match[ 2 ] ] ? { background: LEGACY_STYLES[ match[ 2 ] ] } : {} ),
-			className: className.replace( LEGACY_PATTERN, '' ).trim() || undefined,
+			className: legacyClassName.replace( LEGACY_PATTERN, '' ).trim() || undefined,
 		} );
-	}, [ className, setAttributes ] );
+	}, [ legacyClassName, setAttributes ] );
 
 	useLockedContent( blocks, { level: LEVEL } );
 	useNonBreakingPunctuation( blocks );
 
 	// Modèle passé à l'insertion seulement (cf. `blocks/CLAUDE.md`).
-	const innerBlocksProps = useInnerBlocksProps(
-		useBlockProps( { className: background.className } ),
+	const className = [
+		background.className,
+		'wide' === width ? 'is-wide' : '',
+		hasMediaColumn ? 'has-media' : '',
+		// Image assez large : pleine largeur en mobile (même seuil que `render.php`).
+		( media?.media_details?.width ?? 0 ) >= 640 ? 'is-media-wide' : '',
+	].filter( Boolean ).join( ' ' );
+	const { children, ...innerBlocksProps } = useInnerBlocksProps(
+		useBlockProps( { className: className || undefined } ),
 		{ template: blocks.length ? undefined : TEMPLATE, templateLock: 'all' }
 	);
 
@@ -101,13 +138,44 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 				title={ __( 'Fond du bandeau', 'couturier' ) }
 				onChange={ ( slug ) => setAttributes( { background: slug } ) }
 			/>
+			<InspectorControls>
+				<PanelBody title={ __( 'Largeur', 'couturier' ) }>
+					<ToggleGroupControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						isBlock
+						hideLabelFromVision
+						label={ __( 'Largeur', 'couturier' ) }
+						value={ width }
+						onChange={ ( value ) => setAttributes( { width: value } ) }
+					>
+						<ToggleGroupControlOption value="compact" label={ __( 'Compacte', 'couturier' ) } />
+						<ToggleGroupControlOption value="wide" label={ __( 'Pleine largeur', 'couturier' ) } />
+					</ToggleGroupControl>
+				</PanelBody>
+			</InspectorControls>
 			<ButtonsControl count={ buttonCount } setCount={ setButtonCount } max={ 2 } />
+			<ImageInfoPanel media={ media } isMissing={ isMissing } />
 			{ isEditing && isIncomplete && (
 				<Notice status="warning" isDismissible={ false } className="wp-block-couturier-compact-cta__notice">
-					{ __( 'Le titre et le texte sont obligatoires : sans eux, ce bloc n\'est pas affiché sur le site.', 'couturier' ) }
+					{ __( 'Le titre est obligatoire : sans lui, ce bloc n\'est pas affiché sur le site.', 'couturier' ) }
 				</Notice>
 			) }
-			<div { ...innerBlocksProps } />
+			<div { ...innerBlocksProps }>
+				{ hasMediaColumn && (
+					<ImageField
+						compact
+						className="wp-block-couturier-compact-cta__media"
+						imageClassName="wp-block-couturier-compact-cta__image"
+						media={ media }
+						isEditing={ isEditing }
+						onSelect={ ( selected ) => setAttributes( { imageId: selected?.id } ) }
+						onRemove={ () => setAttributes( { imageId: undefined } ) }
+						label={ __( 'Image (facultative)', 'couturier' ) }
+					/>
+				) }
+				{ children }
+			</div>
 		</>
 	);
 }

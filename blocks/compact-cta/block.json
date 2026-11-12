@@ -5,7 +5,7 @@
 	"title": "Appel à action compact",
 	"category": "design",
 	"icon": "megaphone",
-	"description": "Bandeau clair arrondi, fond au choix : titre et texte à gauche, un ou deux boutons à droite.",
+	"description": "Bandeau clair arrondi, fond et largeur au choix : image facultative, titre et texte à gauche, zéro à deux boutons à droite.",
 	"keywords": [ "cta", "bouton", "bandeau", "appel" ],
 	"textdomain": "couturier",
 	"attributes": {
@@ -13,6 +13,14 @@
 			"type": "string",
 			"enum": [ "petrol-100", "peach-300", "orange-100", "petrol-50", "neutral-50" ],
 			"default": "petrol-100"
+		},
+		"width": {
+			"type": "string",
+			"enum": [ "compact", "wide" ],
+			"default": "compact"
+		},
+		"imageId": {
+			"type": "number"
 		}
 	},
 	"supports": {

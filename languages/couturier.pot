@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-11T16:30:57+00:00\n"
+"POT-Creation-Date: 2026-11-12T08:10:58+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -104,8 +104,8 @@ msgid "Cartes suivantes"
 msgstr ""
 
 #: blocks/pickup-map/render.php:59
-#: blocks/pickup-map/index.js:104
-#: blocks/pickup-map/index.js:124
+#: blocks/pickup-map/index.js:114
+#: blocks/pickup-map/index.js:134
 msgid "Le centre"
 msgstr ""
 
@@ -120,7 +120,7 @@ msgid "Lieu affiché sur la carte"
 msgstr ""
 
 #: blocks/pickup-map/render.php:87
-#: blocks/pickup-map/index.js:125
+#: blocks/pickup-map/index.js:135
 msgid "Points de ramassage"
 msgstr ""
 
@@ -499,10 +499,10 @@ msgstr ""
 
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:257
 #: blocks/collapsible-text/index.js:48
-#: blocks/compact-cta/index.js:44
+#: blocks/compact-cta/index.js:61
 #: blocks/cta/index.js:84
 #: blocks/faq/index.js:55
-#: blocks/pickup-map/index.js:45
+#: blocks/pickup-map/index.js:46
 #: blocks/section-title/index.js:43
 msgid "Titre"
 msgstr ""
@@ -514,7 +514,7 @@ msgstr ""
 #: src/Features/CurrentOffer/CurrentOfferSettings.php:272
 #: src/Features/Footer/FooterSettings.php:410
 #: src/Features/Navigation/MegaMenuFields.php:97
-#: blocks/compact-cta/index.js:45
+#: blocks/compact-cta/index.js:62
 #: blocks/cta/index.js:85
 #: blocks/home-hero-card/index.js:250
 #: blocks/home-hero/index.js:57
@@ -986,13 +986,36 @@ msgid "Bouton « Réduire » / « Lire la suite » en desktop. Décoché, le tex
 msgstr ""
 
 #: blocks/collapsible-text/index.js:108
-#: blocks/compact-cta/index.js:102
 #: blocks/cta/index.js:154
 msgid "Le titre et le texte sont obligatoires : sans eux, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
-#: blocks/compact-cta/index.js:96
+#: blocks/compact-cta/index.js:136
 msgid "Fond du bandeau"
+msgstr ""
+
+#: blocks/compact-cta/index.js:140
+#: blocks/compact-cta/index.js:146
+msgid "Largeur"
+msgstr ""
+
+#: blocks/compact-cta/index.js:150
+msgid "Compacte"
+msgstr ""
+
+#: blocks/compact-cta/index.js:151
+msgid "Pleine largeur"
+msgstr ""
+
+#: blocks/compact-cta/index.js:159
+#: blocks/section-title/index.js:122
+msgid "Le titre est obligatoire : sans lui, ce bloc n'est pas affiché sur le site."
+msgstr ""
+
+#: blocks/compact-cta/index.js:172
+#: blocks/cta/index.js:180
+#: blocks/image-text/index.js:181
+msgid "Image (facultative)"
 msgstr ""
 
 #: blocks/cta/index.js:148
@@ -1003,11 +1026,6 @@ msgstr ""
 #: blocks/image-text/index.js:205
 #: blocks/page-hero/index.js:304
 msgid "Ajouter des boutons"
-msgstr ""
-
-#: blocks/cta/index.js:180
-#: blocks/image-text/index.js:181
-msgid "Image (facultative)"
 msgstr ""
 
 #: blocks/faq-item/index.js:90
@@ -1043,8 +1061,8 @@ msgstr ""
 #: blocks/image-text/index.js:86
 #: blocks/logo-strip/index.js:42
 #: blocks/page-hero/index.js:86
-#: blocks/pickup-map/index.js:46
-#: blocks/pickup-map/index.js:87
+#: blocks/pickup-map/index.js:47
+#: blocks/pickup-map/index.js:89
 msgid "Texte (facultatif)"
 msgstr ""
 
@@ -1625,35 +1643,35 @@ msgstr ""
 msgid "Ajouter un point de ramassage"
 msgstr ""
 
-#: blocks/pickup-map/index.js:45
+#: blocks/pickup-map/index.js:46
 msgid "Le centre et les points de ramassage"
 msgstr ""
 
-#: blocks/pickup-map/index.js:108
+#: blocks/pickup-map/index.js:118
 msgid "Adresse du centre"
 msgstr ""
 
-#: blocks/pickup-map/index.js:109
+#: blocks/pickup-map/index.js:119
 msgid "Telle qu'on la chercherait dans Google Maps. Obligatoire : la carte de l'onglet « Le centre »."
 msgstr ""
 
-#: blocks/pickup-map/index.js:118
+#: blocks/pickup-map/index.js:128
 msgid "Le titre et l'adresse du centre (barre latérale) sont obligatoires : sans eux, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
-#: blocks/pickup-map/index.js:133
+#: blocks/pickup-map/index.js:143
 msgid "Aperçu de la carte du centre"
 msgstr ""
 
-#: blocks/pickup-map/index.js:140
+#: blocks/pickup-map/index.js:150
 msgid "Saisissez l'adresse du centre dans la barre latérale pour afficher la carte."
 msgstr ""
 
-#: blocks/pickup-map/index.js:148
+#: blocks/pickup-map/index.js:158
 msgid "Note"
 msgstr ""
 
-#: blocks/pickup-map/index.js:149
+#: blocks/pickup-map/index.js:159
 msgid "Note (facultative)"
 msgstr ""
 
@@ -1819,10 +1837,6 @@ msgstr ""
 #: blocks/section-title/index.js:54
 #: resources/js/editor/heading-text-align.js:27
 msgid "Centrer le texte"
-msgstr ""
-
-#: blocks/section-title/index.js:122
-msgid "Le titre est obligatoire : sans lui, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
 #: blocks/section-title/index.js:129
@@ -2007,7 +2021,7 @@ msgstr ""
 
 #: blocks/compact-cta/block.json
 msgctxt "block description"
-msgid "Bandeau clair arrondi, fond au choix : titre et texte à gauche, un bouton à droite."
+msgid "Bandeau clair arrondi, fond et largeur au choix : image facultative, titre et texte à gauche, zéro à deux boutons à droite."
 msgstr ""
 
 #: blocks/compact-cta/block.json
