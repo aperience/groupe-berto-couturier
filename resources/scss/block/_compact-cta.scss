@@ -5,8 +5,9 @@
 //   section.wp-block-couturier-compact-cta[.is-bg-{fond}]
 //     h2, p, div.wp-block-buttons   ← enfants directs des deux côtés
 //
-// Mobile : tout empilé. Desktop (`lg`) : grille, titre et texte à gauche, bouton
-// à droite centré verticalement (Figma 301:6347).
+// Mobile : tout empilé. Desktop (`lg`) : grille, titre et texte à gauche, un ou
+// deux boutons à droite centrés verticalement (Figma 301:6347, 301:6801).
+// Boutons toujours sur une seule ligne, 16 px d'écart.
 //
 // Fond (`background` → classe `is-bg-{fond}`, pétrole/100 sans classe) : seule
 // `--compact-cta-bg` change. Titre pétrole/500 (≥ 7,28:1) et texte pétrole/900
@@ -60,7 +61,16 @@
 
     // Spécificité 0,2,0 : l'emporte sur la marge de `.wp-block-buttons` (`_button.scss`).
     > .wp-block-buttons {
+        flex-wrap: nowrap;
+        gap: var(--space-16);
         margin-top: var(--space-16);
+
+        // Deux libellés trop longs pour la ligne (petits écrans) : les boutons se
+        // partagent la largeur et leur texte passe à la ligne à l'intérieur.
+        > .wp-block-button {
+            flex: 0 1 auto;
+            min-width: 0;
+        }
     }
 
     // Bouton sans libellé : le core le retire du rendu, mais laisse le groupe.

@@ -3,7 +3,7 @@
  * Rendu du bloc « Appel à action compact » (`couturier/compact-cta`).
  *
  * Balisage : `section.wp-block-couturier-compact-cta[.is-bg-…]` > h2, p,
- * `div.wp-block-buttons` — enfants directs, comme dans le canvas, mis en grille
+ * `div.wp-block-buttons` (un ou deux boutons) — enfants directs, comme dans le canvas, mis en grille
  * par `block/_compact-cta.scss`. Titre et texte sont obligatoires : si l'un des
  * deux est vide, rien n'est rendu. Fond (`background`) autre que pétrole clair :
  * classe `is-bg-{fond}`.

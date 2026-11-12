@@ -5,7 +5,7 @@
 	"title": "Appel à action compact",
 	"category": "design",
 	"icon": "megaphone",
-	"description": "Bandeau clair arrondi, fond au choix : titre et texte à gauche, un bouton à droite.",
+	"description": "Bandeau clair arrondi, fond au choix : titre et texte à gauche, un ou deux boutons à droite.",
 	"keywords": [ "cta", "bouton", "bandeau", "appel" ],
 	"textdomain": "couturier",
 	"attributes": {
@@ -26,7 +26,8 @@
 			{
 				"name": "core/buttons",
 				"innerBlocks": [
-					{ "name": "core/button", "attributes": { "text": "Découvrir Formation Pro", "className": "is-style-deep", "hasArrow": true } }
+					{ "name": "core/button", "attributes": { "text": "Découvrir Formation Pro", "className": "is-style-deep", "hasArrow": true } },
+					{ "name": "core/button", "attributes": { "text": "Être rappelé" } }
 				]
 			}
 		]

@@ -1,10 +1,12 @@
 /**
  * Bloc « Appel à action compact » (`couturier/compact-cta`) : bandeau clair arrondi,
- * titre et texte à gauche, un bouton à droite (Figma 301:6347).
+ * titre et texte à gauche, un ou deux boutons à droite sur une ligne
+ * (Figma 301:6347, 301:6801).
  *
  * Même structure que le CTA (`blocks/cta/index.js`) : titre `core/heading` toujours
- * en H2, texte `core/paragraph`, tous deux verrouillés, et un `core/button`
- * facultatif (pétrole foncé avec flèche), remis par le panneau « Bouton ».
+ * en H2, texte `core/paragraph`, tous deux verrouillés, et zéro à deux
+ * `core/button` (panneau « Boutons ») : toujours pétrole foncé avec flèche en
+ * premier, orange (style par défaut) en second.
  * Fond (`background`) dans une liste fermée (`_shared/backgrounds.js`), pétrole
  * clair par défaut → classe `is-bg-{fond}`. Anciens styles de bloc
  * (`is-style-peach` / `-pink` / `-default`, supprimés) : migrés à l'ouverture
@@ -38,7 +40,10 @@ import { BackgroundPanel, useBackground } from '../_shared/backgrounds.js';
 import metadata from './block.json';
 import './formats.js';
 
-const BUTTONS = [ [ 'core/button', { className: 'is-style-deep', hasArrow: true, lock: REMOVABLE } ] ];
+const BUTTONS = [
+	[ 'core/button', { className: 'is-style-deep', hasArrow: true, lock: REMOVABLE } ],
+	[ 'core/button', { lock: REMOVABLE } ],
+];
 
 const TEMPLATE = [
 	[ 'core/heading', { level: 2, lock: LOCKED, placeholder: __( 'Titre', 'couturier' ) } ],
@@ -96,7 +101,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 				title={ __( 'Fond du bandeau', 'couturier' ) }
 				onChange={ ( slug ) => setAttributes( { background: slug } ) }
 			/>
-			<ButtonsControl count={ buttonCount } setCount={ setButtonCount } max={ 1 } />
+			<ButtonsControl count={ buttonCount } setCount={ setButtonCount } max={ 2 } />
 			{ isEditing && isIncomplete && (
 				<Notice status="warning" isDismissible={ false } className="wp-block-couturier-compact-cta__notice">
 					{ __( 'Le titre et le texte sont obligatoires : sans eux, ce bloc n\'est pas affiché sur le site.', 'couturier' ) }
