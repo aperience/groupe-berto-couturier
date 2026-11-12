@@ -1,0 +1,20 @@
+// ─── Bloc « Objectifs et programme » : canvas (éditeur seulement) ─────────────
+
+.wp-block-couturier-training-overview-panels__add {
+    display: flex;
+    justify-content: center;
+}
+
+.wp-block-couturier-training-overview-panel__add-button.components-button {
+    align-self: flex-start;
+    margin-top: var(--space-24) !important;
+}
+
+.wp-block-couturier-training-overview-panel__notice,
+.wp-block-couturier-training-overview-facts__notice {
+    margin: var(--space-12) 0 0 !important;
+}
+
+.wp-block-couturier-training-overview-facts__notice {
+    margin: 0 0 var(--space-12) !important;
+}

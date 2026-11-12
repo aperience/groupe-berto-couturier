@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/training-overview-panels",
+	"title": "Panneaux",
+	"category": "design",
+	"icon": "columns",
+	"description": "Panneaux du bloc « Objectifs et programme » : deux par ligne en desktop, empilés en mobile.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/training-overview" ],
+	"allowedBlocks": [ "couturier/training-overview-panel" ],
+	"supports": {
+		"html": false,
+		"inserter": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

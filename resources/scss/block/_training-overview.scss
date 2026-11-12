@@ -1,0 +1,150 @@
+// ─── Objectifs et programme (couturier/training-overview) ─────────────────────
+//
+// Balisage (front : `render.php` de chaque bloc ; éditeur : `index.js`, mêmes
+// classes) :
+//
+//   div.wp-block-couturier-training-overview
+//     div.wp-block-couturier-training-overview-panels
+//       div.wp-block-couturier-training-overview-panel[.is-bg-{fond}]   ← n panneaux
+//         h3 | p | ul.wp-block-list | ol.wp-block-list                  ← libres
+//         div.wp-block-buttons > div.wp-block-button.is-style-outline    ← facultatif, en dernier
+//     div.wp-block-couturier-training-overview-facts
+//       dl.__list > div.__item.is-bg-{fond} > dt.__label + dd.__value   ← 4 cartes
+//
+// Mobile : panneaux empilés, cartes deux par ligne. Desktop (`lg`) : toute la
+// largeur du conteneur (1136 px), panneaux deux par ligne (une ligne incomplète garde sa colonne), cartes quatre par ligne.
+// Panneaux d'une même ligne à la même hauteur, bouton calé en bas.
+//
+// Paragraphes et listes : mixin `text-content` (`_mixins.scss`), partagé avec
+// l'encart des Formules. Dans l'éditeur, les blocs imbriqués reçoivent les marges
+// par défaut du canvas (`html :where(.wp-block)`) : classes doublées, toutes les
+// marges sont posées ici.
+
+.wp-block-couturier-training-overview {
+    margin-block: var(--layout-section-gap);
+
+    &#{&} > * {
+        margin-block: 0;
+    }
+
+    &#{&} > * + * {
+        margin-top: var(--space-16);
+    }
+}
+
+// ─── Panneaux ─────────────────────────────────────────────────────────────────
+.wp-block-couturier-training-overview-panels {
+    display: grid;
+    gap: var(--space-16);
+
+    @include media-breakpoint-up(lg) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: var(--space-18);
+    }
+
+    // Canvas : bouton d'ajout sur toute la largeur, dans le flux (le core pose
+    // `div.block-list-appender` en absolu).
+    > .block-list-appender {
+        position: static;
+        grid-column: 1 / -1;
+        margin: 0;
+    }
+}
+
+.wp-block-couturier-training-overview-panel {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    padding: var(--space-24) var(--space-20);
+    border-radius: var(--bs-border-radius-lg);
+    background-color: var(--color-surface-accent-soft);
+    color: var(--color-text-default);
+
+    @include media-breakpoint-up(lg) {
+        padding: var(--space-40) var(--space-48);
+    }
+
+    // Classe doublée : passe devant les marges automatiques de `.wp-block` (canvas).
+    &#{&} {
+        margin: 0;
+    }
+
+    &#{&} > * {
+        margin: 0;
+    }
+
+    > h3 {
+        @include text-style(body-lg);
+        font-weight: 700;
+        color: var(--color-text-heading);
+    }
+
+    // Paragraphes et listes : ceux de l'encart des Formules (`_mixins.scss`).
+    @include text-content;
+
+    // Titre puis contenu (après le mixin, même spécificité).
+    &#{&} > h3 + * {
+        margin-top: var(--space-16);
+    }
+
+    // Bouton en bas du panneau, à au moins 32 px du texte.
+    &#{&} > .wp-block-buttons {
+        margin-top: auto;
+        padding-top: var(--space-32);
+    }
+
+    @each $name, $role in $ds-card-backgrounds {
+        &.is-bg-#{$name} {
+            background-color: var(--color-#{$role});
+        }
+    }
+}
+
+// ─── Cartes d'informations ────────────────────────────────────────────────────
+.wp-block-couturier-training-overview-facts__list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-12);
+    margin: 0;
+
+    @include media-breakpoint-up(lg) {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: var(--space-14);
+    }
+}
+
+.wp-block-couturier-training-overview-facts__item {
+    min-width: 0;
+    padding: var(--space-20) var(--space-16);
+    border-radius: var(--bs-border-radius);
+
+    @include media-breakpoint-up(lg) {
+        padding: var(--space-20) var(--space-24) var(--space-24);
+    }
+
+    @each $name, $role in $ds-card-backgrounds {
+        &.is-bg-#{$name} {
+            background-color: var(--color-#{$role});
+        }
+    }
+}
+
+.wp-block-couturier-training-overview-facts__label {
+    @include text-style(eyebrow);
+    margin: 0 0 var(--space-8);
+    color: var(--color-text-muted);
+}
+
+.wp-block-couturier-training-overview-facts__value {
+    @include text-style(body-medium);
+    margin: 0;
+    font-weight: 700;
+    color: var(--color-text-heading);
+    overflow-wrap: break-word;
+
+    a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: .15em;
+    }
+}

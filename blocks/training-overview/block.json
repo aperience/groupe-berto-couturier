@@ -1,0 +1,20 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/training-overview",
+	"title": "Objectifs et programme",
+	"category": "design",
+	"icon": "excerpt-view",
+	"description": "Panneaux de contenu (titre, texte, listes, bouton) suivis de quatre cartes d'informations : public, prérequis, titre et validité, accessibilité.",
+	"keywords": [ "objectifs", "programme", "prérequis", "public", "formation" ],
+	"textdomain": "couturier",
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"example": {
+		"viewportWidth": 1200
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

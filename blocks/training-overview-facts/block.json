@@ -1,0 +1,49 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/training-overview-facts",
+	"title": "Cartes d'informations",
+	"category": "design",
+	"icon": "grid-view",
+	"description": "Quatre cartes (libellé et valeur) du bloc « Objectifs et programme », chacune sur un fond au choix.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/training-overview" ],
+	"attributes": {
+		"items": {
+			"type": "array",
+			"source": "query",
+			"selector": "div.wp-block-couturier-training-overview-facts__item",
+			"query": {
+				"label": {
+					"type": "string",
+					"source": "html",
+					"selector": "dt.wp-block-couturier-training-overview-facts__label"
+				},
+				"value": {
+					"type": "string",
+					"source": "html",
+					"selector": "dd.wp-block-couturier-training-overview-facts__value"
+				},
+				"background": {
+					"type": "string",
+					"source": "attribute",
+					"attribute": "data-background"
+				}
+			},
+			"default": [
+				{ "label": "Public", "value": "", "background": "peach-300" },
+				{ "label": "Prérequis", "value": "", "background": "petrol-100" },
+				{ "label": "Titre et validité", "value": "", "background": "petrol-50" },
+				{ "label": "Accessibilité PSH", "value": "", "background": "peach-300" }
+			],
+			"role": "content"
+		}
+	},
+	"supports": {
+		"html": false,
+		"inserter": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

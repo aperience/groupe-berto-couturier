@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/training-overview-panel",
+	"title": "Panneau",
+	"category": "design",
+	"icon": "text-page",
+	"description": "Un panneau du bloc « Objectifs et programme » : titre H3, paragraphes et listes, bouton facultatif, sur un fond au choix.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/training-overview-panels" ],
+	"attributes": {
+		"background": {
+			"type": "string",
+			"enum": [ "orange-100", "neutral-50", "white", "petrol-100", "peach-100", "peach-300", "petrol-50" ],
+			"default": "orange-100"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

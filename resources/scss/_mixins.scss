@@ -82,3 +82,38 @@
         text-indent: -1.5em;
     }
 }
+
+/// Contenu libre d'un bloc : paragraphes et listes saisis par le rédacteur
+/// (`core/paragraph`, `core/list`), enfants directs de l'élément. Repris de
+/// l'encart du bloc Formules, partagé avec les panneaux du bloc « Objectifs et
+/// programme » : même texte, mêmes puces, même écart entre deux paragraphes ou
+/// listes. Liens soulignés, la couleur seule ne les distinguerait pas (1.4.1).
+///
+/// Les marges des enfants sont posées avec une classe doublée (`&#{&}`), pour
+/// passer devant celles du canvas (`html :where(.wp-block)`) : à inclure à la
+/// racine du sélecteur du bloc, pas dans un sélecteur imbriqué.
+///
+/// @param {String} $text-style Style de texte des paragraphes et des listes.
+/// @param {Length} $gap        Écart entre deux paragraphes ou listes.
+@mixin text-content($text-style: body, $gap: var(--space-6)) {
+    &#{&} > :is(p, ul, ol) {
+        margin: 0;
+    }
+
+    &#{&} > * + :is(p, ul, ol) {
+        margin-top: $gap;
+    }
+
+    > p {
+        @include text-style($text-style);
+
+        a {
+            color: inherit;
+            text-decoration: underline;
+            text-underline-offset: .15em;
+        }
+    }
+
+    // Listes : puces « • », listes imbriquées indentées.
+    @include bullet-lists($text-style);
+}

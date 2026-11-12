@@ -245,23 +245,12 @@
         color: var(--color-text-heading);
     }
 
-    // Texte sous le titre, et entre deux paragraphes ou listes.
+    // Titre, puis paragraphes et listes (`_mixins.scss`).
     &#{&} > * + * {
         margin-top: var(--space-6);
     }
 
-    > p {
-        @include text-style(body);
-
-        a {
-            color: inherit;
-            text-decoration: underline;
-            text-underline-offset: .15em;
-        }
-    }
-
-    // Listes : puces « • », listes imbriquées indentées (`_mixins.scss`).
-    @include bullet-lists;
+    @include text-content;
 
     &.is-bg-peach-300 {
         background-color: var(--color-surface-peach-soft);
