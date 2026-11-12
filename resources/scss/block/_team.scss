@@ -1,0 +1,108 @@
+// ─── Bloc « Équipe » (couturier/team) ────────────────────────────────────────
+//
+// Balisage (front : `render.php` + `partials/team-card.twig` ; éditeur : `index.js`) :
+//
+//   div.wp-block-couturier-team
+//     ul.__track
+//       li.__card.is-bg-{fond}(.has-image)       ← fond de la carte au choix
+//         div.__media > img.__image               ← photo (zone teintée sans photo)
+//         p.__name                                ← nom affiché, orange
+//         p.__role                                ← fonction, pétrole
+//
+// Cartes de 252 px, 4 par ligne. Desktop
+// (`lg`) : 4 cartes par ligne, retour à la ligne au-delà, ligne incomplète centrée. Dessous : ruban qui
+// défile au doigt, aimanté, la carte suivante dépasse.
+//
+// Style des Cartes photo : photo en haut, nom (orange) et fonction (pétrole)
+// dessous, sur le fond choisi.
+
+$team-gap: var(--space-18);
+
+.wp-block-couturier-team {
+    margin-block: var(--layout-section-gap);
+}
+
+.wp-block-couturier-team__track {
+    display: flex;
+    gap: $team-gap;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+
+    // Desktop : 4 cartes par ligne, ligne incomplète centrée.
+    @include media-breakpoint-up(lg) {
+        flex-wrap: wrap;
+        justify-content: center;
+        overflow: visible;
+        scroll-snap-type: none;
+    }
+}
+
+.wp-block-couturier-team__card {
+    position: relative;
+    display: flex;
+    flex: 0 0 78%;
+    flex-direction: column;
+    min-width: 0;
+    margin: 0;
+    padding-bottom: var(--space-20);
+    border-radius: var(--bs-border-radius-lg);
+    background-color: var(--color-surface-peach-soft);
+    box-shadow: var(--bs-box-shadow-sm);
+    scroll-snap-align: start;
+
+    @include media-breakpoint-up(sm) {
+        flex-basis: to-rem(252);
+    }
+
+    @include media-breakpoint-up(lg) {
+        flex-basis: calc((100% - 3 * #{$team-gap}) / 4);
+    }
+
+    > p {
+        margin: 0;
+        padding-inline: var(--space-20);
+    }
+}
+
+@each $name, $role in $ds-card-backgrounds {
+    .wp-block-couturier-team__card.is-bg-#{$name} {
+        background-color: var(--color-#{$role});
+    }
+}
+
+// Photo en haut de la carte, coins hauts arrondis ; sans photo, zone teintée
+// (les cartes d'une rangée restent alignées).
+.wp-block-couturier-team__media {
+    flex-shrink: 0;
+    aspect-ratio: 252 / 212;
+    margin-bottom: var(--space-18);
+    overflow: hidden;
+    border-radius: var(--bs-border-radius-lg) var(--bs-border-radius-lg) 0 0;
+    background-color: var(--color-surface-petrol-faint);
+}
+
+.wp-block-couturier-team__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--focal, 50% 50%);
+}
+
+// Styles des Cartes photo : nom comme le sur-titre (`__eyebrow`, orange),
+// fonction comme le titre (`h3`, pétrole), sans balise de titre.
+.wp-block-couturier-team__name {
+    @include text-style(photo-card-eyebrow);
+    margin-bottom: var(--space-4) !important;
+    color: var(--color-text-accent);
+}
+
+.wp-block-couturier-team__role {
+    @include text-style(photo-card-title);
+    color: var(--color-text-heading);
+}

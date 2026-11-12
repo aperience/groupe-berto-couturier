@@ -1,0 +1,22 @@
+// ─── Bloc « Équipe » (éditeur seulement) ─────────────────────────────────────
+//
+// Chaque carte est un bloc enfant (`couturier/team-member`) : annuler la marge
+// par défaut des blocs du canvas. Carte sans contact : champ de choix centré.
+
+.wp-block-couturier-team__track > .wp-block-couturier-team__card {
+    margin: 0;
+}
+
+.wp-block-couturier-team__picker {
+    position: relative;
+    width: 100%;
+    padding: var(--space-8);
+    border-radius: var(--bs-border-radius);
+    background-color: #fff;
+    text-align: start;
+}
+
+// Bouton « Ajouter un membre » : sous la grille des cartes.
+.wp-block-couturier-team__add {
+    margin-top: var(--space-16);
+}

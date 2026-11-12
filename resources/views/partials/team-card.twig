@@ -1,0 +1,17 @@
+{#
+    Carte d'un membre du bloc « Équipe » (`couturier/team`), rendue par
+    `Theme\Features\Contacts\Contact::render_card()`. Balisage reproduit par
+    `TeamCard` dans `blocks/team/index.js`.
+
+    image      : <img> de la photo (haut de la carte, coins hauts arrondis), ou vide (zone de la photo laissée vide, teintée)
+    background : slug du fond de la carte (`is-bg-{slug}`)
+    name       : nom affiché
+    role       : fonction, ou vide
+#}
+<li class="wp-block-couturier-team__card is-bg-{{ background }}{{ image ? ' has-image' }}">
+    <div class="wp-block-couturier-team__media">{{ image|raw }}</div>
+    <p class="wp-block-couturier-team__name">{{ name }}</p>
+    {% if role %}
+        <p class="wp-block-couturier-team__role">{{ role }}</p>
+    {% endif %}
+</li>

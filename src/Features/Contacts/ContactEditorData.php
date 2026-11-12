@@ -37,7 +37,7 @@ final class ContactEditorData implements FeatureInterface {
 
     /** Courte description affichée sur la page « Fonctionnalités du thème ». */
     public function description(): string {
-        return __( 'Transmet la liste des contacts publiés à l\'éditeur de blocs, pour les choisir dans les héros.', 'couturier' );
+        return __( 'Transmet la liste des contacts publiés à l\'éditeur de blocs, pour les choisir dans les héros et le bloc « Équipe ».', 'couturier' );
     }
 
     /** Script en ligne, sans fichier, qui pose `window.couturierContacts`. */
@@ -47,13 +47,16 @@ final class ContactEditorData implements FeatureInterface {
                 $image = $contact['image_id'] ? wp_get_attachment_image_src( $contact['image_id'], 'thumbnail' ) : false;
 
                 return [
-                    'id'    => $contact['id'],
-                    'name'  => $contact['name'],
-                    'text'  => $contact['text'],
-                    'phone' => $contact['phone'],
-                    'email' => is_email( $contact['email'] ) ? $contact['email'] : '',
-                    'tel'   => Contact::tel_href( $contact['phone'] ),
-                    'image' => $image ? $image[0] : '',
+                    'id'          => $contact['id'],
+                    'name'        => $contact['name'],
+                    'text'        => $contact['text'],
+                    'phone'       => $contact['phone'],
+                    'email'       => is_email( $contact['email'] ) ? $contact['email'] : '',
+                    'tel'         => Contact::tel_href( $contact['phone'] ),
+                    'image'       => $image ? $image[0] : '',
+                    'displayName' => $contact['display_name'],
+                    'role'        => $contact['role'],
+                    'photo'       => $contact['image_id'] ? (string) wp_get_attachment_image_url( $contact['image_id'], 'medium_large' ) : '',
                 ];
             },
             Contact::all()

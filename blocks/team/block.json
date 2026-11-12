@@ -1,0 +1,59 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/team",
+	"title": "Équipe",
+	"category": "design",
+	"icon": "groups",
+	"description": "Cartes des membres de l'équipe, choisis parmi les contacts : photo ou fond de couleur, nom et fonction. Quatre cartes par ligne en desktop, défilement au doigt en mobile.",
+	"keywords": [
+		"équipe",
+		"moniteurs",
+		"contacts",
+		"personnel",
+		"trombinoscope"
+	],
+	"textdomain": "couturier",
+	"attributes": {},
+	"supports": {
+		"html": false
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"innerBlocks": [
+			{
+				"name": "couturier/team-member",
+				"attributes": {
+					"contactId": -1,
+					"background": "peach-300"
+				}
+			},
+			{
+				"name": "couturier/team-member",
+				"attributes": {
+					"contactId": -2,
+					"background": "petrol-100"
+				}
+			},
+			{
+				"name": "couturier/team-member",
+				"attributes": {
+					"contactId": -3,
+					"background": "orange-100"
+				}
+			},
+			{
+				"name": "couturier/team-member",
+				"attributes": {
+					"contactId": -4,
+					"background": "petrol-50"
+				}
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php",
+	"allowedBlocks": [
+		"couturier/team-member"
+	]
+}

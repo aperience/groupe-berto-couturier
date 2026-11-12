@@ -35,14 +35,21 @@ final class Contact {
     public const META_PHONE = '_couturier_contact_phone';
     public const META_EMAIL = '_couturier_contact_email';
 
+    /** Métas de la carte du bloc « Équipe ». */
+    public const META_DISPLAY_NAME = '_couturier_contact_display_name';
+    public const META_ROLE         = '_couturier_contact_role';
+
     /** Gabarit Twig de l'encart, partagé par les blocs. */
     private const VIEW = 'partials/hero-contact.twig';
+
+    /** Gabarit Twig d'une carte du bloc « Équipe ». */
+    private const TEAM_CARD_VIEW = 'partials/team-card.twig';
 
     /**
      * Contact publié, ou `null` (ID inconnu, autre type de contenu, brouillon,
      * corbeille).
      *
-     * @return array{id: int, name: string, text: string, phone: string, email: string, image_id: int}|null
+     * @return array{id: int, name: string, text: string, phone: string, email: string, display_name: string, role: string, image_id: int}|null
      */
     public static function find( int $id ): ?array {
         $post = $id > 0 ? get_post( $id ) : null;
@@ -57,7 +64,7 @@ final class Contact {
     /**
      * Contacts publiés, par nom (liste de choix des blocs).
      *
-     * @return list<array{id: int, name: string, text: string, phone: string, email: string, image_id: int}>
+     * @return list<array{id: int, name: string, text: string, phone: string, email: string, display_name: string, role: string, image_id: int}>
      */
     public static function all(): array {
         $posts = get_posts(
@@ -132,18 +139,62 @@ final class Contact {
     }
 
     /**
+     * Carte d'un membre du bloc « Équipe » (`<li>`) : photo plein cadre, sinon fond
+     * de couleur ; nom affiché et fonction. Chaîne vide si le contact n'est pas
+     * publié ou n'a pas de nom affiché.
+     *
+     * @param int    $id         ID du contact.
+     * @param string $background Slug du fond (validé par l'appelant), sans photo.
+     * @param string $style      Attribut `style` de la photo (point focal `--focal`), ou vide.
+     */
+    public static function render_card( int $id, string $background, string $style = '' ): string {
+        $contact = self::find( $id );
+
+        if ( null === $contact || '' === trim( $contact['display_name'] ) ) {
+            return '';
+        }
+
+        // Photo plein cadre : carte de 252 px en desktop, ~80 % de l'écran en mobile.
+        $image = $contact['image_id'] ? wp_get_attachment_image(
+            $contact['image_id'],
+            'medium_large',
+            false,
+            array_filter(
+                [
+                    'class'   => 'wp-block-couturier-team__image',
+                    'sizes'   => '(min-width: 992px) 252px, 80vw',
+                    'loading' => 'lazy',
+                    'style'   => $style,
+                ]
+            )
+        ) : '';
+
+        return Timber::compile(
+            self::TEAM_CARD_VIEW,
+            [
+                'image'      => $image,
+                'background' => $background,
+                'name'       => trim( $contact['display_name'] ),
+                'role'       => trim( $contact['role'] ),
+            ]
+        ) ?: '';
+    }
+
+    /**
      * Données d'un contact.
      *
-     * @return array{id: int, name: string, text: string, phone: string, email: string, image_id: int}
+     * @return array{id: int, name: string, text: string, phone: string, email: string, display_name: string, role: string, image_id: int}
      */
     private static function data( WP_Post $post ): array {
         return [
-            'id'       => $post->ID,
-            'name'     => get_the_title( $post ),
-            'text'     => (string) get_post_meta( $post->ID, self::META_TEXT, true ),
-            'phone'    => (string) get_post_meta( $post->ID, self::META_PHONE, true ),
-            'email'    => (string) get_post_meta( $post->ID, self::META_EMAIL, true ),
-            'image_id' => (int) get_post_thumbnail_id( $post ),
+            'id'           => $post->ID,
+            'name'         => get_the_title( $post ),
+            'text'         => (string) get_post_meta( $post->ID, self::META_TEXT, true ),
+            'phone'        => (string) get_post_meta( $post->ID, self::META_PHONE, true ),
+            'email'        => (string) get_post_meta( $post->ID, self::META_EMAIL, true ),
+            'display_name' => (string) get_post_meta( $post->ID, self::META_DISPLAY_NAME, true ),
+            'role'         => (string) get_post_meta( $post->ID, self::META_ROLE, true ),
+            'image_id'     => (int) get_post_thumbnail_id( $post ),
         ];
     }
 }

@@ -18,7 +18,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Boîte « Coordonnées » de l'écran d'un contact : texte affiché (plusieurs lignes),
- * téléphone, e-mail. Colonnes « Texte », « Téléphone » et « E-mail » dans la liste.
+ * téléphone, e-mail, nom affiché et fonction (bloc « Équipe »). Colonnes
+ * correspondantes dans la liste.
  *
  * Enregistrement : nonce, droit de modifier le contenu, ni sauvegarde automatique
  * ni révision. Texte : lignes conservées, balises retirées. Téléphone : texte
@@ -45,7 +46,7 @@ final class ContactMetaBox implements FeatureInterface {
 
     /** Courte description affichée sur la page « Fonctionnalités du thème ». */
     public function description(): string {
-        return __( 'Ajoute à l\'écran d\'un contact la boîte « Coordonnées » (texte affiché, téléphone, e-mail) et ses colonnes à la liste des contacts.', 'couturier' );
+        return __( 'Ajoute à l\'écran d\'un contact la boîte « Coordonnées » (texte affiché, téléphone, e-mail, nom affiché, fonction) et ses colonnes à la liste des contacts.', 'couturier' );
     }
 
     /** Boîte sous le titre. */
@@ -65,6 +66,8 @@ final class ContactMetaBox implements FeatureInterface {
         $text  = (string) get_post_meta( $post->ID, Contact::META_TEXT, true );
         $phone = (string) get_post_meta( $post->ID, Contact::META_PHONE, true );
         $email = (string) get_post_meta( $post->ID, Contact::META_EMAIL, true );
+        $name  = (string) get_post_meta( $post->ID, Contact::META_DISPLAY_NAME, true );
+        $role  = (string) get_post_meta( $post->ID, Contact::META_ROLE, true );
 
         wp_nonce_field( self::NONCE_ACTION, self::NONCE_FIELD );
         ?>
@@ -90,6 +93,20 @@ final class ContactMetaBox implements FeatureInterface {
                 <td>
                     <input type="email" id="couturier-contact-email" name="couturier_contact[email]" value="<?php echo esc_attr( $email ); ?>" class="regular-text" autocomplete="off">
                     <p class="description"><?php esc_html_e( 'Facultatif.', 'couturier' ); ?></p>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="couturier-contact-name"><?php esc_html_e( 'Nom affiché', 'couturier' ); ?></label></th>
+                <td>
+                    <input type="text" id="couturier-contact-name" name="couturier_contact[name]" value="<?php echo esc_attr( $name ); ?>" class="regular-text" autocomplete="off">
+                    <p class="description"><?php esc_html_e( 'Nom de la carte du bloc « Équipe », ex. « Eloïm D. ». Sans nom affiché, le contact n\'apparaît pas dans ce bloc.', 'couturier' ); ?></p>
+                </td>
+            </tr>
+            <tr>
+                <th scope="row"><label for="couturier-contact-role"><?php esc_html_e( 'Fonction', 'couturier' ); ?></label></th>
+                <td>
+                    <input type="text" id="couturier-contact-role" name="couturier_contact[role]" value="<?php echo esc_attr( $role ); ?>" class="regular-text" autocomplete="off">
+                    <p class="description"><?php esc_html_e( 'Affichée sous le nom dans le bloc « Équipe », ex. « Enseignant·e de la conduite » ; facultative.', 'couturier' ); ?></p>
                 </td>
             </tr>
         </table>
@@ -119,6 +136,8 @@ final class ContactMetaBox implements FeatureInterface {
 
         $text      = sanitize_textarea_field( (string) ( $fields['text'] ?? '' ) );
         $phone     = sanitize_text_field( (string) ( $fields['phone'] ?? '' ) );
+        $name      = sanitize_text_field( (string) ( $fields['name'] ?? '' ) );
+        $role      = sanitize_text_field( (string) ( $fields['role'] ?? '' ) );
         $raw_email = trim( (string) ( $fields['email'] ?? '' ) );
         $email     = sanitize_email( $raw_email );
 
@@ -133,6 +152,8 @@ final class ContactMetaBox implements FeatureInterface {
         $this->update( $post_id, Contact::META_TEXT, $text );
         $this->update( $post_id, Contact::META_PHONE, $phone );
         $this->update( $post_id, Contact::META_EMAIL, $email );
+        $this->update( $post_id, Contact::META_DISPLAY_NAME, $name );
+        $this->update( $post_id, Contact::META_ROLE, $role );
     }
 
     /** Avertissement après l'enregistrement d'un e-mail invalide. */
@@ -159,6 +180,8 @@ final class ContactMetaBox implements FeatureInterface {
         unset( $columns['date'] );
 
         $columns['title']                   = __( 'Nom interne', 'couturier' );
+        $columns['couturier_contact_name']  = __( 'Nom affiché', 'couturier' );
+        $columns['couturier_contact_role']  = __( 'Fonction', 'couturier' );
         $columns['couturier_contact_text']  = __( 'Texte affiché', 'couturier' );
         $columns['couturier_contact_phone'] = __( 'Téléphone', 'couturier' );
         $columns['couturier_contact_email'] = __( 'E-mail', 'couturier' );
@@ -173,6 +196,8 @@ final class ContactMetaBox implements FeatureInterface {
     /** Contenu d'une colonne. */
     public function column( string $column, int $post_id ): void {
         $meta = [
+            'couturier_contact_name'  => Contact::META_DISPLAY_NAME,
+            'couturier_contact_role'  => Contact::META_ROLE,
             'couturier_contact_text'  => Contact::META_TEXT,
             'couturier_contact_phone' => Contact::META_PHONE,
             'couturier_contact_email' => Contact::META_EMAIL,

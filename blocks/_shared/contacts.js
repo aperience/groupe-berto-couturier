@@ -22,7 +22,7 @@ import { nonBreaking } from './locked-content.js';
 const CONTACTS_URL = 'edit.php?post_type=couturier_contact';
 
 /** Contacts publiés, par nom. */
-const contacts = () => ( Array.isArray( window.couturierContacts ) ? window.couturierContacts : [] );
+export const contacts = () => ( Array.isArray( window.couturierContacts ) ? window.couturierContacts : [] );
 
 /**
  * Contact d'un bloc.
