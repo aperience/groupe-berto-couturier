@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-12T13:56:03+00:00\n"
+"POT-Creation-Date: 2026-11-12T16:46:22+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -271,6 +271,7 @@ msgstr ""
 
 #: src/Features/Blocks/ButtonStyles.php:99
 #: src/Features/Navigation/MegaMenu.php:89
+#: blocks/formula-card/index.js:69
 msgid "Orange"
 msgstr ""
 
@@ -284,6 +285,7 @@ msgid "Pétrole"
 msgstr ""
 
 #: src/Features/Blocks/ButtonStyles.php:102
+#: blocks/formula-card/index.js:70
 msgid "Pétrole foncé"
 msgstr ""
 
@@ -314,50 +316,68 @@ msgid "Limite les niveaux de titre proposés dans l'éditeur à %s."
 msgstr ""
 
 #: src/Features/Contacts/ContactEditorData.php:40
-msgid "Transmet la liste des contacts publiés à l'éditeur de blocs, pour les choisir dans les héros."
+msgid "Transmet la liste des contacts publiés à l'éditeur de blocs, pour les choisir dans les héros et le bloc « Équipe »."
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:48
-msgid "Ajoute à l'écran d'un contact la boîte « Coordonnées » (texte affiché, téléphone, e-mail) et ses colonnes à la liste des contacts."
+#: src/Features/Contacts/ContactMetaBox.php:49
+msgid "Ajoute à l'écran d'un contact la boîte « Coordonnées » (texte affiché, téléphone, e-mail, nom affiché, fonction) et ses colonnes à la liste des contacts."
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:55
+#: src/Features/Contacts/ContactMetaBox.php:56
 msgid "Coordonnées"
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:73
-#: src/Features/Contacts/ContactMetaBox.php:162
+#: src/Features/Contacts/ContactMetaBox.php:76
+#: src/Features/Contacts/ContactMetaBox.php:185
 msgid "Texte affiché"
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:77
+#: src/Features/Contacts/ContactMetaBox.php:80
 msgid "Affiché en gras à côté de la photo. Un retour à la ligne est conservé, ex. « Une question ? » puis « Eloim vous aide à choisir la formule adaptée ». Sans texte, le contact n'est pas affiché."
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:82
-#: src/Features/Contacts/ContactMetaBox.php:163
+#: src/Features/Contacts/ContactMetaBox.php:85
+#: src/Features/Contacts/ContactMetaBox.php:186
 msgid "Téléphone"
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:85
+#: src/Features/Contacts/ContactMetaBox.php:88
 msgid "Affiché tel que saisi (ex. 02 37 42 42 69) ; facultatif."
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:89
-#: src/Features/Contacts/ContactMetaBox.php:164
+#: src/Features/Contacts/ContactMetaBox.php:92
+#: src/Features/Contacts/ContactMetaBox.php:187
 msgid "E-mail"
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:92
+#: src/Features/Contacts/ContactMetaBox.php:95
 #: blocks/page-hero/index.js:236
 msgid "Facultatif."
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:147
+#: src/Features/Contacts/ContactMetaBox.php:99
+#: src/Features/Contacts/ContactMetaBox.php:183
+msgid "Nom affiché"
+msgstr ""
+
+#: src/Features/Contacts/ContactMetaBox.php:102
+msgid "Nom de la carte du bloc « Équipe », ex. « Eloïm D. ». Sans nom affiché, le contact n'apparaît pas dans ce bloc."
+msgstr ""
+
+#: src/Features/Contacts/ContactMetaBox.php:106
+#: src/Features/Contacts/ContactMetaBox.php:184
+msgid "Fonction"
+msgstr ""
+
+#: src/Features/Contacts/ContactMetaBox.php:109
+msgid "Affichée sous le nom dans le bloc « Équipe », ex. « Enseignant·e de la conduite » ; facultative."
+msgstr ""
+
+#: src/Features/Contacts/ContactMetaBox.php:168
 msgid "L'adresse e-mail saisie n'est pas valide : elle n'a pas été enregistrée."
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:161
+#: src/Features/Contacts/ContactMetaBox.php:182
 msgid "Nom interne"
 msgstr ""
 
@@ -376,6 +396,7 @@ msgid "Contacts"
 msgstr ""
 
 #: src/Features/Contacts/ContactPostType.php:55
+#: blocks/team-member/index.js:37
 #: blocks/_shared/contacts.js:70
 msgid "Contact"
 msgstr ""
@@ -409,6 +430,7 @@ msgstr ""
 #: blocks/home-hero-card/index.js:242
 #: blocks/photo-card/index.js:134
 #: blocks/photo-card/index.js:175
+#: blocks/team-member/index.js:93
 msgid "Photo"
 msgstr ""
 
@@ -565,7 +587,7 @@ msgstr ""
 #: blocks/compact-cta/index.js:61
 #: blocks/cta/index.js:84
 #: blocks/faq/index.js:55
-#: blocks/formulas/index.js:47
+#: blocks/formulas/index.js:61
 #: blocks/pickup-map/index.js:46
 #: blocks/section-title/index.js:43
 msgid "Titre"
@@ -944,9 +966,10 @@ msgstr ""
 
 #: src/Features/Navigation/HeaderSettings.php:268
 #: src/Features/Navigation/MegaMenuFields.php:107
-#: blocks/formula-card/index.js:115
+#: blocks/formula-card/index.js:174
 #: blocks/image-text-icon/index.js:148
 #: blocks/page-hero-facts/index.js:73
+#: blocks/training-overview-facts/index.js:86
 msgid "Libellé"
 msgstr ""
 
@@ -1188,6 +1211,7 @@ msgid "Colonne de droite (facultative)"
 msgstr ""
 
 #: blocks/collapsible-text/index.js:89
+#: blocks/formulas/index.js:122
 msgid "Mise en page"
 msgstr ""
 
@@ -1298,41 +1322,51 @@ msgid "Le titre et au moins une question avec sa réponse sont obligatoires : sa
 msgstr ""
 
 #: blocks/faq/index.js:122
+#: blocks/training-overview-panel/index.js:131
 msgid "Ajouter un bouton"
 msgstr ""
 
-#: blocks/formula-card/index.js:51
+#: blocks/formula-card/index.js:65
 #: blocks/photo-card/index.js:65
 msgid "Le + choisi"
 msgstr ""
 
-#: blocks/formula-card/index.js:106
+#: blocks/formula-card/index.js:165
 #: blocks/_shared/formats.js:79
 #: blocks/_shared/formats.js:94
 msgid "Mise en avant"
 msgstr ""
 
-#: blocks/formula-card/index.js:109
+#: blocks/formula-card/index.js:168
 msgid "Mettre en avant"
 msgstr ""
 
-#: blocks/formula-card/index.js:110
+#: blocks/formula-card/index.js:169
 msgid "Fond pétrole et texte blanc. Une seule carte mise en avant par bloc."
 msgstr ""
 
-#: blocks/formula-card/index.js:118
+#: blocks/formula-card/index.js:177
 msgid "Afficher un libellé"
 msgstr ""
 
-#: blocks/formula-card/index.js:119
+#: blocks/formula-card/index.js:178
 msgid "Pastille posée en haut de la carte. Son texte se modifie sur la carte."
 msgstr ""
 
-#: blocks/formula-card/index.js:131
+#: blocks/formula-card/index.js:186
+#: blocks/_shared/buttons.js:102
+msgid "Bouton"
+msgstr ""
+
+#: blocks/formula-card/index.js:191
+msgid "Style du bouton"
+msgstr ""
+
+#: blocks/formula-card/index.js:206
 msgid "Libellé de la pastille"
 msgstr ""
 
-#: blocks/formula-card/index.js:142
+#: blocks/formula-card/index.js:217
 #: blocks/home-hero-card/index.js:267
 #: blocks/icon-card/index.js:282
 #: blocks/image-card/index.js:241
@@ -1340,20 +1374,28 @@ msgstr ""
 msgid "Titre obligatoire : sans lui, cette carte n'est pas affichée sur le site."
 msgstr ""
 
-#: blocks/formula-card/template.js:20
+#: blocks/formula-card/template.js:22
 msgid "Nom de la formule"
 msgstr ""
 
-#: blocks/formula-card/template.js:21
+#: blocks/formula-card/template.js:23
+msgid "Prix (facultatif)"
+msgstr ""
+
+#: blocks/formula-card/template.js:24
 msgid "Public visé (facultatif)"
 msgstr ""
 
-#: blocks/formula-card/template.js:27
+#: blocks/formula-card/template.js:30
 msgid "Conduite, tarif… (Maj + Entrée pour aller à la ligne)"
 msgstr ""
 
-#: blocks/formula-card/template.js:33
+#: blocks/formula-card/template.js:36
 msgid "Choisir cette formule"
+msgstr ""
+
+#: blocks/formula-card/template.js:40
+msgid "Texte après le bouton (facultatif)"
 msgstr ""
 
 #: blocks/formula-cards/index.js:51
@@ -1373,6 +1415,7 @@ msgid "Titre de l'encart (facultatif)"
 msgstr ""
 
 #: blocks/formula-note/template.js:20
+#: blocks/training-overview-panel/template.js:21
 msgid "Contenu"
 msgstr ""
 
@@ -1380,12 +1423,20 @@ msgstr ""
 msgid "Ajouter un encart"
 msgstr ""
 
-#: blocks/formulas/index.js:50
+#: blocks/formulas/index.js:64
 #: blocks/section-title/index.js:130
 msgid "Sous-titre (facultatif)"
 msgstr ""
 
-#: blocks/formulas/index.js:105
+#: blocks/formulas/index.js:127
+msgid "Formules par ligne"
+msgstr ""
+
+#: blocks/formulas/index.js:128
+msgid "En ordinateur, les formules d'une ligne se partagent sa largeur. Toujours empilées sur mobile."
+msgstr ""
+
+#: blocks/formulas/index.js:140
 msgid "Le titre et au moins une carte titrée sont obligatoires : sans eux, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
@@ -1478,6 +1529,7 @@ msgstr ""
 #: blocks/page-hero-media/index.js:153
 #: blocks/page-hero-media/index.js:156
 #: blocks/photo-card/index.js:138
+#: blocks/team-member/index.js:96
 msgid "Point focal"
 msgstr ""
 
@@ -1725,18 +1777,23 @@ msgid "Seuls les chiffres renseignés (libellé et valeur) sont affichés sur le
 msgstr ""
 
 #. translators: %d: position du chiffre clé.
+#. translators: %d: position de la carte.
 #: blocks/page-hero-facts/index.js:72
+#: blocks/training-overview-facts/index.js:85
 #, js-format
 msgid "Libellé %d"
 msgstr ""
 
 #. translators: %d: position du chiffre clé.
+#. translators: %d: position de la carte.
 #: blocks/page-hero-facts/index.js:82
+#: blocks/training-overview-facts/index.js:96
 #, js-format
 msgid "Valeur %d"
 msgstr ""
 
 #: blocks/page-hero-facts/index.js:83
+#: blocks/training-overview-facts/index.js:97
 msgid "Valeur"
 msgstr ""
 
@@ -1903,6 +1960,7 @@ msgid "Encart posé sous les boutons, à cheval sur le bas du héros, en desktop
 msgstr ""
 
 #: blocks/photo-card/index.js:139
+#: blocks/team-member/index.js:97
 msgid "Partie de la photo toujours visible, quel que soit le recadrage."
 msgstr ""
 
@@ -2286,6 +2344,85 @@ msgstr ""
 msgid "Titre obligatoire : sans lui, cette étape n'est pas affichée sur le site."
 msgstr ""
 
+#: blocks/team-member/index.js:41
+msgid "Contacts publiés qui ont un nom affiché."
+msgstr ""
+
+#: blocks/team-member/index.js:81
+msgid "Membre"
+msgstr ""
+
+#: blocks/team-member/index.js:84
+msgid "Ce contact a été supprimé, dépublié ou n'a pas de nom affiché : sa carte n'est pas affichée."
+msgstr ""
+
+#: blocks/team-member/index.js:89
+#: blocks/team/index.js:85
+#: blocks/_shared/contacts.js:86
+msgid "Gérer les contacts"
+msgstr ""
+
+#: blocks/team-member/index.js:104
+#: blocks/_shared/backgrounds.js:44
+msgid "Fond de la carte"
+msgstr ""
+
+#: blocks/team/index.js:74
+msgid "Membres de l'équipe"
+msgstr ""
+
+#: blocks/team/index.js:78
+#: blocks/team/index.js:94
+msgid "Ajouter un membre"
+msgstr ""
+
+#: blocks/team/index.js:82
+msgid "Recherche parmi les contacts publiés qui ont un nom affiché. Pour réordonner ou retirer une carte, sélectionnez-la."
+msgstr ""
+
+#: blocks/team/members.js:27
+#: blocks/team/members.js:28
+msgid "Enseignant·e de la conduite"
+msgstr ""
+
+#: blocks/team/members.js:29
+msgid "Formateur·rice Formation Pro"
+msgstr ""
+
+#: blocks/team/members.js:30
+msgid "Secrétariat · accueil"
+msgstr ""
+
+#. translators: %s: libellé de la carte, ou son numéro.
+#: blocks/training-overview-facts/index.js:69
+#, js-format
+msgid "Fond : %s"
+msgstr ""
+
+#: blocks/training-overview-facts/index.js:75
+msgid "Seules les cartes dont la valeur est renseignée sont affichées sur le site."
+msgstr ""
+
+#: blocks/training-overview-panel/index.js:113
+msgid "Fond du panneau"
+msgstr ""
+
+#: blocks/training-overview-panel/index.js:120
+msgid "Bouton à contour par défaut, en bas du panneau."
+msgstr ""
+
+#: blocks/training-overview-panel/index.js:136
+msgid "Panneau vide : sans titre ni texte, il n'est pas affiché sur le site."
+msgstr ""
+
+#: blocks/training-overview-panel/template.js:18
+msgid "Titre du panneau (facultatif)"
+msgstr ""
+
+#: blocks/training-overview-panels/index.js:52
+msgid "Ajouter un panneau"
+msgstr ""
+
 #: blocks/_shared/backgrounds.js:18
 msgid "Blanc"
 msgstr ""
@@ -2314,14 +2451,6 @@ msgstr ""
 msgid "Blanc cassé"
 msgstr ""
 
-#: blocks/_shared/backgrounds.js:44
-msgid "Fond de la carte"
-msgstr ""
-
-#: blocks/_shared/buttons.js:102
-msgid "Bouton"
-msgstr ""
-
 #: blocks/_shared/buttons.js:102
 msgid "Boutons"
 msgstr ""
@@ -2344,10 +2473,6 @@ msgstr ""
 
 #: blocks/_shared/contacts.js:79
 msgid "Contact affiché"
-msgstr ""
-
-#: blocks/_shared/contacts.js:86
-msgid "Gérer les contacts"
 msgstr ""
 
 #: blocks/_shared/image-field.js:60
@@ -2553,7 +2678,7 @@ msgstr ""
 
 #: blocks/formula-cards/block.json
 msgctxt "block description"
-msgid "Cartes du bloc « Formules » : trois par ligne en desktop, empilées en mobile."
+msgid "Cartes du bloc « Formules » : une à quatre par ligne en desktop (réglage du bloc « Formules »), empilées en mobile."
 msgstr ""
 
 #: blocks/formula-note/block.json
@@ -2877,6 +3002,7 @@ msgstr ""
 
 #: blocks/journey/block.json
 #: blocks/sessions/block.json
+#: blocks/training-overview/block.json
 msgctxt "block keyword"
 msgid "formation"
 msgstr ""
@@ -3270,6 +3396,111 @@ msgstr ""
 #: blocks/steps/block.json
 msgctxt "block keyword"
 msgid "numéros"
+msgstr ""
+
+#: blocks/team-member/block.json
+msgctxt "block title"
+msgid "Membre de l'équipe"
+msgstr ""
+
+#: blocks/team-member/block.json
+msgctxt "block description"
+msgid "Carte d'un contact : photo ou fond de couleur, nom affiché et fonction."
+msgstr ""
+
+#: blocks/team/block.json
+msgctxt "block title"
+msgid "Équipe"
+msgstr ""
+
+#: blocks/team/block.json
+msgctxt "block description"
+msgid "Cartes des membres de l'équipe, choisis parmi les contacts : photo ou fond de couleur, nom et fonction. Quatre cartes par ligne en desktop, défilement au doigt en mobile."
+msgstr ""
+
+#: blocks/team/block.json
+msgctxt "block keyword"
+msgid "équipe"
+msgstr ""
+
+#: blocks/team/block.json
+msgctxt "block keyword"
+msgid "moniteurs"
+msgstr ""
+
+#: blocks/team/block.json
+msgctxt "block keyword"
+msgid "contacts"
+msgstr ""
+
+#: blocks/team/block.json
+msgctxt "block keyword"
+msgid "personnel"
+msgstr ""
+
+#: blocks/team/block.json
+msgctxt "block keyword"
+msgid "trombinoscope"
+msgstr ""
+
+#: blocks/training-overview-facts/block.json
+msgctxt "block title"
+msgid "Cartes d'informations"
+msgstr ""
+
+#: blocks/training-overview-facts/block.json
+msgctxt "block description"
+msgid "Quatre cartes (libellé et valeur) du bloc « Objectifs et programme », chacune sur un fond au choix."
+msgstr ""
+
+#: blocks/training-overview-panel/block.json
+msgctxt "block title"
+msgid "Panneau"
+msgstr ""
+
+#: blocks/training-overview-panel/block.json
+msgctxt "block description"
+msgid "Un panneau du bloc « Objectifs et programme » : titre H3, paragraphes et listes, bouton facultatif, sur un fond au choix."
+msgstr ""
+
+#: blocks/training-overview-panels/block.json
+msgctxt "block title"
+msgid "Panneaux"
+msgstr ""
+
+#: blocks/training-overview-panels/block.json
+msgctxt "block description"
+msgid "Panneaux du bloc « Objectifs et programme » : deux par ligne en desktop, empilés en mobile."
+msgstr ""
+
+#: blocks/training-overview/block.json
+msgctxt "block title"
+msgid "Objectifs et programme"
+msgstr ""
+
+#: blocks/training-overview/block.json
+msgctxt "block description"
+msgid "Panneaux de contenu (titre, texte, listes, bouton) suivis de quatre cartes d'informations : public, prérequis, titre et validité, accessibilité."
+msgstr ""
+
+#: blocks/training-overview/block.json
+msgctxt "block keyword"
+msgid "objectifs"
+msgstr ""
+
+#: blocks/training-overview/block.json
+msgctxt "block keyword"
+msgid "programme"
+msgstr ""
+
+#: blocks/training-overview/block.json
+msgctxt "block keyword"
+msgid "prérequis"
+msgstr ""
+
+#: blocks/training-overview/block.json
+msgctxt "block keyword"
+msgid "public"
 msgstr ""
 
 #: resources/views/404.twig:8
