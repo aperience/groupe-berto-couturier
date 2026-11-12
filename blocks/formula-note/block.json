@@ -1,0 +1,24 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/formula-note",
+	"title": "Encart de formule",
+	"category": "design",
+	"icon": "list-view",
+	"description": "Un encart récapitulatif du bloc « Formules » : titre H3, listes à puces et paragraphes, sur fond pétrole clair ou pêche.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/formula-notes" ],
+	"attributes": {
+		"background": {
+			"type": "string",
+			"enum": [ "petrol-100", "peach-300" ],
+			"default": "petrol-100"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

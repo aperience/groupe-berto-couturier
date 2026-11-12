@@ -1,0 +1,298 @@
+// ─── Bloc « Formules » (couturier/formulas) ───────────────────────────────────
+//
+// Balisage (front : `render.php` des blocs ; éditeur : leurs `index.js`) :
+//
+//   section.wp-block-couturier-formulas
+//     h2                                         ← titre (mise en avant orange foncé)
+//     p.__intro                                  ← sous-titre facultatif
+//     ul.wp-block-couturier-formula-cards
+//       li.wp-block-couturier-formula-card[.is-featured]
+//         p.__badge                              ← pastille (carte mise en avant)
+//         h3                                     ← nom de la formule
+//         p.__subtitle                           ← public visé
+//         p.__details                            ← conduite, tarif
+//         div.wp-block-buttons > div.wp-block-button.has-arrow
+//     div.wp-block-couturier-formula-notes
+//       div.wp-block-couturier-formula-note[.is-bg-peach-300]
+//         h3                                     ← titre de l'encart
+//         ul.wp-block-list > li | p             ← puces, paragraphes (libres)
+//
+// Maquettes : desktop 301:7250, mobile 608:1400 (le mobile reprend le desktop
+// à l'échelle 0,97 : mêmes valeurs ici). Panneau pêche/100 arrondi (40 px) ;
+// cartes empilées en mobile, trois par ligne à partir de `lg`.
+//
+// Dans l'éditeur, les blocs imbriqués reçoivent les marges par défaut du canvas
+// (`html :where(.wp-block)`) : les marges sont donc toutes posées ici.
+
+.wp-block-couturier-formulas {
+    margin-block: var(--layout-section-gap);
+    padding: var(--space-24) var(--space-16);
+    border-radius: var(--bs-border-radius-xl);
+    background-color: var(--color-surface-peach-faint);
+
+    @include media-breakpoint-up(lg) {
+        padding: var(--space-40) var(--space-48) var(--space-64);
+    }
+
+    // Classe doublée (0,2,0) : l'emporte sur les marges du canvas (`.wp-block`).
+    &#{&} > * {
+        margin-block: 0;
+    }
+
+    > h2 {
+        @include text-style(section-title);
+        color: var(--color-text-heading);
+        text-align: center;
+
+        .wp-block-couturier-cta__highlight {
+            color: var(--color-text-accent);
+        }
+    }
+
+    > .wp-block-couturier-formulas__notice {
+        margin-bottom: var(--space-16);
+    }
+}
+
+.wp-block-couturier-formulas__intro {
+    @include text-style(formulas-intro);
+    margin-top: var(--space-8) !important;
+    color: var(--color-text-default);
+    text-align: center;
+}
+
+// ─── Cartes ───────────────────────────────────────────────────────────────────
+.wp-block-couturier-formula-cards {
+    display: grid;
+    gap: var(--space-14);
+    margin-top: var(--space-24) !important;
+    padding: 0;
+    list-style: none;
+
+    // Desktop : trois cartes par ligne ; une ligne incomplète répartit les
+    // siennes (`space-around`).
+    @include media-breakpoint-up(lg) {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        gap: var(--space-18);
+        margin-top: var(--space-40) !important;
+
+        > .wp-block-couturier-formula-card {
+            flex: 0 0 calc((100% - 2 * var(--space-18)) / 3);
+        }
+    }
+}
+
+.wp-block-couturier-formula-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    // Classe doublée : passe devant les marges automatiques de `.wp-block` (canvas).
+    &#{&} {
+        margin: 0;
+    }
+    padding: var(--space-28) var(--space-32);
+    border-radius: to-rem(32);
+    background-color: var(--color-surface-card);
+    color: var(--color-text-default);
+
+    // Classe doublée (0,2,0) : l'emporte, dans le canvas, sur les marges
+    // automatiques de `.wp-block` (0,1,0), qui centreraient le titre.
+    &#{&} > * {
+        margin: 0;
+    }
+
+    > h3 {
+        @include text-style(formula-card-title);
+        color: var(--color-text-heading);
+    }
+
+    // Bouton calé en bas : les boutons des cartes voisines restent alignés.
+    // Spécificité 0,2,0 : l'emporte sur la marge de `.wp-block-buttons`.
+    > .wp-block-buttons.wp-block-buttons {
+        margin: auto 0 0;
+        padding-top: var(--space-20);
+
+        > .wp-block-button {
+            flex-grow: 1;
+        }
+
+        .wp-block-button__link {
+            width: 100%;
+            justify-content: space-between;
+        }
+    }
+}
+
+.wp-block-couturier-formula-card__subtitle {
+    @include text-style(formula-card-subtitle);
+    margin-top: var(--space-4) !important;
+    color: var(--color-text-muted);
+}
+
+.wp-block-couturier-formula-card__details {
+    @include text-style(body);
+    // 37 px entre les boîtes de texte sur la maquette, dont ~5 px d'interlignes.
+    margin-top: var(--space-32) !important;
+
+    a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: .15em;
+
+        &:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
+            border-radius: 2px;
+        }
+    }
+}
+
+// Mobile (cartes empilées) : une carte à libellé s'écarte de la précédente, la
+// pastille débordant au-dessus d'elle. (0,4,0) : passe devant la marge nulle des
+// cartes (classe doublée).
+@include media-breakpoint-down(lg) {
+    .wp-block-couturier-formula-cards > .wp-block-couturier-formula-card.wp-block-couturier-formula-card:has(> .wp-block-couturier-formula-card__badge):not(:first-child) {
+        margin-top: var(--space-12);
+    }
+}
+
+// Pastille à cheval sur le bord haut, centrée.
+.wp-block-couturier-formula-card__badge {
+    @include text-style(eyebrow);
+    position: absolute;
+    top: 0;
+    left: 50%;
+    padding: var(--space-4) var(--space-12);
+    border-radius: var(--bs-border-radius-pill);
+    background-color: var(--color-surface-peach);
+    color: var(--color-text-on-accent);
+    white-space: nowrap;
+    transform: translate(-50%, -50%);
+}
+
+// ─── Carte mise en avant ─────────────────────────────────────────────────────
+// Fond pétrole/500, textes blancs (9,25:1).
+.wp-block-couturier-formula-card.is-featured {
+    background-color: var(--color-surface-brand);
+    color: var(--color-text-on-brand);
+
+    > h3,
+    .wp-block-couturier-formula-card__subtitle {
+        color: var(--color-text-on-brand);
+    }
+}
+
+// ─── Encarts ──────────────────────────────────────────────────────────────────
+// Empilés en mobile, deux par ligne à partir de `lg` ; une ligne incomplète
+// répartit les siens (`space-around`). Fond pétrole/100 (défaut) ou pêche/300.
+.wp-block-couturier-formula-notes {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-14);
+    margin-top: var(--space-14) !important;
+
+    @include media-breakpoint-up(lg) {
+        flex-flow: row wrap;
+        justify-content: space-around;
+        gap: var(--space-16);
+        // Même écart que entre deux cartes de formule.
+        margin-top: var(--space-18) !important;
+
+        > .wp-block-couturier-formula-note {
+            flex: 0 0 calc((100% - var(--space-16)) / 2);
+        }
+    }
+}
+
+.wp-block-couturier-formula-note {
+    padding: var(--space-16);
+    border-radius: var(--bs-border-radius-lg);
+    background-color: var(--color-surface-petrol-soft);
+    color: var(--color-text-default);
+
+    @include media-breakpoint-up(lg) {
+        padding: var(--space-20) var(--space-40) var(--space-24);
+    }
+
+    // Classe doublée : passe devant les marges automatiques de `.wp-block` (canvas).
+    &#{&} {
+        margin: 0;
+    }
+
+    &#{&} > * {
+        margin: 0;
+    }
+
+    > h3 {
+        @include text-style(button);
+        color: var(--color-text-heading);
+    }
+
+    // Texte sous le titre, et entre deux paragraphes ou listes.
+    &#{&} > * + * {
+        margin-top: var(--space-6);
+    }
+
+    > p {
+        @include text-style(body);
+
+        a {
+            color: inherit;
+            text-decoration: underline;
+            text-underline-offset: .15em;
+        }
+    }
+
+    // Listes de premier niveau (à puces ou numérotées) calées sur le bord gauche :
+    // marqueur natif dans le retrait du texte. Pas de `list-style: none`, qui
+    // ferait perdre à la liste son rôle sous Safari / VoiceOver. Listes
+    // imbriquées indentées.
+    > :is(ul, ol) {
+        @include text-style(body);
+        padding-left: 1em;
+
+        li :is(ul, ol) {
+            margin: 0;
+            padding-left: 1.25em;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: underline;
+            text-underline-offset: .15em;
+        }
+    }
+
+    // Puce « • » de la maquette.
+    > ul > li::marker {
+        content: "•  ";
+    }
+
+    // Marqueur à l'intérieur, au bord gauche du texte au-dessus ; lignes
+    // suivantes en retrait (indentation négative). Listes imbriquées : marqueur
+    // à l'extérieur, sans indentation négative.
+    > ul,
+    > ol {
+        list-style-position: inside;
+    }
+
+    > ul {
+        text-indent: -1em;
+    }
+
+    > ol {
+        padding-left: 1.5em;
+        text-indent: -1.5em;
+    }
+
+    > :is(ul, ol) li :is(ul, ol) {
+        text-indent: 0;
+        list-style-position: outside;
+    }
+
+    &.is-bg-peach-300 {
+        background-color: var(--color-surface-peach-soft);
+    }
+}

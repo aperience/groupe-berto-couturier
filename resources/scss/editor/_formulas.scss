@@ -1,0 +1,39 @@
+// ─── Bloc « Formules » (éditeur seulement) ────────────────────────────────────
+//
+// Bouton « Ajouter une formule » et avertissement d'une carte sans titre :
+// éléments qui n'existent que dans le canvas.
+
+// Bouton d'ajout : sur sa propre ligne, sous les cartes, centré. Le core
+// l'enveloppe dans un `div.block-list-appender` en position absolue (coin bas
+// droit), qui chevaucherait la dernière carte : remis dans le flux.
+.wp-block-couturier-formula-cards > .block-list-appender,
+.wp-block-couturier-formula-notes > .block-list-appender {
+    position: static;
+    flex-basis: 100%;
+    grid-column: 1 / -1;
+    margin: 0;
+}
+
+.wp-block-couturier-formula-cards__add,
+.wp-block-couturier-formula-notes__add {
+    display: flex;
+    justify-content: center;
+}
+
+.wp-block-couturier-formula-card__notice,
+.wp-block-couturier-formula-note__notice {
+    margin-top: var(--space-12) !important;
+}
+
+// Le core pose `white-space: pre-wrap` (style en ligne) sur tout champ RichText.
+.wp-block-couturier-formula-card__badge[contenteditable] {
+    white-space: nowrap !important;
+}
+
+// Élément de liste d'un encart : le core enveloppe son texte dans un `div`
+// (champ RichText, `display: block`), qui renverrait à la ligne le marqueur posé
+// à l'intérieur (`list-style-position: inside`, cf. `block/_formulas.scss`).
+// En ligne, marqueur et texte partagent la ligne, comme au front.
+.wp-block-couturier-formula-note li > .block-editor-rich-text__editable {
+    display: inline;
+}

@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-12T09:55:19+00:00\n"
+"POT-Creation-Date: 2026-11-12T13:30:24+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -551,6 +551,7 @@ msgstr ""
 #: blocks/compact-cta/index.js:61
 #: blocks/cta/index.js:84
 #: blocks/faq/index.js:55
+#: blocks/formulas/index.js:47
 #: blocks/pickup-map/index.js:46
 #: blocks/section-title/index.js:43
 msgid "Titre"
@@ -929,6 +930,7 @@ msgstr ""
 
 #: src/Features/Navigation/HeaderSettings.php:268
 #: src/Features/Navigation/MegaMenuFields.php:107
+#: blocks/formula-card/index.js:115
 #: blocks/image-text-icon/index.js:148
 #: blocks/page-hero-facts/index.js:73
 msgid "Libellé"
@@ -1284,6 +1286,94 @@ msgstr ""
 msgid "Ajouter un bouton"
 msgstr ""
 
+#: blocks/formula-card/index.js:51
+#: blocks/photo-card/index.js:65
+msgid "Le + choisi"
+msgstr ""
+
+#: blocks/formula-card/index.js:106
+#: blocks/_shared/formats.js:79
+#: blocks/_shared/formats.js:94
+msgid "Mise en avant"
+msgstr ""
+
+#: blocks/formula-card/index.js:109
+msgid "Mettre en avant"
+msgstr ""
+
+#: blocks/formula-card/index.js:110
+msgid "Fond pétrole et texte blanc. Une seule carte mise en avant par bloc."
+msgstr ""
+
+#: blocks/formula-card/index.js:118
+msgid "Afficher un libellé"
+msgstr ""
+
+#: blocks/formula-card/index.js:119
+msgid "Pastille posée en haut de la carte. Son texte se modifie sur la carte."
+msgstr ""
+
+#: blocks/formula-card/index.js:131
+msgid "Libellé de la pastille"
+msgstr ""
+
+#: blocks/formula-card/index.js:142
+#: blocks/home-hero-card/index.js:267
+#: blocks/icon-card/index.js:282
+#: blocks/image-card/index.js:241
+#: blocks/photo-card/index.js:212
+msgid "Titre obligatoire : sans lui, cette carte n'est pas affichée sur le site."
+msgstr ""
+
+#: blocks/formula-card/template.js:20
+msgid "Nom de la formule"
+msgstr ""
+
+#: blocks/formula-card/template.js:21
+msgid "Public visé (facultatif)"
+msgstr ""
+
+#: blocks/formula-card/template.js:27
+msgid "Conduite, tarif… (Maj + Entrée pour aller à la ligne)"
+msgstr ""
+
+#: blocks/formula-card/template.js:33
+msgid "Choisir cette formule"
+msgstr ""
+
+#: blocks/formula-cards/index.js:51
+msgid "Ajouter une formule"
+msgstr ""
+
+#: blocks/formula-note/index.js:78
+msgid "Fond de l'encart"
+msgstr ""
+
+#: blocks/formula-note/index.js:84
+msgid "Encart vide : sans titre ni texte, il n'est pas affiché sur le site."
+msgstr ""
+
+#: blocks/formula-note/template.js:17
+msgid "Titre de l'encart (facultatif)"
+msgstr ""
+
+#: blocks/formula-note/template.js:20
+msgid "Contenu"
+msgstr ""
+
+#: blocks/formula-notes/index.js:52
+msgid "Ajouter un encart"
+msgstr ""
+
+#: blocks/formulas/index.js:50
+#: blocks/section-title/index.js:130
+msgid "Sous-titre (facultatif)"
+msgstr ""
+
+#: blocks/formulas/index.js:105
+msgid "Le titre et au moins une carte titrée sont obligatoires : sans eux, ce bloc n'est pas affiché sur le site."
+msgstr ""
+
 #: blocks/home-hero-card/index.js:68
 #: blocks/icon-card/title.js:13
 #: blocks/image-card/title.js:13
@@ -1334,13 +1424,6 @@ msgstr ""
 #: blocks/home-hero-card/index.js:258
 #: blocks/home-hero-card/index.js:259
 msgid "Libellé du bouton"
-msgstr ""
-
-#: blocks/home-hero-card/index.js:267
-#: blocks/icon-card/index.js:282
-#: blocks/image-card/index.js:241
-#: blocks/photo-card/index.js:212
-msgid "Titre obligatoire : sans lui, cette carte n'est pas affichée sur le site."
 msgstr ""
 
 #: blocks/home-hero-card/index.js:272
@@ -1777,10 +1860,6 @@ msgstr ""
 msgid "Encart posé sous les boutons, à cheval sur le bas du héros, en desktop seulement."
 msgstr ""
 
-#: blocks/photo-card/index.js:65
-msgid "Le + choisi"
-msgstr ""
-
 #: blocks/photo-card/index.js:139
 msgid "Partie de la photo toujours visible, quel que soit le recadrage."
 msgstr ""
@@ -1825,27 +1904,35 @@ msgstr ""
 msgid "Grandes cartes : 3 par ligne en desktop."
 msgstr ""
 
-#: blocks/photo-cards/index.js:207
-msgid "Petites"
+#: blocks/photo-cards/index.js:202
+msgid "Très grandes cartes : 2 par ligne en desktop."
 msgstr ""
 
 #: blocks/photo-cards/index.js:208
-msgid "Moyennes"
+msgid "Petites"
 msgstr ""
 
 #: blocks/photo-cards/index.js:209
+msgid "Moyennes"
+msgstr ""
+
+#: blocks/photo-cards/index.js:210
 msgid "Grandes"
 msgstr ""
 
-#: blocks/photo-cards/index.js:213
+#: blocks/photo-cards/index.js:211
+msgid "Très grandes"
+msgstr ""
+
+#: blocks/photo-cards/index.js:215
 msgid "Activer les boutons de défilement"
 msgstr ""
 
-#: blocks/photo-cards/index.js:216
+#: blocks/photo-cards/index.js:218
 msgid "En desktop, flèches de défilement quand les cartes dépassent la ligne."
 msgstr ""
 
-#: blocks/photo-cards/index.js:217
+#: blocks/photo-cards/index.js:219
 msgid "En desktop, les cartes passent à la ligne. En mobile, elles défilent au doigt."
 msgstr ""
 
@@ -2053,10 +2140,6 @@ msgstr ""
 msgid "Sous-titre"
 msgstr ""
 
-#: blocks/section-title/index.js:130
-msgid "Sous-titre (facultatif)"
-msgstr ""
-
 #: blocks/session/index.js:107
 msgid "Date de début obligatoire (barre latérale)."
 msgstr ""
@@ -2235,11 +2318,6 @@ msgstr ""
 
 #: blocks/_shared/contacts.js:86
 msgid "Gérer les contacts"
-msgstr ""
-
-#: blocks/_shared/formats.js:79
-#: blocks/_shared/formats.js:94
-msgid "Mise en avant"
 msgstr ""
 
 #: blocks/_shared/image-field.js:60
@@ -2425,6 +2503,82 @@ msgstr ""
 #: blocks/faq/block.json
 msgctxt "block keyword"
 msgid "accordéon"
+msgstr ""
+
+#: blocks/formula-card/block.json
+msgctxt "block title"
+msgid "Carte de formule"
+msgstr ""
+
+#: blocks/formula-card/block.json
+msgctxt "block description"
+msgid "Une formule : titre H3, public visé, conduite et tarif, bouton. Libellé facultatif (pastille) ; mise en avant possible (fond pétrole)."
+msgstr ""
+
+#: blocks/formula-cards/block.json
+msgctxt "block title"
+msgid "Cartes de formules"
+msgstr ""
+
+#: blocks/formula-cards/block.json
+msgctxt "block description"
+msgid "Cartes du bloc « Formules » : trois par ligne en desktop, empilées en mobile."
+msgstr ""
+
+#: blocks/formula-note/block.json
+msgctxt "block title"
+msgid "Encart de formule"
+msgstr ""
+
+#: blocks/formula-note/block.json
+msgctxt "block description"
+msgid "Un encart récapitulatif du bloc « Formules » : titre H3, listes à puces et paragraphes, sur fond pétrole clair ou pêche."
+msgstr ""
+
+#: blocks/formula-notes/block.json
+msgctxt "block title"
+msgid "Encarts de formules"
+msgstr ""
+
+#: blocks/formula-notes/block.json
+msgctxt "block description"
+msgid "Encarts récapitulatifs du bloc « Formules » : deux par ligne en desktop, empilés en mobile."
+msgstr ""
+
+#: blocks/formulas/block.json
+msgctxt "block title"
+msgid "Formules"
+msgstr ""
+
+#: blocks/formulas/block.json
+msgctxt "block description"
+msgid "Panneau pêche : titre avec mots mis en avant, sous-titre, cartes de formules (une mise en avant possible) et encarts récapitulatifs."
+msgstr ""
+
+#: blocks/formulas/block.json
+msgctxt "block keyword"
+msgid "formules"
+msgstr ""
+
+#: blocks/formulas/block.json
+#: blocks/photo-cards/block.json
+msgctxt "block keyword"
+msgid "offres"
+msgstr ""
+
+#: blocks/formulas/block.json
+msgctxt "block keyword"
+msgid "tarifs"
+msgstr ""
+
+#: blocks/formulas/block.json
+msgctxt "block keyword"
+msgid "prix"
+msgstr ""
+
+#: blocks/formulas/block.json
+msgctxt "block keyword"
+msgid "niveau"
 msgstr ""
 
 #: blocks/home-hero-card/block.json
@@ -2765,7 +2919,7 @@ msgstr ""
 
 #: blocks/photo-cards/block.json
 msgctxt "block description"
-msgid "Rangée de cartes avec photo, sur-titre, titre et texte court : 5 petites, 4 moyennes ou 3 grandes par ligne en desktop, flèches au-delà (désactivables : les cartes passent alors à la ligne) ; défilement au doigt en mobile. Fond réglable carte par carte."
+msgid "Rangée de cartes avec photo, sur-titre, titre et texte court : 5 petites, 4 moyennes 3 grandes ou 2 très grandes par ligne en desktop, flèches au-delà (désactivables : les cartes passent alors à la ligne) ; défilement au doigt en mobile. Fond réglable carte par carte."
 msgstr ""
 
 #: blocks/photo-cards/block.json
@@ -2776,11 +2930,6 @@ msgstr ""
 #: blocks/photo-cards/block.json
 msgctxt "block keyword"
 msgid "permis"
-msgstr ""
-
-#: blocks/photo-cards/block.json
-msgctxt "block keyword"
-msgid "offres"
 msgstr ""
 
 #: blocks/photo-cards/block.json

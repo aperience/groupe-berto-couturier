@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/formula-notes",
+	"title": "Encarts de formules",
+	"category": "design",
+	"icon": "columns",
+	"description": "Encarts récapitulatifs du bloc « Formules » : deux par ligne en desktop, empilés en mobile.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/formulas" ],
+	"allowedBlocks": [ "couturier/formula-note" ],
+	"supports": {
+		"html": false,
+		"inserter": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

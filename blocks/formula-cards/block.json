@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/formula-cards",
+	"title": "Cartes de formules",
+	"category": "design",
+	"icon": "columns",
+	"description": "Cartes du bloc « Formules » : trois par ligne en desktop, empilées en mobile.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/formulas" ],
+	"allowedBlocks": [ "couturier/formula-card" ],
+	"supports": {
+		"html": false,
+		"inserter": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

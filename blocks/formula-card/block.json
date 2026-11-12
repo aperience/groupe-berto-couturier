@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/formula-card",
+	"title": "Carte de formule",
+	"category": "design",
+	"icon": "id",
+	"description": "Une formule : titre H3, public visé, conduite et tarif, bouton. Libellé facultatif (pastille) ; mise en avant possible (fond pétrole).",
+	"textdomain": "couturier",
+	"parent": [ "couturier/formula-cards" ],
+	"attributes": {
+		"featured": {
+			"type": "boolean",
+			"default": false
+		},
+		"hasBadge": {
+			"type": "boolean",
+			"default": false
+		},
+		"badge": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-formula-card__badge",
+			"role": "content"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

@@ -1,0 +1,249 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/formulas",
+	"title": "Formules",
+	"category": "design",
+	"icon": "awards",
+	"description": "Panneau pêche : titre avec mots mis en avant, sous-titre, cartes de formules (une mise en avant possible) et encarts récapitulatifs.",
+	"keywords": [
+		"formules",
+		"offres",
+		"tarifs",
+		"prix",
+		"niveau"
+	],
+	"textdomain": "couturier",
+	"supports": {
+		"html": false
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"innerBlocks": [
+			{
+				"name": "core/heading",
+				"attributes": {
+					"level": 2,
+					"content": "Quelle formule selon votre <span class=\"wp-block-couturier-cta__highlight\">niveau</span> ?"
+				}
+			},
+			{
+				"name": "core/paragraph",
+				"attributes": {
+					"className": "wp-block-couturier-formulas__intro",
+					"content": "Une formule adaptée à votre expérience de conduite."
+				}
+			},
+			{
+				"name": "couturier/formula-cards",
+				"innerBlocks": [
+					{
+						"name": "couturier/formula-card",
+						"innerBlocks": [
+							{
+								"name": "core/heading",
+								"attributes": {
+									"level": 3,
+									"content": "Débutant"
+								}
+							},
+							{
+								"name": "core/paragraph",
+								"attributes": {
+									"className": "wp-block-couturier-formula-card__subtitle",
+									"content": "Vous partez de zéro."
+								}
+							},
+							{
+								"name": "core/paragraph",
+								"attributes": {
+									"className": "wp-block-couturier-formula-card__details",
+									"content": "Conduite : 20 h + 8 h de cours en salle<br>Tarif : dès <strong>1 290 €</strong>"
+								}
+							},
+							{
+								"name": "core/buttons",
+								"innerBlocks": [
+									{
+										"name": "core/button",
+										"attributes": {
+											"text": "Choisir cette formule",
+											"hasArrow": true
+										}
+									}
+								]
+							}
+						]
+					},
+					{
+						"name": "couturier/formula-card",
+						"attributes": {
+							"featured": true,
+							"hasBadge": true,
+							"badge": "Le + choisi"
+						},
+						"innerBlocks": [
+							{
+								"name": "core/heading",
+								"attributes": {
+									"level": 3,
+									"content": "Expérimenté"
+								}
+							},
+							{
+								"name": "core/paragraph",
+								"attributes": {
+									"className": "wp-block-couturier-formula-card__subtitle",
+									"content": "Vous avez déjà conduit."
+								}
+							},
+							{
+								"name": "core/paragraph",
+								"attributes": {
+									"className": "wp-block-couturier-formula-card__details",
+									"content": "Conduite : 20 h<br>Tarif : dès <strong>990 €</strong>"
+								}
+							},
+							{
+								"name": "core/buttons",
+								"innerBlocks": [
+									{
+										"name": "core/button",
+										"attributes": {
+											"text": "Choisir cette formule",
+											"hasArrow": true
+										}
+									}
+								]
+							}
+						]
+					},
+					{
+						"name": "couturier/formula-card",
+						"innerBlocks": [
+							{
+								"name": "core/heading",
+								"attributes": {
+									"level": 3,
+									"content": "Reprise après échec"
+								}
+							},
+							{
+								"name": "core/paragraph",
+								"attributes": {
+									"className": "wp-block-couturier-formula-card__subtitle",
+									"content": "Vous repassez l’examen."
+								}
+							},
+							{
+								"name": "core/paragraph",
+								"attributes": {
+									"className": "wp-block-couturier-formula-card__details",
+									"content": "Conduite : 13 h<br>Tarif : dès <strong>690 €</strong>"
+								}
+							},
+							{
+								"name": "core/buttons",
+								"innerBlocks": [
+									{
+										"name": "core/button",
+										"attributes": {
+											"text": "Choisir cette formule",
+											"hasArrow": true
+										}
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"name": "couturier/formula-notes",
+				"innerBlocks": [
+					{
+						"name": "couturier/formula-note",
+						"innerBlocks": [
+							{
+								"name": "core/heading",
+								"attributes": {
+									"level": 3,
+									"content": "Inclus dans la formule"
+								}
+							},
+							{
+								"name": "core/list",
+								"innerBlocks": [
+									{
+										"name": "core/list-item",
+										"attributes": {
+											"content": "Heures de conduite"
+										}
+									},
+									{
+										"name": "core/list-item",
+										"attributes": {
+											"content": "Code de la route"
+										}
+									},
+									{
+										"name": "core/list-item",
+										"attributes": {
+											"content": "Place d’examen"
+										}
+									},
+									{
+										"name": "core/list-item",
+										"attributes": {
+											"content": "Accompagnement le jour J"
+										}
+									}
+								]
+							}
+						]
+					},
+					{
+						"name": "couturier/formula-note",
+						"innerBlocks": [
+							{
+								"name": "core/heading",
+								"attributes": {
+									"level": 3,
+									"content": "À la charge du candidat"
+								}
+							},
+							{
+								"name": "core/list",
+								"innerBlocks": [
+									{
+										"name": "core/list-item",
+										"attributes": {
+											"content": "ETM"
+										}
+									},
+									{
+										"name": "core/list-item",
+										"attributes": {
+											"content": "Heure supplémentaire : 53 € / h"
+										}
+									},
+									{
+										"name": "core/list-item",
+										"attributes": {
+											"content": "Autres frais"
+										}
+									}
+								]
+							}
+						],
+						"attributes": {
+							"background": "peach-300"
+						}
+					}
+				]
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
