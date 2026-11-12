@@ -42,6 +42,7 @@ final class ContactMetaBox implements FeatureInterface {
         add_action( 'admin_notices', [ $this, 'invalid_email_notice' ] );
         add_filter( 'manage_' . Contact::POST_TYPE . '_posts_columns', [ $this, 'columns' ] );
         add_action( 'manage_' . Contact::POST_TYPE . '_posts_custom_column', [ $this, 'column' ], 10, 2 );
+        add_action( 'admin_head-edit.php', [ $this, 'columns_style' ] );
     }
 
     /** Courte description affichée sur la page « Fonctionnalités du thème ». */
@@ -170,15 +171,16 @@ final class ContactMetaBox implements FeatureInterface {
     }
 
     /**
-     * Colonnes de la liste : texte, téléphone et e-mail après le nom.
+     * Colonnes de la liste : photo avant le nom ; texte, téléphone et e-mail après.
      *
      * @param array<string, string> $columns Colonnes.
      * @return array<string, string>
      */
     public function columns( array $columns ): array {
         $date = $columns['date'] ?? null;
-        unset( $columns['date'] );
+        unset( $columns['date'], $columns['title'] );
 
+        $columns['couturier_contact_photo'] = __( 'Photo', 'couturier' );
         $columns['title']                   = __( 'Nom interne', 'couturier' );
         $columns['couturier_contact_name']  = __( 'Nom affiché', 'couturier' );
         $columns['couturier_contact_role']  = __( 'Fonction', 'couturier' );
@@ -195,6 +197,16 @@ final class ContactMetaBox implements FeatureInterface {
 
     /** Contenu d'une colonne. */
     public function column( string $column, int $post_id ): void {
+        if ( 'couturier_contact_photo' === $column ) {
+            $image_id = (int) get_post_thumbnail_id( $post_id );
+
+            if ( $image_id ) {
+                echo wp_get_attachment_image( $image_id, 'thumbnail', false, [ 'class' => 'couturier-contact-photo', 'sizes' => '60px', 'alt' => '' ] );
+            }
+
+            return;
+        }
+
         $meta = [
             'couturier_contact_name'  => Contact::META_DISPLAY_NAME,
             'couturier_contact_role'  => Contact::META_ROLE,
@@ -206,6 +218,19 @@ final class ContactMetaBox implements FeatureInterface {
         if ( null !== $meta ) {
             echo nl2br( esc_html( (string) get_post_meta( $post_id, $meta, true ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- échappé.
         }
+    }
+
+    /** Largeur de la colonne photo et miniature ronde de 60 px (liste des contacts). */
+    public function columns_style(): void {
+        if ( Contact::POST_TYPE !== get_current_screen()?->post_type ) {
+            return;
+        }
+        ?>
+        <style>
+            .column-couturier_contact_photo { width: 60px; }
+            .couturier-contact-photo { display: block; width: 60px; height: 60px; border-radius: 50%; object-fit: cover; }
+        </style>
+        <?php
     }
 
     /** Enregistre une méta, ou la supprime si elle est vide. */
