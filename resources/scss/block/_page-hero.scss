@@ -20,7 +20,7 @@
 //   (`partials/_layout.scss`) ; éléments empilés à 12 px.
 // - Desktop (`lg`) : encadré arrondi (40 px) à la largeur du container, sous
 //   l'en-tête ; avec un visuel (`has-media`), grille à deux colonnes : texte à
-//   gauche, visuel de 429 px à droite (cf. « Deux colonnes »).
+//   gauche, visuel de 430 px à droite (cf. « Deux colonnes »).
 // Fonds (styles de bloc) : Pêche (défaut, pêche 300), Rose clair (orange 100),
 // Pétrole clair (pétrole 100) ; forme inclinée du visuel orange (Pêche, Rose) ou
 // pétrole (Pétrole clair), `--page-hero-shape`.
@@ -206,15 +206,15 @@
 // en `1fr` qui absorbe la hauteur du visuel, plus grand, au lieu d'écarter les
 // éléments du texte ; les boutons (ou le bouton d'ajout du canvas) et le contact
 // occupent les deux dernières lignes : poussés en bas, au niveau du bas du visuel. Écarts par marges (une ligne vide n'en
-// prend pas), 140 px entre les colonnes (52 sur la maquette, élargi pour réduire
+// prend pas), 110 px entre les colonnes (52 sur la maquette, élargi pour réduire
 // la colonne du texte).
 @include media-breakpoint-up(lg) {
     .wp-block-couturier-page-hero.has-media > .wp-block-couturier-page-hero__content {
         display: grid;
-        grid-template-columns: minmax(0, 1fr) to-rem(429);
+        grid-template-columns: minmax(0, 1fr) to-rem(430);
         grid-template-rows: repeat(5, auto) 1fr auto auto;
         justify-items: start;
-        gap: 0 to-rem(140);
+        gap: 0 to-rem(110);
 
         > * {
             grid-column: 1;
