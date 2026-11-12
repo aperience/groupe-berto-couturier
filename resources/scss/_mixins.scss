@@ -31,3 +31,54 @@
         letter-spacing: to-rem(map.get($style, tracking));
     }
 }
+
+/// Listes d'un texte libre (paragraphes et listes enfants directs de l'élément) :
+/// mise en forme des encarts du bloc Formules, partagée par le texte des étapes
+/// du bloc Parcours en étapes. À inclure sur le conteneur des listes.
+///
+/// Listes de premier niveau (à puces ou numérotées) calées sur le bord gauche :
+/// marqueur natif à l'intérieur, au bord gauche du texte au-dessus, lignes
+/// suivantes en retrait (indentation négative). Pas de `list-style: none`, qui
+/// ferait perdre à la liste son rôle sous Safari / VoiceOver. Puce « • » de la
+/// maquette. Listes imbriquées indentées, marqueur à l'extérieur.
+///
+/// Éditeur : le texte d'un élément de liste (`core/list-item`) est un `div`
+/// éditable, suivi de sa liste imbriquée dans le même `li` ; en bloc, il
+/// renverrait sous le marqueur « inside ». Il passe donc en ligne.
+@mixin bullet-lists($text-style: body) {
+    > :is(ul, ol) {
+        @include text-style($text-style);
+        padding-left: 1em;
+        list-style-position: inside;
+
+        li :is(ul, ol) {
+            margin: 0;
+            padding-left: 1.25em;
+            text-indent: 0;
+            list-style-position: outside;
+        }
+
+        li > .block-editor-rich-text__editable {
+            display: inline;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: underline;
+            text-underline-offset: .15em;
+        }
+    }
+
+    > ul {
+        text-indent: -1em;
+    }
+
+    > ul > li::marker {
+        content: "•  ";
+    }
+
+    > ol {
+        padding-left: 1.5em;
+        text-indent: -1.5em;
+    }
+}

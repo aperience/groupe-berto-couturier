@@ -1,0 +1,25 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/journey-step",
+	"title": "Étape du parcours",
+	"category": "design",
+	"icon": "editor-ol",
+	"description": "Une étape (titre H3, texte dépliable et pastille numérotée) du bloc « Parcours en étapes ».",
+	"textdomain": "couturier",
+	"parent": [ "couturier/journey-list" ],
+	"allowedBlocks": [ "core/heading", "couturier/journey-step-body" ],
+	"attributes": {
+		"background": {
+			"type": "string",
+			"enum": [ "peach-300", "petrol-100", "orange-100", "petrol-50", "peach-100" ],
+			"default": "peach-300"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

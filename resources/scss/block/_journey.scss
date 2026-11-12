@@ -1,0 +1,350 @@
+// ─── Bloc « Parcours en étapes » (couturier/journey) ──────────────────────────
+//
+// Balisage (front : `render.php` des quatre blocs ; éditeur : leurs `index.js`) :
+//
+//   section.wp-block-couturier-journey[.has-image]
+//     div.__media > img.__image                     ← image facultative
+//     div.__steps > div.wp-block-couturier-journey-list
+//       div.wp-block-couturier-journey-step[.is-bg-*] ← une étape
+//         front :   h3.__heading > button.__button   ← span.__badge, .__label, .__title, .__count
+//                   div.__collapse.collapse > div.__body > div.journey-step-body (p, ul…)
+//         éditeur : span.__card, .__badge, .__label, h3, div.journey-step-body,
+//                   span.__count, notice — à plat, dans la même grille
+//
+// L'en-tête de l'étape est une grille, identique sur le bouton du front et sur
+// l'étape de l'éditeur (où titre et texte sont deux blocs imbriqués voisins) :
+//
+//   colonnes : marge | pastille | écart | texte | marge
+//   lignes   : marge | « Étape N » | titre | « Étape N sur M » | marge | texte | avertissement
+//
+// Desktop (`lg`) : image à gauche, étapes à droite ; en-tête sur fond gris
+// arrondi, texte déplié sous la carte ; pastille de la couleur choisie, centrée ;
+// « Étape N » au-dessus du titre.
+// Mobile : image au-dessus ; chaque étape est une carte blanche bordée (texte
+// compris) ; pastille orange quelle que soit la couleur choisie (maquette), en
+// haut ; pas de « Étape N » mais « Étape N sur M » sous le titre, étape
+// repliée ou dépliée.
+//
+// Étape ouverte — front : bouton en `aria-expanded="true"` (Bootstrap Collapse) ;
+// éditeur : `.is-open`, seul le texte de cette étape est affiché.
+
+$journey-badge: to-rem(34);
+$journey-pad-x: var(--space-20);
+$journey-pad-y: var(--space-16);
+$journey-gap: var(--space-16);
+// Retrait du texte déplié : aligné sur le titre.
+$journey-text-inset: calc(#{$journey-pad-x} + #{$journey-badge} + #{$journey-gap});
+
+.wp-block-couturier-journey {
+    margin-block: var(--layout-section-gap);
+
+    > .wp-block-couturier-journey__notice {
+        margin-bottom: var(--space-16);
+    }
+
+    @include media-breakpoint-up(lg) {
+        &.has-image {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            column-gap: var(--space-32);
+            align-items: start;
+
+            > .wp-block-couturier-journey__notice {
+                grid-column: 1 / -1;
+            }
+        }
+    }
+}
+
+// ─── Image ────────────────────────────────────────────────────────────────────
+.wp-block-couturier-journey__media {
+    margin-bottom: var(--space-24);
+
+    @include media-breakpoint-up(lg) {
+        margin-bottom: 0;
+    }
+}
+
+// Maquette : 544 × 520, très arrondie.
+.wp-block-couturier-journey__image,
+.wp-block-couturier-journey__media > .couturier-image-field__placeholder {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 544 / 520;
+    border-radius: var(--bs-border-radius-lg);
+
+    @include media-breakpoint-up(lg) {
+        border-radius: to-rem(32);
+    }
+}
+
+.wp-block-couturier-journey__image {
+    object-fit: cover;
+}
+
+// Décor (Figma 301:7333) : forme orange à 80 % en bas à droite de l'image, rognée
+// par ses coins arrondis. Proportions de la maquette (image 544 × 520, forme
+// 281 × 245,5 à 335 / 378, rayon 123). Décoratif, sans effet sur les clics.
+.wp-block-couturier-journey__media:has(.wp-block-couturier-journey__image) {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--bs-border-radius-lg);
+
+    @include media-breakpoint-up(lg) {
+        border-radius: to-rem(32);
+    }
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 72.69%;
+        left: 61.58%;
+        width: 51.68%;
+        height: 47.21%;
+        border-radius: 43.75% / 50.1%;
+        background-color: var(--color-surface-accent);
+        opacity: .8;
+        pointer-events: none;
+    }
+}
+
+// Rayon transmis à l'image du canvas et à ses boutons (`ImageField`).
+.wp-block-couturier-journey__media > .couturier-image-field__placeholder,
+.wp-block-couturier-journey__media img {
+    overflow: hidden;
+}
+
+// ─── Liste ────────────────────────────────────────────────────────────────────
+.wp-block-couturier-journey-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+
+    // Éditeur : « Ajouter une étape », remis dans le flux sous la dernière étape.
+    > .block-list-appender {
+        position: static;
+        align-self: flex-start;
+    }
+}
+
+// Éditeur : annule le centrage des blocs du canvas (cf. `_faq.scss`), et les
+// marges par défaut des blocs imbriqués.
+.wp-block-couturier-journey-list > .wp-block.wp-block,
+.wp-block-couturier-journey-step > .wp-block.wp-block {
+    margin: 0;
+}
+
+// ─── Étape ────────────────────────────────────────────────────────────────────
+.wp-block-couturier-journey-step {
+    --journey-badge-bg: var(--color-surface-accent);
+    --journey-badge-color: var(--color-text-on-accent);
+
+    margin: 0;
+    border: 1px solid var(--color-border-subtle);
+    border-radius: var(--bs-border-radius-lg);
+    background-color: var(--color-surface-card);
+
+    @include media-breakpoint-up(lg) {
+        --journey-badge-bg: var(--color-surface-peach-soft);
+        --journey-badge-color: var(--color-text-heading);
+
+        border: 0;
+        background: none;
+
+        @each $name, $role in $ds-card-backgrounds {
+            &.is-bg-#{$name} { --journey-badge-bg: var(--color-#{$role}); }
+        }
+    }
+}
+
+// Grille de l'en-tête (bouton du front, étape de l'éditeur).
+@mixin journey-grid {
+    display: grid;
+    grid-template-columns: $journey-pad-x $journey-badge $journey-gap minmax(0, 1fr) $journey-pad-x;
+    grid-template-rows: $journey-pad-y repeat(3, auto) $journey-pad-y;
+    align-items: start;
+
+    > .wp-block-couturier-journey-step__badge {
+        grid-column: 2;
+        grid-row: 3;
+    }
+
+    > .wp-block-couturier-journey-step__label {
+        grid-column: 4;
+        grid-row: 2;
+    }
+
+    > h3,
+    > .wp-block-couturier-journey-step__title {
+        grid-column: 4;
+        grid-row: 3;
+        align-self: center;
+    }
+
+    > .wp-block-couturier-journey-step__count {
+        grid-column: 4;
+        grid-row: 4;
+    }
+
+    @include media-breakpoint-up(lg) {
+        > .wp-block-couturier-journey-step__badge {
+            grid-row: 2 / 5;
+            align-self: center;
+        }
+    }
+}
+
+// Front : toute la ligne de l'en-tête est le bouton.
+.wp-block-couturier-journey-step__heading {
+    margin: 0;
+}
+
+.wp-block-couturier-journey-step__button {
+    @include journey-grid;
+    width: 100%;
+    padding: 0;
+    border: 0;
+    border-radius: var(--bs-border-radius-lg);
+    background: none;
+    color: inherit;
+    font: inherit;
+    letter-spacing: inherit;
+    text-align: left;
+    cursor: pointer;
+
+    @include media-breakpoint-up(lg) {
+        background-color: var(--color-surface-muted);
+    }
+
+    // Double anneau, comme les boutons du thème (WCAG 2.4.7, 1.4.11).
+    &:focus-visible {
+        outline: 2px solid transparent;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 2px var(--color-surface-card), 0 0 0 4px var(--color-text-default);
+    }
+}
+
+// Éditeur : l'étape elle-même porte la grille ; le fond gris de l'en-tête est un
+// `span` décoratif posé sous les lignes de l'en-tête.
+.wp-block-couturier-journey-step:has(> .wp-block-couturier-journey-step__card) {
+    @include journey-grid;
+    grid-template-rows: $journey-pad-y repeat(3, auto) $journey-pad-y auto auto;
+
+    > .wp-block-couturier-journey-step__card {
+        grid-column: 1 / -1;
+        grid-row: 1 / 6;
+        border-radius: var(--bs-border-radius-lg);
+
+        @include media-breakpoint-up(lg) {
+            background-color: var(--color-surface-muted);
+        }
+    }
+
+    > .wp-block-couturier-journey-step-body {
+        grid-column: 4 / 6;
+        grid-row: 6;
+        padding: 0 $journey-pad-x $journey-pad-y 0;
+
+        @include media-breakpoint-up(lg) {
+            padding: var(--space-12) $journey-pad-x var(--space-12) 0;
+        }
+    }
+
+    > .wp-block-couturier-journey-step__notice {
+        grid-column: 2 / 5;
+        grid-row: 7;
+        margin: 0 0 $journey-pad-y;
+    }
+
+    &:not(.is-open) > .wp-block-couturier-journey-step-body {
+        display: none;
+    }
+}
+
+// Pastille numérotée (décorative : « Étape N » est lu dans le bouton).
+.wp-block-couturier-journey-step__badge {
+    @include text-style(faq-question);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: $journey-badge;
+    height: $journey-badge;
+    border-radius: 50%;
+    background-color: var(--journey-badge-bg);
+    color: var(--journey-badge-color);
+}
+
+.wp-block-couturier-journey-step__label {
+    @include text-style(photo-card-eyebrow);
+    display: none;
+    color: var(--color-text-accent);
+
+    @include media-breakpoint-up(lg) {
+        display: block;
+    }
+}
+
+.wp-block-couturier-journey-step h3,
+.wp-block-couturier-journey-step__title {
+    @include text-style(faq-question);
+    margin: 0;
+    color: var(--color-text-heading);
+}
+
+.wp-block-couturier-journey-step__title {
+    display: block;
+}
+
+// Mots mis en avant (« · [x h] ») : orange foncé sur fond clair, 4,99:1.
+.wp-block-couturier-journey-step h3 .wp-block-couturier-cta__highlight {
+    color: var(--color-text-accent);
+}
+
+.wp-block-couturier-journey-step__count {
+    @include text-style(small);
+    display: block;
+    margin-top: var(--space-4);
+    color: var(--color-text-default);
+
+    @include media-breakpoint-up(lg) {
+        display: none;
+    }
+}
+
+// ─── Texte déplié ─────────────────────────────────────────────────────────────
+.wp-block-couturier-journey-step__body {
+    padding: 0 $journey-pad-x $journey-pad-y $journey-text-inset;
+
+    @include media-breakpoint-up(lg) {
+        padding-block: var(--space-12);
+    }
+}
+
+.wp-block-couturier-journey-step-body {
+    @include text-style(faq-answer);
+    color: var(--color-text-default);
+
+    > * {
+        margin-block: 0;
+    }
+
+    // Listes : mêmes styles que les encarts du bloc Formules (`_mixins.scss`).
+    @include bullet-lists(faq-answer);
+
+    a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: .15em;
+
+        &:hover {
+            text-decoration-thickness: 2px;
+        }
+
+        &:focus-visible {
+            outline: 2px solid currentColor;
+            outline-offset: 2px;
+            border-radius: 2px;
+        }
+    }
+}

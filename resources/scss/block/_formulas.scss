@@ -245,52 +245,8 @@
         }
     }
 
-    // Listes de premier niveau (à puces ou numérotées) calées sur le bord gauche :
-    // marqueur natif dans le retrait du texte. Pas de `list-style: none`, qui
-    // ferait perdre à la liste son rôle sous Safari / VoiceOver. Listes
-    // imbriquées indentées.
-    > :is(ul, ol) {
-        @include text-style(body);
-        padding-left: 1em;
-
-        li :is(ul, ol) {
-            margin: 0;
-            padding-left: 1.25em;
-        }
-
-        a {
-            color: inherit;
-            text-decoration: underline;
-            text-underline-offset: .15em;
-        }
-    }
-
-    // Puce « • » de la maquette.
-    > ul > li::marker {
-        content: "•  ";
-    }
-
-    // Marqueur à l'intérieur, au bord gauche du texte au-dessus ; lignes
-    // suivantes en retrait (indentation négative). Listes imbriquées : marqueur
-    // à l'extérieur, sans indentation négative.
-    > ul,
-    > ol {
-        list-style-position: inside;
-    }
-
-    > ul {
-        text-indent: -1em;
-    }
-
-    > ol {
-        padding-left: 1.5em;
-        text-indent: -1.5em;
-    }
-
-    > :is(ul, ol) li :is(ul, ol) {
-        text-indent: 0;
-        list-style-position: outside;
-    }
+    // Listes : puces « • », listes imbriquées indentées (`_mixins.scss`).
+    @include bullet-lists;
 
     &.is-bg-peach-300 {
         background-color: var(--color-surface-peach-soft);

@@ -1,0 +1,58 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/journey",
+	"title": "Parcours en étapes",
+	"category": "design",
+	"icon": "editor-ol",
+	"description": "Image facultative et étapes numérotées automatiquement, en accordéon : la première est dépliée, chaque pastille a sa couleur.",
+	"keywords": [ "parcours", "étapes", "accordéon", "formation", "déroulé" ],
+	"textdomain": "couturier",
+	"allowedBlocks": [ "couturier/journey-list" ],
+	"attributes": {
+		"imageId": {
+			"type": "number"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"example": {
+		"viewportWidth": 1200,
+		"innerBlocks": [
+			{
+				"name": "couturier/journey-list",
+				"innerBlocks": [
+					{
+						"name": "couturier/journey-step",
+						"innerBlocks": [
+							{ "name": "core/heading", "attributes": { "level": 3, "content": "Évaluation et prise en main" } },
+							{
+								"name": "couturier/journey-step-body",
+								"innerBlocks": [ { "name": "core/paragraph", "attributes": { "content": "Un test d’inscription pour connaître votre capacité de progression et le nombre d’heures de conduite nécessaire." } } ]
+							}
+						]
+					},
+					{
+						"name": "couturier/journey-step",
+						"attributes": { "background": "petrol-100" },
+						"innerBlocks": [
+							{ "name": "core/heading", "attributes": { "level": 3, "content": "Conduite · <span class=\"wp-block-couturier-cta__highlight\">20 h</span>" } },
+							{ "name": "couturier/journey-step-body", "innerBlocks": [ { "name": "core/paragraph", "attributes": { "content": "Leçons de conduite avec votre moniteur." } } ] }
+						]
+					},
+					{
+						"name": "couturier/journey-step",
+						"attributes": { "background": "orange-100" },
+						"innerBlocks": [
+							{ "name": "core/heading", "attributes": { "level": 3, "content": "Examen et obtention du permis" } },
+							{ "name": "couturier/journey-step-body", "innerBlocks": [ { "name": "core/paragraph", "attributes": { "content": "Place d’examen et accompagnement le jour J." } } ] }
+						]
+					}
+				]
+			}
+		]
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

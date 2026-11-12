@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/journey-list",
+	"title": "Liste des étapes",
+	"category": "design",
+	"icon": "list-view",
+	"description": "Étapes du bloc « Parcours en étapes », en accordéon.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/journey" ],
+	"allowedBlocks": [ "couturier/journey-step" ],
+	"supports": {
+		"html": false,
+		"inserter": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

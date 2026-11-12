@@ -1,0 +1,19 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/journey-step-body",
+	"title": "Texte de l'étape",
+	"category": "design",
+	"icon": "text",
+	"description": "Texte dépliable d'une étape du bloc « Parcours en étapes » : paragraphes et listes.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/journey-step" ],
+	"allowedBlocks": [ "core/paragraph", "core/list" ],
+	"supports": {
+		"html": false,
+		"inserter": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}
