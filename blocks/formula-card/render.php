@@ -2,8 +2,8 @@
 /**
  * Rendu d'une carte du bloc « Formules » (`couturier/formula-card`).
  *
- * `<li>` : pastille (carte mise en avant), titre (`<h3>`), public visé, détails
- * et bouton. Sans titre : rien n'est rendu. Public visé ou détails vides : retirés ;
+ * `<li>` : pastille (carte mise en avant), titre (`<h3>`), prix, public visé, détails
+ * et bouton. Sans titre : rien n'est rendu. Prix, public visé ou détails vides : retirés ;
  * bouton sans libellé : retiré.
  *
  * @package Couturier

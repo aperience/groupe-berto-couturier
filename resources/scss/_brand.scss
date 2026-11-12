@@ -227,6 +227,10 @@ $ds-text-styles: (
     formulas-intro:        (family: body, weight: 400, size: (14, 18),     line: (24, 29)),
     formula-card-title:    (family: body, weight: 700, size: (20, 20),     line: (25, 25)),
     formula-card-subtitle: (family: body, weight: 400, size: (13.5, 13.5), line: (21.5, 21.5)),
+    // Prix facultatif (Figma 301:7023, 301:7031) : Space Grotesk Bold 40 px, −1 px.
+    // Texte après le bouton (Figma 301:7031) : 13 px, numéro en gras.
+    formula-card-note:     (family: body, weight: 400, size: (13, 13),     line: (17, 17)),
+    formula-card-price:    (family: body, weight: 700, size: (40, 40),     line: (51, 51), tracking: -1),
 
     // Bloc « Étapes » (Figma 301:6241)
     step-number: (family: heading, weight: 700, size: (20, 20), line: (25, 25)),

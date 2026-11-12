@@ -40,8 +40,11 @@ $couturier_formulas_content = preg_replace( '#<p\b[^>]*>\s*</p>#', '', $content 
 // entre l'espace et le signe (mise en avant, lien…) sont conservées.
 $couturier_formulas_content = preg_replace( '/ +((?:<[^>]*>)*)(?=[?!:;»])/u', "\u{00A0}$1", $couturier_formulas_content ) ?? $couturier_formulas_content;
 
+// Formules par ligne en desktop (1 à 4, 3 par défaut).
+$couturier_formulas_columns = min( 4, max( 1, absint( $attributes['columns'] ?? 3 ) ) );
+
 printf(
     '<section %s>%s</section>',
-    get_block_wrapper_attributes(), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
+    get_block_wrapper_attributes( [ 'style' => '--formulas-columns:' . $couturier_formulas_columns ] ), // phpcs:ignore WordPress.Security.EscapeOutput -- échappé par WordPress.
     $couturier_formulas_content // phpcs:ignore WordPress.Security.EscapeOutput -- HTML des blocs imbriqués.
 );

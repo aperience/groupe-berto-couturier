@@ -14,12 +14,26 @@
  *   principe (`couturier/formula-note`) ; un bloc créé avant eux reçoit, à
  *   l'ouverture dans l'éditeur, le conteneur et deux encarts vides.
  *
+ * Réglage « Formules par ligne » (`columns`, 1 à 4, 3 par défaut) : en desktop,
+ * les cartes d'une ligne se partagent sa largeur (variable `--formulas-columns`).
+ *
  * `save()` n'enregistre que les blocs imbriqués : l'enveloppe est produite par
  * `render.php`, qui n'affiche rien sans titre ni carte titrée.
  */
 import { createBlocksFromInnerBlocksTemplate, registerBlockType } from '@wordpress/blocks';
-import { InnerBlocks, store as blockEditorStore, useBlockProps, useInnerBlocksProps } from '@wordpress/block-editor';
-import { Notice } from '@wordpress/components';
+import {
+	InnerBlocks,
+	InspectorControls,
+	store as blockEditorStore,
+	useBlockProps,
+	useInnerBlocksProps,
+} from '@wordpress/block-editor';
+import {
+	Notice,
+	PanelBody,
+	__experimentalToggleGroupControl as ToggleGroupControl,
+	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
+} from '@wordpress/components';
 import { useDispatch, useSelect } from '@wordpress/data';
 import { useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
@@ -62,7 +76,8 @@ const LEVEL = 2;
 /** Carte affichée sur le site : titre saisi. */
 const hasTitle = ( card ) => !! textOf( card.innerBlocks.find( ( block ) => block.name === 'core/heading' ) );
 
-function Edit( { clientId, isSelected } ) {
+function Edit( { attributes, setAttributes, clientId, isSelected } ) {
+	const { columns } = attributes;
 	const blocks = useSelect( ( select ) => select( blockEditorStore ).getBlocks( clientId ), [ clientId ] );
 	// Bloc ou l'un de ses blocs imbriqués sélectionné. Sinon, le canvas montre le
 	// rendu du site : ni avertissement, ni bouton d'ajout.
@@ -94,12 +109,32 @@ function Edit( { clientId, isSelected } ) {
 
 	// Modèle passé à l'insertion seulement (bloc vide), cf. `blocks/CLAUDE.md`.
 	const { children, ...innerBlocksProps } = useInnerBlocksProps(
-		useBlockProps( { className: isIncomplete ? 'is-incomplete' : undefined } ),
+		useBlockProps( {
+			className: isIncomplete ? 'is-incomplete' : undefined,
+			style: { '--formulas-columns': columns },
+		} ),
 		{ template: blocks.length ? undefined : TEMPLATE, templateLock: 'all' }
 	);
 
 	return (
 		<section { ...innerBlocksProps }>
+			<InspectorControls>
+				<PanelBody title={ __( 'Mise en page', 'couturier' ) }>
+					<ToggleGroupControl
+						__next40pxDefaultSize
+						__nextHasNoMarginBottom
+						isBlock
+						label={ __( 'Formules par ligne', 'couturier' ) }
+						help={ __( 'En ordinateur, les formules d\'une ligne se partagent sa largeur. Toujours empilées sur mobile.', 'couturier' ) }
+						value={ columns }
+						onChange={ ( value ) => setAttributes( { columns: Number( value ) } ) }
+					>
+						{ [ 1, 2, 3, 4 ].map( ( count ) => (
+							<ToggleGroupControlOption key={ count } value={ count } label={ String( count ) } />
+						) ) }
+					</ToggleGroupControl>
+				</PanelBody>
+			</InspectorControls>
 			{ isEditing && isIncomplete && (
 				<Notice status="warning" isDismissible={ false } className="wp-block-couturier-formulas__notice">
 					{ __( 'Le titre et au moins une carte titrée sont obligatoires : sans eux, ce bloc n\'est pas affiché sur le site.', 'couturier' ) }

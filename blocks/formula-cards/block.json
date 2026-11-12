@@ -5,7 +5,7 @@
 	"title": "Cartes de formules",
 	"category": "design",
 	"icon": "columns",
-	"description": "Cartes du bloc « Formules » : trois par ligne en desktop, empilées en mobile.",
+	"description": "Cartes du bloc « Formules » : une à quatre par ligne en desktop (réglage du bloc « Formules »), empilées en mobile.",
 	"textdomain": "couturier",
 	"parent": [ "couturier/formulas" ],
 	"allowedBlocks": [ "couturier/formula-card" ],

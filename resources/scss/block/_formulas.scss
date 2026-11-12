@@ -9,9 +9,11 @@
 //       li.wp-block-couturier-formula-card[.is-featured]
 //         p.__badge                              ← pastille (carte mise en avant)
 //         h3                                     ← nom de la formule
+//         p.__price                              ← prix facultatif, en gros
 //         p.__subtitle                           ← public visé
 //         p.__details                            ← conduite, tarif
 //         div.wp-block-buttons > div.wp-block-button.has-arrow
+//         p.__note                               ← texte après le bouton, facultatif
 //     div.wp-block-couturier-formula-notes
 //       div.wp-block-couturier-formula-note[.is-bg-peach-300]
 //         h3                                     ← titre de l'encart
@@ -19,7 +21,7 @@
 //
 // Maquettes : desktop 301:7250, mobile 608:1400 (le mobile reprend le desktop
 // à l'échelle 0,97 : mêmes valeurs ici). Panneau pêche/100 arrondi (40 px) ;
-// cartes empilées en mobile, trois par ligne à partir de `lg`.
+// cartes empilées en mobile, 1 à 4 par ligne (réglage) à partir de `lg`.
 //
 // Dans l'éditeur, les blocs imbriqués reçoivent les marges par défaut du canvas
 // (`html :where(.wp-block)`) : les marges sont donc toutes posées ici.
@@ -69,17 +71,16 @@
     padding: 0;
     list-style: none;
 
-    // Desktop : trois cartes par ligne ; une ligne incomplète répartit les
-    // siennes (`space-around`).
+    // Desktop : `--formulas-columns` cartes par ligne (réglage du bloc, 3 par
+    // défaut) ; elles se partagent la largeur, une ligne incomplète comprise.
     @include media-breakpoint-up(lg) {
         display: flex;
         flex-wrap: wrap;
-        justify-content: space-around;
         gap: var(--space-18);
         margin-top: var(--space-40) !important;
 
         > .wp-block-couturier-formula-card {
-            flex: 0 0 calc((100% - 2 * var(--space-18)) / 3);
+            flex: 1 1 calc((100% - (var(--formulas-columns, 3) - 1) * var(--space-18)) / var(--formulas-columns, 3));
         }
     }
 }
@@ -113,15 +114,28 @@
     > .wp-block-buttons.wp-block-buttons {
         margin: auto 0 0;
         padding-top: var(--space-20);
+    }
+}
 
-        > .wp-block-button {
-            flex-grow: 1;
-        }
+.wp-block-couturier-formula-card__price {
+    @include text-style(formula-card-price);
+    margin-top: var(--space-8) !important;
+    color: var(--color-text-accent);
+}
 
-        .wp-block-button__link {
-            width: 100%;
-            justify-content: space-between;
-        }
+// Maquette : 6 px entre le prix et le public visé.
+.wp-block-couturier-formula-card__price + .wp-block-couturier-formula-card__subtitle {
+    margin-top: var(--space-6) !important;
+}
+
+.wp-block-couturier-formula-card__note {
+    @include text-style(formula-card-note);
+    margin-top: var(--space-16) !important;
+
+    a {
+        color: inherit;
+        text-decoration: underline;
+        text-underline-offset: .15em;
     }
 }
 
@@ -179,6 +193,7 @@
     color: var(--color-text-on-brand);
 
     > h3,
+    .wp-block-couturier-formula-card__price,
     .wp-block-couturier-formula-card__subtitle {
         color: var(--color-text-on-brand);
     }
