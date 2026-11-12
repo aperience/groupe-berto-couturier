@@ -10,8 +10,9 @@
 // Maquette desktop 301:6977 (cartes 301:6977 à 301:6989) : cartes de 131 px de
 // haut, rayon 28, écart 15 px, libellé en surtitre pétrole 400, valeur en H3
 // (Red Hat Display 700, 20 / 25). Fonds alternés (décision d'Aurélien,
-// 2026-11-09) : cartes impaires pêche 300 et valeur orange 700, paires pétrole 50
-// et valeur pétrole 500. Rangée qui déborde de la moitié d'une carte sous le bas
+// 2026-11-09) : cartes impaires `--page-hero-facts-bg` (rose clair sur le héros
+// Pêche, pêche 300 sur Rose clair et Pétrole clair, 2026-11-12) et valeur orange
+// 700, paires pétrole 50 et valeur pétrole 500. Rangée qui déborde de la moitié d'une carte sous le bas
 // du héros (marge basse négative : débord + padding du héros, comme le contact) ;
 // le héros garde l'écart de section sous les cartes (`has-facts`).
 // Mobile (sous `lg`) : grille de deux colonnes **sous** le fond coloré du héros,
@@ -106,6 +107,7 @@ $page-hero-facts-mobile-gap: var(--space-24);
     @include media-breakpoint-up(lg) {
         flex: 1 1 0;
         min-width: 0;
+        background-color: var(--page-hero-facts-bg, var(--color-surface-peach-soft));
 
         &:nth-child(even) {
             background-color: var(--color-surface-petrol-faint);

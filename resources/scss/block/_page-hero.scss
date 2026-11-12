@@ -33,6 +33,9 @@
     --page-hero-shape: var(--color-action-primary);
     --page-hero-contact-bg: var(--color-surface-peach-faint);
     --page-hero-contact-color: var(--color-text-accent);
+    // Cartes impaires des chiffres clés (desktop) : rose clair, pour se détacher
+    // du fond pêche ; pêche 300 sur les autres fonds.
+    --page-hero-facts-bg: var(--color-surface-accent-soft);
 
     position: relative;
     margin-block: var(--layout-section-gap);
@@ -46,6 +49,7 @@
 
     &.is-style-pink {
         --page-hero-bg: var(--color-surface-accent-soft);
+        --page-hero-facts-bg: var(--color-surface-peach-soft);
     }
 
     &.is-style-petrol {
@@ -53,6 +57,7 @@
         --page-hero-shape: var(--color-action-dark);
         --page-hero-contact-bg: var(--color-surface-petrol-faint);
         --page-hero-contact-color: var(--color-text-heading);
+        --page-hero-facts-bg: var(--color-surface-peach-soft);
     }
 
     @include media-breakpoint-up(lg) {
