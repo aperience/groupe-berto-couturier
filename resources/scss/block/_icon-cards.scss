@@ -18,7 +18,7 @@
 // pétrole/100, pêche/300, pétrole/50, orange/100 ou neutre/50, sans bordure, pastille
 // blanche, texte en pétrole/500.
 //
-// Pictogramme : #00232D sur la pastille orange/100 (maquette).
+// Pictogramme SVG : pétrole/500 (#004E63) sur la pastille orange/100.
 //
 // Maquette (Figma 536:7618, 595:1611) : cartes de 362 px espacées de 24 px en
 // desktop, 16 px en mobile ; 24 px de padding en mobile, 32 px en desktop
@@ -113,8 +113,9 @@ $icon-cards-gap-desktop: var(--space-24);
     height: var(--space-48);
     border-radius: var(--bs-border-radius);
     background-color: var(--color-surface-accent-soft);
-    // Pictogramme en pétrole foncé (#00232D), comme la maquette.
-    color: var(--color-text-default);
+    // Pictogramme SVG en bleu pétrole (pétrole/500, #004E63), comme le visuel
+    // décalé : le pétrole/900 de la maquette paraît noir à cette taille.
+    color: var(--color-text-heading);
 }
 
 .wp-block-couturier-icon-card__icon {
@@ -155,7 +156,8 @@ $icon-cards-gap-desktop: var(--space-24);
 }
 
 // ─── Visuel décalé (`iconStyle: offset`) ─────────────────────────────────────
-// Figma 301:6225 / 301:6812 : disque de 64 px, visuel de 80 px de haut posé par-
+// Figma 301:6225 / 301:6812 : disque de 64 px, visuel de 80 px de haut (réglable
+// de 32 à 80 px : `--icon-card-visual-height`, posée sur le disque) posé par-
 // dessus, décalé de 26 px à droite et 17 px vers le haut, qui déborde du disque.
 // Le disque reste dans le flux : titre et texte à la même hauteur que sur une
 // carte à pastille. Couleurs du disque : celles de la pastille (orange/100 sur
@@ -172,12 +174,41 @@ $icon-cards-gap-desktop: var(--space-24);
     top: -17px;
     left: 26px;
     width: auto;
-    height: 80px;
+    height: var(--icon-card-visual-height, 80px);
     // Ne dépasse jamais la carte : largeur utile (`cqi`, carte en conteneur)
     // moins le décalage. Le débord haut (17 px) tient dans son padding (24 px min.).
     max-width: calc(100cqi - 26px);
     object-fit: contain;
     object-position: left center;
+}
+
+// SVG : peint en bleu pétrole (`currentColor` du disque, pétrole/500) par un masque posé sur
+// l'enveloppe `__tint`, qui prend la place de l'image ; l'`<img>`, invisible,
+// lui donne ses dimensions (le SVG n'en déclare pas dans la médiathèque).
+.wp-block-couturier-icon-card__tint {
+    position: absolute;
+    top: -17px;
+    left: 26px;
+    display: block;
+    background-color: currentColor;
+    mask: var(--icon) left center / contain no-repeat;
+
+    > .wp-block-couturier-icon-card__image {
+        position: static;
+        display: block;
+        visibility: hidden;
+    }
+}
+
+.wp-block-couturier-icon-card__badge.is-offset .wp-block-couturier-icon-card__tint > .wp-block-couturier-icon-card__image {
+    top: auto;
+}
+
+// Hauteur réduite (variable posée sur le disque) : visuel centré verticalement
+// sur le disque, toujours décalé de 26 px à droite. À 80 px (défaut, sans
+// variable), position de la maquette.
+.wp-block-couturier-icon-card__badge.is-offset[style*="--icon-card-visual-height"] :is(.wp-block-couturier-icon-card__image, .wp-block-couturier-icon-card__tint) {
+    top: calc((var(--space-64) - var(--icon-card-visual-height)) / 2);
 }
 
 .wp-block-couturier-icon-card.has-offset-visual {

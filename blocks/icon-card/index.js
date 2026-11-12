@@ -14,8 +14,8 @@
  *   autre que blanc : classe `is-bg-{fond}`, sans bordure, pastille blanche.
  *
  * - présentation (`iconStyle`) : « Pastille » (défaut, ci-dessus) ou « Visuel
- *   décalé » : disque rond, visuel en `<img>` aux couleurs d'origine (JPG, PNG
- *   ou SVG), 80 px de haut, décalé en haut à droite du disque et le débordant
+ *   décalé » : disque rond, visuel en `<img>` aux couleurs d'origine (JPG, PNG ;
+ *   un SVG est peint en bleu pétrole (pétrole/500) par masque, `__tint`), 80 px de haut au plus (`offsetHeight`, curseur de 32 à 80 px), décalé en haut à droite du disque et le débordant
  *   (Figma 301:6225, 301:6812). Carte : classe `has-offset-visual` ;
  *
  * Aperçu de l'inserteur : `iconId` négatif, cf. `example-icons.js`.
@@ -38,6 +38,7 @@ import {
 	Button,
 	Notice,
 	PanelBody,
+	RangeControl,
 	__experimentalToggleGroupControl as ToggleGroupControl,
 	__experimentalToggleGroupControlOption as ToggleGroupControlOption,
 } from '@wordpress/components';
@@ -68,6 +69,10 @@ const TEMPLATE = [ TITLE ];
 const ICON_TYPES = [ 'image/svg+xml', 'image/png', 'image/webp' ];
 
 /** Visuels acceptés en mode décalé : affichés tels quels, une photo est permise. */
+/** Hauteur du visuel décalé : 80 px au plus (maquette), réglable vers le bas. */
+const OFFSET_HEIGHT_MIN = 32;
+const OFFSET_HEIGHT_MAX = 80;
+
 const OFFSET_TYPES = [ 'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml' ];
 
 /** Formats du texte. */
@@ -80,6 +85,7 @@ const ROOT = 'couturier/icon-cards';
 function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	const { iconId, text } = attributes;
 	const isOffset = 'offset' === attributes.iconStyle;
+	const offsetHeight = attributes.offsetHeight ?? OFFSET_HEIGHT_MAX;
 	const background = useBackground( metadata, attributes.background );
 
 	const { blocks, isEditing, isCardEditing, iconUrl, iconMime } = useSelect(
@@ -149,7 +155,15 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 
 	let icon = null;
 
-	if ( iconUrl && isOffset ) {
+	if ( iconUrl && isOffset && 'image/svg+xml' === iconMime ) {
+		// SVG en visuel décalé : peint en bleu pétrole (pétrole/500) par masque, comme `render.php`.
+		// L'`<img>` masquée ne sert qu'à donner ses dimensions au masque.
+		icon = (
+			<span className="wp-block-couturier-icon-card__tint" aria-hidden="true" style={ { '--icon': `url("${ iconUrl }")` } }>
+				<img className="wp-block-couturier-icon-card__image" src={ iconUrl } alt="" />
+			</span>
+		);
+	} else if ( iconUrl && isOffset ) {
 		icon = <img className="wp-block-couturier-icon-card__image" src={ iconUrl } alt="" />;
 	} else if ( iconUrl && isRaster && ! isUnmaskable ) {
 		icon = <img className="wp-block-couturier-icon-card__picture" src={ iconUrl } alt="" />;
@@ -158,6 +172,10 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	}
 
 	const badgeClass = 'wp-block-couturier-icon-card__badge' + ( isOffset ? ' is-offset' : '' );
+	// Hauteur du visuel décalé, comme `render.php` : variable posée hors valeur par défaut.
+	const badgeStyle = isOffset && offsetHeight !== OFFSET_HEIGHT_MAX
+		? { '--icon-card-visual-height': `${ offsetHeight }px` }
+		: undefined;
 
 	// Pastille : pictogramme, emplacement « + » en cours d'édition, rien sinon.
 	// Carte en cours d'édition (elle, son titre ou son texte) : boutons
@@ -168,7 +186,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 	if ( icon && isCardEditing ) {
 		badge = picker( ( open ) => (
 			<>
-				<span className={ badgeClass }>
+				<span className={ badgeClass } style={ badgeStyle }>
 					<Button className="wp-block-couturier-icon-card__replace" onClick={ open } label={ __( 'Remplacer le pictogramme', 'couturier' ) } showTooltip>
 						{ icon }
 					</Button>
@@ -188,11 +206,11 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 			</>
 		) );
 	} else if ( icon ) {
-		badge = <span className={ badgeClass }>{ icon }</span>;
+		badge = <span className={ badgeClass } style={ badgeStyle }>{ icon }</span>;
 	} else if ( isEditing ) {
 		// Sans visuel, ou visuel impossible à peindre en pastille : emplacement « + ».
 		badge = (
-			<span className={ badgeClass }>
+			<span className={ badgeClass } style={ badgeStyle }>
 				{ picker( ( open ) => (
 					<Button
 						className="wp-block-couturier-icon-card__choose"
@@ -224,9 +242,23 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 					</ToggleGroupControl>
 					<p>
 						{ isOffset
-							? __( 'Image JPG, PNG ou SVG affichée dans ses couleurs, à 80 px de haut, décalée sur un disque. Elle est décorative : son texte alternatif n\'est pas utilisé.', 'couturier' )
+							? __( 'Image JPG ou PNG affichée dans ses couleurs, ou SVG peint en bleu pétrole, jusqu\'à 80 px de haut, décalée sur un disque. Elle est décorative : son texte alternatif n\'est pas utilisé.', 'couturier' )
 							: __( 'Un pictogramme SVG est peint en pétrole quelles que soient ses couleurs d\'origine ; une image PNG garde les siennes. Il est décoratif : son texte alternatif n\'est pas utilisé.', 'couturier' ) }
 					</p>
+					{ isOffset && (
+						<RangeControl
+							__next40pxDefaultSize
+							__nextHasNoMarginBottom
+							label={ __( 'Hauteur du visuel (px)', 'couturier' ) }
+							value={ offsetHeight }
+							min={ OFFSET_HEIGHT_MIN }
+							max={ OFFSET_HEIGHT_MAX }
+							step={ 4 }
+							allowReset
+							resetFallbackValue={ OFFSET_HEIGHT_MAX }
+							onChange={ ( value ) => setAttributes( { offsetHeight: value ?? OFFSET_HEIGHT_MAX } ) }
+						/>
+					) }
 					{ isUnmaskable && (
 						<Notice status="warning" isDismissible={ false }>
 							{ __( 'Cette image ne peut pas être affichée en pastille : choisissez « Visuel décalé » ou un pictogramme SVG / PNG à fond transparent.', 'couturier' ) }

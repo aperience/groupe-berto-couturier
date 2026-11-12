@@ -8,7 +8,8 @@
  *
  * Présentation (`iconStyle`) : pastille (SVG en masque peint en pétrole, PNG /
  * WebP en `<img>` aux couleurs d'origine) ou
- * visuel décalé (`<img>` JPG / PNG / SVG sur un disque, carte `has-offset-visual`).
+ * visuel décalé (`<img>` JPG / PNG sur un disque, SVG peint en bleu pétrole par masque, carte `has-offset-visual`,
+ * hauteur `offsetHeight` de 32 à 80 px → `--icon-card-visual-height` hors défaut).
  *
  * Fond (`background`) autre que blanc : classe `is-bg-{fond}`.
  *
@@ -59,8 +60,24 @@ if ( 'offset' === ( $attributes['iconStyle'] ?? 'badge' ) ) {
         )
         : '';
 
+    // SVG : peint en bleu pétrole (pétrole/500) par un masque
+    // posé sur une enveloppe ; l'`<img>`, invisible, lui donne ses dimensions.
+    if ( $couturier_card_image && 'image/svg+xml' === get_post_mime_type( $couturier_card_icon_id ) ) {
+        $couturier_card_image = sprintf(
+            '<span class="wp-block-couturier-icon-card__tint" aria-hidden="true" style="%s">%s</span>',
+            esc_attr( '--icon: url("' . esc_url( (string) wp_get_attachment_url( $couturier_card_icon_id ) ) . '")' ),
+            $couturier_card_image
+        );
+    }
+
     if ( $couturier_card_image ) {
-        $couturier_card_badge = '<span class="wp-block-couturier-icon-card__badge is-offset">' . $couturier_card_image . '</span>';
+        // Hauteur du visuel : 80 px au plus (maquette), bornée ; variable posée hors défaut.
+        $couturier_card_height = max( 32, min( 80, (int) ( $attributes['offsetHeight'] ?? 80 ) ) );
+        $couturier_card_style  = 80 === $couturier_card_height
+            ? ''
+            : sprintf( ' style="%s"', esc_attr( '--icon-card-visual-height: ' . $couturier_card_height . 'px' ) );
+
+        $couturier_card_badge = '<span class="wp-block-couturier-icon-card__badge is-offset"' . $couturier_card_style . '>' . $couturier_card_image . '</span>';
     }
 } elseif ( $couturier_card_icon_id
     && in_array( get_post_mime_type( $couturier_card_icon_id ), [ 'image/svg+xml', 'image/png', 'image/webp' ], true )

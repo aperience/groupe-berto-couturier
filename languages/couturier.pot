@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-12T09:33:09+00:00\n"
+"POT-Creation-Date: 2026-11-12T09:55:19+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -567,7 +567,7 @@ msgstr ""
 #: blocks/cta/index.js:85
 #: blocks/home-hero-card/index.js:250
 #: blocks/home-hero/index.js:57
-#: blocks/icon-card/index.js:243
+#: blocks/icon-card/index.js:275
 #: blocks/image-card/index.js:234
 #: blocks/step/index.js:80
 msgid "Texte"
@@ -1325,7 +1325,7 @@ msgid "Sur-titre"
 msgstr ""
 
 #: blocks/home-hero-card/index.js:249
-#: blocks/icon-card/index.js:242
+#: blocks/icon-card/index.js:274
 #: blocks/image-card/index.js:233
 #: blocks/photo-card/index.js:204
 msgid "Texte de la carte"
@@ -1337,7 +1337,7 @@ msgid "Libellé du bouton"
 msgstr ""
 
 #: blocks/home-hero-card/index.js:267
-#: blocks/icon-card/index.js:250
+#: blocks/icon-card/index.js:282
 #: blocks/image-card/index.js:241
 #: blocks/photo-card/index.js:212
 msgid "Titre obligatoire : sans lui, cette carte n'est pas affichée sur le site."
@@ -1396,25 +1396,25 @@ msgstr ""
 msgid "Le titre principal (H1) est obligatoire : sans lui, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
-#: blocks/icon-card/index.js:172
-#: blocks/icon-card/index.js:178
+#: blocks/icon-card/index.js:190
+#: blocks/icon-card/index.js:196
 #: blocks/image-card/index.js:147
 #: blocks/image-card/index.js:152
 #: blocks/reassurance-item/index.js:190
 msgid "Remplacer le pictogramme"
 msgstr ""
 
-#: blocks/icon-card/index.js:184
+#: blocks/icon-card/index.js:202
 #: blocks/image-card/index.js:158
 msgid "Supprimer le pictogramme"
 msgstr ""
 
-#: blocks/icon-card/index.js:201
+#: blocks/icon-card/index.js:219
 #: blocks/reassurance-item/index.js:205
 msgid "Choisir un pictogramme (SVG de préférence)"
 msgstr ""
 
-#: blocks/icon-card/index.js:213
+#: blocks/icon-card/index.js:231
 #: blocks/image-card/index.js:199
 #: blocks/image-text-icon/index.js:96
 #: blocks/page-hero-tag/index.js:139
@@ -1422,27 +1422,31 @@ msgstr ""
 msgid "Pictogramme"
 msgstr ""
 
-#: blocks/icon-card/index.js:218
+#: blocks/icon-card/index.js:236
 msgid "Présentation"
 msgstr ""
 
-#: blocks/icon-card/index.js:222
+#: blocks/icon-card/index.js:240
 msgid "Pastille"
 msgstr ""
 
-#: blocks/icon-card/index.js:223
+#: blocks/icon-card/index.js:241
 msgid "Visuel décalé"
 msgstr ""
 
-#: blocks/icon-card/index.js:227
-msgid "Image JPG, PNG ou SVG affichée dans ses couleurs, à 80 px de haut, décalée sur un disque. Elle est décorative : son texte alternatif n'est pas utilisé."
+#: blocks/icon-card/index.js:245
+msgid "Image JPG ou PNG affichée dans ses couleurs, ou SVG peint en bleu pétrole, jusqu'à 80 px de haut, décalée sur un disque. Elle est décorative : son texte alternatif n'est pas utilisé."
 msgstr ""
 
-#: blocks/icon-card/index.js:228
+#: blocks/icon-card/index.js:246
 msgid "Un pictogramme SVG est peint en pétrole quelles que soient ses couleurs d'origine ; une image PNG garde les siennes. Il est décoratif : son texte alternatif n'est pas utilisé."
 msgstr ""
 
-#: blocks/icon-card/index.js:232
+#: blocks/icon-card/index.js:252
+msgid "Hauteur du visuel (px)"
+msgstr ""
+
+#: blocks/icon-card/index.js:264
 msgid "Cette image ne peut pas être affichée en pastille : choisissez « Visuel décalé » ou un pictogramme SVG / PNG à fond transparent."
 msgstr ""
 
@@ -2490,7 +2494,7 @@ msgstr ""
 
 #: blocks/icon-card/block.json
 msgctxt "block description"
-msgid "Une carte : pictogramme (SVG de la médiathèque, peint en pétrole) ou visuel décalé sur un disque (JPG, PNG, SVG), titre H3 et texte, sur un fond au choix (blanc, pétrole, pêche ou orange clair)."
+msgid "Une carte : pictogramme (SVG de la médiathèque, peint en pétrole) ou visuel décalé sur un disque (JPG, PNG, SVG, hauteur réglable jusqu'à 80 px), titre H3 et texte, sur un fond au choix (blanc, pétrole, pêche ou orange clair)."
 msgstr ""
 
 #: blocks/icon-cards/block.json
