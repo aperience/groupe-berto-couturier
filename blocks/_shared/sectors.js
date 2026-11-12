@@ -14,5 +14,20 @@ export const SECTORS_URL = 'edit-tags.php?taxonomy=couturier_sector';
 /** @return {{ id: number, name: string }[]} Secteurs, par nom. */
 export const sectors = () => ( Array.isArray( window.couturierSectors ) ? window.couturierSectors : [] );
 
-/** Secteur d'ID `id`, `undefined` s'il n'existe plus. */
-export const findSector = ( id ) => sectors().find( ( sector ) => sector.id === id );
+/**
+ * Secteurs de l'aperçu de l'inserteur (`example` de `couturier/sessions`) : ID
+ * négatifs, jamais en base, pour que les sessions d'exemple soient complètes
+ * (sinon masquées comme au front) quels que soient les secteurs saisis.
+ */
+const EXAMPLE_SECTORS = [
+	{ id: -1, name: 'Dreux' },
+	{ id: -2, name: 'Sainte-Gemme-Moronval' },
+];
+
+/** Secteur d'ID `id` (ou d'exemple si négatif), `undefined` s'il n'existe plus. */
+export const findSector = ( id ) =>
+	( id < 0 ? EXAMPLE_SECTORS : sectors() ).find( ( sector ) => sector.id === id );
+
+/** Secteurs d'ID `ids` : ceux de l'aperçu si tous sont négatifs, sinon la liste réelle. */
+export const sectorsFor = ( ids ) =>
+	ids.size && [ ...ids ].every( ( id ) => id < 0 ) ? EXAMPLE_SECTORS : sectors();

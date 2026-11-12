@@ -15,9 +15,9 @@
 	"example": {
 		"viewportWidth": 1200,
 		"innerBlocks": [
-			{ "name": "couturier/session", "attributes": { "startDate": "2099-10-20", "endDate": "2099-10-22", "city": "Sainte-Gemme-Moronval", "places": 4, "link": { "url": "#" } } },
-			{ "name": "couturier/session", "attributes": { "startDate": "2099-11-17", "endDate": "2099-11-19", "city": "Dreux", "places": 6, "link": { "url": "#" } } },
-			{ "name": "couturier/session", "attributes": { "startDate": "2099-12-08", "endDate": "2099-12-10", "city": "Sainte-Gemme-Moronval", "places": 0 } }
+			{ "name": "couturier/session", "attributes": { "startDate": "2099-10-20", "endDate": "2099-10-22", "city": "Sainte-Gemme-Moronval", "sectorId": -2, "places": 4, "link": { "url": "#" } } },
+			{ "name": "couturier/session", "attributes": { "startDate": "2099-11-17", "endDate": "2099-11-19", "city": "Dreux", "sectorId": -1, "places": 6, "link": { "url": "#" } } },
+			{ "name": "couturier/session", "attributes": { "startDate": "2099-12-08", "endDate": "2099-12-10", "city": "Sainte-Gemme-Moronval", "sectorId": -2, "places": 0 } }
 		]
 	},
 	"editorScript": "file:./index.js",

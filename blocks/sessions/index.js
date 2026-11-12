@@ -16,7 +16,7 @@ import { useEffect } from '@wordpress/element';
 import { __ } from '@wordpress/i18n';
 
 import { plus } from '../_shared/icons.js';
-import { sectors } from '../_shared/sectors.js';
+import { sectorsFor } from '../_shared/sectors.js';
 import metadata from './block.json';
 
 const ITEM = 'couturier/session';
@@ -57,7 +57,7 @@ function Edit( { clientId, isSelected } ) {
 	}, [ order ] );
 
 	const used = new Set( items.map( ( item ) => item.attributes.sectorId ) );
-	const filters = sectors().filter( ( sector ) => used.has( sector.id ) );
+	const filters = sectorsFor( used ).filter( ( sector ) => used.has( sector.id ) );
 	const hasFilter = filters.length >= 2;
 
 	const addItem = () => {

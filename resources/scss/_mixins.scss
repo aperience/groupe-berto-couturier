@@ -58,7 +58,10 @@
             list-style-position: outside;
         }
 
-        li > .block-editor-rich-text__editable {
+        // Texte d'un élément de liste dans l'éditeur : un `div` (champ
+        // RichText, ou `div` sans classe dans l'aperçu de l'inserteur),
+        // qui renverrait à la ligne le marqueur posé à l'intérieur.
+        li > div {
             display: inline;
         }
 

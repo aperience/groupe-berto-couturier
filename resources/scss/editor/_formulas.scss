@@ -34,6 +34,6 @@
 // (champ RichText, `display: block`), qui renverrait à la ligne le marqueur posé
 // à l'intérieur (`list-style-position: inside`, cf. `block/_formulas.scss`).
 // En ligne, marqueur et texte partagent la ligne, comme au front.
-.wp-block-couturier-formula-note li > .block-editor-rich-text__editable {
+.wp-block-couturier-formula-note li > div {
     display: inline;
 }

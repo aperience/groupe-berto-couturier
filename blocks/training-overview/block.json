@@ -6,14 +6,145 @@
 	"category": "design",
 	"icon": "excerpt-view",
 	"description": "Panneaux de contenu (titre, texte, listes, bouton) suivis de quatre cartes d'informations : public, prérequis, titre et validité, accessibilité.",
-	"keywords": [ "objectifs", "programme", "prérequis", "public", "formation" ],
+	"keywords": [
+		"objectifs",
+		"programme",
+		"prérequis",
+		"public",
+		"formation"
+	],
 	"textdomain": "couturier",
 	"supports": {
 		"html": false,
 		"reusable": false
 	},
 	"example": {
-		"viewportWidth": 1200
+		"viewportWidth": 1200,
+		"innerBlocks": [
+			{
+				"name": "couturier/training-overview-panels",
+				"innerBlocks": [
+					{
+						"name": "couturier/training-overview-panel",
+						"innerBlocks": [
+							{
+								"name": "core/heading",
+								"attributes": {
+									"level": 3,
+									"content": "Objectifs de la formation"
+								}
+							},
+							{
+								"name": "core/paragraph",
+								"attributes": {
+									"content": "Acquérir les compétences nécessaires pour conduire en sécurité et réussir l'examen du permis."
+								}
+							},
+							{
+								"name": "core/list",
+								"innerBlocks": [
+									{
+										"name": "core/list-item",
+										"attributes": {
+											"content": "Maîtriser le véhicule"
+										}
+									},
+									{
+										"name": "core/list-item",
+										"attributes": {
+											"content": "Appréhender la route"
+										}
+									},
+									{
+										"name": "core/list-item",
+										"attributes": {
+											"content": "Circuler dans des conditions difficiles"
+										}
+									}
+								]
+							}
+						]
+					},
+					{
+						"name": "couturier/training-overview-panel",
+						"attributes": {
+							"background": "neutral-50"
+						},
+						"innerBlocks": [
+							{
+								"name": "core/heading",
+								"attributes": {
+									"level": 3,
+									"content": "Programme"
+								}
+							},
+							{
+								"name": "core/list",
+								"innerBlocks": [
+									{
+										"name": "core/list-item",
+										"attributes": {
+											"content": "Code de la route en salle et en ligne"
+										}
+									},
+									{
+										"name": "core/list-item",
+										"attributes": {
+											"content": "Leçons de conduite individuelles"
+										}
+									},
+									{
+										"name": "core/list-item",
+										"attributes": {
+											"content": "Examen blanc avant le passage"
+										}
+									}
+								]
+							},
+							{
+								"name": "core/buttons",
+								"innerBlocks": [
+									{
+										"name": "core/button",
+										"attributes": {
+											"className": "is-style-outline",
+											"text": "Télécharger le programme"
+										}
+									}
+								]
+							}
+						]
+					}
+				]
+			},
+			{
+				"name": "couturier/training-overview-facts",
+				"attributes": {
+					"items": [
+						{
+							"label": "Public",
+							"value": "Dès 17 ans",
+							"background": "peach-300"
+						},
+						{
+							"label": "Prérequis",
+							"value": "Code de la route",
+							"background": "petrol-100"
+						},
+						{
+							"label": "Titre et validité",
+							"value": "Permis B, 15 ans",
+							"background": "petrol-50"
+						},
+						{
+							"label": "Accessibilité PSH",
+							"value": "Nous consulter",
+							"background": "peach-300"
+						}
+					]
+				}
+			}
+		]
 	},
 	"editorScript": "file:./index.js",
 	"render": "file:./render.php"
