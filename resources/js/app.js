@@ -16,6 +16,8 @@ import './image-text.js';
 import './photo-cards.js';
 // Onglets et points du bloc Centre et points de ramassage.
 import './pickup-map.js';
+// Filtre par secteur du bloc Sessions de formation.
+import './sessions.js';
 // Méga menu du header (desktop).
 import './megaMenu.js';
 // Menu mobile du header (sous xl).

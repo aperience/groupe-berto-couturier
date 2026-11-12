@@ -1,0 +1,43 @@
+{
+	"$schema": "https://schemas.wp.org/trunk/block.json",
+	"apiVersion": 3,
+	"name": "couturier/session",
+	"title": "Session de formation",
+	"category": "design",
+	"icon": "calendar-alt",
+	"description": "Une session : dates, ville, secteur du filtre, places disponibles et lien de réservation.",
+	"textdomain": "couturier",
+	"parent": [ "couturier/sessions" ],
+	"attributes": {
+		"startDate": {
+			"type": "string",
+			"default": ""
+		},
+		"endDate": {
+			"type": "string",
+			"default": ""
+		},
+		"city": {
+			"type": "string",
+			"source": "html",
+			"selector": "p.wp-block-couturier-session__city",
+			"role": "content"
+		},
+		"sectorId": {
+			"type": "number",
+			"default": 0
+		},
+		"places": {
+			"type": "number"
+		},
+		"link": {
+			"type": "object"
+		}
+	},
+	"supports": {
+		"html": false,
+		"reusable": false
+	},
+	"editorScript": "file:./index.js",
+	"render": "file:./render.php"
+}

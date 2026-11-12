@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-12T08:10:58+00:00\n"
+"POT-Creation-Date: 2026-11-12T09:33:09+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -48,6 +48,7 @@ msgstr ""
 #: blocks/page-hero-media/render.php:92
 #: blocks/page-hero/render.php:136
 #: blocks/reassurance-item/render.php:66
+#: blocks/session/render.php:105
 #: src/Features/CurrentOffer/CurrentOfferDashboard.php:78
 #: resources/views/partials/footer/bottom.twig:18
 #: resources/views/partials/footer/link.twig:14
@@ -157,6 +158,54 @@ msgstr ""
 
 #: blocks/reviews/render.php:155
 msgid "sur Google (nouvel onglet)"
+msgstr ""
+
+#: blocks/session/render.php:77
+#: blocks/session/index.js:236
+msgid "Complet"
+msgstr ""
+
+#. translators: %s : nombre de places restantes, mis en forme.
+#: blocks/session/render.php:81
+#, php-format
+msgid "%s place"
+msgid_plural "%s places"
+msgstr[0] ""
+msgstr[1] ""
+
+#: blocks/session/render.php:96
+#: blocks/session/index.js:256
+msgid "Réserver"
+msgstr ""
+
+#. translators: complément du bouton « Réserver » pour un lecteur d'écran : 1 : période, 2 : ville.
+#: blocks/session/render.php:100
+#, php-format
+msgid "la session du %1$s à %2$s"
+msgstr ""
+
+#: blocks/sessions/render.php:59
+msgid "Aucune session programmée pour le moment."
+msgstr ""
+
+#: blocks/sessions/render.php:84
+#: blocks/sessions/index.js:92
+msgid "Toutes les villes"
+msgstr ""
+
+#: blocks/sessions/render.php:92
+msgid "Filtrer les sessions par ville"
+msgstr ""
+
+#. translators: annoncé au lecteur d'écran après un filtrage, une seule session.
+#: blocks/sessions/render.php:107
+msgid "1 session affichée"
+msgstr ""
+
+#. translators: annoncé au lecteur d'écran après un filtrage ; %d : nombre de sessions.
+#: blocks/sessions/render.php:109
+#, php-format
+msgid "%d sessions affichées"
 msgstr ""
 
 #. translators: %s : commande à exécuter.
@@ -939,6 +988,163 @@ msgstr ""
 msgid "Expose aux templates le menu principal (méga menu), les accès rapides et les boutons du header."
 msgstr ""
 
+#: src/Features/TrainingSessions/SectorEditorData.php:40
+msgid "Transmet la liste des secteurs à l'éditeur de blocs, pour les choisir dans les sessions de formation."
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:49
+msgid "Déclare les secteurs (menu « Secteurs ») : les boutons du filtre du bloc « Sessions de formation » ; ils n'ont pas de page sur le site."
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:59
+#: src/Features/TrainingSessions/SectorTaxonomy.php:102
+msgid "Secteurs de formation"
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:60
+msgid "Secteur"
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:61
+#: src/Features/TrainingSessions/SectorTaxonomy.php:103
+#: src/Features/TrainingSessions/SectorTaxonomy.php:154
+msgid "Secteurs"
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:62
+msgid "Tous les secteurs"
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:63
+msgid "Modifier le secteur"
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:64
+msgid "Voir le secteur"
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:65
+msgid "Mettre à jour le secteur"
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:66
+msgid "Ajouter un secteur"
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:67
+msgid "Nom du nouveau secteur"
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:68
+msgid "Rechercher des secteurs"
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:69
+msgid "Aucun secteur."
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:70
+msgid "Aucun secteur"
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:71
+msgid "← Retour aux secteurs"
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:72
+msgid "Lien du secteur"
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:73
+msgid "Libellé du bouton du filtre (ex. « Dreux »)."
+msgstr ""
+
+#: src/Features/TrainingSessions/SectorTaxonomy.php:74
+msgid "Identifiant technique, sans effet sur le site."
+msgstr ""
+
+#. translators: date d'une session : 1 : jour, 2 : mois abrégé, 3 : année, ex. « 8 déc. 2026 ».
+#: src/Features/TrainingSessions/SessionDate.php:55
+#, php-format
+msgid "%1$s %2$s %3$s"
+msgstr ""
+
+#. translators: premier jour d'une période dans la même année : 1 : jour, 2 : mois abrégé, ex. « 30 oct. ».
+#: src/Features/TrainingSessions/SessionDate.php:69
+#, php-format
+msgid "%1$s %2$s"
+msgstr ""
+
+#. translators: période d'une session : 1 : premier jour, 2 : dernier jour, ex. « 20–22 oct. 2026 ».
+#: src/Features/TrainingSessions/SessionDate.php:75
+#, php-format
+msgid "%1$s–%2$s"
+msgstr ""
+
+#: src/Features/TrainingSessions/SessionDate.php:84
+msgctxt "mois abrégé"
+msgid "janv."
+msgstr ""
+
+#: src/Features/TrainingSessions/SessionDate.php:85
+msgctxt "mois abrégé"
+msgid "févr."
+msgstr ""
+
+#: src/Features/TrainingSessions/SessionDate.php:86
+msgctxt "mois abrégé"
+msgid "mars"
+msgstr ""
+
+#: src/Features/TrainingSessions/SessionDate.php:87
+msgctxt "mois abrégé"
+msgid "avr."
+msgstr ""
+
+#: src/Features/TrainingSessions/SessionDate.php:88
+msgctxt "mois abrégé"
+msgid "mai"
+msgstr ""
+
+#: src/Features/TrainingSessions/SessionDate.php:89
+msgctxt "mois abrégé"
+msgid "juin"
+msgstr ""
+
+#: src/Features/TrainingSessions/SessionDate.php:90
+msgctxt "mois abrégé"
+msgid "juil."
+msgstr ""
+
+#: src/Features/TrainingSessions/SessionDate.php:91
+msgctxt "mois abrégé"
+msgid "août"
+msgstr ""
+
+#: src/Features/TrainingSessions/SessionDate.php:92
+msgctxt "mois abrégé"
+msgid "sept."
+msgstr ""
+
+#: src/Features/TrainingSessions/SessionDate.php:93
+msgctxt "mois abrégé"
+msgid "oct."
+msgstr ""
+
+#: src/Features/TrainingSessions/SessionDate.php:94
+msgctxt "mois abrégé"
+msgid "nov."
+msgstr ""
+
+#: src/Features/TrainingSessions/SessionDate.php:95
+msgctxt "mois abrégé"
+msgid "déc."
+msgstr ""
+
+#: src/Features/TrainingSessions/SessionPageCache.php:59
+msgid "Vide le cache de page (W3 Total Cache, WP Super Cache) chaque nuit où une session de formation commence ou s'est terminée la veille, et quand un secteur est créé, renommé ou supprimé."
+msgstr ""
+
 #: src/Providers/SetupServiceProvider.php:47
 #: resources/views/partials/header/mobile-menu.twig:20
 #: resources/views/partials/header/nav.twig:11
@@ -990,29 +1196,29 @@ msgstr ""
 msgid "Le titre et le texte sont obligatoires : sans eux, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
-#: blocks/compact-cta/index.js:136
+#: blocks/compact-cta/index.js:138
 msgid "Fond du bandeau"
 msgstr ""
 
-#: blocks/compact-cta/index.js:140
-#: blocks/compact-cta/index.js:146
+#: blocks/compact-cta/index.js:142
+#: blocks/compact-cta/index.js:148
 msgid "Largeur"
 msgstr ""
 
-#: blocks/compact-cta/index.js:150
+#: blocks/compact-cta/index.js:152
 msgid "Compacte"
 msgstr ""
 
-#: blocks/compact-cta/index.js:151
+#: blocks/compact-cta/index.js:153
 msgid "Pleine largeur"
 msgstr ""
 
-#: blocks/compact-cta/index.js:159
+#: blocks/compact-cta/index.js:161
 #: blocks/section-title/index.js:122
 msgid "Le titre est obligatoire : sans lui, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
-#: blocks/compact-cta/index.js:172
+#: blocks/compact-cta/index.js:174
 #: blocks/cta/index.js:180
 #: blocks/image-text/index.js:181
 msgid "Image (facultative)"
@@ -1847,6 +2053,106 @@ msgstr ""
 msgid "Sous-titre (facultatif)"
 msgstr ""
 
+#: blocks/session/index.js:107
+msgid "Date de début obligatoire (barre latérale)."
+msgstr ""
+
+#: blocks/session/index.js:110
+msgid "Ville obligatoire."
+msgstr ""
+
+#: blocks/session/index.js:115
+msgid "Secteur supprimé : choisissez-en un autre (barre latérale)."
+msgstr ""
+
+#: blocks/session/index.js:116
+msgid "Secteur obligatoire (barre latérale)."
+msgstr ""
+
+#: blocks/session/index.js:120
+msgid "Lien de réservation obligatoire (cliquer sur « Réserver »), sauf session complète (0 place)."
+msgstr ""
+
+#: blocks/session/index.js:134
+msgid "— Choisir un secteur —"
+msgstr ""
+
+#: blocks/session/index.js:141
+msgid "Dates"
+msgstr ""
+
+#: blocks/session/index.js:146
+msgid "Premier jour"
+msgstr ""
+
+#: blocks/session/index.js:154
+msgid "Dernier jour"
+msgstr ""
+
+#: blocks/session/index.js:155
+msgid "Vide pour une session d'un jour."
+msgstr ""
+
+#: blocks/session/index.js:161
+msgid "Dès le premier jour, la session reste affichée sur le site mais le nombre de places et le bouton « Réserver » sont retirés : elle n'est plus réservable. Elle disparaît du site le lendemain du dernier jour."
+msgstr ""
+
+#: blocks/session/index.js:164
+msgid "Secteur et places"
+msgstr ""
+
+#: blocks/session/index.js:168
+msgid "Secteur (bouton du filtre, obligatoire)"
+msgstr ""
+
+#: blocks/session/index.js:174
+msgid "Gérer les secteurs"
+msgstr ""
+
+#: blocks/session/index.js:178
+msgid "Places disponibles"
+msgstr ""
+
+#: blocks/session/index.js:179
+msgid "0 : « Complet », sans bouton. Vide : nombre non affiché."
+msgstr ""
+
+#: blocks/session/index.js:194
+msgid "Modifier le lien de réservation"
+msgstr ""
+
+#: blocks/session/index.js:194
+#: blocks/session/index.js:253
+msgid "Ajouter le lien de réservation"
+msgstr ""
+
+#: blocks/session/index.js:221
+msgid "Dates à saisir"
+msgstr ""
+
+#: blocks/session/index.js:226
+#: blocks/session/index.js:227
+msgid "Ville"
+msgstr ""
+
+#: blocks/session/index.js:240
+msgid "place"
+msgid_plural "places"
+msgstr[0] ""
+msgstr[1] ""
+
+#: blocks/session/index.js:265
+msgid "Session non affichée sur le site :"
+msgstr ""
+
+#: blocks/session/index.js:268
+msgid "Session passée : elle n'est plus affichée sur le site."
+msgstr ""
+
+#: blocks/sessions/index.js:80
+msgid "Ajouter une session"
+msgstr ""
+
 #: blocks/step/index.js:79
 msgid "Texte de l'étape"
 msgstr ""
@@ -2643,6 +2949,56 @@ msgctxt "block keyword"
 msgid "intertitre"
 msgstr ""
 
+#: blocks/session/block.json
+msgctxt "block title"
+msgid "Session de formation"
+msgstr ""
+
+#: blocks/session/block.json
+msgctxt "block description"
+msgid "Une session : dates, ville, secteur du filtre, places disponibles et lien de réservation."
+msgstr ""
+
+#: blocks/sessions/block.json
+msgctxt "block title"
+msgid "Sessions de formation"
+msgstr ""
+
+#: blocks/sessions/block.json
+msgctxt "block description"
+msgid "Prochaines sessions d'une formation (dates, ville, places, bouton « Réserver »), avec un filtre par secteur. Les sessions passées sont masquées automatiquement."
+msgstr ""
+
+#: blocks/sessions/block.json
+msgctxt "block keyword"
+msgid "session"
+msgstr ""
+
+#: blocks/sessions/block.json
+msgctxt "block keyword"
+msgid "formation"
+msgstr ""
+
+#: blocks/sessions/block.json
+msgctxt "block keyword"
+msgid "date"
+msgstr ""
+
+#: blocks/sessions/block.json
+msgctxt "block keyword"
+msgid "calendrier"
+msgstr ""
+
+#: blocks/sessions/block.json
+msgctxt "block keyword"
+msgid "réserver"
+msgstr ""
+
+#: blocks/sessions/block.json
+msgctxt "block keyword"
+msgid "planning"
+msgstr ""
+
 #: blocks/step/block.json
 msgctxt "block title"
 msgid "Étape"
@@ -3256,6 +3612,78 @@ msgstr ""
 
 #: resources/views/admin/help/menu.twig:89
 msgid "Chaque enregistrement (menu ou écran « En-tête ») est visible aussitôt sur tout le site."
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:5
+msgid "Qu'est-ce qu'un secteur ?"
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:6
+msgid "Un secteur est le libellé d'un bouton du filtre affiché au-dessus des sessions de formation (« Toutes les villes », « Dreux »…). Chaque session est obligatoirement rattachée à un secteur : un clic sur le bouton n'affiche que les sessions de ce secteur."
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:7
+msgid "Le secteur ne remplace pas la ville : la ville écrite sur chaque session reste affichée telle quelle. Un secteur peut ainsi regrouper plusieurs villes. Par exemple, le secteur « Dreux » regroupe les sessions de Dreux et celles de Sainte-Gemme-Moronval : le visiteur clique sur « Dreux » et voit les deux."
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:9
+msgid "Les secteurs se gèrent dans le menu « Secteurs »."
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:10
+msgid "Ouvrir l'écran des secteurs"
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:13
+msgid "Créer un secteur"
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:15
+msgid "Dans le formulaire « Ajouter un secteur », à gauche, saisissez le nom : c'est exactement le texte du bouton (ex. « Dreux »)."
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:16
+msgid "Le champ « Slug » peut rester vide : il est rempli automatiquement et n'apparaît pas sur le site."
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:17
+msgid "Cliquez sur « Ajouter un secteur »."
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:19
+msgid "Un secteur créé pendant qu'une page est ouverte dans l'éditeur n'y est proposé qu'après avoir rechargé la page."
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:21
+msgid "Renommer un secteur"
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:22
+msgid "Survolez le secteur dans la liste et cliquez sur « Modifier » (ou « Modification rapide »). Le nouveau nom s'affiche aussitôt sur toutes les pages : les sessions restent rattachées au secteur, il n'y a rien à reprendre dans les pages."
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:24
+msgid "Supprimer un secteur"
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:25
+msgid "Chaque session doit avoir un secteur : les sessions qui lui étaient rattachées ne sont plus affichées sur le site tant qu'elles n'ont pas été rattachées à un autre secteur. Dans l'éditeur, ces sessions sont signalées par un avertissement."
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:27
+msgid "Quels boutons sont affichés ?"
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:29
+msgid "Les boutons sont classés par ordre alphabétique, après « Toutes les villes »."
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:30
+msgid "Un secteur n'a de bouton que si au moins une session à venir y est rattachée : un secteur sans session programmée n'apparaît pas, inutile de le supprimer entre deux saisons."
+msgstr ""
+
+#: resources/views/admin/help/sectors.twig:31
+msgid "Quand toutes les sessions affichées appartiennent au même secteur, le filtre n'est pas affiché : il ne servirait à rien."
 msgstr ""
 
 #: resources/views/base.twig:13

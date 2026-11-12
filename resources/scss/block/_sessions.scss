@@ -1,0 +1,195 @@
+// ─── Bloc « Sessions de formation » (couturier/sessions) ─────────────────────
+//
+// Figma : desktop 301:7062 (ligne), 301:7056…7060 (filtres) ; mobile 608:1535
+// (ligne), 606:1486 (filtres). Balisage (front : `render.php` des deux blocs ;
+// éditeur : leurs `index.js`, même balisage) :
+//
+//   div.wp-block-couturier-sessions
+//     div.__filters[role=group] > button.__filter[aria-pressed] ×n  ← `hidden` sans JS
+//     ul.__list
+//       li.wp-block-couturier-session(.is-full)[data-sector]
+//         p.__date > time · p.__city · p.__places(> span.__count) · div.wp-block-buttons.__booking
+//     p.__status.visually-hidden[role=status]
+//
+// Bouton « Réserver » : balisage du bloc Bouton (style `deep` fléché), mis en
+// forme par `block/_button.scss`.
+//
+// Écarts à la maquette : rayon 26 px → `lg` (28) du design system ; écarts
+// inégaux entre filtres (24,5 / 20 px) → 8 px partout ; textes autorisés à
+// passer à la ligne (villes longues, 320 px, zoom 200 %).
+
+.wp-block-couturier-sessions {
+    // Toute la largeur du conteneur (1136 px en desktop), et non les 1063 px
+    // de la maquette (demande d'Aurélien).
+    margin-block: var(--layout-section-gap);
+}
+
+// ─── Filtres ──────────────────────────────────────────────────────────────────
+
+.wp-block-couturier-sessions__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-8);
+    margin-bottom: var(--space-12);
+
+    &[hidden] {
+        display: none;
+    }
+
+    @include media-breakpoint-up(md) {
+        margin-bottom: var(--space-16);
+    }
+}
+
+.wp-block-couturier-sessions__filter {
+    min-height: to-rem(35);
+    padding: var(--space-8) to-rem(18);
+    border: 0;
+    border-radius: var(--bs-border-radius-pill);
+    background-color: var(--color-surface-card);
+    color: var(--color-text-heading);
+    font-size: to-rem(13.5);
+    font-weight: 700;
+    line-height: 1.25;
+    cursor: pointer;
+    transition: background-color .2s ease, color .2s ease;
+
+    &[aria-pressed="true"] {
+        background-color: var(--color-surface-brand);
+        color: var(--color-text-on-brand);
+    }
+
+    // Survol : absent de la maquette, fond pétrole très clair.
+    &:hover:not([aria-pressed="true"]) {
+        background-color: var(--color-surface-petrol-faint);
+    }
+
+    &:focus-visible {
+        outline: 2px solid var(--color-border-strong);
+        outline-offset: 2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
+
+// ─── Liste ────────────────────────────────────────────────────────────────────
+
+.wp-block-couturier-sessions__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-12);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.wp-block-couturier-sessions__empty {
+    margin: 0;
+    text-align: center;
+}
+
+// ─── Session ──────────────────────────────────────────────────────────────────
+// Mobile : date, ville et places empilées à gauche, bouton à droite, centré.
+// Desktop (`md`) : une ligne date | ville | places | bouton.
+
+.wp-block-couturier-session {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: var(--space-16);
+    row-gap: var(--space-4);
+    padding: var(--space-16) var(--space-20);
+    border-radius: var(--bs-border-radius-lg);
+    background-color: var(--color-surface-petrol-faint);
+
+    &[hidden] {
+        display: none;
+    }
+
+    // Canvas : la marge automatique des blocs (`.wp-block`) centrerait et
+    // rétrécirait la session ; toute la largeur, comme au front.
+    &.wp-block {
+        width: auto;
+        max-width: none;
+        margin: 0;
+    }
+
+    > p {
+        grid-column: 1;
+        margin: 0;
+    }
+
+    @include media-breakpoint-up(md) {
+        grid-template-columns: to-rem(168) minmax(0, 1fr) auto auto;
+        column-gap: to-rem(42);
+        min-height: to-rem(88);
+        padding: var(--space-20) to-rem(42);
+
+        > p {
+            grid-column: auto;
+        }
+    }
+}
+
+.wp-block-couturier-session__date {
+    color: var(--color-text-heading);
+    font-size: to-rem(18);
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.wp-block-couturier-session__city {
+    color: var(--color-text-default);
+    font-size: to-rem(14);
+    line-height: 1.4;
+
+    @include media-breakpoint-up(md) {
+        font-size: to-rem(16);
+    }
+}
+
+// Mobile : tout en orange foncé ; desktop : nombre en orange, « places » atténué.
+.wp-block-couturier-session__places {
+    color: var(--color-text-accent);
+    font-size: to-rem(13);
+    line-height: 1.3;
+
+    @include media-breakpoint-up(md) {
+        color: var(--color-text-muted);
+        text-align: right;
+
+        .wp-block-couturier-session__count {
+            color: var(--color-text-accent);
+        }
+    }
+}
+
+// « Complet » : en orange foncé à toutes les tailles.
+.wp-block-couturier-session.is-full .wp-block-couturier-session__places {
+    color: var(--color-text-accent);
+    font-weight: 700;
+}
+
+// Bouton : à droite, sur toute la hauteur des textes en mobile.
+.wp-block-couturier-session > .wp-block-couturier-session__booking {
+    grid-column: 2;
+    grid-row: 1 / span 3;
+    margin: 0;
+
+    @include media-breakpoint-up(md) {
+        grid-column: 4;
+        grid-row: auto;
+    }
+}
+
+// Session complète, sans bouton : places sous la ville en mobile, colonne
+// des places conservée en desktop.
+.wp-block-couturier-session.is-full {
+    @include media-breakpoint-up(md) {
+        > .wp-block-couturier-session__places {
+            grid-column: 3;
+        }
+    }
+}

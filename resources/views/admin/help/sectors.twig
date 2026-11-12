@@ -1,0 +1,32 @@
+{#
+    Aide de l'admin, onglet « Secteurs » (feature TrainingSessions\SectorTaxonomy).
+    Données : `sectors_url` (écran des secteurs).
+#}
+<h2>{{ __("Qu'est-ce qu'un secteur ?", 'couturier') }}</h2>
+<p>{{ __("Un secteur est le libellé d'un bouton du filtre affiché au-dessus des sessions de formation (« Toutes les villes », « Dreux »…). Chaque session est obligatoirement rattachée à un secteur : un clic sur le bouton n'affiche que les sessions de ce secteur.", 'couturier') }}</p>
+<p>{{ __("Le secteur ne remplace pas la ville : la ville écrite sur chaque session reste affichée telle quelle. Un secteur peut ainsi regrouper plusieurs villes. Par exemple, le secteur « Dreux » regroupe les sessions de Dreux et celles de Sainte-Gemme-Moronval : le visiteur clique sur « Dreux » et voit les deux.", 'couturier') }}</p>
+<p>
+    {{ __("Les secteurs se gèrent dans le menu « Secteurs ».", 'couturier') }}
+    <a href="{{ sectors_url }}">{{ __("Ouvrir l'écran des secteurs", 'couturier') }}</a>
+</p>
+
+<h2>{{ __('Créer un secteur', 'couturier') }}</h2>
+<ol>
+    <li>{{ __("Dans le formulaire « Ajouter un secteur », à gauche, saisissez le nom : c'est exactement le texte du bouton (ex. « Dreux »).", 'couturier') }}</li>
+    <li>{{ __("Le champ « Slug » peut rester vide : il est rempli automatiquement et n'apparaît pas sur le site.", 'couturier') }}</li>
+    <li>{{ __("Cliquez sur « Ajouter un secteur ».", 'couturier') }}</li>
+</ol>
+<p>{{ __("Un secteur créé pendant qu'une page est ouverte dans l'éditeur n'y est proposé qu'après avoir rechargé la page.", 'couturier') }}</p>
+
+<h2>{{ __('Renommer un secteur', 'couturier') }}</h2>
+<p>{{ __("Survolez le secteur dans la liste et cliquez sur « Modifier » (ou « Modification rapide »). Le nouveau nom s'affiche aussitôt sur toutes les pages : les sessions restent rattachées au secteur, il n'y a rien à reprendre dans les pages.", 'couturier') }}</p>
+
+<h2>{{ __('Supprimer un secteur', 'couturier') }}</h2>
+<p>{{ __("Chaque session doit avoir un secteur : les sessions qui lui étaient rattachées ne sont plus affichées sur le site tant qu'elles n'ont pas été rattachées à un autre secteur. Dans l'éditeur, ces sessions sont signalées par un avertissement.", 'couturier') }}</p>
+
+<h2>{{ __('Quels boutons sont affichés ?', 'couturier') }}</h2>
+<ul>
+    <li>{{ __("Les boutons sont classés par ordre alphabétique, après « Toutes les villes ».", 'couturier') }}</li>
+    <li>{{ __("Un secteur n'a de bouton que si au moins une session à venir y est rattachée : un secteur sans session programmée n'apparaît pas, inutile de le supprimer entre deux saisons.", 'couturier') }}</li>
+    <li>{{ __("Quand toutes les sessions affichées appartiennent au même secteur, le filtre n'est pas affiché : il ne servirait à rien.", 'couturier') }}</li>
+</ul>

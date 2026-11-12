@@ -48,6 +48,9 @@ use Theme\Features\Contacts\ContactEditorData;
 use Theme\Features\Contacts\ContactMetaBox;
 use Theme\Features\Contacts\ContactPageCache;
 use Theme\Features\Contacts\ContactPostType;
+use Theme\Features\TrainingSessions\SectorEditorData;
+use Theme\Features\TrainingSessions\SectorTaxonomy;
+use Theme\Features\TrainingSessions\SessionPageCache;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -118,6 +121,10 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new ContactMetaBox(),
             new ContactEditorData($context),
             new ContactPageCache(),
+            // Secteurs des sessions de formation : boutons du filtre (menu « Secteurs »).
+            new SectorTaxonomy(),
+            new SectorEditorData($context),
+            new SessionPageCache(),
             new DisableSiteIcon(),
             new DisableUpdateServices(),
             new DisableUpdates(allow_minor_core: true),

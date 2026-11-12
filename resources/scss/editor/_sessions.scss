@@ -1,0 +1,46 @@
+// ─── Bloc « Sessions de formation » : canvas ─────────────────────────────────
+//
+// Filtres d'aperçu inertes, session passée grisée, session incomplète
+// encadrée, avertissements et bouton d'ajout.
+
+.wp-block-couturier-sessions {
+    .wp-block-couturier-sessions__filters {
+        pointer-events: none;
+    }
+
+    // « Réserver » : ouvre la fenêtre du lien. Bouton du canvas, sans les
+    // styles de bouton de l'éditeur.
+    .wp-block-couturier-session__booking .wp-block-button__link {
+        border: 0;
+        cursor: pointer;
+    }
+
+    .wp-block-couturier-session.is-past > :not(.wp-block-couturier-session__notice) {
+        opacity: .45;
+    }
+
+    .wp-block-couturier-session.is-incomplete {
+        outline: 1px dashed var(--color-border-strong);
+    }
+
+    .wp-block-couturier-session__notice {
+        grid-column: 1 / -1;
+        grid-row: auto;
+        margin: var(--space-8) 0 0;
+    }
+
+    // Bouton « Ajouter une session » : l'enveloppe du core
+    // (`.block-list-appender`) est positionnée en absolu en bas à droite de la
+    // liste, sur la dernière session ; remise dans le flux, sous la liste.
+    .wp-block-couturier-sessions__list > .block-list-appender {
+        position: static;
+        inset: auto;
+        width: auto;
+        max-width: none;
+        margin: 0;
+    }
+
+    .wp-block-couturier-sessions__add {
+        list-style: none;
+    }
+}
