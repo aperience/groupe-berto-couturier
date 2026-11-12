@@ -30,7 +30,7 @@ if ( ! str_contains( $content, '<li' ) ) {
     return;
 }
 
-$couturier_cards_size  = in_array( $attributes['size'] ?? '', [ 'large', 'xlarge' ], true ) ? $attributes['size'] : 'small';
+$couturier_cards_size  = in_array( $attributes['size'] ?? '', [ 'large', 'xlarge', 'xxlarge' ], true ) ? $attributes['size'] : 'small';
 $couturier_cards_track = wp_unique_id( 'photo-cards-' );
 $couturier_cards_nav   = false !== ( $attributes['scrollButtons'] ?? true );
 

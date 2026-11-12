@@ -5,8 +5,8 @@
  * Inséré avec cinq cartes ; les cartes s'ajoutent (bouton « Ajouter une
  * carte »), se retirent et se déplacent librement, sans limite de nombre.
  * Réglage « Taille des cartes » (`size`) : petites (`small`, 5 par ligne en
- * desktop), moyennes (`large`, 4 par ligne) ou grandes (`xlarge`, 3 par ligne) ;
- * valeurs internes conservées d'avant les moyennes. « Activer les boutons de
+ * desktop), moyennes (`large`, 4 par ligne) grandes (`xlarge`, 3 par ligne)
+ * ou très grandes (`xxlarge`, 2 par ligne) ; valeurs internes conservées d'avant les moyennes. « Activer les boutons de
  * défilement » (`scrollButtons`, coché par défaut) : décoché, pas de flèches et
  * cartes à la ligne en desktop (`is-wrapped`). Au-delà, les cartes défilent (`block/_photo-cards.scss`,
  * `resources/js/photo-cards.js`).
@@ -49,7 +49,7 @@ import metadata from './block.json';
 
 const ITEM = 'couturier/photo-card';
 
-const SIZES = [ 'small', 'large', 'xlarge' ];
+const SIZES = [ 'small', 'large', 'xlarge', 'xxlarge' ];
 
 const CARD = [ ITEM, {}, [ TITLE ] ];
 
@@ -199,6 +199,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 								small: __( 'Petites cartes : 5 par ligne en desktop.', 'couturier' ),
 								large: __( 'Cartes moyennes : 4 par ligne en desktop.', 'couturier' ),
 								xlarge: __( 'Grandes cartes : 3 par ligne en desktop.', 'couturier' ),
+								xxlarge: __( 'Très grandes cartes : 2 par ligne en desktop.', 'couturier' ),
 							}[ size ]
 						}
 						value={ size }
@@ -207,6 +208,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 						<ToggleGroupControlOption value="small" label={ __( 'Petites', 'couturier' ) } />
 						<ToggleGroupControlOption value="large" label={ __( 'Moyennes', 'couturier' ) } />
 						<ToggleGroupControlOption value="xlarge" label={ __( 'Grandes', 'couturier' ) } />
+						<ToggleGroupControlOption value="xxlarge" label={ __( 'Très grandes', 'couturier' ) } />
 					</ToggleGroupControl>
 					<ToggleControl
 						__nextHasNoMarginBottom

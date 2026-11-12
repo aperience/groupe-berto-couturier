@@ -2,7 +2,7 @@
 //
 // Balisage (front : `render.php` ; éditeur : `index.js`) :
 //
-//   div.wp-block-couturier-photo-cards.is-size-{small|large|xlarge}(.is-wrapped)
+//   div.wp-block-couturier-photo-cards.is-size-{small|large|xlarge|xxlarge}(.is-wrapped)
 //     ul.__track                                  ← piste défilante
 //       li.wp-block-couturier-photo-card
 //         div.__media > img.__image               ← photo, coins hauts arrondis
@@ -15,11 +15,11 @@
 // Maquettes (Figma 536:7506 petites, 301:6187 grandes) : petites cartes de
 // 212 px (5 par ligne dans 1136 px), grandes de 252 px (4 par ligne), écart de
 // 18-19 px ; « Grandes » (`xlarge`, 3 par ligne), ajout hors maquette, aux
-// marges des moyennes ; photo de 150 px, texte à 20 px (petites) / 27 px (grandes) des
+// marges des moyennes ; « Très grandes » (`xxlarge`, 2 par ligne), idem ; photo de 150 px, texte à 20 px (petites) / 27 px (grandes) des
 // bords ; badge centré à cheval sur le bord haut.
 //
 // Sous `lg` : ruban à largeur de carte fixe, la suivante dépasse, défilement au
-// doigt aimanté. À partir de `lg` : 5, 4 ou 3 cartes dans la largeur, flèches
+// doigt aimanté. À partir de `lg` : 5, 4, 3 ou 2 cartes dans la largeur, flèches
 // au-delà (`resources/js/photo-cards.js`), ou, boutons de défilement désactivés
 // (`is-wrapped`), cartes à la ligne.
 //
@@ -107,7 +107,8 @@ $photo-cards-media-height: to-rem(150);
         flex-basis: to-rem(252);
     }
 
-    .is-size-xlarge & {
+    .is-size-xlarge &,
+    .is-size-xxlarge & {
         --photo-card-padding: var(--space-28);
 
         flex-basis: to-rem(280);
@@ -122,6 +123,10 @@ $photo-cards-media-height: to-rem(150);
 
         .is-size-xlarge & {
             flex-basis: calc((100% - 2 * #{$photo-cards-gap}) / 3);
+        }
+
+        .is-size-xxlarge & {
+            flex-basis: calc((100% - #{$photo-cards-gap}) / 2);
         }
     }
 

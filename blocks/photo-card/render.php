@@ -41,8 +41,12 @@ $couturier_card_y     = round( min( max( (float) ( $couturier_card_focal['y'] ??
 $couturier_card_style = ( 50.0 === $couturier_card_x && 50.0 === $couturier_card_y ) ? '' : sprintf( ' style="--focal: %s%% %s%%"', $couturier_card_x, $couturier_card_y );
 
 // Largeur maximale d'une carte : 280 px (mobile, moyennes en desktop), ~370 px
-// pour les grandes en desktop (3 par ligne).
-$couturier_card_sizes = 'xlarge' === ( $block->context['couturier/photoCardsSize'] ?? '' ) ? '(min-width: 992px) 370px, 280px' : '280px';
+// pour les grandes (3 par ligne) et ~560 px pour les très grandes (2 par ligne) en desktop.
+$couturier_card_sizes = match ( $block->context['couturier/photoCardsSize'] ?? '' ) {
+    'xlarge'  => '(min-width: 992px) 370px, 280px',
+    'xxlarge' => '(min-width: 992px) 560px, 280px',
+    default   => '280px',
+};
 $couturier_card_image = empty( $attributes['imageId'] ) ? '' : wp_get_attachment_image(
     (int) $attributes['imageId'],
     'medium_large',
