@@ -36,6 +36,7 @@ use Theme\Features\Admin\HelpScreen;
 use Theme\Features\Admin\NavMenuDropdowns;
 use Theme\Features\Admin\NestedPagesLinks;
 use Theme\Features\Blocks\BlockImageSizes;
+use Theme\Features\Blocks\BreadcrumbEditorData;
 use Theme\Features\Blocks\BlockLoader;
 use Theme\Features\Blocks\AttachedBlocks;
 use Theme\Features\Blocks\BlockCatalog;
@@ -118,6 +119,7 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new HeadingTextAlign($context),
             new AttachedBlocks($context),
             new BlockImageSizes(),
+            new BreadcrumbEditorData($context),
             // Contacts prédéfinis, choisis dans les héros (menu « Contacts »).
             new ContactPostType(),
             new ContactMetaBox(),

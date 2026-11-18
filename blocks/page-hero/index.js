@@ -108,8 +108,10 @@ const toLink = ( value ) =>
 		: undefined;
 
 /**
- * Aperçu du fil d'Ariane : « Accueil », les pages parentes, le titre de la page.
- * Le fil réel (Rank Math) peut différer (billets : page des articles, catégorie).
+ * Aperçu du fil d'Ariane, calqué sur celui de Rank Math (`Theme\Support\Breadcrumb`) :
+ * « Accueil », puis pour un billet la page des articles et la catégorie principale
+ * (choisie dans Rank Math, sinon la première par ordre alphabétique, comme
+ * `get_the_terms()`), pour une page ses pages parentes, puis le titre.
  */
 function useBreadcrumbPreview() {
 	return useSelect( ( select ) => {
@@ -119,13 +121,39 @@ function useBreadcrumbPreview() {
 			return [];
 		}
 
+		const core = select( coreStore );
 		const postType = editor.getCurrentPostType();
 		const items = [ __( 'Accueil', 'couturier' ) ];
+		const title = editor.getEditedPostAttribute( 'title' ) || __( 'Titre de la page', 'couturier' );
+
+		if ( 'post' === postType ) {
+			// Titre de la page des articles, transmis par `BreadcrumbEditorData`.
+			const blogTitle = window.couturierBreadcrumb?.blogTitle;
+
+			if ( blogTitle ) {
+				items.push( decodeEntities( blogTitle ) );
+			}
+
+			const ids = editor.getEditedPostAttribute( 'categories' ) ?? [];
+			const terms = ids
+				.map( ( id ) => core.getEntityRecord( 'taxonomy', 'category', id ) )
+				.filter( Boolean )
+				.sort( ( a, b ) => a.name.localeCompare( b.name ) );
+			const primaryId = select( 'rank-math' )?.getPrimaryTermID?.();
+			const term = terms.find( ( item ) => item.id === Number( primaryId ) ) ?? terms[ 0 ];
+
+			if ( term ) {
+				items.push( decodeEntities( term.name ) );
+			}
+
+			return [ ...items, title ];
+		}
+
 		const parents = [];
 		let parentId = editor.getEditedPostAttribute( 'parent' );
 
 		for ( let depth = 0; parentId && depth < 5; depth++ ) {
-			const parent = select( coreStore ).getEntityRecord( 'postType', postType, parentId );
+			const parent = core.getEntityRecord( 'postType', postType, parentId );
 
 			if ( ! parent ) {
 				break;
@@ -135,7 +163,7 @@ function useBreadcrumbPreview() {
 			parentId = parent.parent;
 		}
 
-		return [ ...items, ...parents, editor.getEditedPostAttribute( 'title' ) || __( 'Titre de la page', 'couturier' ) ];
+		return [ ...items, ...parents, title ];
 	}, [] );
 }
 

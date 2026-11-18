@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-18T08:46:53+00:00\n"
+"POT-Creation-Date: 2026-11-18T09:35:29+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -97,14 +97,14 @@ msgstr ""
 
 #. translators: %s: note, ex. « 4,8 ».
 #: blocks/page-hero/render.php:97
-#: blocks/page-hero/index.js:155
+#: blocks/page-hero/index.js:183
 #, php-format,js-format
 msgid "%s / 5"
 msgstr ""
 
 #. translators: %s: nombre d'avis.
 #: blocks/page-hero/render.php:100
-#: blocks/page-hero/index.js:156
+#: blocks/page-hero/index.js:184
 #, php-format,js-format
 msgid "%s avis"
 msgid_plural "%s avis"
@@ -274,6 +274,10 @@ msgstr ""
 msgid "Enregistre les blocs sur mesure du thème dans l'éditeur."
 msgstr ""
 
+#: src/Features/Blocks/BreadcrumbEditorData.php:41
+msgid "Transmet à l'éditeur de blocs le titre de la page des articles, pour l'aperçu du fil d'Ariane des billets."
+msgstr ""
+
 #: src/Features/Blocks/ButtonStyles.php:71
 msgid "Propose les boutons du design system (cinq styles, flèche optionnelle) à la place des réglages libres du bloc Bouton."
 msgstr ""
@@ -360,7 +364,7 @@ msgid "E-mail"
 msgstr ""
 
 #: src/Features/Contacts/ContactMetaBox.php:96
-#: blocks/page-hero/index.js:236
+#: blocks/page-hero/index.js:264
 msgid "Facultatif."
 msgstr ""
 
@@ -766,7 +770,7 @@ msgstr ""
 
 #: src/Features/Footer/FooterSettings.php:361
 #: src/Features/Footer/FooterSettings.php:511
-#: blocks/page-hero/index.js:241
+#: blocks/page-hero/index.js:269
 msgid "Lien (facultatif)"
 msgstr ""
 
@@ -1283,7 +1287,7 @@ msgstr ""
 
 #: blocks/cta/index.js:168
 #: blocks/image-text/index.js:205
-#: blocks/page-hero/index.js:304
+#: blocks/page-hero/index.js:332
 msgid "Ajouter des boutons"
 msgstr ""
 
@@ -1554,7 +1558,7 @@ msgid "Choisissez l'image dans le bloc."
 msgstr ""
 
 #: blocks/home-hero/index.js:166
-#: blocks/page-hero/index.js:278
+#: blocks/page-hero/index.js:306
 msgid "Le titre principal (H1) est obligatoire : sans lui, ce bloc n'est pas affiché sur le site."
 msgstr ""
 
@@ -1915,59 +1919,59 @@ msgstr ""
 msgid "Libellé du tag"
 msgstr ""
 
-#: blocks/page-hero/index.js:123
+#: blocks/page-hero/index.js:126
 msgid "Accueil"
 msgstr ""
 
-#: blocks/page-hero/index.js:138
+#: blocks/page-hero/index.js:127
 msgid "Titre de la page"
 msgstr ""
 
-#: blocks/page-hero/index.js:212
+#: blocks/page-hero/index.js:240
 msgid "Le premier bouton est orange avec une flèche, le second à contour."
 msgstr ""
 
-#: blocks/page-hero/index.js:215
+#: blocks/page-hero/index.js:243
 msgid "Avis"
 msgstr ""
 
-#: blocks/page-hero/index.js:218
+#: blocks/page-hero/index.js:246
 msgid "Afficher les avis"
 msgstr ""
 
-#: blocks/page-hero/index.js:219
+#: blocks/page-hero/index.js:247
 msgid "Étoiles, note et nombre d'avis, sous le texte."
 msgstr ""
 
-#: blocks/page-hero/index.js:228
+#: blocks/page-hero/index.js:256
 msgid "Note sur 5"
 msgstr ""
 
-#: blocks/page-hero/index.js:229
+#: blocks/page-hero/index.js:257
 msgid "Note illisible : saisir un nombre entre 0 et 5, ex. 4,8. Les avis ne sont pas affichés."
 msgstr ""
 
-#: blocks/page-hero/index.js:229
+#: blocks/page-hero/index.js:257
 msgid "Ex. 4,8"
 msgstr ""
 
-#: blocks/page-hero/index.js:235
+#: blocks/page-hero/index.js:263
 msgid "Nombre d'avis"
 msgstr ""
 
-#: blocks/page-hero/index.js:252
+#: blocks/page-hero/index.js:280
 msgid "Chiffres clés"
 msgstr ""
 
-#: blocks/page-hero/index.js:255
+#: blocks/page-hero/index.js:283
 msgid "Afficher des chiffres clés"
 msgstr ""
 
-#: blocks/page-hero/index.js:256
+#: blocks/page-hero/index.js:284
 msgid "De 1 à 5 cartes sous le héros, à la place du contact."
 msgstr ""
 
-#: blocks/page-hero/index.js:267
+#: blocks/page-hero/index.js:295
 msgid "Encart posé sous les boutons, à cheval sur le bas du héros, en desktop seulement."
 msgstr ""
 
@@ -4554,6 +4558,7 @@ msgstr ""
 msgid "Si le bouton « %s » ne fonctionne pas, copiez l’adresse ci-dessous dans votre navigateur :"
 msgstr ""
 
+#: resources/views/home.twig:25
 #: resources/views/index.twig:17
 msgid "Aucun contenu trouvé."
 msgstr ""
