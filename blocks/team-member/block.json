@@ -22,7 +22,7 @@
 				"orange-100",
 				"petrol-50"
 			],
-			"default": "petrol-50"
+			"default": "peach-300"
 		},
 		"focalPoint": {
 			"type": "object"

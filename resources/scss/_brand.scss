@@ -257,6 +257,10 @@ $ds-text-styles: (
     pickup-map-tab:     (family: body, weight: 700, size: (14, 14),     line: (18, 18)),
     pickup-point-name:  (family: body, weight: 700, size: (14, 14),     line: (18, 18)),
     pickup-point-hours: (family: body, weight: 500, size: (12.5, 12.5), line: (17, 17)),
+    // Bloc « Équipe » (Figma 301:6581) : nom et fonction des cartes, en Space
+    // Grotesk (interligne « normal » de Figma, arrondi).
+    team-card-name: (family: body, weight: 700, size: (15, 15),     line: (19, 19)),
+    team-card-role: (family: body, weight: 400, size: (12.5, 12.5), line: (16, 16)),
 );
 
 // ═══ 2. Admin et page de connexion ═══════════════════════════════════════════

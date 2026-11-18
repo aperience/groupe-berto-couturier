@@ -154,15 +154,17 @@ final class Contact {
             return '';
         }
 
-        // Photo plein cadre : carte de 252 px en desktop, ~80 % de l'écran en mobile.
+        // Photo ronde de 104 px. Taille `medium` (300 px, non recadrée) plutôt que
+        // `thumbnail` (recadrée au centre) : le point focal garde tout le cadre,
+        // et l'écran haute densité (208 px) reste net.
         $image = $contact['image_id'] ? wp_get_attachment_image(
             $contact['image_id'],
-            'medium_large',
+            'medium',
             false,
             array_filter(
                 [
                     'class'   => 'wp-block-couturier-team__image',
-                    'sizes'   => '(min-width: 992px) 252px, 80vw',
+                    'sizes'   => '104px',
                     'loading' => 'lazy',
                     'style'   => $style,
                 ]

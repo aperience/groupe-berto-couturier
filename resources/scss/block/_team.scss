@@ -5,16 +5,16 @@
 //   div.wp-block-couturier-team
 //     ul.__track
 //       li.__card.is-bg-{fond}(.has-image)       ← fond de la carte au choix
-//         div.__media > img.__image               ← photo (zone teintée sans photo)
+//         div.__media > img.__image               ← photo ronde (disque teinté sans photo)
 //         p.__name                                ← nom affiché, orange
-//         p.__role                                ← fonction, pétrole
+//         p.__role                                ← fonction, pétrole atténué
 //
 // Cartes de 252 px, 4 par ligne. Desktop
 // (`lg`) : 4 cartes par ligne, retour à la ligne au-delà, ligne incomplète centrée. Dessous : ruban qui
 // défile au doigt, aimanté, la carte suivante dépasse.
 //
-// Style des Cartes photo : photo en haut, nom (orange) et fonction (pétrole)
-// dessous, sur le fond choisi.
+// Maquette Figma 301:6581 : photo ronde de 104 px, nom et fonction centrés
+// dessous, sur le fond choisi (pêche par défaut), sans ombre.
 
 $team-gap: var(--space-18);
 
@@ -47,12 +47,13 @@ $team-gap: var(--space-18);
     display: flex;
     flex: 0 0 78%;
     flex-direction: column;
+    align-items: center;
     min-width: 0;
     margin: 0;
-    padding-bottom: var(--space-20);
+    padding: var(--space-18) var(--space-20) var(--space-40);
     border-radius: var(--bs-border-radius-lg);
     background-color: var(--color-surface-peach-soft);
-    box-shadow: var(--bs-box-shadow-sm);
+    text-align: center;
     scroll-snap-align: start;
 
     @include media-breakpoint-up(sm) {
@@ -65,7 +66,6 @@ $team-gap: var(--space-18);
 
     > p {
         margin: 0;
-        padding-inline: var(--space-20);
     }
 }
 
@@ -75,14 +75,14 @@ $team-gap: var(--space-18);
     }
 }
 
-// Photo en haut de la carte, coins hauts arrondis ; sans photo, zone teintée
-// (les cartes d'une rangée restent alignées).
+// Photo ronde de 104 px ; sans photo, disque teinté (les cartes d'une rangée
+// restent alignées).
 .wp-block-couturier-team__media {
     flex-shrink: 0;
-    aspect-ratio: 252 / 212;
-    margin-bottom: var(--space-18);
+    width: to-rem(104);
+    aspect-ratio: 1;
     overflow: hidden;
-    border-radius: var(--bs-border-radius-lg) var(--bs-border-radius-lg) 0 0;
+    border-radius: 50%;
     background-color: var(--color-surface-petrol-faint);
 }
 
@@ -94,15 +94,14 @@ $team-gap: var(--space-18);
     object-position: var(--focal, 50% 50%);
 }
 
-// Styles des Cartes photo : nom comme le sur-titre (`__eyebrow`, orange),
-// fonction comme le titre (`h3`, pétrole), sans balise de titre.
 .wp-block-couturier-team__name {
-    @include text-style(photo-card-eyebrow);
-    margin-bottom: var(--space-4) !important;
+    @include text-style(team-card-name);
+    margin-top: var(--space-12) !important;
     color: var(--color-text-accent);
 }
 
 .wp-block-couturier-team__role {
-    @include text-style(photo-card-title);
-    color: var(--color-text-heading);
+    @include text-style(team-card-role);
+    margin-top: var(--space-4) !important;
+    color: var(--color-text-muted);
 }
