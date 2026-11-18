@@ -45,9 +45,17 @@
 /// Éditeur : le texte d'un élément de liste (`core/list-item`) est un `div`
 /// éditable, suivi de sa liste imbriquée dans le même `li` ; en bloc, il
 /// renverrait sous le marqueur « inside ». Il passe donc en ligne.
-@mixin bullet-lists($text-style: body) {
-    > :is(ul, ol) {
-        @include text-style($text-style);
+///
+/// @param {String} $text-style Style de texte des listes ; `null` : celui du parent
+///                             (bloc dont la taille change selon l'écran).
+/// @param {String} $filter     Restriction ajoutée à `ul` / `ol` (ex. `.wp-block-list`
+///                             pour ne viser que les listes du core, et non un bloc
+///                             du thème rendu en liste).
+@mixin bullet-lists($text-style: body, $filter: '') {
+    > :is(ul, ol)#{$filter} {
+        @if $text-style {
+            @include text-style($text-style);
+        }
         padding-left: 1em;
         list-style-position: inside;
 
@@ -72,15 +80,15 @@
         }
     }
 
-    > ul {
+    > ul#{$filter} {
         text-indent: -1em;
     }
 
-    > ul > li::marker {
+    > ul#{$filter} > li::marker {
         content: "•  ";
     }
 
-    > ol {
+    > ol#{$filter} {
         padding-left: 1.5em;
         text-indent: -1.5em;
     }

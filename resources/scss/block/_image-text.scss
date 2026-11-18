@@ -165,11 +165,10 @@
         > * + * {
             margin-top: var(--space-12);
         }
-    }
 
-    ul,
-    ol {
-        padding-left: var(--space-20);
+        // Listes : puces « • » des listes des blocs (`bullet-lists`), à la taille
+        // du texte (Body, puis Body L).
+        @include bullet-lists(null);
     }
 
     // Liens : couleur du texte et soulignés, la couleur seule ne les distinguerait

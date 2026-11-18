@@ -40,6 +40,7 @@ body {
 // Un partial par bloc dans `block/`, importé ici une seule fois : il vaut pour le
 // front et pour l'éditeur (cf. `blocks/CLAUDE.md`).
 @import 'block/button';
+@import 'block/list';
 @import 'block/cta';
 @import 'block/compact-cta';
 @import 'block/faq';

@@ -1,0 +1,16 @@
+// ─── Listes libres (core/list au premier niveau du contenu) ───────────────────
+//
+// Même rendu que les listes des blocs du thème (encarts Formules, Parcours en
+// étapes, Objectifs et programme) : mixin `bullet-lists` (`_mixins.scss`), puces
+// « • », listes imbriquées indentées, liens soulignés (1.4.1).
+//
+// Premier niveau seulement, comme les titres libres : `.container` de
+// `page.twig` / `single.twig` au front, `.is-root-container` dans l'éditeur. Les
+// listes imbriquées dans un bloc gardent le style de ce bloc. Limité à
+// `.wp-block-list` (classe du core, front et éditeur) : des blocs du thème sont
+// eux-mêmes rendus en liste au premier niveau (`ol` des Étapes, `ul` des Cartes
+// à pictogramme…), et le `.container` sert aussi au header et au pied de page.
+
+:where(.container, .is-root-container) {
+    @include bullet-lists($filter: '.wp-block-list');
+}

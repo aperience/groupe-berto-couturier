@@ -70,6 +70,10 @@ $collapsible-text-max-width: to-rem(1060);
 // Colonnes : même écart que les paragraphes une fois empilées (mobile).
 .wp-block-couturier-collapsible-text-column {
     min-width: 0;
+
+    // Listes : puces « • » des listes des blocs, au style du texte du bloc.
+    @include bullet-lists(null);
+
     margin-block: 0; // Marges par défaut des blocs du canvas.
 
     + .wp-block-couturier-collapsible-text-column {
