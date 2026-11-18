@@ -7,9 +7,9 @@
             {% if not function('has_block', 'couturier/page-hero', post.id) %}
                 <h1>{{ post.title }}</h1>
             {% endif %}
-            <div class="entry-content">
-                {{ post.content|raw }}
-            </div>
+            {# Contenu enfant direct du `.container`, comme dans `page.twig` : les styles
+               des blocs de premier niveau (titres libres…) visent `.container > …`. #}
+            {{ post.content|raw }}
         </div>
     </article>
 {% endblock %}
