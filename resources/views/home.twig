@@ -10,18 +10,6 @@
             {{ post.content|raw }}
         {% endif %}
 
-        {# `for … else` et non `if posts` : un `PostQuery` de Timber est toujours
-           « vrai », même vide — la branche `else` d'un `if` ne s'afficherait jamais. #}
-        {# Page 1 : l'article le plus récent en grande carte, les suivants en grille. #}
-        {% set first_page = posts.pagination.current|default(1) == 1 %}
-        {% for article in posts %}
-            {% if loop.first %}<ul class="post-list">{% endif %}
-            {% include 'partials/post-card.twig' with { article: article, featured: first_page and loop.first } only %}
-            {% if loop.last %}</ul>{% endif %}
-        {% else %}
-            <p>{{ __('Aucun article pour le moment.', 'couturier') }}</p>
-        {% endfor %}
-
-        {% include 'partials/pagination.twig' with { pagination: posts.pagination({ mid_size: 1 }) } only %}
+        {% include 'partials/post-list.twig' with { posts: posts, blog: blog } only %}
     </div>
 {% endblock %}

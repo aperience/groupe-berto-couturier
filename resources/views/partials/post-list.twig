@@ -1,0 +1,35 @@
+{#
+ # Liste des articles : filtre par catégorie, cartes, pagination.
+ # Partagée par la page des articles (`home.twig`) et les archives de catégorie
+ # (`category.twig`).
+ #
+ # Paramètres : `posts` (PostQuery), `blog` (contexte de `Blog\BlogContext`).
+ #}
+{% if blog.categories|length > 1 %}
+    <nav class="category-filter" aria-label="{{ __('Catégories des articles', 'couturier') }}">
+        <ul class="category-filter__list">
+            <li>
+                <a class="category-filter__link" href="{{ blog.url }}"{{ blog.all_current ? ' aria-current="page"' }}>{{ __('Tous les articles', 'couturier') }}</a>
+            </li>
+            {% for category in blog.categories %}
+                <li>
+                    <a class="category-filter__link" href="{{ category.url }}"{{ category.current ? ' aria-current="page"' }}>{{ category.name }}</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </nav>
+{% endif %}
+
+{# Page 1 : l'article le plus récent en grande carte, les suivants en grille.
+   `for … else` et non `if posts` : un `PostQuery` de Timber est toujours
+   « vrai », même vide. #}
+{% set first_page = posts.pagination.current|default(1) == 1 %}
+{% for article in posts %}
+    {% if loop.first %}<ul class="post-list">{% endif %}
+    {% include 'partials/post-card.twig' with { article: article, featured: first_page and loop.first } only %}
+    {% if loop.last %}</ul>{% endif %}
+{% else %}
+    <p class="post-list-empty">{{ __('Aucun article pour le moment.', 'couturier') }}</p>
+{% endfor %}
+
+{% include 'partials/pagination.twig' with { pagination: posts.pagination({ mid_size: 1 }) } only %}
