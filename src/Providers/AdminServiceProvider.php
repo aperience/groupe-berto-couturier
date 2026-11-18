@@ -38,6 +38,7 @@ use Theme\Features\Admin\NestedPagesLinks;
 use Theme\Features\Blocks\BlockImageSizes;
 use Theme\Features\Blocks\BlockLoader;
 use Theme\Features\Blocks\AttachedBlocks;
+use Theme\Features\Blocks\BlockCatalog;
 use Theme\Features\Blocks\ButtonStyles;
 use Theme\Features\Blocks\DisableCorePatterns;
 use Theme\Features\Blocks\DisableDropCap;
@@ -91,6 +92,7 @@ final class AdminServiceProvider implements ServiceProviderInterface
             new NestedPagesLinks($context),
             new NavMenuDropdowns($context),
             new HelpScreen($context),
+            new BlockCatalog(),
             new DisableLockAppearanceTools(),
             new DisableLoginLanguageDropdown(),
             new DisableLoginPrivacyPolicyLink(),

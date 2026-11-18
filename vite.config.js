@@ -103,6 +103,9 @@ export default defineConfig(({ mode, command }) => ({
         // Images des e-mails (logo) : émises dans dist/assets/ et résolues par le
         // manifest (feature Mail\HtmlEmails). Aucun JS n'est chargé.
         email:  path.resolve(__dirname, 'resources/js/email.js'),
+        // Captures du catalogue des blocs (page d'aide), résolues par le manifest
+        // (feature Blocks\BlockCatalog). Aucun JS n'est chargé.
+        'help-blocks': path.resolve(__dirname, 'resources/js/help-blocks.js'),
         // Entrées CSS pures, sans JS d'accompagnement : c'est WordPress qui lit
         // ces deux feuilles, jamais le navigateur via le dev server. Elles sont
         // donc toujours servies depuis dist/assets/, même en `npm run dev`.

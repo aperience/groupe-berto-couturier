@@ -1,0 +1,182 @@
+{#
+    Aide de l'admin, onglet « Catalogue des blocs » (feature Blocks\BlockCatalog).
+    Données : `groups` — famille => liste de { slug, title, description, demo_url, image_url }
+    (titre et description tirés du block.json ; image_url vide sans capture buildée).
+    Les réglages de chaque bloc sont rédigés ci-dessous, dans `settings`, par slug.
+#}
+{% set group_labels = {
+    heroes:   __('En-têtes de page', 'couturier'),
+    text:     __('Titres et textes', 'couturier'),
+    cards:    __('Cartes et listes', 'couturier'),
+    training: __('Formations et parcours', 'couturier'),
+    action:   __('Appels à l’action et avis', 'couturier'),
+} %}
+
+{% set settings = {
+    'home-hero': [
+        __("Un seul par page, proposé uniquement dans l'éditeur de la page d'accueil.", 'couturier'),
+        __("Image de fond, avec un point focal à choisir : il reste visible quel que soit le format de l'écran.", 'couturier'),
+        __('Titre principal de la page, accroche et court texte.', 'couturier'),
+        __('Deux cartes « univers » (auto-école, formation pro) : sur-titre, photo, titre, texte et bouton avec lien. Couleur de chaque carte : pêche ou pétrole.', 'couturier'),
+        __('Sous chaque carte, un contact à choisir parmi ceux du menu « Contacts » (affiché sur ordinateur).', 'couturier'),
+    ],
+    'page-hero': [
+        __("Un seul par page, proposé dans toutes les pages sauf la page d'accueil. Le fil d'Ariane est ajouté automatiquement.", 'couturier'),
+        __('Titre principal de la page, texte et zéro à deux boutons.', 'couturier'),
+        __('Couleur du fond : pêche, rose clair ou pétrole clair.', 'couturier'),
+        __("Avis Google facultatifs : note, nombre d'avis et lien.", 'couturier'),
+        __("Visuel facultatif : photo, avec sur-titre, titre et bouton posés dessus, et jusqu'à deux étiquettes (texte, pictogramme, position réglable sur la photo, masquables sur mobile).", 'couturier'),
+        __('Sous les boutons : soit un contact choisi parmi les contacts, soit une rangée de « chiffres clés » (une à cinq cartes : libellé et valeur), soit rien.', 'couturier'),
+    ],
+    'section-title': [
+        __('Titre de niveau 2 ou 3, avec des mots à mettre en avant en orange.', 'couturier'),
+        __('Sous-titre facultatif.', 'couturier'),
+        __('Alignement : centré ou à gauche.', 'couturier'),
+    ],
+    'image-text': [
+        __("Image facultative, à gauche ou à droite sur ordinateur (toujours au-dessus sur mobile).", 'couturier'),
+        __('Sur-titre, titre avec mots mis en avant et texte libre (paragraphes, listes). Sur ordinateur, un texte long est replié avec un lien « … Plus ».', 'couturier'),
+        __('Rangée de pictogrammes avec libellé et lien facultatif, autant que nécessaire.', 'couturier'),
+        __('Zéro à deux boutons.', 'couturier'),
+    ],
+    'collapsible-text': [
+        __('Titre et deux colonnes de texte libre (paragraphes, listes).', 'couturier'),
+        __('« Une seule colonne » : les deux textes l’un sous l’autre, sur toute la largeur.', 'couturier'),
+        __('« Texte repliable » (activé par défaut) : sur ordinateur, un bouton « Réduire » / « Lire la suite » replie le texte.', 'couturier'),
+    ],
+    'faq': [
+        __('Titre avec mots mis en avant, texte et bouton facultatifs.', 'couturier'),
+        __('Liste de questions et réponses, à ajouter, retirer et réordonner librement. Sur le site, une seule réponse est ouverte à la fois.', 'couturier'),
+    ],
+    'icon-cards': [
+        __('Cartes à ajouter, retirer et réordonner librement : pictogramme, titre et texte.', 'couturier'),
+        __('Nombre de cartes par ligne sur ordinateur : 3 ou 4.', 'couturier'),
+        __('Par carte : couleur de fond (blanc, pétrole clair, pêche, orange clair, gris…).', 'couturier'),
+        __('Par carte : présentation du visuel, « pastille » ou « visuel décalé » (photo ou illustration qui déborde d’un disque, hauteur réglable).', 'couturier'),
+    ],
+    'image-cards': [
+        __('Cartes à ajouter, retirer et réordonner librement : image de fond estompée, pictogramme facultatif, titre et texte.', 'couturier'),
+        __('Nombre de cartes par ligne sur ordinateur : 3 ou 4.', 'couturier'),
+    ],
+    'photo-cards': [
+        __('Cartes à ajouter, retirer et réordonner librement : photo, sur-titre, titre et texte court (liens possibles).', 'couturier'),
+        __('Taille des cartes : petites (5 par ligne), moyennes (4), grandes (3) ou très grandes (2).', 'couturier'),
+        __('Flèches de défilement (activées par défaut) ; désactivées, les cartes passent à la ligne sur ordinateur.', 'couturier'),
+        __('Par carte : couleur de fond, et badge facultatif (ex. « Le + choisi »).', 'couturier'),
+    ],
+    'reassurance': [
+        __('Atouts à ajouter, retirer et réordonner librement : pictogramme, titre et court texte. Jusqu’à quatre par ligne sur ordinateur.', 'couturier'),
+        __('La couleur des pastilles alterne automatiquement (pêche, pétrole clair).', 'couturier'),
+    ],
+    'team': [
+        __('Membres à choisir parmi les contacts (menu « Contacts ») : nom et fonction sont repris automatiquement.', 'couturier'),
+        __('Par membre : photo de la fiche contact avec point focal, ou à défaut couleur de fond au choix.', 'couturier'),
+    ],
+    'logo-strip': [
+        __('Titre et texte facultatifs.', 'couturier'),
+        __('Logos à ajouter, retirer et réordonner librement : image, légende et lien facultatif.', 'couturier'),
+        __('Couleur du fond de la section.', 'couturier'),
+    ],
+    'formulas': [
+        __('Titre avec mots mis en avant et sous-titre facultatif.', 'couturier'),
+        __('Nombre de formules par ligne sur ordinateur : 1 à 4.', 'couturier'),
+        __('Formules à ajouter librement : titre, prix, public visé, détails, bouton (orange ou pétrole foncé) et texte sous le bouton.', 'couturier'),
+        __('Par formule : libellé facultatif (ex. « Le + choisi ») et « Mettre en avant » (fond pétrole, une seule formule à la fois).', 'couturier'),
+        __('Encarts récapitulatifs sous les formules : titre, listes et paragraphes, fond pétrole clair ou pêche.', 'couturier'),
+    ],
+    'training-overview': [
+        __('Panneaux de contenu : titre, paragraphes, listes et bouton facultatif, chacun sur un fond au choix.', 'couturier'),
+        __('Quatre cartes d’informations (public, prérequis, titre et validité, accessibilité) : libellé, valeur et fond au choix.', 'couturier'),
+    ],
+    'sessions': [
+        __('Sessions à ajouter librement : ville, premier et dernier jour, secteur, nombre de places et lien de réservation.', 'couturier'),
+        __('Places à 0 : la session est affichée « Complet », sans bouton.', 'couturier'),
+        __('Les sessions sont triées par date, et masquées automatiquement une fois terminées.', 'couturier'),
+        __('Un filtre par secteur apparaît dès que les sessions couvrent au moins deux secteurs (menu « Secteurs »).', 'couturier'),
+    ],
+    'journey': [
+        __('Image facultative.', 'couturier'),
+        __('Étapes à ajouter librement, numérotées automatiquement : titre et texte, en accordéon (la première est ouverte).', 'couturier'),
+        __('Par étape : couleur de la pastille.', 'couturier'),
+    ],
+    'steps': [
+        __('Étapes à ajouter librement, numérotées automatiquement : titre et texte.', 'couturier'),
+        __('La couleur des pastilles suit une série de quatre couleurs, automatiquement.', 'couturier'),
+    ],
+    'pickup-map': [
+        __('Titre, texte facultatif et adresse du centre (obligatoire) : la carte Google Maps est créée à partir de l’adresse.', 'couturier'),
+        __('Points de ramassage facultatifs : nom, horaires et adresse. Dès qu’il y en a, deux onglets « Le centre » / « Points de ramassage » apparaissent, et un clic sur un point l’affiche sur la carte.', 'couturier'),
+        __('Note facultative sous la liste.', 'couturier'),
+    ],
+    'cta': [
+        __('Titre avec mots mis en avant et texte.', 'couturier'),
+        __('Zéro à deux boutons et image facultative.', 'couturier'),
+    ],
+    'compact-cta': [
+        __('Titre, texte facultatif et zéro à deux boutons.', 'couturier'),
+        __('Image facultative, à gauche.', 'couturier'),
+        __('Largeur : compacte ou pleine.', 'couturier'),
+        __('Couleur du fond du bandeau.', 'couturier'),
+    ],
+    'reviews': [
+        __('Note moyenne et lien vers la fiche Google, saisis à la main.', 'couturier'),
+        __('Trois avis : texte, nom, formation, date facultative et nombre d’étoiles.', 'couturier'),
+        __('Couleur de fond de l’avis mis en avant (sur ordinateur).', 'couturier'),
+    ],
+} %}
+
+<p>{{ __("Voici les blocs créés pour le site. Chacun s'ajoute dans l'éditeur d'une page avec le bouton « + », et ses réglages se trouvent dans le panneau de droite, onglet « Bloc ».", 'couturier') }}</p>
+<p>{{ __("Commun à tous : le réglage « Rapprocher du bloc précédent » (panneau « Espacement ») réduit l'écart avec le bloc du dessus, pour que deux blocs forment une seule section.", 'couturier') }}</p>
+
+<nav class="couturier-catalog__toc" aria-label="{{ __('Sommaire du catalogue', 'couturier') }}">
+    {% for group, blocks in groups %}
+        <div>
+            <h2>{{ group_labels[group] }}</h2>
+            <ul>
+                {% for block in blocks %}
+                    <li><a href="#bloc-{{ block.slug }}">{{ block.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endfor %}
+</nav>
+
+{% for group, blocks in groups %}
+    {% for block in blocks %}
+        <section class="couturier-catalog__block" id="bloc-{{ block.slug }}">
+            <h2>{{ block.title }} <span class="couturier-catalog__group">{{ group_labels[group] }}</span></h2>
+            {% if block.image_url %}
+                {# translators: %s : nom du bloc. #}
+                <img class="couturier-catalog__image" src="{{ block.image_url }}" alt="{{ __('Aperçu du bloc « %s »', 'couturier')|format(block.title) }}" loading="lazy">
+            {% endif %}
+            <p class="couturier-catalog__description">{{ block.description }}</p>
+            {% if settings[block.slug] is defined %}
+                <h3>{{ __('Réglages et contenu', 'couturier') }}</h3>
+                <ul class="couturier-catalog__settings">
+                    {% for item in settings[block.slug] %}
+                        <li>{{ item }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+            <p class="couturier-catalog__links">
+                {% if block.demo_url %}
+                    <a href="{{ block.demo_url|e('esc_url')|raw }}" target="_blank">{{ __('Voir sur le site', 'couturier') }}<span class="screen-reader-text"> {{ __('(nouvel onglet)', 'couturier') }}</span></a>
+                    ·
+                {% endif %}
+                <a href="#wpbody-content">{{ __('Haut de page', 'couturier') }}</a>
+            </p>
+        </section>
+    {% endfor %}
+{% endfor %}
+
+<style>
+    .couturier-catalog__toc { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px 24px; margin: 16px 0 32px; padding: 16px 20px; background: #fff; border: 1px solid #dcdcde; }
+    .couturier-catalog__toc h2 { margin: 0 0 6px; font-size: 14px; }
+    .couturier-catalog__toc ul { margin: 0; }
+    .couturier-catalog__block { margin: 0 0 32px; padding: 20px 24px; background: #fff; border: 1px solid #dcdcde; scroll-margin-top: 48px; }
+    .couturier-catalog__block > h2 { margin-top: 0; }
+    .couturier-catalog__group { margin-left: 8px; font-size: 12px; font-weight: 400; color: #646970; }
+    .couturier-catalog__image { display: block; max-width: 100%; height: auto; margin: 0 0 16px; border: 1px solid #dcdcde; border-radius: 4px; }
+    .couturier-catalog__description { font-size: 14px; font-style: italic; }
+    .couturier-catalog__settings { list-style: disc; padding-left: 20px; }
+</style>

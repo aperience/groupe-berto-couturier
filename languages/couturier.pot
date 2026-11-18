@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-18T08:27:34+00:00\n"
+"POT-Creation-Date: 2026-11-18T08:46:53+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -50,6 +50,7 @@ msgstr ""
 #: blocks/reassurance-item/render.php:66
 #: blocks/session/render.php:105
 #: src/Features/CurrentOffer/CurrentOfferDashboard.php:78
+#: resources/views/admin/help/blocks.twig:163
 #: resources/views/partials/footer/bottom.twig:18
 #: resources/views/partials/footer/link.twig:14
 #: resources/views/partials/header/link.twig:16
@@ -255,6 +256,14 @@ msgstr ""
 
 #: src/Features/Blocks/AttachedBlocks.php:69
 msgid "Ajoute aux blocs du thème le réglage « Rapprocher du bloc précédent » : écart réduit entre deux blocs d'une même section."
+msgstr ""
+
+#: src/Features/Blocks/BlockCatalog.php:98
+msgid "Onglet « Catalogue des blocs » de la page d'aide : aperçu, description et réglages de chaque bloc du thème."
+msgstr ""
+
+#: src/Features/Blocks/BlockCatalog.php:109
+msgid "Catalogue des blocs"
 msgstr ""
 
 #: src/Features/Blocks/BlockImageSizes.php:46
@@ -3516,6 +3525,325 @@ msgstr ""
 
 #: resources/views/404.twig:10
 msgid "Retour à la page d'accueil"
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:8
+msgid "En-têtes de page"
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:9
+msgid "Titres et textes"
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:10
+msgid "Cartes et listes"
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:11
+msgid "Formations et parcours"
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:12
+msgid "Appels à l’action et avis"
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:17
+msgid "Un seul par page, proposé uniquement dans l'éditeur de la page d'accueil."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:18
+msgid "Image de fond, avec un point focal à choisir : il reste visible quel que soit le format de l'écran."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:19
+msgid "Titre principal de la page, accroche et court texte."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:20
+msgid "Deux cartes « univers » (auto-école, formation pro) : sur-titre, photo, titre, texte et bouton avec lien. Couleur de chaque carte : pêche ou pétrole."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:21
+msgid "Sous chaque carte, un contact à choisir parmi ceux du menu « Contacts » (affiché sur ordinateur)."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:24
+msgid "Un seul par page, proposé dans toutes les pages sauf la page d'accueil. Le fil d'Ariane est ajouté automatiquement."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:25
+msgid "Titre principal de la page, texte et zéro à deux boutons."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:26
+msgid "Couleur du fond : pêche, rose clair ou pétrole clair."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:27
+msgid "Avis Google facultatifs : note, nombre d'avis et lien."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:28
+msgid "Visuel facultatif : photo, avec sur-titre, titre et bouton posés dessus, et jusqu'à deux étiquettes (texte, pictogramme, position réglable sur la photo, masquables sur mobile)."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:29
+msgid "Sous les boutons : soit un contact choisi parmi les contacts, soit une rangée de « chiffres clés » (une à cinq cartes : libellé et valeur), soit rien."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:32
+msgid "Titre de niveau 2 ou 3, avec des mots à mettre en avant en orange."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:33
+msgid "Sous-titre facultatif."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:34
+msgid "Alignement : centré ou à gauche."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:37
+msgid "Image facultative, à gauche ou à droite sur ordinateur (toujours au-dessus sur mobile)."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:38
+msgid "Sur-titre, titre avec mots mis en avant et texte libre (paragraphes, listes). Sur ordinateur, un texte long est replié avec un lien « … Plus »."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:39
+msgid "Rangée de pictogrammes avec libellé et lien facultatif, autant que nécessaire."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:40
+msgid "Zéro à deux boutons."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:43
+msgid "Titre et deux colonnes de texte libre (paragraphes, listes)."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:44
+msgid "« Une seule colonne » : les deux textes l’un sous l’autre, sur toute la largeur."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:45
+msgid "« Texte repliable » (activé par défaut) : sur ordinateur, un bouton « Réduire » / « Lire la suite » replie le texte."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:48
+msgid "Titre avec mots mis en avant, texte et bouton facultatifs."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:49
+msgid "Liste de questions et réponses, à ajouter, retirer et réordonner librement. Sur le site, une seule réponse est ouverte à la fois."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:52
+msgid "Cartes à ajouter, retirer et réordonner librement : pictogramme, titre et texte."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:53
+#: resources/views/admin/help/blocks.twig:59
+msgid "Nombre de cartes par ligne sur ordinateur : 3 ou 4."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:54
+msgid "Par carte : couleur de fond (blanc, pétrole clair, pêche, orange clair, gris…)."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:55
+msgid "Par carte : présentation du visuel, « pastille » ou « visuel décalé » (photo ou illustration qui déborde d’un disque, hauteur réglable)."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:58
+msgid "Cartes à ajouter, retirer et réordonner librement : image de fond estompée, pictogramme facultatif, titre et texte."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:62
+msgid "Cartes à ajouter, retirer et réordonner librement : photo, sur-titre, titre et texte court (liens possibles)."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:63
+msgid "Taille des cartes : petites (5 par ligne), moyennes (4), grandes (3) ou très grandes (2)."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:64
+msgid "Flèches de défilement (activées par défaut) ; désactivées, les cartes passent à la ligne sur ordinateur."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:65
+msgid "Par carte : couleur de fond, et badge facultatif (ex. « Le + choisi »)."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:68
+msgid "Atouts à ajouter, retirer et réordonner librement : pictogramme, titre et court texte. Jusqu’à quatre par ligne sur ordinateur."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:69
+msgid "La couleur des pastilles alterne automatiquement (pêche, pétrole clair)."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:72
+msgid "Membres à choisir parmi les contacts (menu « Contacts ») : nom et fonction sont repris automatiquement."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:73
+msgid "Par membre : photo de la fiche contact avec point focal, ou à défaut couleur de fond au choix."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:76
+msgid "Titre et texte facultatifs."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:77
+msgid "Logos à ajouter, retirer et réordonner librement : image, légende et lien facultatif."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:78
+msgid "Couleur du fond de la section."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:81
+msgid "Titre avec mots mis en avant et sous-titre facultatif."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:82
+msgid "Nombre de formules par ligne sur ordinateur : 1 à 4."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:83
+msgid "Formules à ajouter librement : titre, prix, public visé, détails, bouton (orange ou pétrole foncé) et texte sous le bouton."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:84
+msgid "Par formule : libellé facultatif (ex. « Le + choisi ») et « Mettre en avant » (fond pétrole, une seule formule à la fois)."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:85
+msgid "Encarts récapitulatifs sous les formules : titre, listes et paragraphes, fond pétrole clair ou pêche."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:88
+msgid "Panneaux de contenu : titre, paragraphes, listes et bouton facultatif, chacun sur un fond au choix."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:89
+msgid "Quatre cartes d’informations (public, prérequis, titre et validité, accessibilité) : libellé, valeur et fond au choix."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:92
+msgid "Sessions à ajouter librement : ville, premier et dernier jour, secteur, nombre de places et lien de réservation."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:93
+msgid "Places à 0 : la session est affichée « Complet », sans bouton."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:94
+msgid "Les sessions sont triées par date, et masquées automatiquement une fois terminées."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:95
+msgid "Un filtre par secteur apparaît dès que les sessions couvrent au moins deux secteurs (menu « Secteurs »)."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:98
+msgid "Image facultative."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:99
+msgid "Étapes à ajouter librement, numérotées automatiquement : titre et texte, en accordéon (la première est ouverte)."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:100
+msgid "Par étape : couleur de la pastille."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:103
+msgid "Étapes à ajouter librement, numérotées automatiquement : titre et texte."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:104
+msgid "La couleur des pastilles suit une série de quatre couleurs, automatiquement."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:107
+msgid "Titre, texte facultatif et adresse du centre (obligatoire) : la carte Google Maps est créée à partir de l’adresse."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:108
+msgid "Points de ramassage facultatifs : nom, horaires et adresse. Dès qu’il y en a, deux onglets « Le centre » / « Points de ramassage » apparaissent, et un clic sur un point l’affiche sur la carte."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:109
+msgid "Note facultative sous la liste."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:112
+msgid "Titre avec mots mis en avant et texte."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:113
+msgid "Zéro à deux boutons et image facultative."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:116
+msgid "Titre, texte facultatif et zéro à deux boutons."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:117
+msgid "Image facultative, à gauche."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:118
+msgid "Largeur : compacte ou pleine."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:119
+msgid "Couleur du fond du bandeau."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:122
+msgid "Note moyenne et lien vers la fiche Google, saisis à la main."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:123
+msgid "Trois avis : texte, nom, formation, date facultative et nombre d’étoiles."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:124
+msgid "Couleur de fond de l’avis mis en avant (sur ordinateur)."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:128
+msgid "Voici les blocs créés pour le site. Chacun s'ajoute dans l'éditeur d'une page avec le bouton « + », et ses réglages se trouvent dans le panneau de droite, onglet « Bloc »."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:129
+msgid "Commun à tous : le réglage « Rapprocher du bloc précédent » (panneau « Espacement ») réduit l'écart avec le bloc du dessus, pour que deux blocs forment une seule section."
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:131
+msgid "Sommaire du catalogue"
+msgstr ""
+
+#. translators: %s : nom du bloc.
+#: resources/views/admin/help/blocks.twig:150
+#, php-format
+msgid "Aperçu du bloc « %s »"
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:154
+msgid "Réglages et contenu"
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:163
+msgid "Voir sur le site"
+msgstr ""
+
+#: resources/views/admin/help/blocks.twig:166
+msgid "Haut de page"
 msgstr ""
 
 #: resources/views/admin/help/contacts.twig:5

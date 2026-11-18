@@ -97,6 +97,7 @@ npm run dev:blocks    # Watch blocs uniquement
 npm run watch:editor  # Rebuild de dist/assets/ à chaque sauvegarde (feuilles lues par WordPress)
 npm run i18n:pot      # Régénère languages/couturier.pot (chaînes du projet)
 npm run i18n:compile  # Recompile les .l10n.php depuis les .po (inclus dans `build`)
+npm run help:capture  # Captures du catalogue des blocs (depuis le poste, pas le conteneur) ; `-- {nom}` pour un seul bloc
 composer install      # Dépendances PHP (Timber, WP-CLI i18n en dev)
 ```
 
@@ -240,7 +241,7 @@ l'offre du moment, le pied de page et les contacts. Un autre plugin de cache s'a
 | `SetupServiceProvider` | Initialisation du thème, chargé en premier | `Setup/` — `ThemeSupport`, `Menus`, `TwigDump` |
 | `SecurityServiceProvider` | Durcissement : surface d'attaque et informations publiées | `Security/` — `DisableApplicationPasswords`, `DisableUserEnumeration`, `DisableXmlRpc`, `HideLoginErrors`, `SecurityHeaders` |
 | `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat<br>`Footer/` (thème) — `FooterSettings` (écran « Pied de page »), `FooterContext` (`footer` dans le contexte Timber), cf. *Pied de page*<br>`Fonts/` (thème) — `FontPreload` (préchargement des polices du header : Space Grotesk 400, 500, 700 ; rien en mode dev)<br>`Navigation/` (thème) — `MegaMenuFields` (champs des éléments du menu principal), `HeaderSettings` (écran « En-tête »), `NavigationContext` (`navigation` dans le contexte Timber), cf. *Header et méga menu* |
-| `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue et lien « Politique de confidentialité » du login (page de connexion réservée à l'équipe ; à revoir si l'inscription est ouverte), icône du site, mises à jour, commentaires, publication par e-mail, services de mise à jour, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Admin/` (thème) — `NestedPagesLinks` (lien « Pages publiées » du tableau de bord et bouton de retour de l'éditeur des pages vers Nested Pages, si l'extension est active), `HelpScreen` (menu « Aide », cf. *Page d'aide*), `NavMenuDropdowns` (écran des menus : listes « Parent » / « Ordre » du core remplies pour les seuls éléments dépliés, cf. *Header et méga menu*)<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout, sauf le H1 des héros), `PageScopedBlocks` (héros de l'accueil dans la seule page d'accueil, héros de page partout ailleurs), `DisableDropCap` (pas de lettrine sur les paragraphes), `HeadingTextAlign` (titres libres alignés à gauche ou centrés, cf. *Titres libres*), `DisableCorePatterns` (ni compositions du cœur ni compositions distantes du Pattern Directory ; restent celles de `patterns/` et de l’éditeur), `ButtonStyles` (boutons du design system sur `core/button`, cf. *Blocs Gutenberg*), `AttachedBlocks` (réglage « Rapprocher du bloc précédent » des blocs du thème de premier niveau, cf. *Espacement entre blocs*), `BlockImageSizes` (retire le `auto` de l'attribut `sizes` des images `wp-block-couturier-{nom}__image` : sans lui, une image en `width: auto` s'afficherait en 300 px)<br>`Contacts/` (thème) — `ContactPostType`, `ContactMetaBox`, `ContactEditorData`, `ContactPageCache` : contacts prédéfinis des héros, cf. *Contacts prédéfinis*<br>`TrainingSessions/` (thème) — `SectorTaxonomy`, `SectorEditorData`, `SessionPageCache` : secteurs du filtre du bloc Sessions de formation, cf. *Secteurs de formation*<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
+| `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue et lien « Politique de confidentialité » du login (page de connexion réservée à l'équipe ; à revoir si l'inscription est ouverte), icône du site, mises à jour, commentaires, publication par e-mail, services de mise à jour, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Admin/` (thème) — `NestedPagesLinks` (lien « Pages publiées » du tableau de bord et bouton de retour de l'éditeur des pages vers Nested Pages, si l'extension est active), `HelpScreen` (menu « Aide », cf. *Page d'aide*), `NavMenuDropdowns` (écran des menus : listes « Parent » / « Ordre » du core remplies pour les seuls éléments dépliés, cf. *Header et méga menu*)<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout, sauf le H1 des héros), `PageScopedBlocks` (héros de l'accueil dans la seule page d'accueil, héros de page partout ailleurs), `DisableDropCap` (pas de lettrine sur les paragraphes), `HeadingTextAlign` (titres libres alignés à gauche ou centrés, cf. *Titres libres*), `DisableCorePatterns` (ni compositions du cœur ni compositions distantes du Pattern Directory ; restent celles de `patterns/` et de l’éditeur), `ButtonStyles` (boutons du design system sur `core/button`, cf. *Blocs Gutenberg*), `AttachedBlocks` (réglage « Rapprocher du bloc précédent » des blocs du thème de premier niveau, cf. *Espacement entre blocs*), `BlockCatalog` (onglet « Catalogue des blocs » de la page d'aide, cf. *Page d'aide*), `BlockImageSizes` (retire le `auto` de l'attribut `sizes` des images `wp-block-couturier-{nom}__image` : sans lui, une image en `width: auto` s'afficherait en 300 px)<br>`Contacts/` (thème) — `ContactPostType`, `ContactMetaBox`, `ContactEditorData`, `ContactPageCache` : contacts prédéfinis des héros, cf. *Contacts prédéfinis*<br>`TrainingSessions/` (thème) — `SectorTaxonomy`, `SectorEditorData`, `SessionPageCache` : secteurs du filtre du bloc Sessions de formation, cf. *Secteurs de formation*<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
 | `MailServiceProvider` | Forme des e-mails envoyés par `wp_mail()` | `Mail/` (thème) — `HtmlEmails` (cf. *E-mails* plus bas) |
 | `MarketingServiceProvider` | Mise en avant commerciale | `CurrentOffer/` (thème) — `CurrentOfferSettings` (écran « Offre du moment »), `CurrentOfferDashboard` (widget du tableau de bord), `CurrentOfferContext` (`current_offer` dans le contexte Timber), `CurrentOfferPageCache` (purge W3 Total Cache / WP Super Cache), cf. *Offre du moment* |
 | `SeoServiceProvider` | Référencement | `Seo/` — `DocumentTitle`, `MetaDescription`, `SitemapExclusion`, `SeoPanel` (panneau de l'éditeur), `OpenGraph` |
@@ -467,6 +468,7 @@ Sources dans `resources/`, sorties dans `dist/` (noms de fichiers **hachés**, r
 | `resources/js/app.js` + `app.scss` | `dist/assets/app-{hash}.js` et `app-{hash}.css` |
 | `resources/js/login.js` + `login.scss` | `dist/assets/login-{hash}.js` et `login-{hash}.css` (page de connexion) |
 | `resources/js/email.js` → `resources/images/email-logo.png` | `dist/assets/email-logo-{hash}.png` (logo des e-mails, cf. *E-mails*) |
+| `resources/js/help-blocks.js` → `resources/images/help/blocks/*.webp` | `dist/assets/{nom}-{hash}.webp` (captures du catalogue des blocs, cf. *Page d'aide*) |
 | `resources/scss/admin-colors.scss` | `dist/assets/admin-colors-{hash}.css` (jeu de couleurs de l'admin) |
 | `resources/scss/editor-gutenberg.scss` | `dist/assets/editor-gutenberg-{hash}.css` (canvas de l'éditeur) |
 | `resources/fonts/` | `dist/assets/fonts/` |
@@ -680,6 +682,10 @@ section entre deux blocs quels qu'ils soient. Deux exceptions :
    `_content.scss` (`@import 'block/{nom}';`, section « Blocs Gutenberg ») : ils valent alors pour le
    front et pour l'éditeur
 3. `npm run build:blocks`
+4. **L'ajouter au catalogue des blocs** de la page d'aide (bloc de premier niveau seulement) :
+   `BlockCatalog::GROUPS` (famille et page de démonstration), réglages dans le tableau `settings`
+   de `resources/views/admin/help/blocks.twig`, page dans `PAGES` de `bin/capture-blocks.mjs`, puis
+   `npm run help:capture -- {nom}` et `npm run build` (cf. *Catalogue des blocs*)
 
 > **Styles de blocs :** ils vivent dans `resources/scss/block/_*.scss`, plutôt que dans un
 > `style.scss` par bloc, et sont importés par `_content.scss`, lui-même chargé par `app.scss` (front,
@@ -991,10 +997,30 @@ ne pas en ajouter d'office.
 
 | Slug | Priorité | Déclaré par |
 |------|----------|-------------|
+| `blocks` | 5 | `Blocks\BlockCatalog::help_tab()` |
 | `current-offer` | 10 | `CurrentOffer\CurrentOfferSettings::help_tab()` |
 | `menu` | 15 | `Navigation\HeaderSettings::help_tab()` |
 | `footer` | 20 | `Footer\FooterSettings::help_tab()` |
 | `sectors` | 30 | `TrainingSessions\SectorTaxonomy::help_tab()` |
+
+### Catalogue des blocs
+
+Onglet `blocks` (feature `Blocks\BlockCatalog`), destiné au client : une fiche par bloc de premier
+niveau, regroupés par famille, avec capture, description, réglages et lien « Voir sur le site ».
+
+- **Titre et description** : ceux du `block.json`, lus dans le registre de WordPress.
+- **Réglages** : rédigés à la main dans `resources/views/admin/help/blocks.twig` (tableau
+  `settings`, par nom de bloc), en langage client, sans nom d'attribut.
+- **Ordre, familles, page de démonstration** : `BlockCatalog::GROUPS`. **Un nouveau bloc** n'y
+  figure qu'une fois ajouté à `GROUPS`, à `settings` du gabarit et à `PAGES` de
+  `bin/capture-blocks.mjs`, puis capturé.
+- **Captures** : `resources/images/help/blocks/{nom}.webp` (versionnées), émises par l'entrée Vite
+  `help-blocks` et résolues par `ViteManifest` ; sans build ou sans capture, fiche sans image.
+  Régénérées par `npm run help:capture` **depuis le poste** (Playwright de `@wordpress/scripts`
+  avec le Chrome installé, ImageMagick `magick`) sur les pages de démonstration du site local, en
+  1440 px ; puis `npm run build`. Elles montrent le contenu de ces pages : à refaire quand il change.
+- **Modifier un bloc** (rendu, réglages, contenu), c'est aussi revoir sa fiche dans la même passe :
+  réglages du gabarit, `description` du `block.json`, et capture si l'apparence a changé.
 
 ## Blog : permaliens
 

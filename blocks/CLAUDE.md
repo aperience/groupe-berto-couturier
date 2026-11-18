@@ -3,6 +3,13 @@
 Règles de conception des blocs custom (`blocks/{nom}/`). Elles complètent la section « Blocs
 Gutenberg » du `CLAUDE.md` du thème (build, `BlockLoader`, styles), sans la répéter.
 
+> **Tout nouveau bloc de premier niveau s'ajoute au catalogue des blocs** de la page d'aide
+> (fiche, réglages, capture) : étape 4 de « Ajouter un bloc » dans le `CLAUDE.md` du thème.
+>
+> **Un bloc modifié** (rendu, réglages, contenu) : revoir sa fiche du catalogue dans la même passe —
+> réglages dans `resources/views/admin/help/blocks.twig`, `description` du `block.json` si besoin,
+> et capture (`npm run help:capture -- {nom}`, puis `npm run build`) si son apparence a changé.
+
 ---
 
 ## Exigences de l'éditeur (non négociables)

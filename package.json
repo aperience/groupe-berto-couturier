@@ -8,6 +8,7 @@
     "build": "vite build && npm run build:blocks && npm run favicons:generate && npm run og-image:generate && npm run i18n:compile",
     "favicons:generate": "node bin/generate-favicons.mjs",
     "og-image:generate": "node bin/generate-og-image.mjs",
+    "help:capture": "node bin/capture-blocks.mjs",
     "i18n:pot": "bin/wp i18n make-pot . languages/couturier.pot --exclude=dist --file-comment=\"Copyright (C) $(date +%Y) Deefuse. This file is distributed under the GNU General Public License v2 or later.\" --headers='{\"Report-Msgid-Bugs-To\":\"aurelien.chappard@deefuse.fr\"}'",
     "i18n:compile": "bin/wp i18n make-php languages",
     "build:blocks": "wp-scripts build --webpack-src-dir=blocks --output-path=dist/blocks",
