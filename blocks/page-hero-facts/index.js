@@ -68,7 +68,7 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 						<RichText
 							tagName="dt"
 							className="wp-block-couturier-page-hero-facts__label"
-							/* translators: %d: position du chiffre clé. */
+							/* translators: %d: position de l’élément dans la liste. */
 							aria-label={ sprintf( __( 'Libellé %d', 'couturier' ), index + 1 ) }
 							placeholder={ __( 'Libellé', 'couturier' ) }
 							value={ item.label }
@@ -78,7 +78,7 @@ function Edit( { attributes, setAttributes, isSelected } ) {
 						<RichText
 							tagName="dd"
 							className="wp-block-couturier-page-hero-facts__value"
-							/* translators: %d: position du chiffre clé. */
+							/* translators: %d: position de l’élément dans la liste. */
 							aria-label={ sprintf( __( 'Valeur %d', 'couturier' ), index + 1 ) }
 							placeholder={ __( 'Valeur', 'couturier' ) }
 							value={ item.value }

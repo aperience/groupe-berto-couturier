@@ -81,7 +81,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 						<RichText
 							tagName="dt"
 							className={ `${ BASE }__label` }
-							/* translators: %d: position de la carte. */
+							/* translators: %d: position de l’élément dans la liste. */
 							aria-label={ sprintf( __( 'Libellé %d', 'couturier' ), index + 1 ) }
 							placeholder={ __( 'Libellé', 'couturier' ) }
 							value={ item.label }
@@ -92,7 +92,7 @@ function Edit( { attributes, setAttributes, clientId, isSelected } ) {
 						<RichText
 							tagName="dd"
 							className={ `${ BASE }__value` }
-							/* translators: %d: position de la carte. */
+							/* translators: %d: position de l’élément dans la liste. */
 							aria-label={ sprintf( __( 'Valeur %d', 'couturier' ), index + 1 ) }
 							placeholder={ __( 'Valeur', 'couturier' ) }
 							value={ item.value }
