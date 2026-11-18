@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-18T09:35:29+00:00\n"
+"POT-Creation-Date: 2026-11-18T09:47:39+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -39,6 +39,8 @@ msgid "Réduire"
 msgstr ""
 
 #: blocks/collapsible-text/render.php:82
+#: resources/views/home.twig:21
+#: resources/views/index.twig:13
 msgid "Lire la suite"
 msgstr ""
 
@@ -1792,16 +1794,14 @@ msgstr ""
 msgid "Seuls les chiffres renseignés (libellé et valeur) sont affichés sur le site."
 msgstr ""
 
-#. translators: %d: position du chiffre clé.
-#. translators: %d: position de la carte.
+#. translators: %d: position de l’élément dans la liste.
 #: blocks/page-hero-facts/index.js:72
 #: blocks/training-overview-facts/index.js:85
 #, js-format
 msgid "Libellé %d"
 msgstr ""
 
-#. translators: %d: position du chiffre clé.
-#. translators: %d: position de la carte.
+#. translators: %d: position de l’élément dans la liste.
 #: blocks/page-hero-facts/index.js:82
 #: blocks/training-overview-facts/index.js:96
 #, js-format

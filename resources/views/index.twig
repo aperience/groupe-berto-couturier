@@ -10,7 +10,7 @@
                     <a href="{{ post.link }}">{{ post.title }}</a>
                 </h2>
                 <div class="entry-content">
-                    {{ post.excerpt|raw }}
+                    {{ post.excerpt({ read_more: __('Lire la suite', 'couturier') })|raw }}
                 </div>
             </article>
         {% else %}
