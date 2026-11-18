@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-18T10:24:15+00:00\n"
+"POT-Creation-Date: 2026-11-18T10:28:49+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -331,6 +331,42 @@ msgstr ""
 
 #: src/Features/Blog/BlogContext.php:34
 msgid "Expose aux templates les catégories du filtre de la liste des articles."
+msgstr ""
+
+#: src/Features/Blog/CategoryImage.php:48
+msgid "Image du héros des catégories du blog, affichée dans l'en-tête de leur archive comme le héros des pages."
+msgstr ""
+
+#: src/Features/Blog/CategoryImage.php:69
+#: src/Features/Blog/CategoryImage.php:76
+#: src/Features/Blog/CategoryImage.php:134
+msgid "Image du héros"
+msgstr ""
+
+#: src/Features/Blog/CategoryImage.php:92
+#: src/Features/Blog/CategoryImage.php:136
+#: src/Features/Footer/FooterSettings.php:175
+#: src/Features/Footer/FooterSettings.php:496
+msgid "Changer"
+msgstr ""
+
+#: src/Features/Blog/CategoryImage.php:92
+#: src/Features/Blog/CategoryImage.php:137
+#: blocks/_shared/image-field.js:60
+msgid "Choisir une image"
+msgstr ""
+
+#: src/Features/Blog/CategoryImage.php:93
+msgid "Retirer"
+msgstr ""
+
+#: src/Features/Blog/CategoryImage.php:94
+msgid "Affichée à droite du titre dans l'en-tête de l'archive de la catégorie. Le texte alternatif est celui de la médiathèque."
+msgstr ""
+
+#: src/Features/Blog/CategoryImage.php:135
+#: src/Features/Footer/FooterSettings.php:174
+msgid "Utiliser cette image"
 msgstr ""
 
 #: src/Features/Blog/HeroThumbnail.php:53
@@ -721,15 +757,6 @@ msgstr ""
 
 #: src/Features/Footer/FooterSettings.php:173
 msgid "Logo de la certification"
-msgstr ""
-
-#: src/Features/Footer/FooterSettings.php:174
-msgid "Utiliser cette image"
-msgstr ""
-
-#: src/Features/Footer/FooterSettings.php:175
-#: src/Features/Footer/FooterSettings.php:496
-msgid "Changer"
 msgstr ""
 
 #: src/Features/Footer/FooterSettings.php:176
@@ -2500,10 +2527,6 @@ msgstr ""
 
 #: blocks/_shared/contacts.js:79
 msgid "Contact affiché"
-msgstr ""
-
-#: blocks/_shared/image-field.js:60
-msgid "Choisir une image"
 msgstr ""
 
 #: blocks/_shared/image-field.js:79

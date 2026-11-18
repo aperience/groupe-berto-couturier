@@ -2,13 +2,18 @@
 
 {% block content %}
     <div class="container">
-        <header class="archive-header">
-            {{ breadcrumb|raw }}
-            <h1 class="archive-header__title">{{ term.name }}</h1>
-            {% if term.description %}
-                <p class="archive-header__text">{{ term.description }}</p>
-            {% endif %}
-        </header>
+        {# Héros de page construit par Blog\CategoryImage ; à défaut, l'en-tête simple. #}
+        {% if term_hero %}
+            {{ term_hero|raw }}
+        {% else %}
+            <header class="archive-header">
+                {{ breadcrumb|raw }}
+                <h1 class="archive-header__title">{{ term.name }}</h1>
+                {% if term.description %}
+                    <p class="archive-header__text">{{ term.description }}</p>
+                {% endif %}
+            </header>
+        {% endif %}
 
         {% include 'partials/post-list.twig' with { posts: posts, blog: blog } only %}
     </div>

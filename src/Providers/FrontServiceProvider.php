@@ -20,6 +20,7 @@ use Deefuse\ThemeCore\Features\Front\DisableFunctionalities\DisableHeartbeat;
 use Deefuse\ThemeCore\Features\Front\Favicons;
 use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\Blog\BlogContext;
+use Theme\Features\Blog\CategoryImage;
 use Theme\Features\Blog\HeroThumbnail;
 use Theme\Features\Blog\ReadingTime;
 use Theme\Features\Footer\FooterContext;
@@ -80,6 +81,7 @@ final class FrontServiceProvider implements ServiceProviderInterface {
             new HeroThumbnail(),
             new ReadingTime(),
             new BlogContext(),
+            new CategoryImage(),
         ];
     }
 }
