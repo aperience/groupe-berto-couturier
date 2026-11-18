@@ -1,0 +1,43 @@
+{#
+    Aide de l'admin, onglet « Catégories du blog » (feature Blog\CategoryImage).
+    Données : `categories_url` (écran des catégories).
+#}
+<h2>{{ __("À quoi servent les catégories ?", 'couturier') }}</h2>
+<p>{{ __("Les catégories classent les articles du blog. Elles servent à deux choses sur le site :", 'couturier') }}</p>
+<ul>
+    <li>{{ __("le filtre affiché au-dessus de la liste des articles : un bouton « Tous les articles », puis un bouton par catégorie (une liste déroulante sur mobile) ;", 'couturier') }}</li>
+    <li>{{ __("une page par catégorie, qui ne liste que ses articles, avec son propre en-tête : titre, texte d'introduction et image.", 'couturier') }}</li>
+</ul>
+<p>
+    {{ __("Les catégories se gèrent dans le menu « Articles » › « Catégories ».", 'couturier') }}
+    <a href="{{ categories_url }}">{{ __("Ouvrir l'écran des catégories", 'couturier') }}</a>
+</p>
+
+<h2>{{ __("Personnaliser l'en-tête d'une catégorie", 'couturier') }}</h2>
+<p>{{ __("L'en-tête de la page d'une catégorie a la même présentation que celui des pages du site. Il est construit à partir de trois champs de la catégorie :", 'couturier') }}</p>
+<ul>
+    <li>{{ __("« Nom » : le titre principal de la page, et le libellé du bouton dans le filtre ;", 'couturier') }}</li>
+    <li>{{ __("« Description » : le texte d'introduction sous le titre. Facultatif ; s'il est vide, rien n'est affiché. Le texte est affiché sans mise en forme (gras, liens… sont retirés) : une ou deux phrases suffisent ;", 'couturier') }}</li>
+    <li>{{ __("« Image du héros » : l'image affichée à droite du titre. Cliquez sur « Choisir une image » pour la sélectionner dans la médiathèque ou en téléverser une, « Changer » pour la remplacer, « Retirer » pour l'enlever. Facultative : sans image, l'en-tête s'affiche sans visuel.", 'couturier') }}</li>
+</ul>
+<p>{{ __("Le texte alternatif de l'image n'est pas saisi ici : c'est celui renseigné dans la médiathèque. Pensez à le compléter pour les visiteurs malvoyants.", 'couturier') }}</p>
+<p>{{ __("N'oubliez pas de cliquer sur « Mettre à jour » (ou « Ajouter une nouvelle catégorie ») : les modifications sont visibles aussitôt sur le site.", 'couturier') }}</p>
+
+<h2>{{ __('Créer une catégorie', 'couturier') }}</h2>
+<ol>
+    <li>{{ __("Dans le formulaire « Ajouter une nouvelle catégorie », à gauche, saisissez le nom.", 'couturier') }}</li>
+    <li>{{ __("Le champ « Slug » peut rester vide : il est rempli automatiquement à partir du nom et sert d'adresse à la page de la catégorie.", 'couturier') }}</li>
+    <li>{{ __("Laissez « Catégorie parente » sur « Aucune » : le filtre affiche toutes les catégories au même niveau.", 'couturier') }}</li>
+    <li>{{ __("Renseignez si besoin la description et l'image du héros, puis cliquez sur « Ajouter une nouvelle catégorie ».", 'couturier') }}</li>
+</ol>
+
+<h2>{{ __('Renommer ou supprimer une catégorie', 'couturier') }}</h2>
+<p>{{ __("Un nouveau nom s'affiche aussitôt partout : les articles restent rattachés à la catégorie. Évitez en revanche de modifier le slug d'une catégorie déjà publiée : son adresse change, et les liens qui pointaient vers l'ancienne ne fonctionnent plus.", 'couturier') }}</p>
+<p>{{ __("Supprimer une catégorie ne supprime pas ses articles : ceux qui n'ont plus aucune catégorie sont rattachés à la catégorie par défaut, « Actualités », qui elle ne peut pas être supprimée.", 'couturier') }}</p>
+
+<h2>{{ __('Quels boutons sont affichés dans le filtre ?', 'couturier') }}</h2>
+<ul>
+    <li>{{ __("Les boutons sont classés par ordre alphabétique, après « Tous les articles ».", 'couturier') }}</li>
+    <li>{{ __("Une catégorie n'a de bouton que si au moins un article publié y est rattaché : une catégorie vide n'apparaît pas.", 'couturier') }}</li>
+    <li>{{ __("S'il n'y a qu'une seule catégorie utilisée, le filtre n'est pas affiché : il ne servirait à rien.", 'couturier') }}</li>
+</ul>

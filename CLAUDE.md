@@ -1002,6 +1002,7 @@ ne pas en ajouter d'office.
 | `menu` | 15 | `Navigation\HeaderSettings::help_tab()` |
 | `footer` | 20 | `Footer\FooterSettings::help_tab()` |
 | `sectors` | 30 | `TrainingSessions\SectorTaxonomy::help_tab()` |
+| `categories` | 35 | `Blog\CategoryImage::help_tab()` |
 
 ### Catalogue des blocs
 

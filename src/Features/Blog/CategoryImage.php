@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Theme\Features\Blog;
 
 use Deefuse\ThemeCore\Contracts\FeatureInterface;
+use Theme\Features\Admin\HelpScreen;
 use WP_Term;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -41,6 +42,7 @@ final class CategoryImage implements FeatureInterface {
         add_action( 'edited_category', [ $this, 'save' ] );
         add_action( 'admin_enqueue_scripts', [ $this, 'enqueue' ] );
         add_filter( 'timber/context', [ $this, 'add_to_context' ] );
+        add_filter( HelpScreen::TABS_FILTER, [ $this, 'help_tab' ] );
     }
 
     /** Courte description affichée sur la page « Fonctionnalités du thème ». */
@@ -180,5 +182,24 @@ final class CategoryImage implements FeatureInterface {
         $context['term_hero'] = do_blocks( '<!-- wp:couturier/page-hero -->' . $inner . '<!-- /wp:couturier/page-hero -->' );
 
         return $context;
+    }
+
+    /**
+     * Déclare l'onglet « Catégories du blog » de la page d'aide
+     * (gabarit `resources/views/admin/help/categories.twig`).
+     *
+     * @param array<string, array<string, mixed>> $tabs Onglets déjà déclarés.
+     * @return array<string, array<string, mixed>>
+     */
+    public function help_tab( array $tabs ): array {
+        $tabs['categories'] = [
+            'label'    => __( 'Catégories du blog', 'couturier' ),
+            'priority' => 35,
+            'context'  => [
+                'categories_url' => admin_url( 'edit-tags.php?taxonomy=category' ),
+            ],
+        ];
+
+        return $tabs;
     }
 }
