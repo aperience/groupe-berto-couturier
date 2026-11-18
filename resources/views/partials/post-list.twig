@@ -17,6 +17,21 @@
                 </li>
             {% endfor %}
         </ul>
+        {# Mobile (sous lg) : liste déroulante, affichée par category-filter.js
+           à la place des pastilles (sans JS, les pastilles restent). Pas de
+           navigation au changement de choix (WCAG 3.2.2) : bouton « Afficher ». #}
+        <form class="category-filter__form" hidden>
+            <label class="visually-hidden" for="category-filter-select">{{ __('Catégorie', 'couturier') }}</label>
+            <span class="category-filter__field">
+                <select class="category-filter__select" id="category-filter-select">
+                    <option value="{{ blog.url }}"{{ blog.all_current ? ' selected' }}>{{ __('Tous les articles', 'couturier') }}</option>
+                    {% for category in blog.categories %}
+                        <option value="{{ category.url }}"{{ category.current ? ' selected' }}>{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </span>
+            <button class="category-filter__submit" type="submit">{{ __('Afficher', 'couturier') }}</button>
+        </form>
     </nav>
 {% endif %}
 

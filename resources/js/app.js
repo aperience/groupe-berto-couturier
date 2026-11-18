@@ -18,6 +18,8 @@ import './photo-cards.js';
 import './pickup-map.js';
 // Filtre par secteur du bloc Sessions de formation.
 import './sessions.js';
+// Liste déroulante du filtre par catégorie du blog (mobile).
+import './category-filter.js';
 // Méga menu du header (desktop).
 import './megaMenu.js';
 // Menu mobile du header (sous xl).

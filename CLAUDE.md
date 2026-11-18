@@ -1041,8 +1041,8 @@ nom, description facultative, puis la liste). Code PHP dans `src/Features/Blog/`
 - **Article à la une** : en page 1, toujours le plus récent (décision d'Aurélien, pas d'article
   épinglé) — grande carte horizontale à partir de `lg` (photo à gauche, titre H2, extrait Body L),
   empilée en dessous. Pages suivantes : grille seule.
-- Grille 1 / 2 / 3 colonnes (`md`, `lg`), écart 24 px en desktop ; filtre en ruban défilant en
-  mobile, à la ligne à partir de `lg`.
+- Grille 1 / 2 / 3 colonnes (`md`, `lg`), écart 24 px en desktop ; filtre centré ; en mobile (sous `lg`), liste déroulante + bouton « Afficher » (pas de navigation au changement, WCAG 3.2.2 ; `category-filter.js`, sans JS les pastilles restent) ;
+  pastilles à la ligne à partir de `lg`.
 - Styles : `partials/_post-card.scss`, `_pagination.scss`, `_category-filter.scss` (filtre et
   en-tête d'archive), front seulement.
 - ⚠️ Flèches de pagination `#E0EAEC` sur `#FF6B35` (≈ 2,4:1, sous les 3:1 de 1.4.11) : visuel des
