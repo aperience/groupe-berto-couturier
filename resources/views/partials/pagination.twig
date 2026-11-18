@@ -1,0 +1,46 @@
+{#
+ # Pagination d'une liste (Timber : `posts.pagination`).
+ #
+ # Paramètre : `pagination`. Rien n'est rendu s'il n'y a qu'une page.
+ # Précédent / suivant : flèches orange des Cartes photo, nommées en `visually-hidden`.
+ # Page courante : `aria-current="page"`, sans lien.
+ #}
+{% if pagination.total > 1 %}
+    <nav class="pagination-nav" aria-label="{{ __('Pagination des articles', 'couturier') }}">
+        <ul class="pagination-nav__list">
+            {% if pagination.prev.link|default %}
+                <li>
+                    <a class="pagination-nav__arrow is-prev" href="{{ pagination.prev.link }}">
+                        <span class="visually-hidden">{{ __('Page précédente', 'couturier') }}</span>
+                    </a>
+                </li>
+            {% endif %}
+
+            {% for page in pagination.pages %}
+                <li>
+                    {% if page.current %}
+                        <span class="pagination-nav__page" aria-current="page">
+                            <span class="visually-hidden">{{ __('Page', 'couturier') }}</span>
+                            {{ page.title }}
+                        </span>
+                    {% elseif page.link|default %}
+                        <a class="pagination-nav__page" href="{{ page.link }}">
+                            <span class="visually-hidden">{{ __('Page', 'couturier') }}</span>
+                            {{ page.title }}
+                        </a>
+                    {% else %}
+                        <span class="pagination-nav__dots" aria-hidden="true">…</span>
+                    {% endif %}
+                </li>
+            {% endfor %}
+
+            {% if pagination.next.link|default %}
+                <li>
+                    <a class="pagination-nav__arrow is-next" href="{{ pagination.next.link }}">
+                        <span class="visually-hidden">{{ __('Page suivante', 'couturier') }}</span>
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+    </nav>
+{% endif %}

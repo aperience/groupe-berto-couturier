@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-18T09:59:17+00:00\n"
+"POT-Creation-Date: 2026-11-18T10:00:27+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -4607,6 +4607,23 @@ msgstr ""
 
 #: resources/views/partials/header/mobile-menu.twig:68
 msgid "Menu"
+msgstr ""
+
+#: resources/views/partials/pagination.twig:9
+msgid "Pagination des articles"
+msgstr ""
+
+#: resources/views/partials/pagination.twig:14
+msgid "Page précédente"
+msgstr ""
+
+#: resources/views/partials/pagination.twig:23
+#: resources/views/partials/pagination.twig:28
+msgid "Page"
+msgstr ""
+
+#: resources/views/partials/pagination.twig:40
+msgid "Page suivante"
 msgstr ""
 
 #. translators: %d : nombre de minutes.

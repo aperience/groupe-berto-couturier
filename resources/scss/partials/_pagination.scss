@@ -1,0 +1,83 @@
+// ─── Pagination (partials/pagination.twig) ───────────────────────────────────
+//
+//   nav.pagination-nav > ul.__list > li
+//     a.__arrow.is-{prev|next}   ← flèche orange des Cartes photo
+//     a.__page | span.__page[aria-current]
+//     span.__dots
+//
+// Pastilles de 40 px (cible ≥ 24 px, 2.5.8). Page courante en pétrole plein,
+// autres pages en contour pétrole.
+// ⚠️ Flèche #E0EAEC sur #FF6B35 (≈ 2,4:1, sous les 3:1 de 1.4.11) : même
+// visuel que les Cartes photo, couleurs de la maquette.
+
+.pagination-nav {
+    margin-block: var(--layout-section-gap);
+}
+
+.pagination-nav__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-8);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.pagination-nav__page {
+    @include text-style(button);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: to-rem(40);
+    height: to-rem(40);
+    padding-inline: var(--space-8);
+    border: 2px solid var(--color-text-heading);
+    border-radius: var(--bs-border-radius-pill);
+    color: var(--color-text-heading);
+    text-decoration: none;
+    transition: background-color .2s ease, color .2s ease;
+
+    &[aria-current="page"] {
+        background-color: var(--color-text-heading);
+        color: var(--color-surface-card);
+    }
+
+    @at-root a#{&}:hover {
+        background-color: var(--color-surface-petrol-soft);
+    }
+}
+
+.pagination-nav__dots {
+    color: var(--color-text-muted);
+}
+
+.pagination-nav__arrow {
+    display: block;
+    width: to-rem(56);
+    height: to-rem(30);
+    border-radius: var(--bs-border-radius-pill);
+    background: url("../images/icons/photo-cards-arrow.svg") center / 100% 100% no-repeat;
+    transition: opacity .2s ease;
+
+    &.is-prev {
+        transform: scaleX(-1);
+    }
+
+    &:hover {
+        opacity: .85;
+    }
+}
+
+.pagination-nav__page,
+.pagination-nav__arrow {
+    &:focus-visible {
+        outline: 2px solid var(--color-text-heading);
+        outline-offset: 3px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
