@@ -240,7 +240,7 @@ l'offre du moment, le pied de page et les contacts. Un autre plugin de cache s'a
 |----------|------|-----------------------------------|
 | `SetupServiceProvider` | Initialisation du thème, chargé en premier | `Setup/` — `ThemeSupport`, `Menus`, `TwigDump` |
 | `SecurityServiceProvider` | Durcissement : surface d'attaque et informations publiées | `Security/` — `DisableApplicationPasswords`, `DisableUserEnumeration`, `DisableXmlRpc`, `HideLoginErrors`, `SecurityHeaders` |
-| `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat<br>`Footer/` (thème) — `FooterSettings` (écran « Pied de page »), `FooterContext` (`footer` dans le contexte Timber), cf. *Pied de page*<br>`Fonts/` (thème) — `FontPreload` (préchargement des polices du header : Space Grotesk 400, 500, 700 ; rien en mode dev)<br>`Navigation/` (thème) — `MegaMenuFields` (champs des éléments du menu principal), `HeaderSettings` (écran « En-tête »), `NavigationContext` (`navigation` dans le contexte Timber), cf. *Header et méga menu* |
+| `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat<br>`Blog/` (thème) — `HeroThumbnail` (image à la une reprise du héros), `ReadingTime` (filtre Twig `reading_time`), `BlogContext` (`blog` dans le contexte Timber), cf. *Blog : liste des articles*<br>`Footer/` (thème) — `FooterSettings` (écran « Pied de page »), `FooterContext` (`footer` dans le contexte Timber), cf. *Pied de page*<br>`Fonts/` (thème) — `FontPreload` (préchargement des polices du header : Space Grotesk 400, 500, 700 ; rien en mode dev)<br>`Navigation/` (thème) — `MegaMenuFields` (champs des éléments du menu principal), `HeaderSettings` (écran « En-tête »), `NavigationContext` (`navigation` dans le contexte Timber), cf. *Header et méga menu* |
 | `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue et lien « Politique de confidentialité » du login (page de connexion réservée à l'équipe ; à revoir si l'inscription est ouverte), icône du site, mises à jour, commentaires, publication par e-mail, services de mise à jour, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Admin/` (thème) — `NestedPagesLinks` (lien « Pages publiées » du tableau de bord et bouton de retour de l'éditeur des pages vers Nested Pages, si l'extension est active), `HelpScreen` (menu « Aide », cf. *Page d'aide*), `NavMenuDropdowns` (écran des menus : listes « Parent » / « Ordre » du core remplies pour les seuls éléments dépliés, cf. *Header et méga menu*)<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout, sauf le H1 des héros), `PageScopedBlocks` (héros de l'accueil dans la seule page d'accueil, héros de page partout ailleurs), `DisableDropCap` (pas de lettrine sur les paragraphes), `HeadingTextAlign` (titres libres alignés à gauche ou centrés, cf. *Titres libres*), `DisableCorePatterns` (ni compositions du cœur ni compositions distantes du Pattern Directory ; restent celles de `patterns/` et de l’éditeur), `ButtonStyles` (boutons du design system sur `core/button`, cf. *Blocs Gutenberg*), `AttachedBlocks` (réglage « Rapprocher du bloc précédent » des blocs du thème de premier niveau, cf. *Espacement entre blocs*), `BlockCatalog` (onglet « Catalogue des blocs » de la page d'aide, cf. *Page d'aide*), `BreadcrumbEditorData` (titre de la page des articles passé à l'éditeur, `window.couturierBreadcrumb`, pour l'aperçu du fil d'Ariane des billets dans le héros de page), `BlockImageSizes` (retire le `auto` de l'attribut `sizes` des images `wp-block-couturier-{nom}__image` : sans lui, une image en `width: auto` s'afficherait en 300 px)<br>`Contacts/` (thème) — `ContactPostType`, `ContactMetaBox`, `ContactEditorData`, `ContactPageCache` : contacts prédéfinis des héros, cf. *Contacts prédéfinis*<br>`TrainingSessions/` (thème) — `SectorTaxonomy`, `SectorEditorData`, `SessionPageCache` : secteurs du filtre du bloc Sessions de formation, cf. *Secteurs de formation*<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
 | `MailServiceProvider` | Forme des e-mails envoyés par `wp_mail()` | `Mail/` (thème) — `HtmlEmails` (cf. *E-mails* plus bas) |
 | `MarketingServiceProvider` | Mise en avant commerciale | `CurrentOffer/` (thème) — `CurrentOfferSettings` (écran « Offre du moment »), `CurrentOfferDashboard` (widget du tableau de bord), `CurrentOfferContext` (`current_offer` dans le contexte Timber), `CurrentOfferPageCache` (purge W3 Total Cache / WP Super Cache), cf. *Offre du moment* |
@@ -418,7 +418,7 @@ Rendu via **Timber 2.x**. Configuration dans `Kernel::init_timber()`, alimentée
 (`autoescape => 'html'` via le filtre `timber/twig/environment/options`, cf. `Kernel::set_twig_options()`).
 
 - `base.twig` — layout master, blocks Twig : `header`, `content`, `footer`
-- `page.twig`, `single.twig`, `index.twig`, `404.twig` — étendent `base.twig`
+- `page.twig`, `single.twig`, `home.twig`, `category.twig`, `index.twig`, `404.twig` — étendent `base.twig`
 - `partials/` — header, footer, navigation, favicon
 - `emails/` — gabarit des e-mails (`layout.twig`), macros (`macros.twig`) et fragments du projet
 - `admin/help/` — un gabarit par onglet de la page d'aide de l'admin (cf. *Page d'aide*)
@@ -1021,6 +1021,32 @@ niveau, regroupés par famille, avec capture, description, réglages et lien « 
   1440 px ; puis `npm run build`. Elles montrent le contenu de ces pages : à refaire quand il change.
 - **Modifier un bloc** (rendu, réglages, contenu), c'est aussi revoir sa fiche dans la même passe :
   réglages du gabarit, `description` du `block.json`, et capture si l'apparence a changé.
+
+## Blog : liste des articles
+
+Page des articles (`home.php` → `home.twig` : contenu Gutenberg de la page Blog, puis la liste) et
+archives de catégorie (`category.php` → `category.twig` : en-tête pêche avec fil d'Ariane, `<h1>` du
+nom, description facultative, puis la liste). Code PHP dans `src/Features/Blog/`, déclaré dans
+`FrontServiceProvider`.
+
+| Élément | Rôle |
+|---------|------|
+| `partials/post-list.twig` | Filtre par catégorie, cartes, pagination — partagé par les deux gabarits |
+| `partials/post-card.twig` | Carte : vignette décorative (`alt=""`), catégorie en pastille orange à cheval sur la photo, `<time>` · temps de lecture, titre `<h2>` dont le lien est étendu à toute la carte (`::after`, un seul lien), extrait (celui saisi, sinon 22 mots), « Lire l'article → » décoratif |
+| `partials/pagination.twig` | `posts.pagination({ mid_size: 1 })` de Timber : `<nav aria-label>`, pastilles numérotées, page courante `aria-current` sans lien, flèches des Cartes photo nommées en `visually-hidden` ; rien sous deux pages |
+| `Blog\BlogContext` | `blog` dans le contexte (page des articles et catégories seulement) : URL de la page Blog, catégories non vides par nom (catégorie par défaut comprise — renommée « Actualités »), page courante |
+| `Blog\ReadingTime` | Filtre Twig `reading_time` : mots du contenu / 200, au moins 1 minute |
+| `Blog\HeroThumbnail` | Image à la une = image du premier `couturier/page-hero-media`, à l'enregistrement (`wp_after_insert_post`, après l'image à la une de l'API REST). Identifiant posé mémorisé (méta `_couturier_hero_thumbnail`) : tant que l'image à la une est celle-là, elle suit le héros ; choisie à la main, elle n'est plus touchée. Rattrapage : `wp couturier blog sync-thumbnails` |
+
+- **Article à la une** : en page 1, toujours le plus récent (décision d'Aurélien, pas d'article
+  épinglé) — grande carte horizontale à partir de `lg` (photo à gauche, titre H2, extrait Body L),
+  empilée en dessous. Pages suivantes : grille seule.
+- Grille 1 / 2 / 3 colonnes (`md`, `lg`), écart 24 px en desktop ; filtre en ruban défilant en
+  mobile, à la ligne à partir de `lg`.
+- Styles : `partials/_post-card.scss`, `_pagination.scss`, `_category-filter.scss` (filtre et
+  en-tête d'archive), front seulement.
+- ⚠️ Flèches de pagination `#E0EAEC` sur `#FF6B35` (≈ 2,4:1, sous les 3:1 de 1.4.11) : visuel des
+  Cartes photo, couleurs de la maquette.
 
 ## Blog : permaliens
 
