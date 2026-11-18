@@ -1,0 +1,33 @@
+{#
+    Aide de l'admin, onglet « Données structurées » (feature StructuredData\FaqStructuredData).
+    Données : `rich_results_url` (test des résultats enrichis de Google), `validator_url` (validateur Schema.org).
+#}
+<h2>{{ __('À quoi servent les données structurées ?', 'couturier') }}</h2>
+<p>{{ __("Les données structurées sont une description du contenu de la page, invisible pour les visiteurs, destinée aux moteurs de recherche et aux assistants d'intelligence artificielle. Elles les aident à comprendre la page et peuvent enrichir son affichage dans les résultats.", 'couturier') }}</p>
+<p>{{ __("L'essentiel est produit par l'extension Rank Math SEO (organisation, site, fil d'Ariane, page). Le thème y ajoute ce que Rank Math ne sait pas lire : le contenu de ses propres blocs.", 'couturier') }}</p>
+
+<h2>{{ __('Les questions fréquentes', 'couturier') }}</h2>
+<p>{{ __("Chaque page ou article qui contient un bloc « Questions fréquentes » est automatiquement décrit comme une page de FAQ : toutes ses questions et leurs réponses sont reprises, dans l'ordre de la page. Il n'y a rien à faire de plus : publier ou mettre à jour la page suffit.", 'couturier') }}</p>
+<ul>
+    <li>{{ __("Une question sans réponse, ou une réponse sans question, n'est pas reprise (elle n'est pas affichée sur le site non plus).", 'couturier') }}</li>
+    <li>{{ __("Dans une réponse, le gras, l'italique, les liens et les listes sont conservés ; le reste de la mise en forme est ignoré.", 'couturier') }}</li>
+    <li>{{ __("Si plusieurs blocs « Questions fréquentes » sont sur la même page, leurs questions sont regroupées.", 'couturier') }}</li>
+</ul>
+
+<h2>{{ __('Bien rédiger une FAQ', 'couturier') }}</h2>
+<ul>
+    <li>{{ __("Une vraie question, telle qu'un élève ou une entreprise la poserait (« Combien d'heures de conduite faut-il ? »), et une réponse complète qui se comprend seule.", 'couturier') }}</li>
+    <li>{{ __("Des réponses propres à la page : évitez de recopier la même FAQ sur plusieurs pages.", 'couturier') }}</li>
+    <li>{{ __("Pas de publicité ni de texte provisoire : ce qui est écrit dans la FAQ est lu tel quel par les moteurs de recherche.", 'couturier') }}</li>
+</ul>
+
+<h2>{{ __('Le reste du référencement', 'couturier') }}</h2>
+<p>{{ __("Les réglages de Rank Math (coordonnées de l'entreprise, horaires, réseaux sociaux, type de page, indexation…) sont du ressort de la personne chargée du référencement. Le thème complète les données de Rank Math sans les remplacer : si une FAQ a déjà été ajoutée à une page dans Rank Math, celle du bloc n'est pas ajoutée en double.", 'couturier') }}</p>
+
+<h2>{{ __('Vérifier une page', 'couturier') }}</h2>
+<p>{{ __("Collez l'adresse d'une page publiée dans l'un de ces outils :", 'couturier') }}</p>
+<ul>
+    <li><a href="{{ rich_results_url }}" target="_blank" rel="noopener">{{ __('Test des résultats enrichis de Google', 'couturier') }}<span class="screen-reader-text"> {{ __('(nouvel onglet)', 'couturier') }}</span></a></li>
+    <li><a href="{{ validator_url }}" target="_blank" rel="noopener">{{ __('Validateur Schema.org', 'couturier') }}<span class="screen-reader-text"> {{ __('(nouvel onglet)', 'couturier') }}</span></a></li>
+</ul>
+<p>{{ __("Google n'affiche plus les FAQ en résultats enrichis pour la plupart des sites : le test peut donc ne rien « proposer » d'enrichi, sans que ce soit une erreur. Les données restent lues par les moteurs et les assistants.", 'couturier') }}</p>

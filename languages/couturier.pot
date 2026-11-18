@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-18T10:54:03+00:00\n"
+"POT-Creation-Date: 2026-11-18T11:17:05+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -52,6 +52,8 @@ msgstr ""
 #: blocks/session/render.php:105
 #: src/Features/CurrentOffer/CurrentOfferDashboard.php:78
 #: resources/views/admin/help/blocks.twig:163
+#: resources/views/admin/help/structured-data.twig:30
+#: resources/views/admin/help/structured-data.twig:31
 #: resources/views/partials/footer/bottom.twig:18
 #: resources/views/partials/footer/link.twig:14
 #: resources/views/partials/header/link.twig:16
@@ -1085,6 +1087,14 @@ msgstr ""
 
 #: src/Features/Navigation/NavigationContext.php:50
 msgid "Expose aux templates le menu principal (méga menu), les accès rapides et les boutons du header."
+msgstr ""
+
+#: src/Features/StructuredData/FaqStructuredData.php:46
+msgid "Reprend les blocs « Questions fréquentes » dans les données structurées (FAQPage) produites par Rank Math."
+msgstr ""
+
+#: src/Features/StructuredData/FaqStructuredData.php:104
+msgid "Données structurées"
 msgstr ""
 
 #: src/Features/TrainingSessions/SectorEditorData.php:40
@@ -4676,6 +4686,82 @@ msgstr ""
 
 #: resources/views/admin/help/sectors.twig:31
 msgid "Quand toutes les sessions affichées appartiennent au même secteur, le filtre n'est pas affiché : il ne servirait à rien."
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:5
+msgid "À quoi servent les données structurées ?"
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:6
+msgid "Les données structurées sont une description du contenu de la page, invisible pour les visiteurs, destinée aux moteurs de recherche et aux assistants d'intelligence artificielle. Elles les aident à comprendre la page et peuvent enrichir son affichage dans les résultats."
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:7
+msgid "L'essentiel est produit par l'extension Rank Math SEO (organisation, site, fil d'Ariane, page). Le thème y ajoute ce que Rank Math ne sait pas lire : le contenu de ses propres blocs."
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:9
+msgid "Les questions fréquentes"
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:10
+msgid "Chaque page ou article qui contient un bloc « Questions fréquentes » est automatiquement décrit comme une page de FAQ : toutes ses questions et leurs réponses sont reprises, dans l'ordre de la page. Il n'y a rien à faire de plus : publier ou mettre à jour la page suffit."
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:12
+msgid "Une question sans réponse, ou une réponse sans question, n'est pas reprise (elle n'est pas affichée sur le site non plus)."
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:13
+msgid "Dans une réponse, le gras, l'italique, les liens et les listes sont conservés ; le reste de la mise en forme est ignoré."
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:14
+msgid "Si plusieurs blocs « Questions fréquentes » sont sur la même page, leurs questions sont regroupées."
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:17
+msgid "Bien rédiger une FAQ"
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:19
+msgid "Une vraie question, telle qu'un élève ou une entreprise la poserait (« Combien d'heures de conduite faut-il ? »), et une réponse complète qui se comprend seule."
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:20
+msgid "Des réponses propres à la page : évitez de recopier la même FAQ sur plusieurs pages."
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:21
+msgid "Pas de publicité ni de texte provisoire : ce qui est écrit dans la FAQ est lu tel quel par les moteurs de recherche."
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:24
+msgid "Le reste du référencement"
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:25
+msgid "Les réglages de Rank Math (coordonnées de l'entreprise, horaires, réseaux sociaux, type de page, indexation…) sont du ressort de la personne chargée du référencement. Le thème complète les données de Rank Math sans les remplacer : si une FAQ a déjà été ajoutée à une page dans Rank Math, celle du bloc n'est pas ajoutée en double."
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:27
+msgid "Vérifier une page"
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:28
+msgid "Collez l'adresse d'une page publiée dans l'un de ces outils :"
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:30
+msgid "Test des résultats enrichis de Google"
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:31
+msgid "Validateur Schema.org"
+msgstr ""
+
+#: resources/views/admin/help/structured-data.twig:33
+msgid "Google n'affiche plus les FAQ en résultats enrichis pour la plupart des sites : le test peut donc ne rien « proposer » d'enrichi, sans que ce soit une erreur. Les données restent lues par les moteurs et les assistants."
 msgstr ""
 
 #: resources/views/base.twig:13

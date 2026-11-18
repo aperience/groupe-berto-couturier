@@ -17,6 +17,7 @@ use Deefuse\ThemeCore\Features\Seo\OpenGraph;
 use Deefuse\ThemeCore\Features\Seo\SeoPanel;
 use Deefuse\ThemeCore\Features\Seo\SitemapExclusion;
 use Deefuse\ThemeCore\ThemeContext;
+use Theme\Features\StructuredData\FaqStructuredData;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -43,6 +44,8 @@ final class SeoServiceProvider implements ServiceProviderInterface {
             new SitemapExclusion(),
             new SeoPanel( $context ),
             new OpenGraph(),
+            // Blocs « Questions fréquentes » → FAQPage dans le JSON-LD de Rank Math.
+            new FaqStructuredData(),
         ];
     }
 }
