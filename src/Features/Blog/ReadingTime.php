@@ -19,14 +19,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Filtre Twig `reading_time` : minutes de lecture d'un contenu (au moins 1),
- * à 200 mots par minute, balises et commentaires de blocs retirés.
+ * à 189 mots par minute (vitesse du panneau Structure de l’éditeur), balises et commentaires de blocs retirés.
  *
  *     {{ article.post_content|reading_time }}
  */
 final class ReadingTime implements FeatureInterface {
 
-    /** Mots lus par minute. */
-    private const WORDS_PER_MINUTE = 200;
+    /**
+     * Mots lus par minute : AVERAGE_READING_RATE du core (@wordpress/editor,
+     * temps de lecture du panneau Structure), recopiée faute d’être exposée en PHP.
+     */
+    private const WORDS_PER_MINUTE = 189;
 
     public function register(): void {
         add_filter( 'timber/twig', [ $this, 'add_filter' ] );

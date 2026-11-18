@@ -1035,7 +1035,7 @@ nom, description facultative, puis la liste). Code PHP dans `src/Features/Blog/`
 | `partials/post-card.twig` | Carte : vignette décorative (`alt=""`), catégorie en pastille orange à cheval sur la photo, `<time>` · temps de lecture, titre `<h2>` dont le lien est étendu à toute la carte (`::after`, un seul lien), extrait (celui saisi, sinon 22 mots), « Lire l'article → » décoratif |
 | `partials/pagination.twig` | `posts.pagination({ mid_size: 1 })` de Timber : `<nav aria-label>`, pastilles numérotées, page courante `aria-current` sans lien, flèches des Cartes photo nommées en `visually-hidden` ; rien sous deux pages |
 | `Blog\BlogContext` | `blog` dans le contexte (page des articles et catégories seulement) : URL de la page Blog, catégories non vides par nom (catégorie par défaut comprise — renommée « Actualités »), page courante |
-| `Blog\ReadingTime` | Filtre Twig `reading_time` : mots du contenu / 200, au moins 1 minute |
+| `Blog\ReadingTime` | Filtre Twig `reading_time` : mots du contenu / 189 (vitesse du panneau Structure de l’éditeur), au moins 1 minute |
 | `Blog\HeroThumbnail` | Image à la une = image du premier `couturier/page-hero-media`, à l'enregistrement (`wp_after_insert_post`, après l'image à la une de l'API REST). Identifiant posé mémorisé (méta `_couturier_hero_thumbnail`) : tant que l'image à la une est celle-là, elle suit le héros ; choisie à la main, elle n'est plus touchée. Rattrapage : `wp couturier blog sync-thumbnails` |
 
 - **Article à la une** : en page 1, toujours le plus récent (décision d'Aurélien, pas d'article
