@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-12T16:46:22+00:00\n"
+"POT-Creation-Date: 2026-11-18T08:27:34+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -319,114 +319,66 @@ msgstr ""
 msgid "Transmet la liste des contacts publiés à l'éditeur de blocs, pour les choisir dans les héros et le bloc « Équipe »."
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:49
+#: src/Features/Contacts/ContactMetaBox.php:50
 msgid "Ajoute à l'écran d'un contact la boîte « Coordonnées » (texte affiché, téléphone, e-mail, nom affiché, fonction) et ses colonnes à la liste des contacts."
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:56
+#: src/Features/Contacts/ContactMetaBox.php:57
 msgid "Coordonnées"
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:76
-#: src/Features/Contacts/ContactMetaBox.php:185
+#: src/Features/Contacts/ContactMetaBox.php:77
+#: src/Features/Contacts/ContactMetaBox.php:187
 msgid "Texte affiché"
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:80
+#: src/Features/Contacts/ContactMetaBox.php:81
 msgid "Affiché en gras à côté de la photo. Un retour à la ligne est conservé, ex. « Une question ? » puis « Eloim vous aide à choisir la formule adaptée ». Sans texte, le contact n'est pas affiché."
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:85
-#: src/Features/Contacts/ContactMetaBox.php:186
+#: src/Features/Contacts/ContactMetaBox.php:86
+#: src/Features/Contacts/ContactMetaBox.php:188
 msgid "Téléphone"
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:88
+#: src/Features/Contacts/ContactMetaBox.php:89
 msgid "Affiché tel que saisi (ex. 02 37 42 42 69) ; facultatif."
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:92
-#: src/Features/Contacts/ContactMetaBox.php:187
+#: src/Features/Contacts/ContactMetaBox.php:93
+#: src/Features/Contacts/ContactMetaBox.php:189
 msgid "E-mail"
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:95
+#: src/Features/Contacts/ContactMetaBox.php:96
 #: blocks/page-hero/index.js:236
 msgid "Facultatif."
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:99
-#: src/Features/Contacts/ContactMetaBox.php:183
+#: src/Features/Contacts/ContactMetaBox.php:100
+#: src/Features/Contacts/ContactMetaBox.php:185
 msgid "Nom affiché"
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:102
+#: src/Features/Contacts/ContactMetaBox.php:103
 msgid "Nom de la carte du bloc « Équipe », ex. « Eloïm D. ». Sans nom affiché, le contact n'apparaît pas dans ce bloc."
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:106
-#: src/Features/Contacts/ContactMetaBox.php:184
+#: src/Features/Contacts/ContactMetaBox.php:107
+#: src/Features/Contacts/ContactMetaBox.php:186
 msgid "Fonction"
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:109
+#: src/Features/Contacts/ContactMetaBox.php:110
 msgid "Affichée sous le nom dans le bloc « Équipe », ex. « Enseignant·e de la conduite » ; facultative."
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:168
+#: src/Features/Contacts/ContactMetaBox.php:169
 msgid "L'adresse e-mail saisie n'est pas valide : elle n'a pas été enregistrée."
 msgstr ""
 
-#: src/Features/Contacts/ContactMetaBox.php:182
-msgid "Nom interne"
-msgstr ""
-
-#: src/Features/Contacts/ContactPageCache.php:39
-msgid "Vide le cache de page (W3 Total Cache, WP Super Cache) quand un contact est modifié, publié, dépublié ou supprimé."
-msgstr ""
-
-#: src/Features/Contacts/ContactPostType.php:45
-msgid "Déclare les contacts prédéfinis (menu « Contacts »), choisis dans les héros de l'accueil et des pages ; ils n'ont pas de page sur le site."
-msgstr ""
-
-#: src/Features/Contacts/ContactPostType.php:54
-#: src/Features/Contacts/ContactPostType.php:56
-#: src/Features/Contacts/ContactPostType.php:57
-msgid "Contacts"
-msgstr ""
-
-#: src/Features/Contacts/ContactPostType.php:55
-#: blocks/team-member/index.js:37
-#: blocks/_shared/contacts.js:70
-msgid "Contact"
-msgstr ""
-
-#: src/Features/Contacts/ContactPostType.php:58
-#: src/Features/Contacts/ContactPostType.php:59
-msgid "Ajouter un contact"
-msgstr ""
-
-#: src/Features/Contacts/ContactPostType.php:60
-msgid "Modifier le contact"
-msgstr ""
-
-#: src/Features/Contacts/ContactPostType.php:61
-msgid "Nouveau contact"
-msgstr ""
-
-#: src/Features/Contacts/ContactPostType.php:62
-msgid "Rechercher des contacts"
-msgstr ""
-
-#: src/Features/Contacts/ContactPostType.php:63
-msgid "Aucun contact."
-msgstr ""
-
-#: src/Features/Contacts/ContactPostType.php:64
-msgid "Aucun contact dans la corbeille."
-msgstr ""
-
-#: src/Features/Contacts/ContactPostType.php:65
+#: src/Features/Contacts/ContactMetaBox.php:183
+#: src/Features/Contacts/ContactPostType.php:67
 #: blocks/home-hero-card/index.js:242
 #: blocks/photo-card/index.js:134
 #: blocks/photo-card/index.js:175
@@ -434,31 +386,82 @@ msgstr ""
 msgid "Photo"
 msgstr ""
 
-#: src/Features/Contacts/ContactPostType.php:66
-msgid "Choisir la photo"
+#: src/Features/Contacts/ContactMetaBox.php:184
+msgid "Nom interne"
 msgstr ""
 
-#: src/Features/Contacts/ContactPostType.php:67
-msgid "Retirer la photo"
+#: src/Features/Contacts/ContactPageCache.php:39
+msgid "Vide le cache de page (W3 Total Cache, WP Super Cache) quand un contact est modifié, publié, dépublié ou supprimé."
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:47
+msgid "Déclare les contacts prédéfinis (menu « Contacts »), choisis dans les héros de l'accueil et des pages ; ils n'ont pas de page sur le site."
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:56
+#: src/Features/Contacts/ContactPostType.php:58
+#: src/Features/Contacts/ContactPostType.php:59
+#: src/Features/Contacts/ContactPostType.php:122
+msgid "Contacts"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:57
+#: blocks/team-member/index.js:37
+#: blocks/_shared/contacts.js:70
+msgid "Contact"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:60
+#: src/Features/Contacts/ContactPostType.php:61
+#: resources/views/admin/help/contacts.twig:10
+msgid "Ajouter un contact"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:62
+msgid "Modifier le contact"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:63
+msgid "Nouveau contact"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:64
+msgid "Rechercher des contacts"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:65
+msgid "Aucun contact."
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:66
+msgid "Aucun contact dans la corbeille."
 msgstr ""
 
 #: src/Features/Contacts/ContactPostType.php:68
-msgid "Utiliser comme photo"
+msgid "Choisir la photo"
 msgstr ""
 
 #: src/Features/Contacts/ContactPostType.php:69
-msgid "Contact publié."
+msgid "Retirer la photo"
 msgstr ""
 
 #: src/Features/Contacts/ContactPostType.php:70
+msgid "Utiliser comme photo"
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:71
+msgid "Contact publié."
+msgstr ""
+
+#: src/Features/Contacts/ContactPostType.php:72
 msgid "Contact mis à jour."
 msgstr ""
 
-#: src/Features/Contacts/ContactPostType.php:98
+#: src/Features/Contacts/ContactPostType.php:100
 msgid "Nom interne (ex. « Eloim – Auto-école »), pour le choisir dans les blocs"
 msgstr ""
 
-#: src/Features/Contacts/ContactPostType.php:108
+#: src/Features/Contacts/ContactPostType.php:110
 msgid "Photo carrée, affichée ronde et en noir et blanc (66 px)."
 msgstr ""
 
@@ -3513,6 +3516,66 @@ msgstr ""
 
 #: resources/views/404.twig:10
 msgid "Retour à la page d'accueil"
+msgstr ""
+
+#: resources/views/admin/help/contacts.twig:5
+msgid "Qu'est-ce qu'un contact ?"
+msgstr ""
+
+#: resources/views/admin/help/contacts.twig:6
+msgid "Un contact est une personne de l'équipe, saisie une seule fois dans le menu « Contacts », puis choisie dans les blocs qui l'affichent. Modifier un contact met à jour toutes les pages où il apparaît : il n'y a rien à reprendre dans les pages."
+msgstr ""
+
+#: resources/views/admin/help/contacts.twig:7
+msgid "Un contact n'a pas de page à lui sur le site."
+msgstr ""
+
+#: resources/views/admin/help/contacts.twig:9
+msgid "Ouvrir la liste des contacts"
+msgstr ""
+
+#: resources/views/admin/help/contacts.twig:13
+msgid "Où sont-ils utilisés ?"
+msgstr ""
+
+#: resources/views/admin/help/contacts.twig:15
+msgid "Les blocs « Héros de l'accueil » et « Héros de page » : un encart avec la photo ronde, le texte affiché, le téléphone et l'e-mail. Cet encart n'est affiché que sur ordinateur."
+msgstr ""
+
+#: resources/views/admin/help/contacts.twig:16
+msgid "Le bloc « Membre de l'équipe » (dans le bloc « Équipe ») : une carte avec la photo, le nom affiché et la fonction."
+msgstr ""
+
+#: resources/views/admin/help/contacts.twig:19
+msgid "Remplir un contact"
+msgstr ""
+
+#: resources/views/admin/help/contacts.twig:21
+msgid "Titre : nom interne (ex. « Eloim – Auto-école »). Il sert uniquement à retrouver le contact dans les blocs et n'est jamais affiché sur le site."
+msgstr ""
+
+#: resources/views/admin/help/contacts.twig:22
+msgid "Photo : image carrée, choisie dans « Photo », à droite."
+msgstr ""
+
+#: resources/views/admin/help/contacts.twig:23
+msgid "Texte affiché, téléphone, e-mail : utilisés par les héros. Sans texte affiché, le contact n'apparaît pas dans les héros."
+msgstr ""
+
+#: resources/views/admin/help/contacts.twig:24
+msgid "Nom affiché, fonction : utilisés par le bloc « Membre de l'équipe ». Sans nom affiché, le contact n'apparaît pas dans ce bloc."
+msgstr ""
+
+#: resources/views/admin/help/contacts.twig:27
+msgid "Bon à savoir"
+msgstr ""
+
+#: resources/views/admin/help/contacts.twig:29
+msgid "Seuls les contacts publiés sont affichés : un contact en brouillon ou mis à la corbeille disparaît des pages qui l'utilisent."
+msgstr ""
+
+#: resources/views/admin/help/contacts.twig:30
+msgid "Un contact créé pendant qu'une page est ouverte dans l'éditeur n'y est proposé qu'après avoir rechargé la page."
 msgstr ""
 
 #: resources/views/admin/help/current-offer.twig:5
