@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace Theme\Features\Contacts;
 
 use Deefuse\ThemeCore\Contracts\FeatureInterface;
+use Theme\Features\Admin\HelpScreen;
 
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
@@ -38,6 +39,7 @@ final class ContactPostType implements FeatureInterface {
         add_action( 'init', [ $this, 'register_post_type' ] );
         add_filter( 'enter_title_here', [ $this, 'title_placeholder' ], 10, 2 );
         add_filter( 'admin_post_thumbnail_html', [ $this, 'thumbnail_help' ], 10, 2 );
+        add_filter( HelpScreen::TABS_FILTER, [ $this, 'help_tab' ] );
     }
 
     /** Courte description affichée sur la page « Fonctionnalités du thème ». */
@@ -106,5 +108,25 @@ final class ContactPostType implements FeatureInterface {
         }
 
         return $html . '<p class="description">' . esc_html__( 'Photo carrée, affichée ronde et en noir et blanc (66 px).', 'couturier' ) . '</p>';
+    }
+
+    /**
+     * Déclare l'onglet « Contacts » de la page d'aide
+     * (gabarit `resources/views/admin/help/contacts.twig`).
+     *
+     * @param array<string, array<string, mixed>> $tabs Onglets déjà déclarés.
+     * @return array<string, array<string, mixed>>
+     */
+    public function help_tab( array $tabs ): array {
+        $tabs['contacts'] = [
+            'label'    => __( 'Contacts', 'couturier' ),
+            'priority' => 25,
+            'context'  => [
+                'contacts_url' => admin_url( 'edit.php?post_type=' . Contact::POST_TYPE ),
+                'new_url'      => admin_url( 'post-new.php?post_type=' . Contact::POST_TYPE ),
+            ],
+        ];
+
+        return $tabs;
     }
 }

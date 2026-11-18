@@ -1,0 +1,31 @@
+{#
+    Aide de l'admin, onglet « Contacts » (feature Contacts\ContactPostType).
+    Données : `contacts_url` (liste des contacts), `new_url` (ajout d'un contact).
+#}
+<h2>{{ __("Qu'est-ce qu'un contact ?", 'couturier') }}</h2>
+<p>{{ __("Un contact est une personne de l'équipe, saisie une seule fois dans le menu « Contacts », puis choisie dans les blocs qui l'affichent. Modifier un contact met à jour toutes les pages où il apparaît : il n'y a rien à reprendre dans les pages.", 'couturier') }}</p>
+<p>{{ __("Un contact n'a pas de page à lui sur le site.", 'couturier') }}</p>
+<p>
+    <a href="{{ contacts_url }}">{{ __('Ouvrir la liste des contacts', 'couturier') }}</a>
+    · <a href="{{ new_url }}">{{ __('Ajouter un contact', 'couturier') }}</a>
+</p>
+
+<h2>{{ __('Où sont-ils utilisés ?', 'couturier') }}</h2>
+<ul>
+    <li>{{ __("Les blocs « Héros de l'accueil » et « Héros de page » : un encart avec la photo ronde, le texte affiché, le téléphone et l'e-mail. Cet encart n'est affiché que sur ordinateur.", 'couturier') }}</li>
+    <li>{{ __("Le bloc « Membre de l'équipe » (dans le bloc « Équipe ») : une carte avec la photo, le nom affiché et la fonction.", 'couturier') }}</li>
+</ul>
+
+<h2>{{ __('Remplir un contact', 'couturier') }}</h2>
+<ul>
+    <li>{{ __("Titre : nom interne (ex. « Eloim – Auto-école »). Il sert uniquement à retrouver le contact dans les blocs et n'est jamais affiché sur le site.", 'couturier') }}</li>
+    <li>{{ __("Photo : image carrée, choisie dans « Photo », à droite.", 'couturier') }}</li>
+    <li>{{ __("Texte affiché, téléphone, e-mail : utilisés par les héros. Sans texte affiché, le contact n'apparaît pas dans les héros.", 'couturier') }}</li>
+    <li>{{ __("Nom affiché, fonction : utilisés par le bloc « Membre de l'équipe ». Sans nom affiché, le contact n'apparaît pas dans ce bloc.", 'couturier') }}</li>
+</ul>
+
+<h2>{{ __('Bon à savoir', 'couturier') }}</h2>
+<ul>
+    <li>{{ __("Seuls les contacts publiés sont affichés : un contact en brouillon ou mis à la corbeille disparaît des pages qui l'utilisent.", 'couturier') }}</li>
+    <li>{{ __("Un contact créé pendant qu'une page est ouverte dans l'éditeur n'y est proposé qu'après avoir rechargé la page.", 'couturier') }}</li>
+</ul>
