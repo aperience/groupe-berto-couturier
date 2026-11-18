@@ -1,0 +1,198 @@
+// ─── Liste des articles (home.twig, partials/post-card.twig) ─────────────────
+//
+//   ul.post-list
+//     li.post-card[.is-featured]
+//       div.__media > img.__image   ← vignette (image du héros), coins hauts arrondis
+//       div.__body
+//         p.__badge                 ← catégorie, à cheval sur le bas de la photo
+//         p.__meta                  ← date · temps de lecture
+//         h2.__title > a.__link     ← lien étendu à toute la carte (::after)
+//         p.__excerpt
+//         span.__more               ← « Lire l'article → », décoratif
+//
+// Grille des Cartes illustrées (1 / 2 / 3 colonnes, écart 24 px en desktop),
+// carte des Cartes photo (fond gris clair, rayon lg, ombre sm, badge orange).
+// Article à la une (page 1) : toute la largeur, photo à gauche à partir de `lg`.
+
+$post-list-gap: var(--space-24);
+
+.post-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-16);
+    margin-block: var(--layout-section-gap);
+    padding: 0;
+    list-style: none;
+
+    @include media-breakpoint-up(md) {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: $post-list-gap;
+    }
+
+    @include media-breakpoint-up(lg) {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+// ─── Carte ────────────────────────────────────────────────────────────────────
+.post-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    border-radius: var(--bs-border-radius-lg);
+    background-color: var(--color-surface-muted);
+    box-shadow: var(--bs-box-shadow-sm);
+    transition: box-shadow .2s ease, translate .2s ease;
+
+    &:hover,
+    &:focus-within {
+        box-shadow: var(--bs-box-shadow);
+        translate: 0 -2px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+
+        &:hover,
+        &:focus-within {
+            translate: none;
+        }
+    }
+}
+
+.post-card__media {
+    aspect-ratio: 16 / 10;
+    overflow: hidden;
+    border-radius: var(--bs-border-radius-lg) var(--bs-border-radius-lg) 0 0;
+    background-color: var(--color-surface-petrol-faint);
+}
+
+.post-card__image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.post-card__body {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--space-8);
+    padding: var(--space-28) var(--space-24) var(--space-24);
+
+    > :not(.post-card__badge) {
+        margin: 0;
+    }
+}
+
+// Catégorie : pastille des Cartes photo, remontée à cheval sur le bas de la
+// photo (padding haut du corps + moitié de sa hauteur).
+.post-card__badge {
+    @include text-style(eyebrow);
+    position: relative;
+    z-index: 2;
+    align-self: flex-start;
+    margin-top: calc(-1 * var(--space-28) - var(--space-12));
+    padding: var(--space-4) var(--space-12);
+    border-radius: var(--bs-border-radius-pill);
+    background-color: var(--color-action-primary);
+    color: var(--color-text-on-accent);
+    white-space: nowrap;
+}
+
+.post-card__meta {
+    @include text-style(small);
+    color: var(--color-text-muted);
+}
+
+.post-card__title {
+    @include text-style(h3);
+    color: var(--color-text-heading);
+}
+
+.post-card__link {
+    color: inherit;
+    text-decoration: none;
+
+    // Toute la carte cliquable.
+    &::after {
+        content: "";
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        border-radius: var(--bs-border-radius-lg);
+    }
+
+    .post-card:hover & {
+        text-decoration: underline;
+        text-underline-offset: .15em;
+    }
+
+    &:focus-visible {
+        outline: none;
+
+        &::after {
+            outline: 2px solid var(--color-text-heading);
+            outline-offset: 3px;
+        }
+    }
+}
+
+.post-card__excerpt {
+    @include text-style(body);
+    color: var(--color-text-default);
+}
+
+.post-card__more {
+    @include text-style(button);
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-8);
+    margin-top: auto;
+    padding-top: var(--space-8);
+    color: var(--color-text-heading);
+
+    &::after {
+        content: "";
+        width: 1em;
+        height: 1em;
+        background-color: currentColor;
+        mask: url("../images/icons/arrow-right.svg") center / contain no-repeat;
+    }
+}
+
+// ─── Article à la une ─────────────────────────────────────────────────────────
+.post-card.is-featured {
+    grid-column: 1 / -1;
+
+    @include media-breakpoint-up(lg) {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+
+        .post-card__media {
+            aspect-ratio: auto;
+            min-height: to-rem(360);
+            border-radius: var(--bs-border-radius-lg) 0 0 var(--bs-border-radius-lg);
+        }
+
+        .post-card__body {
+            justify-content: center;
+            padding: var(--space-48);
+        }
+
+        // Plus de photo au-dessus : pastille dans le flux.
+        .post-card__badge {
+            margin-top: 0;
+        }
+
+        .post-card__title {
+            @include text-style(h2);
+        }
+
+        .post-card__excerpt {
+            @include text-style(body-lg);
+        }
+    }
+}

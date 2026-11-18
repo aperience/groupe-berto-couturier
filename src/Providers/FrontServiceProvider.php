@@ -20,6 +20,7 @@ use Deefuse\ThemeCore\Features\Front\DisableFunctionalities\DisableHeartbeat;
 use Deefuse\ThemeCore\Features\Front\Favicons;
 use Deefuse\ThemeCore\ThemeContext;
 use Theme\Features\Blog\HeroThumbnail;
+use Theme\Features\Blog\ReadingTime;
 use Theme\Features\Footer\FooterContext;
 use Theme\Features\Fonts\FontPreload;
 use Theme\Features\Footer\FooterSettings;
@@ -76,6 +77,7 @@ final class FrontServiceProvider implements ServiceProviderInterface {
             new FooterSettings( $context ),
             new FooterContext(),
             new HeroThumbnail(),
+            new ReadingTime(),
         ];
     }
 }

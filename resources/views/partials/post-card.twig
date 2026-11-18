@@ -1,0 +1,44 @@
+{#
+ # Carte d'un article (page des articles).
+ #
+ # Paramètres : `article` (Timber\Post), `featured` (grande carte horizontale).
+ #
+ # Toute la carte est cliquable par un seul lien, celui du titre (étendu par
+ # `::after`). Vignette décorative (`alt=""`) : le titre nomme le lien.
+ #}
+{% set category = article.category %}
+{% set minutes = article.post_content|reading_time %}
+
+<li class="post-card{{ featured ? ' is-featured' }}">
+    <div class="post-card__media">
+        {% if article.thumbnail %}
+            {{ function('get_the_post_thumbnail', article.id, 'medium_large', {
+                class: 'post-card__image',
+                alt: '',
+                sizes: featured ? '(min-width: 992px) 560px, 100vw' : '(min-width: 992px) 362px, (min-width: 768px) 50vw, 100vw',
+                loading: featured ? 'eager' : 'lazy',
+            })|raw }}
+        {% endif %}
+    </div>
+
+    <div class="post-card__body">
+        {% if category %}
+            <p class="post-card__badge">{{ category.name }}</p>
+        {% endif %}
+
+        <p class="post-card__meta">
+            <time datetime="{{ article.date('c') }}">{{ article.date }}</time>
+            <span aria-hidden="true">·</span>
+            {# translators: %d : nombre de minutes. #}
+            {{ _n('%d min de lecture', '%d min de lecture', minutes, 'couturier')|format(minutes) }}
+        </p>
+
+        <h2 class="post-card__title">
+            <a class="post-card__link" href="{{ article.link }}">{{ article.title }}</a>
+        </h2>
+
+        <p class="post-card__excerpt">{{ article.excerpt({ words: 22, read_more: false })|striptags }}</p>
+
+        <span class="post-card__more" aria-hidden="true">{{ __("Lire l'article", 'couturier') }}</span>
+    </div>
+</li>

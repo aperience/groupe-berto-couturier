@@ -12,17 +12,14 @@
 
         {# `for … else` et non `if posts` : un `PostQuery` de Timber est toujours
            « vrai », même vide — la branche `else` d'un `if` ne s'afficherait jamais. #}
+        {# Page 1 : l'article le plus récent en grande carte, les suivants en grille. #}
+        {% set first_page = posts.pagination.current|default(1) == 1 %}
         {% for article in posts %}
-            <article class="{{ article.class }}">
-                <h2>
-                    <a href="{{ article.link }}">{{ article.title }}</a>
-                </h2>
-                <div class="entry-content">
-                    {{ article.excerpt({ read_more: __('Lire la suite', 'couturier') })|raw }}
-                </div>
-            </article>
+            {% if loop.first %}<ul class="post-list">{% endif %}
+            {% include 'partials/post-card.twig' with { article: article, featured: first_page and loop.first } only %}
+            {% if loop.last %}</ul>{% endif %}
         {% else %}
-            <p>{{ __('Aucun contenu trouvé.', 'couturier') }}</p>
+            <p>{{ __('Aucun article pour le moment.', 'couturier') }}</p>
         {% endfor %}
     </div>
 {% endblock %}
