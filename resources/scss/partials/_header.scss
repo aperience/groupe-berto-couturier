@@ -18,7 +18,7 @@ $header-icon-size: to-rem(16);
     background-color: currentColor;
     // Chemin relatif à l'entrée, pas au partial : PhpStorm ne le résout pas.
     // noinspection CssUnknownTarget
-    mask: url("../images/icons/#{$file}.svg") center / contain no-repeat;
+    mask: url("~images/icons/#{$file}.svg") center / contain no-repeat;
 }
 
 @mixin header-focus {
@@ -513,7 +513,7 @@ $mobile-menu-top: to-rem(12 + 58 + 4); // Marge haute, barre, écart.
     }
 
     &[aria-expanded="true"]::before {
-        mask-image: url("../images/icons/close.svg");
+        mask-image: url("~images/icons/close.svg");
     }
 
     &:focus-visible {
@@ -655,7 +655,7 @@ html.has-mobile-menu {
         color: var(--color-text-accent);
 
         &::after {
-            mask-image: url("../images/icons/minus.svg");
+            mask-image: url("~images/icons/minus.svg");
         }
     }
 }

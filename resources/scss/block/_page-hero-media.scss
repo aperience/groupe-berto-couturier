@@ -220,16 +220,16 @@
     // Chemins relatifs à l'entrée, pas au partial : PhpStorm ne les résout pas.
     // noinspection CssUnknownTarget
     .has-icon-pin > & {
-        mask: url("../images/icons/pin.svg") center / contain no-repeat;
+        mask: url("~images/icons/pin.svg") center / contain no-repeat;
     }
 
     // noinspection CssUnknownTarget
     .has-icon-play > & {
-        mask: url("../images/icons/play.svg") center / contain no-repeat;
+        mask: url("~images/icons/play.svg") center / contain no-repeat;
     }
 
     // noinspection CssUnknownTarget
     .has-icon-calendar > & {
-        mask: url("../images/icons/calendar.svg") center / contain no-repeat;
+        mask: url("~images/icons/calendar.svg") center / contain no-repeat;
     }
 }

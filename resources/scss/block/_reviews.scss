@@ -26,8 +26,8 @@
 // Logo et étoiles : images CSS décoratives, la note étant lue en texte. Étoile :
 // `icons/star.svg` en masque peint en `currentColor`, répétée en largeur.
 
-$reviews-star: url("../images/icons/star.svg");
-$reviews-logo: url("../images/google-logo.svg");
+$reviews-star: url("~images/icons/star.svg");
+$reviews-logo: url("~images/google-logo.svg");
 // Jaune des étoiles Google, hors palette (couleur de marque de Google).
 $reviews-google-yellow: #fbbc04;
 

@@ -22,25 +22,30 @@ const hotFile = path.resolve(__dirname, 'dist/hot');
  * Recharge le navigateur quand un fichier PHP ou Twig est modifié.
  *
  * Ces fichiers ne font pas partie du module graph de Vite : configureServer les
- * ajoute explicitement à chokidar, handleHotUpdate envoie un full-reload.
+ * ajoute explicitement à chokidar, hotUpdate envoie un full-reload.
  */
 function phpTwigWatcher() {
   return {
     name: 'couturier-php-twig',
 
     configureServer(server) {
+      // Des dossiers et non des globs : sous Vite 8, le glob des vues
+      // (resources/views/**/*.twig) ne surveillait plus aucun fichier.
+      // hotUpdate ne retient ensuite que les .php et les .twig.
       server.watcher.add([
-        path.resolve(__dirname, '*.php'),
-        path.resolve(__dirname, 'src/**/*.php'),
-        path.resolve(__dirname, 'blocks/**/*.php'),
-        path.resolve(__dirname, 'resources/views/**/*.twig'),
+        path.resolve(__dirname, 'src'),
+        path.resolve(__dirname, 'blocks'),
+        path.resolve(__dirname, 'resources/views'),
       ]);
     },
 
-    handleHotUpdate({ file, server }) {
-      if (!/\.(php|twig)$/.test(file)) return;
+    // hotUpdate et non handleHotUpdate : depuis Vite 7, ce dernier n'est plus
+    // appelé que sur un événement « update », or un IDE qui enregistre par
+    // remplacement du fichier (« safe write » de PhpStorm) produit un « create ».
+    hotUpdate({ file }) {
+      if (this.environment.name !== 'client' || !/\.(php|twig)$/.test(file)) return;
 
-      server.hot.send({ type: 'full-reload' });
+      this.environment.hot.send({ type: 'full-reload', path: '*' });
       return [];
     },
   };
@@ -96,7 +101,12 @@ export default defineConfig(({ mode, command }) => ({
     // Génère dist/assets/.vite/manifest.json, lu par la feature Front\Assets.
     manifest: true,
     target: 'es2020',
-    rollupOptions: {
+    rolldownOptions: {
+      // Supprime console.log/debug/warn en prod (appels déclarés sans effet de
+      // bord, retirés par le tree-shaking) — console.info préservé.
+      treeshake: mode === 'production'
+        ? { manualPureFunctions: ['console.log', 'console.debug', 'console.warn'] }
+        : undefined,
       input: {
         app:    path.resolve(__dirname, 'resources/js/app.js'),
         login:  path.resolve(__dirname, 'resources/js/login.js'),
@@ -136,14 +146,13 @@ export default defineConfig(({ mode, command }) => ({
     sourcemap: mode !== 'production',
   },
 
-  esbuild: mode === 'production' ? {
-    // Supprime console.log/debug/warn en prod — console.info préservé
-    pure: ['console.log', 'console.debug', 'console.warn'],
-  } : {},
-
   resolve: {
     alias: {
       '~bootstrap': path.resolve(__dirname, 'node_modules/bootstrap'),
+      // Images appelées en url() depuis les partials SCSS : Vite résout chaque url()
+      // relativement au fichier qui l'écrit, un chemin `../images/` n'est donc juste
+      // que dans les entrées à la racine de resources/scss/. L'alias vaut partout.
+      '~images': path.resolve(__dirname, 'resources/images'),
       // Sources SCSS du core, utilisées par resources/scss/admin-colors.scss
       // pour dériver le jeu de couleurs de l'administration. Seule dépendance
       // du build au core : elle suppose le thème dans une installation WordPress.
@@ -173,6 +182,11 @@ export default defineConfig(({ mode, command }) => ({
     // (/resources/images/logo.svg) : le navigateur les résout contre WordPress,
     // et l'asset part en 404. `base` ne couvre pas ce cas en dev.
     origin: DEV_SERVER_URL,
+    // Dossiers sans source à surveiller : vendor/ (des milliers de fichiers PHP
+    // sur le bind mount), les sorties de build et les traductions compilées.
+    watch: {
+      ignored: ['**/vendor/**', '**/dist/**', '**/languages/**'],
+    },
     hmr: {
       protocol: 'ws',
       host: 'localhost',

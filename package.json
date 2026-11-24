@@ -17,12 +17,12 @@
     "watch:editor": "vite build --watch --mode development"
   },
   "devDependencies": {
-    "@wordpress/scripts": "^30.0.0",
+    "@wordpress/scripts": "^37.2.0",
     "concurrently": "^10.0.7",
     "png-to-ico": "^3.0.2",
     "sass": "^1.83.0",
     "sharp": "^0.35.3",
-    "vite": "^6.2.0"
+    "vite": "^8.3.8"
   },
   "dependencies": {
     "bootstrap": "^5.3.3"

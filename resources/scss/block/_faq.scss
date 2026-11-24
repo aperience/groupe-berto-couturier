@@ -224,14 +224,14 @@ $faq-max-width: to-rem(940);
         background-color: currentColor;
         // Chemin relatif à l'entrée, pas au partial : PhpStorm ne le résout pas.
         // noinspection CssUnknownTarget
-        mask: url("../images/icons/plus.svg") center / contain no-repeat;
+        mask: url("~images/icons/plus.svg") center / contain no-repeat;
     }
 }
 
 @mixin faq-icon-open {
     &::after {
         // noinspection CssUnknownTarget
-        mask-image: url("../images/icons/minus.svg");
+        mask-image: url("~images/icons/minus.svg");
     }
 }
 

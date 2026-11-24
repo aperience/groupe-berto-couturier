@@ -179,7 +179,7 @@
         width: 5em;
         background-color: currentColor;
         // noinspection CssUnknownTarget
-        mask: url("../images/icons/star.svg") 0 0 / 1em 1em repeat-x;
+        mask: url("~images/icons/star.svg") 0 0 / 1em 1em repeat-x;
     }
 
     &::before {
