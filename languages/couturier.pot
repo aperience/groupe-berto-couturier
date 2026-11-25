@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-18T11:17:05+00:00\n"
+"POT-Creation-Date: 2026-11-25T10:56:14+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -930,6 +930,14 @@ msgstr ""
 
 #: src/Features/Footer/FooterSettings.php:602
 msgid "Mettre en dernier"
+msgstr ""
+
+#: src/Features/Forms/FormsHelp.php:34
+msgid "Ajoute l'onglet « Formulaires » à la page d'aide : mise en page des formulaires Ninja Forms sur deux colonnes."
+msgstr ""
+
+#: src/Features/Forms/FormsHelp.php:49
+msgid "Formulaires"
 msgstr ""
 
 #: src/Features/Mail/HtmlEmails.php:84
@@ -4434,6 +4442,42 @@ msgstr ""
 
 #: resources/views/admin/help/footer.twig:96
 msgid "Un logo n'apparaît pas sur le site ? Vérifiez que « Activer » est sur « Oui » et que l'image est toujours dans la médiathèque."
+msgstr ""
+
+#: resources/views/admin/help/forms.twig:5
+msgid "Les formulaires"
+msgstr ""
+
+#: resources/views/admin/help/forms.twig:7
+msgid "Les formulaires se créent dans le menu « Ninja Forms », puis s'ajoutent à une page avec le bloc « Ninja Forms ». Leur apparence (champs, cases, bouton) est celle du site : il n'y a rien à régler."
+msgstr ""
+
+#: resources/views/admin/help/forms.twig:8
+msgid "Ouvrir la liste des formulaires"
+msgstr ""
+
+#: resources/views/admin/help/forms.twig:11
+msgid "Placer deux champs côte à côte"
+msgstr ""
+
+#: resources/views/admin/help/forms.twig:12
+msgid "Par défaut, chaque champ occupe toute la largeur du formulaire. Deux champs courts (prénom et nom, code postal et ville…) peuvent être placés sur deux colonnes :"
+msgstr ""
+
+#: resources/views/admin/help/forms.twig:14
+msgid "Dans le formulaire, cliquez sur le premier champ pour ouvrir ses réglages."
+msgstr ""
+
+#: resources/views/admin/help/forms.twig:15
+msgid "Dans la rubrique « Noms de classes personnalisés », saisissez one-half dans le champ « Conteneur » (et non « Élément »)."
+msgstr ""
+
+#: resources/views/admin/help/forms.twig:16
+msgid "Faites de même pour le champ suivant, puis cliquez sur « Publier »."
+msgstr ""
+
+#: resources/views/admin/help/forms.twig:18
+msgid "Les deux champs se placent côte à côte sur ordinateur et tablette, et l'un sous l'autre sur téléphone. Un champ seul en demi-largeur laisse la colonne voisine vide."
 msgstr ""
 
 #: resources/views/admin/help/menu.twig:8

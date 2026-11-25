@@ -761,6 +761,7 @@ Formulaires de l'extension **Ninja Forms**, insérés par son bloc `ninja-forms/
   qu'en **Mode Dev** du constructeur (Avancé).
 - Bouton Envoyer : apparence du bouton orange du thème, sans flèche (un `input` n'a pas de
   pseudo-élément). ⚠️ Texte blanc sur orange : même dérogation AA que les boutons.
+- Aide : onglet « Formulaires » de la page d'aide (feature `Forms\FormsHelp`, `AdminServiceProvider`), gabarit `resources/views/admin/help/forms.twig` — deux colonnes avec `one-half`.
 - Formulaire de démonstration : n° 2 « Premier formulaire » (tous les types de champs courants).
 
 ## Contacts prédéfinis
@@ -1027,6 +1028,7 @@ ne pas en ajouter d'office.
 | `current-offer` | 10 | `CurrentOffer\CurrentOfferSettings::help_tab()` |
 | `menu` | 15 | `Navigation\HeaderSettings::help_tab()` |
 | `footer` | 20 | `Footer\FooterSettings::help_tab()` |
+| `forms` | 25 | `Forms\FormsHelp::help_tab()` (si Ninja Forms est actif) |
 | `sectors` | 30 | `TrainingSessions\SectorTaxonomy::help_tab()` |
 | `categories` | 35 | `Blog\CategoryImage::help_tab()` |
 | `structured-data` | 40 | `StructuredData\FaqStructuredData::help_tab()` |
