@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-25T10:56:14+00:00\n"
+"POT-Creation-Date: 2026-11-25T16:57:54+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -1095,6 +1095,26 @@ msgstr ""
 
 #: src/Features/Navigation/NavigationContext.php:50
 msgid "Expose aux templates le menu principal (méga menu), les accès rapides et les boutons du header."
+msgstr ""
+
+#: src/Features/Sarbacane/SarbacaneDebug.php:34
+msgid "Diagnostic Sarbacane sur /wp-admin/?sb_debug=1 : journal des envois, liste et champs."
+msgstr ""
+
+#: src/Features/Sarbacane/SarbacaneHelp.php:33
+msgid "Ajoute l'onglet « Sarbacane » à la page d'aide : configuration dans wp-config.php et fonctionnement de l'envoi des formulaires."
+msgstr ""
+
+#: src/Features/Sarbacane/SarbacaneHelp.php:48
+msgid "Sarbacane"
+msgstr ""
+
+#: src/Features/Sarbacane/SarbacaneImport.php:38
+msgid "Import des soumissions Ninja Forms déjà enregistrées dans Sarbacane : /wp-admin/?sb_import=1 (simulation), puis ?sb_import=run."
+msgstr ""
+
+#: src/Features/Sarbacane/SarbacaneSubmission.php:34
+msgid "Envoie chaque formulaire Ninja Forms soumis à la liste Sarbacane (contact créé ou mis à jour)."
 msgstr ""
 
 #: src/Features/StructuredData/FaqStructuredData.php:46
@@ -4658,6 +4678,147 @@ msgstr ""
 
 #: resources/views/admin/help/menu.twig:89
 msgid "Chaque enregistrement (menu ou écran « En-tête ») est visible aussitôt sur tout le site."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:6
+msgid "Envoi des formulaires vers Sarbacane"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:7
+msgid "Chaque formulaire Ninja Forms envoyé sur le site est transmis à Sarbacane, dans une liste unique. Si la personne y figure déjà (même e-mail), sa fiche est mise à jour plutôt que créée en double."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:10
+msgid "État : actif."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:11
+msgid "Liste utilisée :"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:13
+msgid "État : inactif. Les clés Sarbacane ne sont pas renseignées dans wp-config.php : aucun formulaire n'est envoyé."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:17
+msgid "Configuration dans wp-config.php"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:18
+msgid "Les clés d'accès ne sont pas enregistrées dans le thème ni dans l'administration : elles se déclarent dans le fichier wp-config.php du serveur, avant la ligne « C'est tout, ne touchez pas à ce qui suit ! ». Elles se trouvent dans le compte Sarbacane (paramètres de l'API)."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:21
+msgid "facultative"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:25
+msgid "Constante"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:26
+msgid "Rôle"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:27
+msgid "Sur ce site"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:33
+msgid "Identifiant du compte Sarbacane. Obligatoire."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:34
+#: resources/views/admin/help/sarbacane.twig:39
+#: resources/views/admin/help/sarbacane.twig:45
+msgid "Définie"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:34
+#: resources/views/admin/help/sarbacane.twig:39
+msgid "Absente"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:38
+msgid "Clé de l'API Sarbacane. Obligatoire."
+msgstr ""
+
+#. translators: %s : nom de la liste du client.
+#: resources/views/admin/help/sarbacane.twig:44
+#, php-format
+msgid "Nom de la liste qui reçoit les contacts. Facultative : sans elle, la liste du client « %s »."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:45
+msgid "Absente (liste du client)"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:49
+msgid "Hors production (site local, préproduction), indiquez toujours une liste de test dans SARBACANE_LIST : sinon, chaque essai de formulaire ajoute un contact dans la vraie liste du client. La liste est créée automatiquement chez Sarbacane si elle n'existe pas."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:51
+msgid "Ce qui est envoyé"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:53
+msgid "Tous les formulaires Ninja Forms du site sont concernés, sans réglage à faire."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:54
+msgid "Un formulaire n'est envoyé que s'il contient une adresse e-mail ou un numéro de téléphone. Un numéro commençant par 0 est converti au format international (+33)."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:55
+msgid "Les champs du formulaire deviennent des champs de la liste Sarbacane, du même nom. Un champ qui n'existe pas encore chez Sarbacane y est créé automatiquement."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:56
+msgid "Certains champs sont regroupés : « Code postal » et « Ville » vont dans « Code postal et ville » ; tout champ dont le libellé contient « question » ou « message » va dans « Question ». Un champ « Prénom et nom » est aussi découpé en « Prénom » et « Nom »."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:57
+msgid "Pour respecter le RGPD (minimisation des données), ces champs ne sont jamais envoyés :"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:58
+msgid "Les cases à cocher sont envoyées en « Oui » / « Non », les listes de choix avec le libellé de l'option choisie."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:59
+msgid "Chaque contact reçoit aussi : « Formulaire » (titre du formulaire), « ID formulaire » (NF-numéro), « Campagne » et « Date de la demande »."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:60
+msgid "La campagne est déduite du titre du formulaire, débarrassé de « Formulaire », « Landing page », « Campagne » et « Spécial » : « Formulaire campagne spécial Noël 2026 » donne « Noël 2026 ». Nommez donc vos formulaires de campagne en conséquence."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:61
+msgid "Suivi des ouvertures d'e-mails : si le formulaire contient une case dont la clé de champ est consentement_suivi_emails et qu'elle est cochée, le consentement au suivi est transmis à Sarbacane avec sa date."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:65
+msgid "Outils (administrateurs)"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:68
+msgid "Diagnostic"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:69
+msgid "les 30 derniers événements (envois, erreurs, champs créés), l'identifiant de la liste et ses champs. Les clés ne sont jamais affichées."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:72
+msgid "Simulation de l'import"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:73
+msgid "compte, formulaire par formulaire, les réponses déjà enregistrées dans Ninja Forms. Rien n'est envoyé."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:76
+msgid "Import réel : remplacez sb_import=1 par sb_import=run dans l'adresse de la simulation. Toutes les réponses enregistrées sont alors envoyées à Sarbacane, des plus anciennes aux plus récentes, par lots de 500. Les contacts existants sont mis à jour. À réserver à une reprise de l'historique, après vérification de la liste visée."
 msgstr ""
 
 #: resources/views/admin/help/sectors.twig:5

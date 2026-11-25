@@ -243,7 +243,7 @@ l'offre du moment, le pied de page et les contacts. Un autre plugin de cache s'a
 | `FrontServiceProvider` | Front-end public | `Front/` — `Assets`, `CleanHead`, `Favicons`, désactivation des styles de blocs core / dashicons / emojis / heartbeat<br>`Blog/` (thème) — `HeroThumbnail` (image à la une reprise du héros), `ReadingTime` (filtre Twig `reading_time`), `BlogContext` (`blog` dans le contexte Timber), cf. *Blog : liste des articles*<br>`Footer/` (thème) — `FooterSettings` (écran « Pied de page »), `FooterContext` (`footer` dans le contexte Timber), cf. *Pied de page*<br>`Fonts/` (thème) — `FontPreload` (préchargement des polices du header : Space Grotesk 400, 500, 700 ; rien en mode dev)<br>`Navigation/` (thème) — `MegaMenuFields` (champs des éléments du menu principal), `HeaderSettings` (écran « En-tête »), `NavigationContext` (`navigation` dans le contexte Timber), cf. *Header et méga menu* |
 | `AdminServiceProvider` | Back-office, éditeur, contenus | `Admin/` (socle) — blocs autorisés, supports natifs des blocs, admin bar, dashboard, connecteurs, verrouillage de l'éditeur de site / personnaliseur, sélecteur de langue et lien « Politique de confidentialité » du login (page de connexion réservée à l'équipe ; à revoir si l'inscription est ouverte), icône du site, mises à jour, commentaires, publication par e-mail, services de mise à jour, jeu de couleurs, pied de page, styles du canvas de l'éditeur, logo de login, interrupteur d'affichage du titre, support SVG, conversion WebP à l'upload<br>`Admin/` (thème) — `NestedPagesLinks` (lien « Pages publiées » du tableau de bord et bouton de retour de l'éditeur des pages vers Nested Pages, si l'extension est active), `HelpScreen` (menu « Aide », cf. *Page d'aide*), `NavMenuDropdowns` (écran des menus : listes « Parent » / « Ordre » du core remplies pour les seuls éléments dépliés, cf. *Header et méga menu*)<br>`Blocks/` (thème) — `BlockLoader` (auto-découverte de `dist/blocks/*/block.json`), `RestrictHeadingLevels` (titres limités à H2 / H3 partout, sauf le H1 des héros), `PageScopedBlocks` (héros de l'accueil dans la seule page d'accueil, héros de page partout ailleurs), `DisableDropCap` (pas de lettrine sur les paragraphes), `HeadingTextAlign` (titres libres alignés à gauche ou centrés, cf. *Titres libres*), `DisableCorePatterns` (ni compositions du cœur ni compositions distantes du Pattern Directory ; restent celles de `patterns/` et de l’éditeur), `ButtonStyles` (boutons du design system sur `core/button`, cf. *Blocs Gutenberg*), `AttachedBlocks` (réglage « Rapprocher du bloc précédent » des blocs du thème de premier niveau, cf. *Espacement entre blocs*), `BlockCatalog` (onglet « Catalogue des blocs » de la page d'aide, cf. *Page d'aide*), `BreadcrumbEditorData` (titre de la page des articles passé à l'éditeur, `window.couturierBreadcrumb`, pour l'aperçu du fil d'Ariane des billets dans le héros de page), `BlockImageSizes` (retire le `auto` de l'attribut `sizes` des images `wp-block-couturier-{nom}__image` : sans lui, une image en `width: auto` s'afficherait en 300 px)<br>`Contacts/` (thème) — `ContactPostType`, `ContactMetaBox`, `ContactEditorData`, `ContactPageCache` : contacts prédéfinis des héros, cf. *Contacts prédéfinis*<br>`TrainingSessions/` (thème) — `SectorTaxonomy`, `SectorEditorData`, `SessionPageCache` : secteurs du filtre du bloc Sessions de formation, cf. *Secteurs de formation*<br>`PostTypes/` (thème, à venir) — déclaration des CPT et de leurs metas |
 | `MailServiceProvider` | Forme des e-mails envoyés par `wp_mail()` | `Mail/` (thème) — `HtmlEmails` (cf. *E-mails* plus bas) |
-| `MarketingServiceProvider` | Mise en avant commerciale | `CurrentOffer/` (thème) — `CurrentOfferSettings` (écran « Offre du moment »), `CurrentOfferDashboard` (widget du tableau de bord), `CurrentOfferContext` (`current_offer` dans le contexte Timber), `CurrentOfferPageCache` (purge W3 Total Cache / WP Super Cache), cf. *Offre du moment* |
+| `MarketingServiceProvider` | Mise en avant commerciale | `CurrentOffer/` (thème) — `CurrentOfferSettings` (écran « Offre du moment »), `CurrentOfferDashboard` (widget du tableau de bord), `CurrentOfferContext` (`current_offer` dans le contexte Timber), `CurrentOfferPageCache` (purge W3 Total Cache / WP Super Cache), cf. *Offre du moment*<br>`Sarbacane/` (thème) — `SarbacaneSubmission`, `SarbacaneDebug`, `SarbacaneImport`, `SarbacaneHelp` : envoi des formulaires Ninja Forms vers Sarbacane, cf. *Sarbacane* |
 | `SeoServiceProvider` | Référencement | `Seo/` — `DocumentTitle`, `MetaDescription`, `SitemapExclusion`, `SeoPanel` (panneau de l'éditeur), `OpenGraph`<br>`StructuredData/` (thème) — `FaqStructuredData` (blocs « Questions fréquentes » → `FAQPage` dans le JSON-LD de Rank Math, filtre `rank_math/json_ld` ; Rank Math le fusionne dans `#webpage`), `FaqSchema` (logique sans hook). Tout réglage faisable dans Rank Math relève de l'experte SEO |
 
 > **Une feature répartie sur plusieurs classes garde un seul dossier** (`src/Features/{Feature}/`) et
@@ -764,6 +764,42 @@ Formulaires de l'extension **Ninja Forms**, insérés par son bloc `ninja-forms/
 - Aide : onglet « Formulaires » de la page d'aide (feature `Forms\FormsHelp`, `AdminServiceProvider`), gabarit `resources/views/admin/help/forms.twig` — deux colonnes avec `one-half`.
 - Formulaire de démonstration : n° 2 « Premier formulaire » (tous les types de champs courants).
 
+## Sarbacane
+
+Chaque soumission Ninja Forms (tous les formulaires) est envoyée à une **liste Sarbacane unique**
+(contact créé ou mis à jour, `contacts/upsert`). **Reprise à l'identique du script fourni par le
+client** (`scripts_clients/sarbacane.php`, hors dépôt) : logique, regex, options et messages du
+journal inchangés, défauts connus compris (envoi synchrone à 60 s de délai, `0044…` → `+33044…`,
+import en GET sans nonce) — ne pas les corriger sans accord. Écarts : clés et nom de liste lus dans
+`wp-config.php`, ID de liste rattaché à son nom. Code dans `src/Features/Sarbacane/`, déclaré dans
+`MarketingServiceProvider` :
+
+| Classe | Rôle |
+|--------|------|
+| `SarbacaneApi` | Sans hook : constantes, journal (option `sb_last_log`, 30 lignes, + `error_log`), requêtes HTTP, liste trouvée par son nom ou créée (options `sb_main_list_id` / `sb_main_list_name`), champs par libellé, créés au besoin (transient `sb_fields_{id}`, un jour) |
+| `SarbacaneContact` | Sans hook : soumission → contact (e-mail, téléphone en +33, prénom / nom, champs regroupés « Code postal et ville » / « Question », exclusions RGPD `EXCLUDE`, Formulaire, ID formulaire `NF-n`, Campagne déduite du titre, Date de la demande, `pixelOptin` depuis la clé de champ `consentement_suivi_emails`) ; rien sans e-mail ni téléphone |
+| `SarbacaneSubmission` | `ninja_forms_after_submission` : envoi en direct |
+| `SarbacaneDebug` | `/wp-admin/?sb_debug=1` (`manage_options`) : journal, liste, champs, en texte brut |
+| `SarbacaneImport` | `/wp-admin/?sb_import=1` (simulation, compte seulement) puis `?sb_import=run` : historique, du plus ancien au plus récent, lots de 500 (`contacts/import?upsert=true`) |
+| `SarbacaneHelp` | Onglet `sarbacane` de la page d'aide (`resources/views/admin/help/sarbacane.twig`) : configuration, état des constantes, fonctionnement, outils |
+
+**Configuration (`wp-config.php`, jamais dans le thème)** :
+
+| Constante | Rôle |
+|-----------|------|
+| `SARBACANE_ACCOUNT_ID` | Identifiant du compte, obligatoire |
+| `SARBACANE_API_KEY` | Clé de l'API, obligatoire |
+| `SARBACANE_LIST` | Facultative : nom de la liste ; défaut `SarbacaneApi::DEFAULT_LIST` (« BASE-COUTURIER AE-Formulaires site », la liste du client) |
+
+- Sans l'une des deux clés, ou sans Ninja Forms, les features d'envoi, de diagnostic et d'import
+  ne posent aucun hook (l'onglet d'aide reste, il explique la configuration).
+- **Hors production, toujours une liste de test dans `SARBACANE_LIST`** : sinon chaque essai envoie
+  un vrai contact dans la liste du client. La liste est créée chez Sarbacane si elle n'existe pas.
+- L'ID mémorisé est relu seulement si `sb_main_list_name` correspond au nom attendu : une synchro
+  de la BDD vers la préprod (qui emporte les options) ne fait pas viser la liste d'un autre environnement.
+- Modèle commenté dans `wordpress/wp-config-sample.php` (fichier du cœur, hors dépôt, écrasé par
+  une mise à jour de WordPress). En préprod et en prod, constantes posées à la main.
+
 ## Contacts prédéfinis
 
 Personnes à contacter affichées dans les héros (encart « Une question ? … » des cartes de l'accueil
@@ -1029,6 +1065,7 @@ ne pas en ajouter d'office.
 | `menu` | 15 | `Navigation\HeaderSettings::help_tab()` |
 | `footer` | 20 | `Footer\FooterSettings::help_tab()` |
 | `forms` | 25 | `Forms\FormsHelp::help_tab()` (si Ninja Forms est actif) |
+| `sarbacane` | 27 | `Sarbacane\SarbacaneHelp::help_tab()` (si Ninja Forms est actif) |
 | `sectors` | 30 | `TrainingSessions\SectorTaxonomy::help_tab()` |
 | `categories` | 35 | `Blog\CategoryImage::help_tab()` |
 | `structured-data` | 40 | `StructuredData\FaqStructuredData::help_tab()` |
