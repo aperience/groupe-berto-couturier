@@ -1,0 +1,386 @@
+// ─── Formulaires Ninja Forms ──────────────────────────────────────────────────
+//
+// Le balisage est celui de l'extension, rendu en JS (gabarits Backbone de
+// `ninja-forms/includes/Templates/`) ; seule sa feuille de structure est chargée
+// (« opinionated styles » désactivés dans ses réglages). Les composants de
+// formulaire de Bootstrap sont repris par les mixins ci-dessous, écrits avec ses
+// variables (`$input-*`, `$form-*`, réglées dans `_variables.scss`) et ses icônes
+// (flèche du `select`, coche, point du radio). Pas de `@extend` du module `forms` :
+// croisé avec ses sélecteurs (`.form-floating`, `.input-group`…), il ajoutait
+// 100 Ko à la feuille ; le module lui-même n'est pas importé.
+//
+//   .nf-form-cont
+//     .nf-form-fields-required             ← « Les champs marqués d'un * … »
+//     .nf-field-container.{type}-container ← un champ (+ classes du constructeur)
+//       .field-wrap.{type}-wrap[.nf-error]
+//         .nf-field-label > label | span.nf-label-span (+ .ninja-forms-req-symbol)
+//         .nf-field-element > input | select | textarea | ul > li
+//         .nf-field-description
+//       .nf-after-field .nf-error-msg      ← message d'erreur du champ
+//     .nf-form-errors .nf-error-msg        ← erreur globale
+//   .nf-response-msg                       ← message de succès
+//
+// Front seulement : le bloc de l'extension n'affiche pas le formulaire dans le canvas.
+
+// ─── Mixins : composants de formulaire de Bootstrap ───────────────────────────
+@mixin nf-label {
+    display: block;
+    margin-bottom: $form-label-margin-bottom;
+    font-weight: $form-label-font-weight;
+    color: $form-label-color;
+}
+
+@mixin nf-control {
+    display: block;
+    width: 100%;
+    padding: $input-padding-y $input-padding-x;
+    font-family: inherit;
+    font-size: $input-font-size;
+    font-weight: $font-weight-normal;
+    line-height: $input-line-height;
+    color: $input-color;
+    background-color: $input-bg;
+    background-clip: padding-box;
+    border: $input-border-width solid $input-border-color;
+    border-radius: $input-border-radius;
+    appearance: none;
+    transition: $input-transition;
+
+    &::placeholder {
+        color: $input-placeholder-color;
+        opacity: 1;
+    }
+
+    &:focus {
+        border-color: $input-focus-border-color;
+        outline: 2px solid transparent;
+        box-shadow: $input-focus-box-shadow;
+    }
+
+    &:disabled {
+        background-color: $input-disabled-bg;
+        opacity: 1;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        transition: none;
+    }
+}
+
+@mixin nf-select {
+    @include nf-control;
+    padding-right: $form-select-indicator-padding;
+    background-image: escape-svg($form-select-indicator);
+    background-repeat: no-repeat;
+    background-position: $form-select-bg-position;
+    background-size: $form-select-bg-size;
+}
+
+@mixin nf-check {
+    width: $form-check-input-width;
+    height: $form-check-input-width;
+    margin: 0;
+    vertical-align: top;
+    appearance: none;
+    background-color: $form-check-input-bg;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: $form-check-input-border;
+    border-radius: $form-check-input-border-radius;
+    print-color-adjust: exact;
+
+    &[type="radio"] {
+        border-radius: $form-check-radio-border-radius;
+    }
+
+    &:focus-visible {
+        border-color: $form-check-input-focus-border;
+        outline: 2px solid transparent;
+        box-shadow: $form-check-input-focus-box-shadow;
+    }
+
+    &:checked {
+        background-color: $form-check-input-checked-bg-color;
+        border-color: $form-check-input-checked-border-color;
+
+        &[type="checkbox"] { background-image: escape-svg($form-check-input-checked-bg-image); }
+        &[type="radio"] { background-image: escape-svg($form-check-radio-checked-bg-image); }
+    }
+
+    &:disabled {
+        opacity: $form-check-input-disabled-opacity;
+        pointer-events: none;
+    }
+}
+
+.nf-form-cont {
+    // Texte des champs : 14 px (Body). Le module de structure de l'extension
+    // fixe quelques largeurs et marges, neutralisées ici.
+    .nf-form-content {
+        max-width: none;
+        padding: 0;
+    }
+
+    // Chaque champ est enveloppé d'un élément `nf-field`, enfant de la grille.
+    // Demi-largeur (classe du constructeur) : une colonne à partir de `md`,
+    // la ligne entière en dessous. Flottants et largeurs de l'extension annulés.
+    // Sélecteur renforcé : la feuille de structure, chargée après celle du
+    // thème, fixe `.nf-form-cont .one-half` à 48,7 %.
+    nf-field > .nf-field-container {
+        float: none;
+        width: auto;
+        margin: 0;
+    }
+
+    nf-fields-wrap {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        gap: var(--space-24);
+
+        @include media-breakpoint-up(md) {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+
+            > nf-field { grid-column: 1 / -1; }
+            > nf-field:has(> .one-half) { grid-column: auto; }
+        }
+    }
+
+    .nf-field-container .nf-field-label {
+        margin: 0;
+
+        label,
+        .nf-label-span {
+            @include nf-label;
+        }
+    }
+
+    .ninja-forms-req-symbol {
+        color: var(--color-text-danger);
+    }
+
+    .nf-form-fields-required {
+        @include text-style(small);
+        margin-bottom: var(--space-24);
+        color: var(--color-text-default);
+    }
+
+    .nf-field-description {
+        @include text-style(small);
+        margin-top: $form-text-margin-top;
+        color: $form-text-color;
+
+        p { margin: 0; }
+    }
+
+    // ─── Champs ───────────────────────────────────────────────────────────────
+    .nf-field-element {
+        input:is([type="text"], [type="email"], [type="tel"], [type="number"], [type="password"], [type="url"], [type="date"], [type="search"]),
+        textarea {
+            @include nf-control;
+        }
+
+        textarea {
+            min-height: to-rem(140);
+            resize: vertical;
+        }
+
+        select {
+            @include nf-select;
+        }
+
+        // Liste à choix multiples : pas de flèche, hauteur de quatre options.
+        select[multiple] {
+            min-height: to-rem(120);
+            padding-right: $input-padding-x;
+            background-image: none;
+        }
+    }
+
+    // ─── Cases et boutons radio ───────────────────────────────────────────────
+    .listcheckbox-container,
+    .listradio-container,
+    .checkbox-container {
+        .nf-field-element {
+            ul {
+                display: grid;
+                gap: var(--space-12);
+                margin: 0;
+                padding: 0;
+                list-style: none;
+            }
+
+            li {
+                display: flex;
+                align-items: flex-start;
+                gap: var(--space-8);
+                margin: 0;
+            }
+
+            label {
+                margin: 0;
+                cursor: pointer;
+            }
+        }
+
+        input:is([type="checkbox"], [type="radio"]) {
+            @include nf-check;
+            // `width: auto !important` de la feuille de structure : `min-width` l'emporte.
+            min-width: $form-check-input-width;
+            float: none;
+            flex-shrink: 0;
+            // Aligné sur la première ligne du libellé (20 px d'interligne).
+            margin-top: calc((#{to-rem(20)} - #{$form-check-input-width}) / 2);
+            cursor: pointer;
+        }
+    }
+
+    // Case seule, libellé à droite (« Position de l'étiquette » : à droite) :
+    // la case passe avant le libellé, sur la même ligne.
+    // L'extension place déjà la case avant le libellé (`order`) ; écart et
+    // largeurs remis au design system.
+    .checkbox-container.label-right .field-wrap {
+        flex-wrap: nowrap;
+        align-items: flex-start;
+        gap: var(--space-8);
+
+        .nf-field-element {
+            width: auto;
+        }
+
+        .nf-field-label {
+            width: auto;
+            padding-left: 0;
+
+            label {
+                margin: 0;
+                font-weight: $font-weight-normal;
+                color: var(--color-text-default);
+                cursor: pointer;
+            }
+        }
+    }
+
+    // ─── Séparateur, bloc HTML ────────────────────────────────────────────────
+    .hr-container hr {
+        margin: var(--space-8) 0;
+        border: 0;
+        border-top: 1px solid var(--color-border-subtle);
+        opacity: 1;
+    }
+
+    .html-container .nf-field-element > :last-child {
+        margin-bottom: 0;
+    }
+
+    // ─── Notation en étoiles ──────────────────────────────────────────────────
+    .starrating-container .stars {
+        display: flex;
+        gap: var(--space-4);
+
+        label,
+        .star {
+            min-width: to-rem(24);
+            min-height: to-rem(24);
+            color: var(--color-action-primary);
+        }
+    }
+
+    // ─── Erreurs ──────────────────────────────────────────────────────────────
+    .nf-error .nf-field-element {
+        input:not([type="checkbox"], [type="radio"], [type="submit"]),
+        textarea,
+        select {
+            border-color: var(--color-text-danger);
+        }
+
+        input:is([type="checkbox"], [type="radio"]) {
+            border-color: var(--color-text-danger);
+        }
+    }
+
+    // Icônes d'état ajoutées par l'extension dans les champs : retirées, le
+    // message en texte et la bordure suffisent.
+    .nf-error.field-wrap .nf-field-element::after,
+    .nf-pass.field-wrap .nf-field-element::after {
+        display: none;
+    }
+
+    .nf-error-msg {
+        @include text-style(small);
+        display: block;
+        margin-top: $form-feedback-margin-top;
+        color: $form-feedback-invalid-color;
+    }
+
+    .nf-form-errors .nf-error-msg {
+        @include text-style(body);
+        margin-top: var(--space-16);
+        padding: var(--space-12) var(--space-16);
+        border-radius: var(--bs-border-radius);
+        background-color: var(--color-surface-danger-soft);
+    }
+
+    // ─── Envoi ────────────────────────────────────────────────────────────────
+    // Bouton orange du thème (`block/_button.scss`) ; pas de flèche, un `input`
+    // n'ayant pas de pseudo-éléments.
+    .submit-container .nf-field-element input[type="submit"],
+    .submit-container .nf-field-element button {
+        @include text-style(button);
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: to-rem(50);
+        padding: var(--space-14) var(--space-24);
+        border: 1px solid var(--color-action-primary);
+        border-radius: var(--bs-border-radius-pill);
+        background-color: var(--color-action-primary);
+        // ⚠️ Texte blanc sur orange (2,84:1) : même dérogation que les boutons du thème.
+        color: var(--color-text-on-brand);
+        cursor: pointer;
+        transition: background-color .15s ease, border-color .15s ease;
+
+        &:hover,
+        &:focus-visible {
+            border-color: var(--color-action-primary-hover);
+            background-color: var(--color-action-primary-hover);
+        }
+
+        &:focus-visible {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            box-shadow: 0 0 0 2px var(--color-surface-card), 0 0 0 4px var(--color-text-default);
+        }
+
+        &:disabled {
+            opacity: .65;
+            cursor: not-allowed;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            transition: none;
+        }
+    }
+}
+
+// Titre du formulaire : `<h3>` de l'extension (niveau réglable dans le
+// constructeur), au style des H3 libres du contenu (`section-title-h3`,
+// `block/_section-title.scss`), aligné à gauche avec le formulaire.
+.nf-form-title {
+    display: block;
+
+    > :is(h2, h3) {
+        @include section-title-h3;
+        margin-bottom: var(--space-32);
+    }
+}
+
+// Message de succès, après l'envoi (remplace le formulaire).
+.nf-response-msg {
+    padding: var(--space-16) var(--space-24);
+    border-radius: var(--bs-border-radius);
+    background-color: var(--color-surface-petrol-faint);
+    color: var(--color-text-default);
+
+    > :last-child { margin-bottom: 0; }
+}

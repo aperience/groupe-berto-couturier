@@ -91,6 +91,37 @@ $box-shadow-sm: map.get($ds-shadows, card);
 $box-shadow:    map.get($ds-shadows, nav);
 $box-shadow-lg: map.get($ds-shadows, floating);
 
+// Formulaires (module `forms`, front seulement : formulaires Ninja Forms,
+// cf. `partials/_ninja-forms.scss`). Champs de 50 px comme les boutons ; focus
+// en double anneau blanc / pétrole foncé, comme `_button.scss`.
+$input-padding-y:            to-rem(14);
+$input-padding-x:            to-rem(16);
+$input-font-size:            $font-size-base;
+$input-line-height:          calc(20 / 14);
+$input-bg:                   ds-semantic(surface-card);
+$input-color:                ds-semantic(text-default);
+$input-border-color:         ds-semantic(border-strong);
+$input-border-radius:        $border-radius;
+$input-placeholder-color:    ds-semantic(text-muted);
+$input-focus-border-color:   ds-semantic(border-strong);
+$input-focus-box-shadow:     0 0 0 2px ds-semantic(surface-card), 0 0 0 4px ds-semantic(text-default);
+$input-disabled-bg:          ds-semantic(surface-muted);
+$form-label-margin-bottom:   to-rem(8);
+$form-label-font-weight:     $font-weight-medium;
+$form-label-color:           ds-semantic(text-heading);
+$form-text-margin-top:       to-rem(6);
+$form-text-color:            ds-semantic(text-muted);
+$form-check-input-width:     1.25em;
+$form-check-input-border:    1px solid ds-semantic(border-strong);
+$form-check-input-checked-bg-color:     ds-semantic(action-dark);
+$form-check-input-checked-border-color: ds-semantic(action-dark);
+$form-check-input-focus-border:         ds-semantic(border-strong);
+$form-check-input-focus-box-shadow:     $input-focus-box-shadow;
+$form-select-focus-box-shadow:          $input-focus-box-shadow;
+$form-feedback-invalid-color: $danger;
+$form-feedback-icon-invalid:  none;
+$form-feedback-icon-valid:    none;
+
 // Grille et conteneur
 // Gouttière desktop du design system (`layout/grid-gap`, 16 px) ; marge latérale
 // de page desktop (`layout/page-padding`, 24 px de chaque côté) ; conteneur de

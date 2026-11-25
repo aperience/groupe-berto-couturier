@@ -536,7 +536,8 @@ resources/scss/
 ├── _brand.scss            ← charte : design system + couleurs de l'admin et de la connexion (cf. *Design System*)
 ├── _mixins.scss
 ├── _fonts.scss            ← @font-face
-├── partials/              ← layout du site (header, footer, navigation…) — front uniquement
+├── partials/              ← layout du site (header, footer, navigation…) et formulaires Ninja Forms
+│                             (`_ninja-forms.scss`) — front uniquement
 ├── block/                 ← un fichier _{nom-du-bloc}.scss par bloc Gutenberg
 └── editor/                ← interface des blocs custom dans le canvas (boutons sur une image,
                               emplacement vide…) — importé par `editor-gutenberg.scss` seulement
@@ -736,6 +737,31 @@ section entre deux blocs quels qu'ils soient. Deux exceptions :
   « Langue », « Maths », « Mettre en évidence », « Saisie au clavier » (liste `FORMATS_OFF`).
 
 ---
+
+## Formulaires (Ninja Forms)
+
+Formulaires de l'extension **Ninja Forms**, insérés par son bloc `ninja-forms/form` (autorisé dans
+`DisableBlocks`). Styles : `resources/scss/partials/_ninja-forms.scss`, importé par `app.scss` seul
+(l'extension rend le formulaire en JS, et pas dans le canvas).
+
+- Ninja Forms ne charge que sa feuille de structure (`display-structure.css`) : ses « opinionated
+  styles » sont désactivés (Ninja Forms › Réglages). Le balisage de l'extension n'est pas modifié.
+- **Composants de formulaire de Bootstrap reproduits par des mixins** (`nf-label`, `nf-control`,
+  `nf-select`, `nf-check`) qui reprennent ses variables `$input-*` / `$form-*`, réglées sur le design
+  system dans `_variables.scss` (champs de 50 px, bordure `border-strong`, rayon `md`, focus en double
+  anneau comme les boutons, cases cochées en `action-dark`, erreurs en `text-danger`). Le module
+  `forms` n'est pas importé, et il n'y a pas de `@extend` : croisé avec les sélecteurs du module
+  (`.form-floating`, `.input-group`…), il ajoutait 100 Ko à la feuille.
+- La feuille de structure est chargée **après** celle du thème : certaines règles sont renforcées
+  (`nf-field > .nf-field-container`), et `min-width` sert pour les cases, que l'extension force en
+  `width: auto !important`.
+- Mise en page : grille sur `nf-fields-wrap` (chaque champ est un `nf-field`) ; la classe du
+  constructeur `one-half` donne une colonne à partir de `md`. Une case seule dont le libellé est
+  « à droite » est placée par l'extension elle-même (`order`). La position du libellé ne se règle
+  qu'en **Mode Dev** du constructeur (Avancé).
+- Bouton Envoyer : apparence du bouton orange du thème, sans flèche (un `input` n'a pas de
+  pseudo-élément). ⚠️ Texte blanc sur orange : même dérogation AA que les boutons.
+- Formulaire de démonstration : n° 2 « Premier formulaire » (tous les types de champs courants).
 
 ## Contacts prédéfinis
 
