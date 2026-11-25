@@ -85,6 +85,8 @@ final class AdminServiceProvider implements ServiceProviderInterface
                     'core/list-item',
                     'core/buttons',
                     'core/button',
+                    // Formulaires de l'extension Ninja Forms.
+                    'ninja-forms/form',
                 ]
             ),
             new DisableComment(),

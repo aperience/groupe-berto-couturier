@@ -719,7 +719,7 @@ section entre deux blocs quels qu'ils soient. Deux exceptions :
 - Fournir un `example` dans `block.json` pour la prévisualisation de l'inserter, en **largeur
   desktop** : `"viewportWidth": 1200` (≥ `lg`), sinon l'aperçu montre la mise en page mobile
   (CTA, FAQ). Exception : le titre de section (420), illisible réduit en desktop
-- Les blocs core autorisés sont whitelistés par la feature `Admin\DisableBlocks` (core minimal + `couturier/*`)
+- Les blocs core autorisés sont whitelistés par la feature `Admin\DisableBlocks` (core minimal + `couturier/*` + `ninja-forms/form`)
 - **Boutons : blocs du core habillés**, pas de bloc custom (feature `Blocks\ButtonStyles`, styles
   dans `resources/scss/block/_button.scss`). Les cinq styles de bloc (`primary` par défaut,
   `outline`, `secondary`, `deep`, `ghost`) remplacent `fill` / `outline` du core ; un attribut
