@@ -19,8 +19,9 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Reprise à l'identique du script fourni par le client (`sb_log`, `sb_request`,
  * `sb_items`, `sb_list_id`, `sb_fields`, `sb_field_id`), mêmes options et
  * transients. Écarts : les clés viennent de `wp-config.php`
- * (`SARBACANE_ACCOUNT_ID`, `SARBACANE_API_KEY`), le nom de la liste aussi
- * (`SARBACANE_LIST`, facultative), et l'ID mémorisé est rattaché à ce nom.
+ * (`SARBACANE_ACCOUNT_ID`, `SARBACANE_API_KEY`), le nom de la liste se règle
+ * sur la page « Sarbacane » (option `sb_list_name`), et l'ID mémorisé est
+ * rattaché à ce nom.
  * Ne pose aucun hook.
  */
 final class SarbacaneApi {
@@ -44,9 +45,13 @@ final class SarbacaneApi {
             && '' !== (string) SARBACANE_ACCOUNT_ID && '' !== (string) SARBACANE_API_KEY;
     }
 
-    /** Nom de la liste cible : SARBACANE_LIST, sinon celle du client. */
+    /** Option du nom de la liste, réglée sur la page « Sarbacane ». */
+    public const LIST_OPTION = 'sb_list_name';
+
+    /** Nom de la liste cible : celui de la page « Sarbacane », sinon celle du client. */
     public static function list_name(): string {
-        return defined( 'SARBACANE_LIST' ) && '' !== (string) SARBACANE_LIST ? (string) SARBACANE_LIST : self::DEFAULT_LIST;
+        $name = trim( (string) get_option( self::LIST_OPTION, '' ) );
+        return '' !== $name ? $name : self::DEFAULT_LIST;
     }
 
     /** Ajoute une ligne au journal (30 dernières gardées) et au log PHP. */

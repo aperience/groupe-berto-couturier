@@ -17,7 +17,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Explique la configuration (constantes de wp-config.php, avec leur état) et
+ * Explique la configuration (clés de wp-config.php, avec leur état ; liste
+ * réglée sur la page « Sarbacane ») et
  * le fonctionnement de l'envoi des formulaires vers Sarbacane. Déclaré même
  * sans clés, pour expliquer comment les poser ; rien sans Ninja Forms.
  */
@@ -51,15 +52,13 @@ final class SarbacaneHelp implements FeatureInterface {
                 'constants'    => [
                     'SARBACANE_ACCOUNT_ID' => defined( 'SARBACANE_ACCOUNT_ID' ) && '' !== (string) SARBACANE_ACCOUNT_ID,
                     'SARBACANE_API_KEY'    => defined( 'SARBACANE_API_KEY' ) && '' !== (string) SARBACANE_API_KEY,
-                    'SARBACANE_LIST'       => defined( 'SARBACANE_LIST' ) && '' !== (string) SARBACANE_LIST,
                 ],
                 'configured'   => SarbacaneApi::is_configured(),
                 'list_name'    => SarbacaneApi::list_name(),
                 'default_list' => SarbacaneApi::DEFAULT_LIST,
                 'excluded'     => SarbacaneContact::EXCLUDE,
                 'is_admin'     => current_user_can( 'manage_options' ),
-                'debug_url'    => admin_url( '?sb_debug=1' ),
-                'import_url'   => admin_url( '?sb_import=1' ),
+                'page_url'     => admin_url( 'admin.php?page=couturier-' . SarbacaneAdminPage::MENU_SLUG ),
             ],
         ];
 

@@ -1,0 +1,104 @@
+{#
+    Page « Sarbacane » de l'admin (feature Sarbacane\SarbacaneAdminPage).
+    Données : `settings_fields`, `option`, `list_value`, `list_name`, `default_list`, `keys`,
+    `ninja_forms`, `active` ; si actif : `log`, `list_id`, `fields`, `simulation`.
+#}
+<div class="wrap">
+    <h1>{{ __('Sarbacane', 'couturier') }}</h1>
+    <p>{{ __("Chaque formulaire Ninja Forms envoyé sur le site est transmis à la liste Sarbacane ci-dessous.", 'couturier') }}</p>
+
+    <h2>{{ __('Liste visée', 'couturier') }}</h2>
+    <form method="post" action="options.php">
+        {{ settings_fields|raw }}
+        <table class="form-table" role="presentation">
+            <tr>
+                <th scope="row"><label for="sb-list-name">{{ __('Nom de la liste', 'couturier') }}</label></th>
+                <td>
+                    <input type="text" id="sb-list-name" name="{{ option }}" value="{{ list_value }}" class="regular-text" placeholder="{{ default_list }}" aria-describedby="sb-list-name-help">
+                    {# translators: %s : nom de la liste du client. #}
+                    <p class="description" id="sb-list-name-help">{{ __("Liste qui reçoit les contacts, créée chez Sarbacane si elle n'existe pas. Vide : la liste du client, « %s ». Hors production, indiquez une liste de test.", 'couturier')|format(default_list) }}</p>
+                </td>
+            </tr>
+        </table>
+        <p class="submit"><button type="submit" class="button button-primary">{{ __('Enregistrer', 'couturier') }}</button></p>
+    </form>
+
+    <h2>{{ __('Configuration', 'couturier') }}</h2>
+    <table class="widefat striped" style="max-width: 600px">
+        <tbody>
+            {% for name, defined in keys %}
+                <tr>
+                    <td><code>{{ name }}</code> ({{ __('wp-config.php', 'couturier') }})</td>
+                    <td>{{ defined ? __('Définie', 'couturier') : __('Absente', 'couturier') }}</td>
+                </tr>
+            {% endfor %}
+            <tr>
+                <td>{{ __('Extension Ninja Forms', 'couturier') }}</td>
+                <td>{{ ninja_forms ? __('Active', 'couturier') : __('Inactive', 'couturier') }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    {% if not active %}
+        <div class="notice notice-warning inline"><p>{{ __("L'envoi vers Sarbacane est inactif : les deux clés doivent être déclarées dans wp-config.php et Ninja Forms doit être actif. Voir l'onglet « Sarbacane » de la page d'aide.", 'couturier') }}</p></div>
+    {% else %}
+        <h2>{{ __('Diagnostic', 'couturier') }}</h2>
+        <p>
+            {{ __('Liste :', 'couturier') }} <strong>{{ list_name }}</strong> —
+            {{ __('identifiant :', 'couturier') }} <code>{{ list_id ?: __('pas encore créée ou retrouvée (au premier envoi)', 'couturier') }}</code>
+        </p>
+        <h3>{{ __('Journal (30 derniers événements)', 'couturier') }}</h3>
+        {% if log %}
+            <pre style="max-width: 900px; max-height: 320px; overflow: auto; padding: 12px; background: #fff; border: 1px solid #c3c4c7; white-space: pre-wrap">{{ log|join("\n") }}</pre>
+        {% else %}
+            <p>{{ __('Aucun événement.', 'couturier') }}</p>
+        {% endif %}
+        <h3>{{ __('Champs de la liste', 'couturier') }}</h3>
+        {% if fields %}
+            <table class="widefat striped" style="max-width: 600px">
+                <thead><tr><th scope="col">{{ __('Libellé (normalisé)', 'couturier') }}</th><th scope="col">{{ __('Identifiant', 'couturier') }}</th></tr></thead>
+                <tbody>
+                    {% for caption, id in fields %}
+                        <tr><td>{{ caption }}</td><td><code>{{ id }}</code></td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>{{ __('Aucun champ (liste pas encore créée, ou erreur : voir le journal).', 'couturier') }}</p>
+        {% endif %}
+
+        <h2>{{ __("Simulation de l'import", 'couturier') }}</h2>
+        <p>{{ __("Réponses déjà enregistrées dans Ninja Forms, formulaire par formulaire. Rien n'est envoyé.", 'couturier') }}</p>
+        <table class="widefat striped" style="max-width: 600px">
+            <thead><tr><th scope="col">{{ __('Formulaire', 'couturier') }}</th><th scope="col">{{ __('Réponses', 'couturier') }}</th></tr></thead>
+            <tbody>
+                {% for form in simulation.forms %}
+                    <tr><td>NF-{{ form.id }} {{ form.title }}</td><td>{{ form.count }}</td></tr>
+                {% endfor %}
+            </tbody>
+            <tfoot><tr><th scope="row">{{ __('Total', 'couturier') }}</th><th>{{ simulation.total }}</th></tr></tfoot>
+        </table>
+
+        <h2 id="sb-import">{{ __("Import de l'historique", 'couturier') }}</h2>
+        {% if import_result %}
+            <div class="notice notice-info inline">
+                <p><strong>{{ __('Compte rendu du dernier import :', 'couturier') }}</strong></p>
+                <pre style="white-space: pre-wrap">{{ import_result }}</pre>
+            </div>
+        {% endif %}
+        <p>{{ __('Ce bouton envoie à Sarbacane les réponses déjà enregistrées dans Ninja Forms :', 'couturier') }}</p>
+        <ul class="ul-disc">
+            {# translators: %1$s : nombre de réponses ; %2$s : nom de la liste. #}
+            <li>{{ __('toutes les réponses de tous les formulaires (%1$s au total, voir la simulation), vers la liste « %2$s » ;', 'couturier')|format(simulation.total, list_name) }}</li>
+            <li>{{ __('des plus anciennes aux plus récentes, par lots de 500 ;', 'couturier') }}</li>
+            <li>{{ __("une personne déjà présente dans la liste (même e-mail) voit sa fiche mise à jour avec les valeurs de la réponse, et non créée en double ;", 'couturier') }}</li>
+            <li>{{ __("les réponses sans e-mail ni téléphone sont ignorées ;", 'couturier') }}</li>
+            <li>{{ __("l'opération peut prendre plusieurs minutes et ne s'annule pas : vérifiez d'abord la liste visée.", 'couturier') }}</li>
+        </ul>
+        <form method="post" action="{{ import_url }}">
+            <input type="hidden" name="action" value="{{ import_action }}">
+            {{ import_nonce|raw }}
+            <p><button type="submit" class="button button-secondary">{{ __("Lancer l'import vers Sarbacane", 'couturier') }}</button></p>
+        </form>
+    {% endif %}
+</div>

@@ -16,9 +16,8 @@ use Theme\Features\CurrentOffer\CurrentOfferContext;
 use Theme\Features\CurrentOffer\CurrentOfferDashboard;
 use Theme\Features\CurrentOffer\CurrentOfferPageCache;
 use Theme\Features\CurrentOffer\CurrentOfferSettings;
-use Theme\Features\Sarbacane\SarbacaneDebug;
+use Theme\Features\Sarbacane\SarbacaneAdminPage;
 use Theme\Features\Sarbacane\SarbacaneHelp;
-use Theme\Features\Sarbacane\SarbacaneImport;
 use Theme\Features\Sarbacane\SarbacaneSubmission;
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -47,8 +46,7 @@ final class MarketingServiceProvider implements ServiceProviderInterface {
             new CurrentOfferContext(),
             new CurrentOfferPageCache(),
             new SarbacaneSubmission(),
-            new SarbacaneDebug(),
-            new SarbacaneImport(),
+            new SarbacaneAdminPage( $context ),
             new SarbacaneHelp(),
         ];
     }
