@@ -18,15 +18,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Menu « Sarbacane » (administrateurs) : nom de la liste visée, état des clés,
+ * Menu « Sarbacane » (éditeurs ; import réservé aux administrateurs) : nom de la liste visée, état des clés,
  * diagnostic (journal, liste, champs), simulation de l'import et import réel
  * (POST protégé par un nonce, compte rendu affiché au retour). Sans clés ou
  * sans Ninja Forms, la page n'affiche que la configuration.
  */
 final class SarbacaneAdminPage implements FeatureInterface {
 
-    /** Capacité requise. */
-    private const CAPABILITY = 'manage_options';
+    /** Capacité requise pour la page et le réglage de la liste (éditeurs). */
+    public const CAPABILITY = 'edit_others_pages';
+
+    /** Capacité requise pour l'import réel de l'historique (administrateurs). */
+    public const IMPORT_CAPABILITY = 'manage_options';
 
     /** Groupe de réglages. */
     private const GROUP = 'couturier_sarbacane';
@@ -63,7 +66,7 @@ final class SarbacaneAdminPage implements FeatureInterface {
 
     /** Import réel : droits, nonce, envoi, puis retour sur la page avec le compte rendu. */
     public function handle_import(): void {
-        if ( ! current_user_can( self::CAPABILITY ) ) {
+        if ( ! current_user_can( self::IMPORT_CAPABILITY ) ) {
             wp_die( esc_html__( 'Accès refusé.', 'couturier' ), 403 );
         }
         check_admin_referer( self::IMPORT_ACTION );
@@ -138,6 +141,7 @@ final class SarbacaneAdminPage implements FeatureInterface {
             ],
             'ninja_forms'     => function_exists( 'Ninja_Forms' ),
             'active'          => $active,
+            'can_import'      => current_user_can( self::IMPORT_CAPABILITY ),
         ];
 
         if ( $active ) {
@@ -146,9 +150,12 @@ final class SarbacaneAdminPage implements FeatureInterface {
             $context['list_id']    = get_option( 'sb_main_list_name' ) === SarbacaneApi::list_name() ? $lid : '';
             $context['fields']     = '' !== $context['list_id'] ? SarbacaneApi::fields( $lid, true ) : [];
             $context['simulation'] = SarbacaneImport::simulate();
-            $context['import_url'] = admin_url( 'admin-post.php' );
+        }
+
+        if ( $active && $context['can_import'] ) {
+            $context['import_url']    = admin_url( 'admin-post.php' );
             $context['import_action'] = self::IMPORT_ACTION;
-            $context['import_nonce'] = wp_nonce_field( self::IMPORT_ACTION, '_wpnonce', true, false );
+            $context['import_nonce']  = wp_nonce_field( self::IMPORT_ACTION, '_wpnonce', true, false );
         }
 
         $key = self::IMPORT_RESULT . get_current_user_id();

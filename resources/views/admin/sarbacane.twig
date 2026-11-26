@@ -1,7 +1,8 @@
 {#
     Page « Sarbacane » de l'admin (feature Sarbacane\SarbacaneAdminPage).
     Données : `settings_fields`, `option`, `list_value`, `list_name`, `default_list`, `keys`,
-    `ninja_forms`, `active` ; si actif : `log`, `list_id`, `fields`, `simulation`.
+    `ninja_forms`, `active`, `can_import`, `import_result` ; si actif : `log`, `list_id`, `fields`,
+    `simulation` ; si actif et `can_import` : `import_url`, `import_action`, `import_nonce`.
 #}
 <div class="wrap">
     <h1>{{ __('Sarbacane', 'couturier') }}</h1>
@@ -86,6 +87,7 @@
                 <pre style="white-space: pre-wrap">{{ import_result }}</pre>
             </div>
         {% endif %}
+        {% if can_import %}
         <p>{{ __('Ce bouton envoie à Sarbacane les réponses déjà enregistrées dans Ninja Forms :', 'couturier') }}</p>
         <ul class="ul-disc">
             {# translators: %1$s : nombre de réponses ; %2$s : nom de la liste. #}
@@ -100,5 +102,8 @@
             {{ import_nonce|raw }}
             <p><button type="submit" class="button button-secondary">{{ __("Lancer l'import vers Sarbacane", 'couturier') }}</button></p>
         </form>
+        {% else %}
+        <p>{{ __("L'import de l'historique est réservé aux administrateurs.", 'couturier') }}</p>
+        {% endif %}
     {% endif %}
 </div>

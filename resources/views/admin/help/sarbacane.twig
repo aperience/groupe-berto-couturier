@@ -1,7 +1,7 @@
 {#
     Aide de l'admin, onglet « Sarbacane » (feature Sarbacane\SarbacaneHelp).
     Données : `constants` (nom → définie ?), `configured`, `list_name`, `default_list`,
-    `excluded`, `is_admin`, `page_url`.
+    `excluded`, `can_open` (page Sarbacane accessible), `can_import` (import réel permis), `page_url`.
 #}
 <h2>{{ __('Envoi des formulaires vers Sarbacane', 'couturier') }}</h2>
 <p>{{ __("Chaque formulaire Ninja Forms envoyé sur le site est transmis à Sarbacane, dans une liste unique. Si la personne y figure déjà (même e-mail), sa fiche est mise à jour plutôt que créée en double.", 'couturier') }}</p>
@@ -40,7 +40,7 @@ define('SARBACANE_API_KEY', 'votre_api_key');</code></pre>
     </tbody>
 </table>
 {# translators: %s : nom de la liste du client. #}
-<p>{{ __("La liste qui reçoit les contacts se règle sur la page « Sarbacane » du menu (administrateurs). Sans réglage, c'est la liste du client, « %s ». Hors production (site local, préproduction), indiquez toujours une liste de test : sinon, chaque essai de formulaire ajoute un contact dans la vraie liste du client. La liste est créée automatiquement chez Sarbacane si elle n'existe pas.", 'couturier')|format(default_list) }}</p>
+<p>{{ __("La liste qui reçoit les contacts se règle sur la page « Sarbacane » du menu (éditeurs et administrateurs). Sans réglage, c'est la liste du client, « %s ». Hors production (site local, préproduction), indiquez toujours une liste de test : sinon, chaque essai de formulaire ajoute un contact dans la vraie liste du client. La liste est créée automatiquement chez Sarbacane si elle n'existe pas.", 'couturier')|format(default_list) }}</p>
 
 <h2>{{ __('Ce qui est envoyé', 'couturier') }}</h2>
 <ul class="ul-disc">
@@ -55,13 +55,14 @@ define('SARBACANE_API_KEY', 'votre_api_key');</code></pre>
     <li>{{ __("Suivi des ouvertures d'e-mails : si le formulaire contient une case dont la clé de champ est consentement_suivi_emails et qu'elle est cochée, le consentement au suivi est transmis à Sarbacane avec sa date.", 'couturier') }}</li>
 </ul>
 
-{% if is_admin %}
-    <h2>{{ __('Page « Sarbacane » (administrateurs)', 'couturier') }}</h2>
+{% if can_open %}
+    <h2>{{ __('Page « Sarbacane »', 'couturier') }}</h2>
     <p><a href="{{ page_url }}">{{ __('Ouvrir la page Sarbacane', 'couturier') }}</a></p>
     <ul class="ul-disc">
         <li>{{ __('Liste visée : le nom de la liste Sarbacane qui reçoit les contacts.', 'couturier') }}</li>
         <li>{{ __("Diagnostic : les 30 derniers événements (envois, erreurs, champs créés), l'identifiant de la liste et ses champs. Les clés ne sont jamais affichées.", 'couturier') }}</li>
         <li>{{ __("Simulation de l'import : le nombre de réponses déjà enregistrées dans Ninja Forms, formulaire par formulaire. Rien n'est envoyé.", 'couturier') }}</li>
-        <li>{{ __("Import de l'historique : un bouton envoie à Sarbacane toutes les réponses enregistrées, des plus anciennes aux plus récentes, par lots de 500 ; les contacts existants sont mis à jour. À réserver à une reprise de l'historique, après vérification de la liste visée.", 'couturier') }}</li>
+        <li>{{ __("Import de l'historique : un bouton envoie à Sarbacane toutes les réponses enregistrées, des plus anciennes aux plus récentes, par lots de 500 ; les contacts existants sont mis à jour. À réserver à une reprise de l'historique, après vérification de la liste visée.", 'couturier') }}
+            <strong>{{ __('Réservé aux administrateurs :', 'couturier') }}</strong> {{ __("les éditeurs voient la simulation, mais pas le bouton d'import.", 'couturier') }}</li>
     </ul>
 {% endif %}

@@ -8,7 +8,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-11-25T17:08:05+00:00\n"
+"POT-Creation-Date: 2026-11-26T15:56:38+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: couturier\n"
@@ -1097,22 +1097,22 @@ msgstr ""
 msgid "Expose aux templates le menu principal (méga menu), les accès rapides et les boutons du header."
 msgstr ""
 
-#: src/Features/Sarbacane/SarbacaneAdminPage.php:64
+#: src/Features/Sarbacane/SarbacaneAdminPage.php:70
 msgid "Accès refusé."
 msgstr ""
 
-#: src/Features/Sarbacane/SarbacaneAdminPage.php:69
+#: src/Features/Sarbacane/SarbacaneAdminPage.php:75
 msgid "Import impossible : clés Sarbacane ou Ninja Forms absents."
 msgstr ""
 
-#: src/Features/Sarbacane/SarbacaneAdminPage.php:77
+#: src/Features/Sarbacane/SarbacaneAdminPage.php:83
 msgid "Ajoute la page « Sarbacane » : liste visée, diagnostic des envois, simulation et import de l'historique."
 msgstr ""
 
-#: src/Features/Sarbacane/SarbacaneAdminPage.php:83
-#: src/Features/Sarbacane/SarbacaneAdminPage.php:84
+#: src/Features/Sarbacane/SarbacaneAdminPage.php:89
+#: src/Features/Sarbacane/SarbacaneAdminPage.php:90
 #: src/Features/Sarbacane/SarbacaneHelp.php:49
-#: resources/views/admin/sarbacane.twig:7
+#: resources/views/admin/sarbacane.twig:8
 msgid "Sarbacane"
 msgstr ""
 
@@ -4708,7 +4708,7 @@ msgid "État : inactif. Les clés Sarbacane ne sont pas renseignées dans wp-con
 msgstr ""
 
 #: resources/views/admin/help/sarbacane.twig:17
-#: resources/views/admin/sarbacane.twig:26
+#: resources/views/admin/sarbacane.twig:27
 msgid "Configuration"
 msgstr ""
 
@@ -4734,13 +4734,13 @@ msgstr ""
 
 #: resources/views/admin/help/sarbacane.twig:33
 #: resources/views/admin/help/sarbacane.twig:38
-#: resources/views/admin/sarbacane.twig:32
+#: resources/views/admin/sarbacane.twig:33
 msgid "Définie"
 msgstr ""
 
 #: resources/views/admin/help/sarbacane.twig:33
 #: resources/views/admin/help/sarbacane.twig:38
-#: resources/views/admin/sarbacane.twig:32
+#: resources/views/admin/sarbacane.twig:33
 msgid "Absente"
 msgstr ""
 
@@ -4751,7 +4751,7 @@ msgstr ""
 #. translators: %s : nom de la liste du client.
 #: resources/views/admin/help/sarbacane.twig:43
 #, php-format
-msgid "La liste qui reçoit les contacts se règle sur la page « Sarbacane » du menu (administrateurs). Sans réglage, c'est la liste du client, « %s ». Hors production (site local, préproduction), indiquez toujours une liste de test : sinon, chaque essai de formulaire ajoute un contact dans la vraie liste du client. La liste est créée automatiquement chez Sarbacane si elle n'existe pas."
+msgid "La liste qui reçoit les contacts se règle sur la page « Sarbacane » du menu (éditeurs et administrateurs). Sans réglage, c'est la liste du client, « %s ». Hors production (site local, préproduction), indiquez toujours une liste de test : sinon, chaque essai de formulaire ajoute un contact dans la vraie liste du client. La liste est créée automatiquement chez Sarbacane si elle n'existe pas."
 msgstr ""
 
 #: resources/views/admin/help/sarbacane.twig:45
@@ -4795,7 +4795,7 @@ msgid "Suivi des ouvertures d'e-mails : si le formulaire contient une case dont 
 msgstr ""
 
 #: resources/views/admin/help/sarbacane.twig:59
-msgid "Page « Sarbacane » (administrateurs)"
+msgid "Page « Sarbacane »"
 msgstr ""
 
 #: resources/views/admin/help/sarbacane.twig:60
@@ -4816,6 +4816,14 @@ msgstr ""
 
 #: resources/views/admin/help/sarbacane.twig:65
 msgid "Import de l'historique : un bouton envoie à Sarbacane toutes les réponses enregistrées, des plus anciennes aux plus récentes, par lots de 500 ; les contacts existants sont mis à jour. À réserver à une reprise de l'historique, après vérification de la liste visée."
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:66
+msgid "Réservé aux administrateurs :"
+msgstr ""
+
+#: resources/views/admin/help/sarbacane.twig:66
+msgid "les éditeurs voient la simulation, mais pas le bouton d'import."
 msgstr ""
 
 #: resources/views/admin/help/sectors.twig:5
@@ -4966,144 +4974,148 @@ msgstr ""
 msgid "Google n'affiche plus les FAQ en résultats enrichis pour la plupart des sites : le test peut donc ne rien « proposer » d'enrichi, sans que ce soit une erreur. Les données restent lues par les moteurs et les assistants."
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:8
+#: resources/views/admin/sarbacane.twig:9
 msgid "Chaque formulaire Ninja Forms envoyé sur le site est transmis à la liste Sarbacane ci-dessous."
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:10
+#: resources/views/admin/sarbacane.twig:11
 msgid "Liste visée"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:15
+#: resources/views/admin/sarbacane.twig:16
 msgid "Nom de la liste"
 msgstr ""
 
 #. translators: %s : nom de la liste du client.
-#: resources/views/admin/sarbacane.twig:19
+#: resources/views/admin/sarbacane.twig:20
 #, php-format
 msgid "Liste qui reçoit les contacts, créée chez Sarbacane si elle n'existe pas. Vide : la liste du client, « %s ». Hors production, indiquez une liste de test."
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:23
+#: resources/views/admin/sarbacane.twig:24
 msgid "Enregistrer"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:31
+#: resources/views/admin/sarbacane.twig:32
 msgid "wp-config.php"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:36
+#: resources/views/admin/sarbacane.twig:37
 msgid "Extension Ninja Forms"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:37
+#: resources/views/admin/sarbacane.twig:38
 msgid "Active"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:37
+#: resources/views/admin/sarbacane.twig:38
 msgid "Inactive"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:43
+#: resources/views/admin/sarbacane.twig:44
 msgid "L'envoi vers Sarbacane est inactif : les deux clés doivent être déclarées dans wp-config.php et Ninja Forms doit être actif. Voir l'onglet « Sarbacane » de la page d'aide."
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:45
+#: resources/views/admin/sarbacane.twig:46
 msgid "Diagnostic"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:47
+#: resources/views/admin/sarbacane.twig:48
 msgid "Liste :"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:48
+#: resources/views/admin/sarbacane.twig:49
 msgid "identifiant :"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:48
+#: resources/views/admin/sarbacane.twig:49
 msgid "pas encore créée ou retrouvée (au premier envoi)"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:50
+#: resources/views/admin/sarbacane.twig:51
 msgid "Journal (30 derniers événements)"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:54
+#: resources/views/admin/sarbacane.twig:55
 msgid "Aucun événement."
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:56
+#: resources/views/admin/sarbacane.twig:57
 msgid "Champs de la liste"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:59
+#: resources/views/admin/sarbacane.twig:60
 msgid "Libellé (normalisé)"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:59
+#: resources/views/admin/sarbacane.twig:60
 msgid "Identifiant"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:67
+#: resources/views/admin/sarbacane.twig:68
 msgid "Aucun champ (liste pas encore créée, ou erreur : voir le journal)."
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:70
+#: resources/views/admin/sarbacane.twig:71
 msgid "Simulation de l'import"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:71
+#: resources/views/admin/sarbacane.twig:72
 msgid "Réponses déjà enregistrées dans Ninja Forms, formulaire par formulaire. Rien n'est envoyé."
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:73
+#: resources/views/admin/sarbacane.twig:74
 msgid "Formulaire"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:73
+#: resources/views/admin/sarbacane.twig:74
 msgid "Réponses"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:79
+#: resources/views/admin/sarbacane.twig:80
 msgid "Total"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:82
+#: resources/views/admin/sarbacane.twig:83
 msgid "Import de l'historique"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:85
+#: resources/views/admin/sarbacane.twig:86
 msgid "Compte rendu du dernier import :"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:89
+#: resources/views/admin/sarbacane.twig:91
 msgid "Ce bouton envoie à Sarbacane les réponses déjà enregistrées dans Ninja Forms :"
 msgstr ""
 
 #. translators: %1$s : nombre de réponses ; %2$s : nom de la liste.
-#: resources/views/admin/sarbacane.twig:92
+#: resources/views/admin/sarbacane.twig:94
 #, php-format
 msgid "toutes les réponses de tous les formulaires (%1$s au total, voir la simulation), vers la liste « %2$s » ;"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:93
+#: resources/views/admin/sarbacane.twig:95
 msgid "des plus anciennes aux plus récentes, par lots de 500 ;"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:94
+#: resources/views/admin/sarbacane.twig:96
 msgid "une personne déjà présente dans la liste (même e-mail) voit sa fiche mise à jour avec les valeurs de la réponse, et non créée en double ;"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:95
+#: resources/views/admin/sarbacane.twig:97
 msgid "les réponses sans e-mail ni téléphone sont ignorées ;"
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:96
+#: resources/views/admin/sarbacane.twig:98
 msgid "l'opération peut prendre plusieurs minutes et ne s'annule pas : vérifiez d'abord la liste visée."
 msgstr ""
 
-#: resources/views/admin/sarbacane.twig:101
+#: resources/views/admin/sarbacane.twig:103
 msgid "Lancer l'import vers Sarbacane"
+msgstr ""
+
+#: resources/views/admin/sarbacane.twig:106
+msgid "L'import de l'historique est réservé aux administrateurs."
 msgstr ""
 
 #: resources/views/base.twig:13

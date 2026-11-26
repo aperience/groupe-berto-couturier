@@ -57,7 +57,8 @@ final class SarbacaneHelp implements FeatureInterface {
                 'list_name'    => SarbacaneApi::list_name(),
                 'default_list' => SarbacaneApi::DEFAULT_LIST,
                 'excluded'     => SarbacaneContact::EXCLUDE,
-                'is_admin'     => current_user_can( 'manage_options' ),
+                'can_open'     => current_user_can( SarbacaneAdminPage::CAPABILITY ),
+                'can_import'   => current_user_can( SarbacaneAdminPage::IMPORT_CAPABILITY ),
                 'page_url'     => admin_url( 'admin.php?page=couturier-' . SarbacaneAdminPage::MENU_SLUG ),
             ],
         ];
