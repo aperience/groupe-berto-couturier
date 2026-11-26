@@ -43,6 +43,9 @@ final class SarbacaneAdminPage implements FeatureInterface {
     /** Position dans le menu. */
     private const MENU_POSITION = 58;
 
+    /** Icône du menu : pictogramme du logo User.com (ex-Sarbacane), recoloré par WordPress. */
+    private const MENU_ICON = 'resources/images/icons/sarbacane.svg';
+
     /**
      * @param ThemeContext $context Identité du thème, pour le slug de la page.
      */
@@ -85,9 +88,17 @@ final class SarbacaneAdminPage implements FeatureInterface {
             self::CAPABILITY,
             $this->context->handle( self::MENU_SLUG ),
             [ $this, 'render' ],
-            'dashicons-email-alt',
+            $this->menu_icon(),
             self::MENU_POSITION
         );
+    }
+
+    /** Icône du menu en data URI (repli sur un dashicon si le fichier manque). */
+    private function menu_icon(): string {
+        $file = get_theme_file_path( self::MENU_ICON );
+        $svg  = is_readable( $file ) ? file_get_contents( $file ) : false;
+
+        return false === $svg ? 'dashicons-email-alt' : 'data:image/svg+xml;base64,' . base64_encode( $svg );
     }
 
     /** Déclare l'option du nom de la liste. */
